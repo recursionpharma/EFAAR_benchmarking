@@ -7,7 +7,7 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "{{cookiecutter.python_name}}"
+name = "efaar_benchmarking"
 authors = [
     {name = "Recursion Pharmaceuticals", email = "devs@recursionpharma.com"},
 ]
@@ -17,18 +17,12 @@ classifiers = [
 	"Programming Language :: Python",
 	"Programming Language :: Python :: 3",
 ]
-keywords=["{{cookiecutter.python_name}}"]
+keywords=["efaar_benchmarking"]
 requires-python = ">=3.8"
 dynamic = [
 	"version",
-{%- if cookiecutter.cli == 'y' %}
-	"entry-points",
-{%- endif %}
 ]
 dependencies = [
-{%- if cookiecutter.cli == 'y' %}
-	"click",
-{%- endif %}
 ]
 
 [project.optional-dependencies]
@@ -62,7 +56,7 @@ addopts = [
 	"--strict-markers",
 	"--durations=20",
 	"--cov-report", "term-missing",
-	"--cov={{cookiecutter.python_name}}",
+	"--cov=efaar_benchmarking",
 ]
 testpaths = ["tests"]
 env = [
@@ -70,7 +64,7 @@ env = [
 ]
 
 [tool.mypy]
-files = "{{cookiecutter.python_name}}"
+files = "efaar_benchmarking"
 python_version = "3.8"
 ignore_missing_imports = true
 show_error_codes = true
@@ -80,11 +74,11 @@ allow_untyped_calls = true
 [tool.isort]
 profile = "black"
 py_version = "auto"
-line_length = {{cookiecutter.line_length}}
+line_length = 120
 
 [tool.bandit]
 exclude = "tests"
 
 [tool.black]
-line-length = {{cookiecutter.line_length}}
+line-length = 120
 target-version = ["py38", "py39", "py310", "py311"]

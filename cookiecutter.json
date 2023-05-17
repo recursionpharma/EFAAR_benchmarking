@@ -1,8 +1,0 @@
-{
-  "repo_name": "Repository name (use hyphens)",
-  "description": "Project summary description",
-  "flake8": "flake8 configuration",
-  "line_length": "The maximum allowable line length in a Python source file",
-  "cli": "cli? (y/n)",
-  "python_name": "{{cookiecutter.repo_name|replace('-', '_')|lower}}"
-}
