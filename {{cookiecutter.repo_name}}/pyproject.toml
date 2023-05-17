@@ -1,0 +1,90 @@
+[build-system]
+requires = [
+    "setuptools",
+    "wheel",
+    "roadie",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "{{cookiecutter.python_name}}"
+authors = [
+    {name = "Recursion Pharmaceuticals", email = "devs@recursionpharma.com"},
+]
+readme = "README.md"
+classifiers = [
+	"Operating System :: OS Independent",
+	"Programming Language :: Python",
+	"Programming Language :: Python :: 3",
+]
+keywords=["{{cookiecutter.python_name}}"]
+requires-python = ">=3.8"
+dynamic = [
+	"version",
+{%- if cookiecutter.cli == 'y' %}
+	"entry-points",
+{%- endif %}
+]
+dependencies = [
+{%- if cookiecutter.cli == 'y' %}
+	"click",
+{%- endif %}
+]
+
+[project.optional-dependencies]
+dev = [
+	"bandit",
+	"black",
+	"coverage",
+	"docstr-coverage",
+	"flake8",
+	"mypy",
+	"pre-commit",
+	"pytest",
+	"pytest-cov",
+	"pyupgrade",
+	"radon",
+	"roadie",
+	"types-pkg_resources",
+	"tox",
+	"validate-pyproject[all]",
+]
+
+
+[tool.distutils.bdist_wheel]
+universal = true
+
+[tool.pytest.ini_options]
+addopts = [
+	"--ignore", "setup.py",
+	"--ignore", "run_test.py",
+	"--tb", "native",
+	"--strict-markers",
+	"--durations=20",
+	"--cov-report", "term-missing",
+	"--cov={{cookiecutter.python_name}}",
+]
+testpaths = ["tests"]
+env = [
+	"PYTHONHASHSEED=0",
+]
+
+[tool.mypy]
+files = "{{cookiecutter.python_name}}"
+python_version = "3.8"
+ignore_missing_imports = true
+show_error_codes = true
+# strict = true
+allow_untyped_calls = true
+
+[tool.isort]
+profile = "black"
+py_version = "auto"
+line_length = {{cookiecutter.line_length}}
+
+[tool.bandit]
+exclude = "tests"
+
+[tool.black]
+line-length = {{cookiecutter.line_length}}
+target-version = ["py38", "py39", "py310", "py311"]
