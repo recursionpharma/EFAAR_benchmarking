@@ -4,7 +4,6 @@ import efaar_benchmarking.constants as cst
 import numpy as np
 import pandas as pd
 from typing import Optional
-import os
 
 
 def get_feats_w_indices_for_ent_type(data: Bunch, pert_label_col: str) -> pd.DataFrame:

@@ -1,7 +1,6 @@
 from efaar_benchmarking.utils import compute_pairwise_metrics
 import efaar_benchmarking.constants as cst
 from sklearn.utils import Bunch
-import pandas as pd
 import numpy as np
 from collections import defaultdict
 
@@ -10,7 +9,6 @@ def pert_stats(
     map_data: Bunch,
     pert_sig_thr: float = cst.PERT_SIG_PVAL_THR,
 ):
-    map_data_orig = load_pheno_data(map_data) if type(map_data) == str else map_data
     md = map_data_orig.metadata
     gidx = md[cst.WELL_TYPE_COL] == cst.WELL_TYPE
     pidx = md[cst.PERT_SIG_PVAL_COL] <= pert_sig_thr
