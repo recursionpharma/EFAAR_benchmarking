@@ -21,7 +21,7 @@ def pert_stats(
     return {
         "all_pert_count": sum(idx),
         "pp_pert_count": sum(idx & pidx),
-        "pp_pert_percent": sum(idx & pidx) / sum(gidx),
+        "pp_pert_percent": sum(idx & pidx) / sum(idx),
     }
 
 
