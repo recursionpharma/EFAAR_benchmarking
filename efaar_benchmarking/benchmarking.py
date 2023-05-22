@@ -12,7 +12,7 @@ def pert_stats(
 ):
     map_data_orig = load_pheno_data(map_data) if type(map_data) == str else map_data
     md = map_data_orig.metadata
-    gidx = md[cst.WELL_TYPE_COL] == cst.QUERY_WELL_TYPE
+    gidx = md[cst.WELL_TYPE_COL] == cst.WELL_TYPE
     pidx = md[cst.PERT_SIG_PVAL_COL] <= pert_sig_thr
     return {
         "all_gene_count": sum(gidx),
@@ -25,18 +25,21 @@ def benchmark(
     map_data: Bunch,
     pert_label_col: str = cst.PERT_LABEL_COL,
     benchmark_sources: list = cst.BENCHMARK_SOURCES,
-    filter_on_pert_prints=False,
+    filter_on_pert_type=False,
     filter_on_well_type=False,
+    filter_on_pert_prints=False,
 ) -> dict:
     md = map_data.metadata
-    gidx = [True] * len(md)
+    idx = [True] * len(md)
+    if filter_on_pert_type:
+        idx = idx & (md[cst.PERT_TYPE_COL] == cst.PERT_TYPE)
+    if filter_on_well_type:
+        idx = idx & (md[cst.WELL_TYPE_COL] == cst.WELL_TYPE)
     if filter_on_pert_prints:
         pval_thresh = cst.PERT_SIG_PVAL_THR if filter_on_pert_prints else 1
-        gidx = gidx & (md[cst.PERT_SIG_PVAL_COL] <= pval_thresh)
-    if filter_on_well_type:
-        gidx = gidx & (md[cst.WELL_TYPE_COL] == cst.QUERY_WELL_TYPE)
-    print(sum(gidx), "gene perturbations in the map.")
-    map_data = Bunch(features=map_data.features[gidx], metadata=md[gidx])
+        idx = idx & (md[cst.PERT_SIG_PVAL_COL] <= pval_thresh)
+    print(sum(idx), "gene perturbations in the map.")
+    map_data = Bunch(features=map_data.features[idx], metadata=md[idx])
     np.random.seed(cst.RANDOM_SEED)
     # numpy requires seeds to be between 0 and 2 ** 32 - 1
     random_seed_pairs = np.random.randint(2**32, size=cst.RANDOM_COUNT * 2).reshape(cst.RANDOM_COUNT, 2)

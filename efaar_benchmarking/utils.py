@@ -78,6 +78,7 @@ def compute_pairwise_metrics(
     num_null_samp_ent1: int,
     num_null_samp_ent2: int,
 ) -> Optional[dict]:
+    print("Running benchmarking for", src)
     entity1_feats = get_feats_w_indices_for_ent_type(data, pert_label_col)
     entity2_feats = get_feats_w_indices_for_ent_type(data, pert_label_col)
     if verify_unique_entity_count(entity1_feats, entity2_feats):
