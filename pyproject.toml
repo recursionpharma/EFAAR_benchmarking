@@ -23,6 +23,8 @@ dynamic = [
 	"version",
 ]
 dependencies = [
+    "scikit-learn",
+    "pandas",
 ]
 
 [project.optional-dependencies]

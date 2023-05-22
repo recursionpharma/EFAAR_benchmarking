@@ -1,0 +1,11 @@
+BENCHMARK_SOURCES = ["Reactome", "HuMAP", "CORUM"]
+PERT_LABEL_COL = "display_label"
+PERT_SIG_PVAL_COL = "perturbation_pvalue"
+PERT_SIG_PVAL_THR = 0.01
+WELL_TYPE_COL = "well_type"
+QUERY_WELL_TYPE = "query_guides"
+RECALL_PERC_THR_PAIRS = [(0.05, 0.95)]
+RANDOM_SEED = 42
+RANDOM_COUNT = 3
+N_NULL_SAMPLES = 5000
+MIN_REQ_ENT_CNT = 20
