@@ -7,15 +7,21 @@ from collections import defaultdict
 
 def pert_stats(
     map_data: Bunch,
+    filter_on_pert_type=False,
+    filter_on_well_type=False,
     pert_sig_thr: float = cst.PERT_SIG_PVAL_THR,
 ):
-    md = map_data_orig.metadata
-    gidx = md[cst.WELL_TYPE_COL] == cst.WELL_TYPE
+    md = map_data.metadata
+    idx = [True] * len(md)
+    if filter_on_pert_type:
+        idx = idx & (md[cst.PERT_TYPE_COL] == cst.PERT_TYPE)
+    if filter_on_well_type:
+        idx = idx & (md[cst.WELL_TYPE_COL] == cst.WELL_TYPE)
     pidx = md[cst.PERT_SIG_PVAL_COL] <= pert_sig_thr
     return {
-        "all_gene_count": sum(gidx),
-        "pp_gene_count": sum(gidx & pidx),
-        "pp_gene_percent": sum(gidx & pidx) / sum(gidx),
+        "all_pert_count": sum(idx),
+        "pp_pert_count": sum(idx & pidx),
+        "pp_pert_percent": sum(idx & pidx) / sum(gidx),
     }
 
 
