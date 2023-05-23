@@ -67,6 +67,10 @@ def verify_unique_entity_count(entity1_feats: pd.DataFrame, entity2_feats: pd.Da
     return len_unq_ent1 >= cst.MIN_REQ_ENT_CNT and len_unq_ent2 >= cst.MIN_REQ_ENT_CNT
 
 
+def get_benchmark_data(src):
+    return pd.read_csv(cst.BENCHMARK_DATA_DIR.joinpath(src + ".txt"))
+
+
 def compute_pairwise_metrics(
     data: Bunch,
     src: str,
@@ -81,9 +85,8 @@ def compute_pairwise_metrics(
     entity1_feats = get_feats_w_indices_for_ent_type(data, pert_label_col)
     entity2_feats = get_feats_w_indices_for_ent_type(data, pert_label_col)
     if verify_unique_entity_count(entity1_feats, entity2_feats):
-        gt_data = pd.read_csv(f"benchmark_annotations/{src}.txt")
-        df_gt = generate_query_cossims(entity1_feats, entity2_feats, gt_data)
-        if df_gt is not None:
+        df_bm = generate_query_cossims(entity1_feats, entity2_feats, get_benchmark_data(src))
+        if df_bm is not None:
             df_null = generate_null_cossims(
                 entity1_feats,
                 entity2_feats,
@@ -92,8 +95,8 @@ def compute_pairwise_metrics(
                 num_null_samp_ent1,
                 num_null_samp_ent2,
             )
-            res = {"gt": df_gt}
-            gt_perc = np.searchsorted(np.sort(df_null), df_gt) / len(df_null)
+            res = {"gt": df_bm}
+            gt_perc = np.searchsorted(np.sort(df_null), df_bm) / len(df_null)
             for thr_pair in pct_threshold_pairs:
                 l_thr = np.min(thr_pair)
                 r_thr = np.max(thr_pair)

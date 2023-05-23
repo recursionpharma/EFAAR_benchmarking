@@ -1,5 +1,8 @@
+from importlib import resources
+
+BENCHMARK_DATA_DIR = resources.files("benchmark_annotations")
 BENCHMARK_SOURCES = ["Reactome", "HuMAP", "CORUM"]
-PERT_LABEL_COL = "display_label"
+PERT_LABEL_COL = "gene"
 PERT_SIG_PVAL_COL = "perturbation_pvalue"
 PERT_SIG_PVAL_THR = 0.01
 PERT_TYPE_COL = "perturbation_type"

@@ -29,9 +29,10 @@ def benchmark(
     map_data: Bunch,
     pert_label_col: str = cst.PERT_LABEL_COL,
     benchmark_sources: list = cst.BENCHMARK_SOURCES,
-    filter_on_pert_type=False,
-    filter_on_well_type=False,
-    filter_on_pert_prints=False,
+    filter_on_pert_type: bool = False,
+    filter_on_well_type: bool = False,
+    filter_on_pert_prints: bool = False,
+    run_count: int = cst.RANDOM_COUNT,
 ) -> dict:
     md = map_data.metadata
     idx = [True] * len(md)
@@ -46,7 +47,7 @@ def benchmark(
     map_data = Bunch(features=map_data.features[idx], metadata=md[idx])
     np.random.seed(cst.RANDOM_SEED)
     # numpy requires seeds to be between 0 and 2 ** 32 - 1
-    random_seed_pairs = np.random.randint(2**32, size=cst.RANDOM_COUNT * 2).reshape(cst.RANDOM_COUNT, 2)
+    random_seed_pairs = np.random.randint(2**32, size=run_count * 2).reshape(run_count, 2)
     res = defaultdict(dict)  # type: ignore
     for rs1, rs2 in random_seed_pairs:
         res_seed = res[f"Seeds_{rs1}_{rs2}"]
