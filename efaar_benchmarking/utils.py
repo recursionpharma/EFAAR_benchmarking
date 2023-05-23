@@ -110,5 +110,5 @@ def compute_pairwise_metrics(
 
 def get_benchmark_metrics(bm_res: list):
     bm_sources = list(list(bm_res.values())[0].keys())
-    recall_vals = [np.mean([v[src]["recall"] for k,v in bm_res.items()]) for src in bm_sources]
+    recall_vals = [np.mean([v[src]["recall"] for k, v in bm_res.items()]) for src in bm_sources]
     return pd.DataFrame({"source": bm_sources, "recall": recall_vals})
