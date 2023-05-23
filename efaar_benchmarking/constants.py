@@ -1,6 +1,8 @@
 from importlib import resources
 
-BENCHMARK_DATA_DIR = resources.files("benchmark_annotations")  # type:ignore[attr-defined]
+BENCHMARK_DATA_DIR = resources.files("efaar_benchmarking").joinpath(  # type:ignore[attr-defined]
+    "benchmark_annotations"
+)
 BENCHMARK_SOURCES = ["Reactome", "HuMAP", "CORUM"]
 PERT_LABEL_COL = "gene"
 PERT_SIG_PVAL_COL = "perturbation_pvalue"
