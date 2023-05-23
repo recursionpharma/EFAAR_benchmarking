@@ -57,7 +57,7 @@ def benchmark(
                     map_data,
                     src,
                     pert_label_col,
-                    cst.RECALL_PERC_THR_PAIRS,
+                    cst.RECALL_PERC_THR_PAIR,
                     rs1,
                     rs2,
                     cst.N_NULL_SAMPLES,

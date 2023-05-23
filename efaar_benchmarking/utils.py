@@ -75,7 +75,7 @@ def compute_pairwise_metrics(
     data: Bunch,
     src: str,
     pert_label_col: str,
-    pct_threshold_pairs: list,
+    thr_pair: tuple,
     rseed_ent1: int,
     rseed_ent2: int,
     num_null_samp_ent1: int,
@@ -97,13 +97,18 @@ def compute_pairwise_metrics(
             )
             res = {"gt": df_bm}
             gt_perc = np.searchsorted(np.sort(df_null), df_bm) / len(df_null)
-            for thr_pair in pct_threshold_pairs:
-                l_thr = np.min(thr_pair)
-                r_thr = np.max(thr_pair)
-                res[f"recall_{l_thr}_{r_thr}"] = sum((gt_perc <= l_thr) | (gt_perc >= r_thr)) / len(gt_perc)
+            l_thr = np.min(thr_pair)
+            r_thr = np.max(thr_pair)
+            res[f"recall"] = sum((gt_perc <= l_thr) | (gt_perc >= r_thr)) / len(gt_perc)
             return res
         else:
             return None
     else:
         print("Not enough entities in the map for benchmarking.")
         return None
+
+
+def get_benchmark_metrics(bm_res: list):
+    bm_sources = list(list(bm_res.values())[0].keys())
+    recall_vals = [np.mean([v[src]["recall"] for k,v in bm_res.items()]) for src in bm_sources]
+    return pd.DataFrame({"source": bm_sources, "recall": recall_vals})
