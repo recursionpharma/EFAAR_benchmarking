@@ -99,7 +99,7 @@ def compute_pairwise_metrics(
             gt_perc = np.searchsorted(np.sort(df_null), df_bm) / len(df_null)
             l_thr = np.min(thr_pair)
             r_thr = np.max(thr_pair)
-            res[f"recall"] = sum((gt_perc <= l_thr) | (gt_perc >= r_thr)) / len(gt_perc)
+            res["recall"] = sum((gt_perc <= l_thr) | (gt_perc >= r_thr)) / len(gt_perc)
             return res
         else:
             return None
