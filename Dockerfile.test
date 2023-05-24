@@ -1,4 +1,4 @@
-FROM gcr.io/eng-infrastructure/rxrx-pyenv as test
+FROM dmaljovec/pyenv as test
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
