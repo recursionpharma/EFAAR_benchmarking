@@ -40,7 +40,6 @@ dev = [
 	"pytest-cov",
 	"pyupgrade",
 	"radon",
-	"roadie",
 	"types-pkg_resources",
 	"tox",
 	"validate-pyproject[all]",

@@ -1,6 +1,22 @@
-FROM gcr.io/eng-infrastructure/rxrx-pyenv as test
+FROM dmaljovec/pyenv as test
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
-ENV CONFIGOME_ENV=test
+RUN apt update \
+    && apt install -y git curl gcc make liblzma-dev libbz2-dev zlib1g-dev libssl-dev libsqlite3-dev libreadline-dev libffi-dev libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+RUN cd /root/.pyenv/plugins/python-build/../.. && git pull && cd -
+RUN pyenv install 3.8.16
+RUN pyenv install 3.9.16
+RUN pyenv install 3.10.9
+RUN pyenv install 3.11.1
+
+RUN ln -s /root/.pyenv/versions/3.8.16/bin/python3.8 /usr/bin/python3.8
+RUN ln -s /root/.pyenv/versions/3.9.16/bin/python3.9 /usr/bin/python3.9
+RUN ln -s /root/.pyenv/versions/3.10.9/bin/python3.10 /usr/bin/python3.10
+RUN ln -s /root/.pyenv/versions/3.11.1/bin/python3.11 /usr/bin/python3.11
+
+RUN pip install --upgrade pip && \
+    pip install --upgrade coverage==6.5.0 tox==3.27.0
+
 ENTRYPOINT [ "tox", "--parallel" ]
