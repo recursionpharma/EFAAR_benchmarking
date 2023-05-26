@@ -41,8 +41,6 @@ Here are the descriptions for the constants used in the code to configure and co
 
 ## Installation
 
-### PIP
-
 This package is installable via `pip`.
 
 ```bash

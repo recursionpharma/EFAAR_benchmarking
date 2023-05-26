@@ -11,6 +11,22 @@ def pert_stats(
     filter_on_well_type=False,
     pert_sig_thr: float = cst.PERT_SIG_PVAL_THR,
 ):
+    """
+    Calculate perturbation statistics based on the provided map data.
+
+    Args:
+        map_data (Bunch): Map data containing metadata.
+        filter_on_pert_type (bool): Whether to filter based on perturbation type. Default is False.
+        filter_on_well_type (bool): Whether to filter based on well type. Default is False.
+        pert_sig_thr (float): Perturbation significance threshold. Default is the value from constants.
+
+    Returns:
+        dict: Dictionary containing perturbation statistics:
+            - "all_pert_count": Total count of perturbations.
+            - "pp_pert_count": Count of perturbations that meet the significance threshold.
+            - "pp_pert_percent": Percentage of perturbations that meet the significance threshold.
+    """
+
     md = map_data.metadata
     idx = [True] * len(md)
     if filter_on_pert_type:
@@ -48,7 +64,7 @@ def benchmark(
     Returns:
         dict: A dictionary containing the benchmark results for each seed pair and benchmark source.
     """
-    
+
     md = map_data.metadata
     idx = [True] * len(md)
     if filter_on_pert_type:

@@ -93,6 +93,7 @@ def generate_query_cossims(
         Optional[np.ndarray]: A NumPy array containing the query-specific cosine similarity values, or None
             if there are not enough entities for benchmarking.
     """
+
     gt_source_df = gt_source_df[
         gt_source_df.entity1.isin(entity1_feats.index) & gt_source_df.entity2.isin(entity2_feats.index)
     ]
@@ -115,6 +116,7 @@ def get_benchmark_data(src):
     Returns:
         pd.DataFrame: A DataFrame containing the benchmark data loaded from the text file.
     """
+
     return pd.read_csv(cst.BENCHMARK_DATA_DIR.joinpath(src + ".txt"))
 
 
@@ -173,6 +175,7 @@ def get_benchmark_metrics(bm_res: dict) -> pd.DataFrame:
     Returns:
         pd.DataFrame: A DataFrame containing the benchmark metrics, including the benchmark source and recall values.
     """
+
     bm_sources = list(list(bm_res.values())[0].keys())
     recall_vals = [np.mean([v[src]["recall"] for k, v in bm_res.items()]) for src in bm_sources]
     return pd.DataFrame({"source": bm_sources, "recall": recall_vals})
