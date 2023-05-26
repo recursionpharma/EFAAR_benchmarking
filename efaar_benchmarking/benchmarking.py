@@ -1,4 +1,4 @@
-from efaar_benchmarking.utils import compute_pairwise_metrics
+from efaar_benchmarking.utils import compute_pairwise_metrics, get_feats_w_indices
 import efaar_benchmarking.constants as cst
 from sklearn.utils import Bunch
 import numpy as np
@@ -45,26 +45,29 @@ def benchmark(
         idx = idx & (md[cst.PERT_SIG_PVAL_COL] <= pval_thresh)
     print(sum(idx), "gene perturbations in the map.")
     map_data = Bunch(features=map_data.features[idx], metadata=md[idx])
-    np.random.seed(cst.RANDOM_SEED)
-    # numpy requires seeds to be between 0 and 2 ** 32 - 1
-    random_seed_pairs = np.random.randint(2**32, size=run_count * 2).reshape(run_count, 2)
     res = defaultdict(dict)  # type: ignore
-    for rs1, rs2 in random_seed_pairs:
-        res_seed = res[f"Seeds_{rs1}_{rs2}"]
-        for src in benchmark_sources:
-            if src not in res_seed:
-                res_curr = compute_pairwise_metrics(
-                    map_data,
-                    src,
-                    pert_label_col,
-                    cst.RECALL_PERC_THR_PAIR,
-                    rs1,
-                    rs2,
-                    cst.N_NULL_SAMPLES,
-                    cst.N_NULL_SAMPLES,
-                )
-                if res_curr is not None:
-                    res_seed[src] = res_curr
+    feats_w_indices = get_feats_w_indices(map_data, pert_label_col)
+    if len(set(feats_w_indices.index)) >= cst.MIN_REQ_ENT_CNT:
+        np.random.seed(cst.RANDOM_SEED)
+        # numpy requires seeds to be between 0 and 2 ** 32 - 1
+        random_seed_pairs = np.random.randint(2**32, size=run_count * 2).reshape(run_count, 2)
+        for rs1, rs2 in random_seed_pairs:
+            res_seed = res[f"Seeds_{rs1}_{rs2}"]
+            for src in benchmark_sources:
+                if src not in res_seed:
+                    res_curr = compute_pairwise_metrics(
+                        feats_w_indices,
+                        src,
+                        cst.RECALL_PERC_THR_PAIR,
+                        rs1,
+                        rs2,
+                        cst.N_NULL_SAMPLES,
+                        cst.N_NULL_SAMPLES,
+                    )
+                    if res_curr is not None:
+                        res_seed[src] = res_curr
 
-        res[f"Seeds_{rs1}_{rs2}"] = res_seed
+            res[f"Seeds_{rs1}_{rs2}"] = res_seed
+    else:
+        print("Not enough entities in the map for benchmarking")
     return res

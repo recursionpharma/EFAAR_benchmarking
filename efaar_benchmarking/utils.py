@@ -6,7 +6,7 @@ import pandas as pd
 from typing import Optional
 
 
-def get_feats_w_indices_for_ent_type(data: Bunch, pert_label_col: str) -> pd.DataFrame:
+def get_feats_w_indices(data: Bunch, pert_label_col: str) -> pd.DataFrame:
     return data.features.set_index(data.metadata[pert_label_col]).rename_axis(index=None)
 
 
@@ -53,18 +53,11 @@ def generate_query_cossims(
     entity1_feats = entity1_feats.loc[list(set(gt_source_df.entity1))]
     entity2_feats = entity2_feats.loc[list(set(gt_source_df.entity2))]
     print("Took the overlap between the annotation source and the map entities.")
-    if verify_unique_entity_count(entity1_feats, entity2_feats):
+    if len(set(entity1_feats.index)) >= cst.MIN_REQ_ENT_CNT and len(set(entity2_feats.index)) >= cst.MIN_REQ_ENT_CNT:
         return compute_process_cosine_sim(entity1_feats, entity2_feats, gt_source_df)
     else:
-        print("Not enough entities in the map for benchmarking.")
+        print("Not enough entities for benchmarking.")
         return None
-
-
-def verify_unique_entity_count(entity1_feats: pd.DataFrame, entity2_feats: pd.DataFrame) -> bool:
-    len_unq_ent1 = len(set(entity1_feats.index))
-    len_unq_ent2 = len(set(entity2_feats.index))
-    print(f"Entity type 1 count in the map is {len_unq_ent1}.\n" f"Entity type 2 count in the map is {len_unq_ent2}.")
-    return len_unq_ent1 >= cst.MIN_REQ_ENT_CNT and len_unq_ent2 >= cst.MIN_REQ_ENT_CNT
 
 
 def get_benchmark_data(src):
@@ -72,9 +65,8 @@ def get_benchmark_data(src):
 
 
 def compute_pairwise_metrics(
-    data: Bunch,
+    feats_w_indices: pd.DataFrame,
     src: str,
-    pert_label_col: str,
     thr_pair: tuple,
     rseed_ent1: int,
     rseed_ent2: int,
@@ -82,29 +74,23 @@ def compute_pairwise_metrics(
     num_null_samp_ent2: int,
 ) -> Optional[dict]:
     print("Running benchmarking for", src)
-    entity1_feats = get_feats_w_indices_for_ent_type(data, pert_label_col)
-    entity2_feats = get_feats_w_indices_for_ent_type(data, pert_label_col)
-    if verify_unique_entity_count(entity1_feats, entity2_feats):
-        df_bm = generate_query_cossims(entity1_feats, entity2_feats, get_benchmark_data(src))
-        if df_bm is not None:
-            df_null = generate_null_cossims(
-                entity1_feats,
-                entity2_feats,
-                rseed_ent1,
-                rseed_ent2,
-                num_null_samp_ent1,
-                num_null_samp_ent2,
-            )
-            res = {"gt": df_bm}
-            gt_perc = np.searchsorted(np.sort(df_null), df_bm) / len(df_null)
-            l_thr = np.min(thr_pair)
-            r_thr = np.max(thr_pair)
-            res["recall"] = sum((gt_perc <= l_thr) | (gt_perc >= r_thr)) / len(gt_perc)
-            return res
-        else:
-            return None
+    df_bm = generate_query_cossims(feats_w_indices, feats_w_indices, get_benchmark_data(src))
+    if df_bm is not None:
+        df_null = generate_null_cossims(
+            feats_w_indices,
+            feats_w_indices,
+            rseed_ent1,
+            rseed_ent2,
+            num_null_samp_ent1,
+            num_null_samp_ent2,
+        )
+        res = {"gt": df_bm}
+        gt_perc = np.searchsorted(np.sort(df_null), df_bm) / len(df_null)
+        l_thr = np.min(thr_pair)
+        r_thr = np.max(thr_pair)
+        res["recall"] = sum((gt_perc <= l_thr) | (gt_perc >= r_thr)) / len(gt_perc)
+        return res
     else:
-        print("Not enough entities in the map for benchmarking.")
         return None
 
 
