@@ -58,17 +58,17 @@ def generate_null_cossims(
 ) -> np.ndarray:
     """Generate null cosine similarity values between randomly sampled subsets of entities' features.
 
-     Args:
-         entity1_feats (pd.DataFrame): Features of the first set of entities.
-         entity2_feats (pd.DataFrame): Features of the second set of entities.
-         rseed_entity1 (int): Random seed for sampling subset from entity1_feats.
-         rseed_entity2 (int): Random seed for sampling subset from entity2_feats.
-         n_entity1 (int): Number of entities to sample from entity1_feats.
-         n_entity2 (int): Number of entities to sample from entity2_feats.
+    Args:
+        entity1_feats (pd.DataFrame): Features of the first set of entities.
+        entity2_feats (pd.DataFrame): Features of the second set of entities.
+        rseed_entity1 (int): Random seed for sampling subset from entity1_feats.
+        rseed_entity2 (int): Random seed for sampling subset from entity2_feats.
+        n_entity1 (int): Number of entities to sample from entity1_feats.
+        n_entity2 (int): Number of entities to sample from entity2_feats.
 
-     Returns:
-         np.ndarray: A NumPy array containing the null cosine similarity values between the randomly sampled subsets.
-     """
+    Returns:
+        np.ndarray: A NumPy array containing the null cosine similarity values between the randomly sampled subsets.
+    """
 
     np.random.seed(rseed_entity1)
     entity1_feats = entity1_feats.loc[np.random.choice(list(entity1_feats.index.unique()), n_entity1)]
