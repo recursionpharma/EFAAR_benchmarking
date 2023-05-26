@@ -34,6 +34,21 @@ def benchmark(
     filter_on_pert_prints: bool = False,
     run_count: int = cst.RANDOM_COUNT,
 ) -> dict:
+    """Perform benchmarking on map data.
+
+    Args:
+        map_data (Bunch): The map data containing features and metadata.
+        pert_label_col (str, optional): Column name for perturbation labels. Defaults to cst.PERT_LABEL_COL.
+        benchmark_sources (list, optional): List of benchmark sources. Defaults to cst.BENCHMARK_SOURCES.
+        filter_on_pert_type (bool, optional): Flag to filter map data based on perturbation type. Defaults to False.
+        filter_on_well_type (bool, optional): Flag to filter map data based on well type. Defaults to False.
+        filter_on_pert_prints (bool, optional): Flag to filter map data based on perturbation prints. Defaults to False.
+        run_count (int, optional): Number of random seed pairs to use. Defaults to cst.RANDOM_COUNT.
+
+    Returns:
+        dict: A dictionary containing the benchmark results for each seed pair and benchmark source.
+    """
+    
     md = map_data.metadata
     idx = [True] * len(md)
     if filter_on_pert_type:
