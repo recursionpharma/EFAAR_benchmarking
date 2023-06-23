@@ -1,0 +1,90 @@
+[build-system]
+requires = [
+    "setuptools>=45",
+    "wheel",
+    "setuptools-scm[toml]>=6.2",
+]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+
+[tool.setuptools.packages]
+find = {}
+
+[project]
+name = "efaar_benchmarking"
+authors = [
+    {name = "Recursion Pharmaceuticals", email = "devs@recursionpharma.com"},
+]
+readme = "README.md"
+classifiers = [
+	"Operating System :: OS Independent",
+	"Programming Language :: Python",
+	"Programming Language :: Python :: 3",
+]
+keywords=["efaar_benchmarking"]
+requires-python = ">=3.8"
+dynamic = [
+	"version",
+]
+dependencies = [
+    "scikit-learn",
+    "pandas",
+]
+
+[project.optional-dependencies]
+dev = [
+	"bandit",
+	"black",
+	"coverage",
+	"docstr-coverage",
+	"flake8",
+	"mypy",
+	"pre-commit",
+	"pytest",
+	"pytest-cov",
+	"pyupgrade",
+	"radon",
+	"types-pkg_resources",
+	"tox",
+	"validate-pyproject[all]",
+]
+
+
+[tool.distutils.bdist_wheel]
+universal = true
+
+[tool.pytest.ini_options]
+addopts = [
+	"--ignore", "setup.py",
+	"--ignore", "run_test.py",
+	"--tb", "native",
+	"--strict-markers",
+	"--durations=20",
+	"--cov-report", "term-missing",
+	"--cov=efaar_benchmarking",
+]
+testpaths = ["tests"]
+env = [
+	"PYTHONHASHSEED=0",
+]
+
+[tool.mypy]
+files = "efaar_benchmarking"
+python_version = "3.8"
+ignore_missing_imports = true
+show_error_codes = true
+# strict = true
+allow_untyped_calls = true
+
+[tool.isort]
+profile = "black"
+py_version = "auto"
+line_length = 120
+
+[tool.bandit]
+exclude = "tests"
+
+[tool.black]
+line-length = 120
+target-version = ["py38", "py39", "py310", "py311"]
