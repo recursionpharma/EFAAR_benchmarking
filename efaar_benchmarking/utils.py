@@ -45,7 +45,7 @@ def compute_process_cosine_sim(
     if filter_to_pairs is not None:
         cosi = cosi.merge(filter_to_pairs, how="right", on=["entity1", "entity2"])
     cosi = cosi[cosi.entity1 != cosi.entity2]  # remove self cosine similarities
-    return cosi.cosine_sim.values
+    return cosi.cosine_sim.values  # type: ignore
 
 
 def generate_null_cossims(
