@@ -20,7 +20,6 @@ jobs:
           pip install -U setuptools
           python -m pip install -U pip
       - run: pip install tox
-      - run: make
       - run: tox -e py3${{ matrix.minor_version }}
       - uses: actions/upload-artifact@v3
         with:
