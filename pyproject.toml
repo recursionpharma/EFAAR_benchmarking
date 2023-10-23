@@ -39,6 +39,9 @@ dependencies = [
 	"pyarrow",
 	"scikit-image",
 	"seaborn",
+	"scvi-tools",
+	"scanpy",
+	"wget",
 ]
 
 [project.optional-dependencies]
