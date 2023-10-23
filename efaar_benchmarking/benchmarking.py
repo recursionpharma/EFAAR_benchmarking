@@ -1,8 +1,10 @@
-from efaar_benchmarking.utils import compute_pairwise_metrics, get_feats_w_indices
-import efaar_benchmarking.constants as cst
-from sklearn.utils import Bunch
-import numpy as np
 from collections import defaultdict
+
+import numpy as np
+from sklearn.utils import Bunch
+
+import efaar_benchmarking.constants as cst
+from efaar_benchmarking.utils import compute_pairwise_metrics, get_feats_w_indices
 
 
 def pert_stats(

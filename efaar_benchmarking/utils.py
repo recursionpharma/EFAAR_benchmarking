@@ -1,9 +1,11 @@
-from sklearn.utils import Bunch
-from sklearn.metrics.pairwise import cosine_similarity
-import efaar_benchmarking.constants as cst
+from typing import Optional
+
 import numpy as np
 import pandas as pd
-from typing import Optional
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.utils import Bunch
+
+import efaar_benchmarking.constants as cst
 
 
 def get_feats_w_indices(data: Bunch, pert_label_col: str) -> pd.DataFrame:
