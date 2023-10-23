@@ -6,7 +6,7 @@ import scanpy as sc
 from sklearn.utils import Bunch
 
 
-def embed_by_scvi(adata, BATCH_KEY = "gem_group", N_LATENT = 128, N_HIDDEN = 256):
+def embed_by_scvi(adata, BATCH_KEY="gem_group", N_LATENT=128, N_HIDDEN=256):
     """
     Embeds the input AnnData object using scVI.
 
@@ -25,7 +25,7 @@ def embed_by_scvi(adata, BATCH_KEY = "gem_group", N_LATENT = 128, N_HIDDEN = 256
     return vae.get_latent_representation()
 
 
-def embed_by_pca(adata, N_LATENT = 100):
+def embed_by_pca(adata, N_LATENT=100):
     """
     Embeds the input data using PCA.
 
@@ -56,10 +56,10 @@ def align_by_centering(embeddings, metadata, NTC_KEY="non-targeting", PERT_COL="
     """
     ntc_idxs = np.where(metadata[PERT_COL].values == NTC_KEY)[0]
     ntc_center = embeddings[ntc_idxs].mean(0)
-    return embeddings-ntc_center
+    return embeddings - ntc_center
 
 
-def aggregate_by_mean(embeddings, metadata, NTC_KEY="non-targeting", PERT_COL = "gene"):
+def aggregate_by_mean(embeddings, metadata, NTC_KEY="non-targeting", PERT_COL="gene"):
     """
     Applies the mean aggregation to aggregate replicate embeddings for each perturbation.
 
@@ -80,4 +80,6 @@ def aggregate_by_mean(embeddings, metadata, NTC_KEY="non-targeting", PERT_COL = 
     for i, pert in enumerate(unique_perts):
         idxs = np.where(metadata[PERT_COL].values == pert)[0]
         final_embeddings[i, :] = embeddings[idxs, :].mean(0)
-    return Bunch(features=pd.DataFrame(final_embeddings), metadata=pd.DataFrame.from_dict({cst.PERT_LABEL_COL: unique_perts}))
+    return Bunch(
+        features=pd.DataFrame(final_embeddings), metadata=pd.DataFrame.from_dict({cst.PERT_LABEL_COL: unique_perts})
+    )
