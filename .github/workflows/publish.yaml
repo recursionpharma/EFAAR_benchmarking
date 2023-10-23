@@ -2,7 +2,7 @@ name: Release
 on:
   workflow_run:
     workflows: ["Test"]
-    branches: [main]
+    branches: [trunk]
     types:
       - completed
 jobs:
