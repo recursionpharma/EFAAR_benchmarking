@@ -46,11 +46,12 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-	"bandit",
+	"bandit[toml]",
 	"black",
 	"coverage",
 	"docstr-coverage",
 	"flake8",
+	"isort",
 	"mypy",
 	"pre-commit",
 	"pytest",
@@ -58,6 +59,7 @@ dev = [
 	"pyupgrade",
 	"radon",
 	"types-pkg_resources",
+	"types-setuptools",
 	"tox",
 	"validate-pyproject[all]",
 	"jupyterlab",

@@ -1,9 +1,10 @@
 import numpy as np
 import pandas as pd
-import efaar_benchmarking.constants as cst
-from scvi.model import SCVI
 import scanpy as sc
+from scvi.model import SCVI
 from sklearn.utils import Bunch
+
+import efaar_benchmarking.constants as cst
 
 
 def embed_by_scvi(adata, BATCH_KEY="gem_group", N_LATENT=128, N_HIDDEN=256):

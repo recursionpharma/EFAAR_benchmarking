@@ -1,6 +1,7 @@
 import os
-import wget
+
 import scanpy as sc
+import wget
 
 
 def load_replogle(gene_type, data_type, data_path="data/"):
