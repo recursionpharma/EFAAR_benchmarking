@@ -1,14 +1,86 @@
+absl-py==2.0.0
+    # via
+    #   chex
+    #   ml-collections
+    #   optax
+    #   orbax-checkpoint
+aiobotocore==2.7.0
+    # via s3fs
+aiohttp==3.8.6
+    # via
+    #   aiobotocore
+    #   fsspec
+    #   gcsfs
+    #   s3fs
+aioitertools==0.11.0
+    # via aiobotocore
+aiosignal==1.3.1
+    # via aiohttp
+anndata==0.9.2
+    # via
+    #   mudata
+    #   scanpy
+    #   scvi-tools
+anyio==4.0.0
+    # via jupyter-server
+appnope==0.1.3
+    # via
+    #   ipykernel
+    #   ipython
+argon2-cffi==23.1.0
+    # via jupyter-server
+argon2-cffi-bindings==21.2.0
+    # via argon2-cffi
+arrow==1.3.0
+    # via isoduration
+asttokens==2.4.0
+    # via stack-data
+async-lru==2.0.4
+    # via jupyterlab
+async-timeout==4.0.3
+    # via aiohttp
+attrs==23.1.0
+    # via
+    #   aiohttp
+    #   jsonschema
+    #   referencing
+babel==2.13.0
+    # via jupyterlab-server
+backcall==0.2.0
+    # via ipython
 bandit==1.7.5
     # via efaar-benchmarking (pyproject.toml)
-black==23.3.0
+beautifulsoup4==4.12.2
+    # via nbconvert
+black==23.10.0
     # via efaar-benchmarking (pyproject.toml)
-cachetools==5.3.0
-    # via tox
-cfgv==3.3.1
+bleach==6.1.0
+    # via nbconvert
+botocore==1.31.64
+    # via aiobotocore
+cached-property==1.5.2
+    # via orbax-checkpoint
+cachetools==5.3.1
+    # via
+    #   google-auth
+    #   tox
+certifi==2023.7.22
+    # via requests
+cffi==1.16.0
+    # via argon2-cffi-bindings
+cfgv==3.4.0
     # via pre-commit
-chardet==5.1.0
+chardet==5.2.0
     # via tox
-click==8.1.3
+charset-normalizer==3.3.1
+    # via
+    #   aiohttp
+    #   requests
+chex==0.1.7
+    # via
+    #   optax
+    #   scvi-tools
+click==8.1.7
     # via
     #   black
     #   docstr-coverage
@@ -16,154 +88,711 @@ colorama==0.4.6
     # via
     #   radon
     #   tox
-coverage[toml]==7.2.5
+comm==0.1.4
+    # via ipykernel
+contextlib2==21.6.0
+    # via ml-collections
+contourpy==1.1.1
+    # via matplotlib
+coverage[toml]==7.3.2
     # via
     #   efaar-benchmarking (pyproject.toml)
     #   pytest-cov
-distlib==0.3.6
+cycler==0.12.1
+    # via matplotlib
+debugpy==1.8.0
+    # via ipykernel
+decorator==5.1.1
+    # via
+    #   gcsfs
+    #   ipython
+defusedxml==0.7.1
+    # via nbconvert
+distlib==0.3.7
     # via virtualenv
+dm-tree==0.1.8
+    # via chex
+docrep==0.3.2
+    # via scvi-tools
 docstr-coverage==2.3.0
     # via efaar-benchmarking (pyproject.toml)
-exceptiongroup==1.1.1
-    # via pytest
-fastjsonschema==2.17.1
-    # via validate-pyproject
-filelock==3.12.0
+et-xmlfile==1.1.0
+    # via openpyxl
+etils==1.3.0
+    # via orbax-checkpoint
+exceptiongroup==1.1.3
     # via
+    #   anyio
+    #   pytest
+executing==2.0.0
+    # via stack-data
+fastjsonschema==2.18.1
+    # via
+    #   nbformat
+    #   validate-pyproject
+filelock==3.12.4
+    # via
+    #   torch
     #   tox
     #   virtualenv
-flake8==6.0.0
+flake8==6.1.0
     # via efaar-benchmarking (pyproject.toml)
-gitdb==4.0.10
+flax==0.7.3
+    # via scvi-tools
+fonttools==4.43.1
+    # via matplotlib
+fqdn==1.5.1
+    # via jsonschema
+frozenlist==1.4.0
+    # via
+    #   aiohttp
+    #   aiosignal
+fsspec[http]==2023.10.0
+    # via
+    #   efaar-benchmarking (pyproject.toml)
+    #   gcsfs
+    #   pytorch-lightning
+    #   s3fs
+    #   torch
+gcsfs==0.8.0
+    # via efaar-benchmarking (pyproject.toml)
+gitdb==4.0.11
     # via gitpython
-gitpython==3.1.31
+gitpython==3.1.40
     # via bandit
-identify==2.5.24
+google-auth==2.23.3
+    # via
+    #   gcsfs
+    #   google-auth-oauthlib
+google-auth-oauthlib==1.1.0
+    # via gcsfs
+h5py==3.10.0
+    # via
+    #   anndata
+    #   mudata
+    #   scanpy
+    #   scvi-tools
+identify==2.5.30
     # via pre-commit
+idna==3.4
+    # via
+    #   anyio
+    #   jsonschema
+    #   requests
+    #   yarl
+imageio==2.31.6
+    # via scikit-image
+importlib-metadata==6.8.0
+    # via
+    #   jax
+    #   jupyter-client
+    #   jupyter-lsp
+    #   jupyterlab
+    #   jupyterlab-server
+    #   nbconvert
+    #   numba
+importlib-resources==6.1.0
+    # via
+    #   jsonschema
+    #   jsonschema-specifications
+    #   jupyterlab
+    #   matplotlib
+    #   orbax-checkpoint
 iniconfig==2.0.0
     # via pytest
-joblib==1.2.0
-    # via scikit-learn
+ipykernel==6.25.2
+    # via jupyterlab
+ipython==8.13.0
+    # via ipykernel
+isoduration==20.11.0
+    # via jsonschema
+jax==0.4.13
+    # via
+    #   chex
+    #   flax
+    #   numpyro
+    #   optax
+    #   orbax-checkpoint
+    #   scvi-tools
+jaxlib==0.4.13
+    # via
+    #   chex
+    #   numpyro
+    #   optax
+    #   orbax-checkpoint
+    #   scvi-tools
+jedi==0.19.1
+    # via ipython
+jinja2==3.1.2
+    # via
+    #   jupyter-server
+    #   jupyterlab
+    #   jupyterlab-server
+    #   nbconvert
+    #   torch
+jmespath==1.0.1
+    # via botocore
+joblib==1.3.2
+    # via
+    #   pynndescent
+    #   scanpy
+    #   scikit-learn
+json5==0.9.14
+    # via jupyterlab-server
+jsonpointer==2.4
+    # via jsonschema
+jsonschema[format-nongpl]==4.19.1
+    # via
+    #   jupyter-events
+    #   jupyterlab-server
+    #   nbformat
+jsonschema-specifications==2023.7.1
+    # via jsonschema
+jupyter-client==8.4.0
+    # via
+    #   ipykernel
+    #   jupyter-server
+    #   nbclient
+jupyter-core==5.4.0
+    # via
+    #   ipykernel
+    #   jupyter-client
+    #   jupyter-server
+    #   jupyterlab
+    #   nbclient
+    #   nbconvert
+    #   nbformat
+jupyter-events==0.8.0
+    # via jupyter-server
+jupyter-lsp==2.2.0
+    # via jupyterlab
+jupyter-server==2.8.0
+    # via
+    #   jupyter-lsp
+    #   jupyterlab
+    #   jupyterlab-server
+    #   notebook-shim
+jupyter-server-terminals==0.4.4
+    # via jupyter-server
+jupyterlab==4.0.7
+    # via efaar-benchmarking (pyproject.toml)
+jupyterlab-pygments==0.2.2
+    # via nbconvert
+jupyterlab-server==2.25.0
+    # via jupyterlab
+kiwisolver==1.4.5
+    # via matplotlib
+lazy-loader==0.3
+    # via scikit-image
+lightning-utilities==0.9.0
+    # via
+    #   pytorch-lightning
+    #   torchmetrics
+llvmlite==0.41.1
+    # via
+    #   numba
+    #   pynndescent
 mando==0.7.1
     # via radon
-markdown-it-py==2.2.0
+markdown-it-py==3.0.0
     # via rich
+markupsafe==2.1.3
+    # via
+    #   jinja2
+    #   nbconvert
+matplotlib==3.7.3
+    # via
+    #   efaar-benchmarking (pyproject.toml)
+    #   scanpy
+    #   seaborn
+matplotlib-inline==0.1.6
+    # via
+    #   ipykernel
+    #   ipython
 mccabe==0.7.0
     # via flake8
 mdurl==0.1.2
     # via markdown-it-py
-mypy==1.3.0
+mistune==3.0.2
+    # via nbconvert
+ml-collections==0.1.1
+    # via scvi-tools
+ml-dtypes==0.2.0
+    # via
+    #   jax
+    #   jaxlib
+mpmath==1.3.0
+    # via sympy
+msgpack==1.0.7
+    # via
+    #   flax
+    #   orbax-checkpoint
+mudata==0.2.3
+    # via scvi-tools
+multidict==6.0.4
+    # via
+    #   aiohttp
+    #   yarl
+multipledispatch==1.0.0
+    # via numpyro
+mypy==1.6.1
     # via efaar-benchmarking (pyproject.toml)
 mypy-extensions==1.0.0
     # via
     #   black
     #   mypy
+natsort==8.4.0
+    # via
+    #   anndata
+    #   scanpy
+nbclient==0.8.0
+    # via nbconvert
+nbconvert==7.9.2
+    # via jupyter-server
+nbformat==5.9.2
+    # via
+    #   jupyter-server
+    #   nbclient
+    #   nbconvert
+nest-asyncio==1.5.8
+    # via
+    #   ipykernel
+    #   orbax-checkpoint
+networkx==3.1
+    # via
+    #   scanpy
+    #   scikit-image
+    #   torch
 nodeenv==1.8.0
     # via pre-commit
-numpy==1.24.3
+notebook-shim==0.2.3
+    # via jupyterlab
+numba==0.58.1
     # via
+    #   pynndescent
+    #   scanpy
+    #   umap-learn
+numpy==1.24.4
+    # via
+    #   anndata
+    #   chex
+    #   contourpy
+    #   flax
+    #   h5py
+    #   imageio
+    #   jax
+    #   jaxlib
+    #   matplotlib
+    #   ml-dtypes
+    #   mudata
+    #   numba
+    #   numpyro
+    #   opt-einsum
+    #   optax
+    #   orbax-checkpoint
     #   pandas
+    #   patsy
+    #   pyarrow
+    #   pyro-ppl
+    #   pytorch-lightning
+    #   pywavelets
+    #   scanpy
+    #   scikit-image
     #   scikit-learn
     #   scipy
-packaging==23.1
+    #   scvi-tools
+    #   seaborn
+    #   statsmodels
+    #   tensorstore
+    #   tifffile
+    #   torchmetrics
+    #   umap-learn
+numpyro==0.12.1
+    # via scvi-tools
+oauthlib==3.2.2
+    # via requests-oauthlib
+openpyxl==3.1.2
+    # via scvi-tools
+opt-einsum==3.3.0
     # via
+    #   jax
+    #   pyro-ppl
+optax==0.1.7
+    # via
+    #   flax
+    #   scvi-tools
+orbax-checkpoint==0.2.3
+    # via flax
+overrides==7.4.0
+    # via jupyter-server
+packaging==23.2
+    # via
+    #   anndata
     #   black
+    #   ipykernel
+    #   jupyter-server
+    #   jupyterlab
+    #   jupyterlab-server
+    #   lightning-utilities
+    #   matplotlib
+    #   nbconvert
     #   pyproject-api
     #   pytest
+    #   pytorch-lightning
+    #   scanpy
+    #   scikit-image
+    #   statsmodels
     #   tox
     #   validate-pyproject
-pandas==2.0.1
-    # via efaar-benchmarking (pyproject.toml)
-pathspec==0.11.1
+pandas==2.0.3
+    # via
+    #   anndata
+    #   efaar-benchmarking (pyproject.toml)
+    #   mudata
+    #   scanpy
+    #   scvi-tools
+    #   seaborn
+    #   statsmodels
+pandocfilters==1.5.0
+    # via nbconvert
+parso==0.8.3
+    # via jedi
+pathspec==0.11.2
     # via black
+patsy==0.5.3
+    # via
+    #   scanpy
+    #   statsmodels
 pbr==5.11.1
     # via stevedore
-platformdirs==3.5.1
+pexpect==4.8.0
+    # via ipython
+pickleshare==0.7.5
+    # via ipython
+pillow==10.0.1
+    # via
+    #   imageio
+    #   matplotlib
+    #   scikit-image
+pkgutil-resolve-name==1.3.10
+    # via jsonschema
+platformdirs==3.11.0
     # via
     #   black
+    #   jupyter-core
     #   tox
     #   virtualenv
-pluggy==1.0.0
+pluggy==1.3.0
     # via
     #   pytest
     #   tox
-pre-commit==3.3.2
+pre-commit==3.5.0
     # via efaar-benchmarking (pyproject.toml)
-pycodestyle==2.10.0
+prometheus-client==0.17.1
+    # via jupyter-server
+prompt-toolkit==3.0.39
+    # via ipython
+psutil==5.9.6
+    # via ipykernel
+ptyprocess==0.7.0
+    # via
+    #   pexpect
+    #   terminado
+pure-eval==0.2.2
+    # via stack-data
+pyarrow==13.0.0
+    # via efaar-benchmarking (pyproject.toml)
+pyasn1==0.5.0
+    # via
+    #   pyasn1-modules
+    #   rsa
+pyasn1-modules==0.3.0
+    # via google-auth
+pycodestyle==2.11.1
     # via flake8
-pyflakes==3.0.1
+pycparser==2.21
+    # via cffi
+pyflakes==3.1.0
     # via flake8
-pygments==2.15.1
-    # via rich
-pyproject-api==1.5.1
+pygments==2.16.1
+    # via
+    #   ipython
+    #   nbconvert
+    #   rich
+pynndescent==0.5.10
+    # via umap-learn
+pyparsing==3.1.1
+    # via matplotlib
+pyproject-api==1.6.1
     # via tox
-pytest==7.3.1
+pyro-api==0.1.2
+    # via pyro-ppl
+pyro-ppl==1.8.6
+    # via scvi-tools
+pytest==7.4.2
     # via
     #   efaar-benchmarking (pyproject.toml)
     #   pytest-cov
-pytest-cov==4.0.0
+pytest-cov==4.1.0
     # via efaar-benchmarking (pyproject.toml)
 python-dateutil==2.8.2
-    # via pandas
-pytz==2023.3
-    # via pandas
-pyupgrade==3.4.0
+    # via
+    #   arrow
+    #   botocore
+    #   jupyter-client
+    #   matplotlib
+    #   pandas
+python-json-logger==2.0.7
+    # via jupyter-events
+pytorch-lightning==1.9.5
+    # via scvi-tools
+pytz==2023.3.post1
+    # via
+    #   babel
+    #   pandas
+pyupgrade==3.15.0
     # via efaar-benchmarking (pyproject.toml)
-pyyaml==6.0
+pywavelets==1.4.1
+    # via scikit-image
+pyyaml==6.0.1
     # via
     #   bandit
     #   docstr-coverage
+    #   flax
+    #   jupyter-events
+    #   ml-collections
+    #   orbax-checkpoint
     #   pre-commit
+    #   pytorch-lightning
+pyzmq==25.1.1
+    # via
+    #   ipykernel
+    #   jupyter-client
+    #   jupyter-server
 radon==6.0.1
     # via efaar-benchmarking (pyproject.toml)
-rich==13.3.5
-    # via bandit
-scikit-learn==1.2.2
+referencing==0.30.2
+    # via
+    #   jsonschema
+    #   jsonschema-specifications
+    #   jupyter-events
+requests==2.31.0
+    # via
+    #   fsspec
+    #   gcsfs
+    #   jupyterlab-server
+    #   requests-oauthlib
+requests-oauthlib==1.3.1
+    # via google-auth-oauthlib
+rfc3339-validator==0.1.4
+    # via
+    #   jsonschema
+    #   jupyter-events
+rfc3986-validator==0.1.1
+    # via
+    #   jsonschema
+    #   jupyter-events
+rich==13.6.0
+    # via
+    #   bandit
+    #   flax
+    #   scvi-tools
+rpds-py==0.10.6
+    # via
+    #   jsonschema
+    #   referencing
+rsa==4.9
+    # via google-auth
+s3fs==2023.10.0
     # via efaar-benchmarking (pyproject.toml)
+scanpy==1.9.5
+    # via efaar-benchmarking (pyproject.toml)
+scikit-image==0.21.0
+    # via efaar-benchmarking (pyproject.toml)
+scikit-learn==1.3.1
+    # via
+    #   efaar-benchmarking (pyproject.toml)
+    #   pynndescent
+    #   scanpy
+    #   scvi-tools
+    #   umap-learn
 scipy==1.10.1
-    # via scikit-learn
+    # via
+    #   anndata
+    #   jax
+    #   jaxlib
+    #   pynndescent
+    #   scanpy
+    #   scikit-image
+    #   scikit-learn
+    #   scvi-tools
+    #   statsmodels
+    #   umap-learn
+scvi-tools==0.20.3
+    # via efaar-benchmarking (pyproject.toml)
+seaborn==0.13.0
+    # via
+    #   efaar-benchmarking (pyproject.toml)
+    #   scanpy
+send2trash==1.8.2
+    # via jupyter-server
+session-info==1.0.0
+    # via scanpy
 six==1.16.0
     # via
+    #   asttokens
+    #   bleach
+    #   docrep
     #   mando
+    #   ml-collections
+    #   patsy
     #   python-dateutil
-smmap==5.0.0
+    #   rfc3339-validator
+smmap==5.0.1
     # via gitdb
+sniffio==1.3.0
+    # via anyio
+soupsieve==2.5
+    # via beautifulsoup4
+stack-data==0.6.3
+    # via ipython
+statsmodels==0.14.0
+    # via scanpy
+stdlib-list==0.9.0
+    # via session-info
 stevedore==5.1.0
     # via bandit
-threadpoolctl==3.1.0
+sympy==1.12
+    # via torch
+tensorstore==0.1.45
+    # via
+    #   flax
+    #   orbax-checkpoint
+terminado==0.17.1
+    # via
+    #   jupyter-server
+    #   jupyter-server-terminals
+threadpoolctl==3.2.0
     # via scikit-learn
-tokenize-rt==5.0.0
+tifffile==2023.7.10
+    # via scikit-image
+tinycss2==1.2.1
+    # via nbconvert
+tokenize-rt==5.2.0
     # via pyupgrade
 tomli==2.0.1
     # via
     #   black
     #   coverage
+    #   jupyterlab
     #   mypy
     #   pyproject-api
     #   pytest
     #   tox
     #   validate-pyproject
-tox==4.5.1
+toolz==0.12.0
+    # via chex
+torch==2.1.0
+    # via
+    #   pyro-ppl
+    #   pytorch-lightning
+    #   scvi-tools
+    #   torchmetrics
+torchmetrics==1.2.0
+    # via
+    #   pytorch-lightning
+    #   scvi-tools
+tornado==6.3.3
+    # via
+    #   ipykernel
+    #   jupyter-client
+    #   jupyter-server
+    #   jupyterlab
+    #   terminado
+tox==4.11.3
     # via efaar-benchmarking (pyproject.toml)
 tqdm==4.63.1
-    # via docstr-coverage
-trove-classifiers==2023.5.2
+    # via
+    #   docstr-coverage
+    #   numpyro
+    #   pyro-ppl
+    #   pytorch-lightning
+    #   scanpy
+    #   scvi-tools
+    #   umap-learn
+traitlets==5.11.2
+    # via
+    #   comm
+    #   ipykernel
+    #   ipython
+    #   jupyter-client
+    #   jupyter-core
+    #   jupyter-events
+    #   jupyter-server
+    #   jupyterlab
+    #   matplotlib-inline
+    #   nbclient
+    #   nbconvert
+    #   nbformat
+trove-classifiers==2023.10.18
     # via validate-pyproject
 types-pkg-resources==0.1.3
     # via efaar-benchmarking (pyproject.toml)
-typing-extensions==4.5.0
+types-python-dateutil==2.8.19.14
+    # via arrow
+typing-extensions==4.8.0
     # via
+    #   aioitertools
+    #   async-lru
     #   black
+    #   chex
+    #   flax
+    #   ipython
+    #   lightning-utilities
     #   mypy
+    #   orbax-checkpoint
+    #   pytorch-lightning
     #   rich
+    #   torch
+    #   torchmetrics
 tzdata==2023.3
     # via pandas
-validate-pyproject[all]==0.13
+ujson==5.8.0
+    # via gcsfs
+umap-learn==0.5.4
+    # via scanpy
+uri-template==1.3.0
+    # via jsonschema
+urllib3==1.26.18
+    # via
+    #   botocore
+    #   requests
+validate-pyproject[all]==0.15
     # via efaar-benchmarking (pyproject.toml)
-virtualenv==20.23.0
+virtualenv==20.24.5
     # via
     #   pre-commit
     #   tox
+wcwidth==0.2.8
+    # via prompt-toolkit
+webcolors==1.13
+    # via jsonschema
+webencodings==0.5.1
+    # via
+    #   bleach
+    #   tinycss2
+websocket-client==1.6.4
+    # via jupyter-server
+wget==3.2
+    # via efaar-benchmarking (pyproject.toml)
+wrapt==1.15.0
+    # via aiobotocore
+yarl==1.9.2
+    # via aiohttp
+zipp==3.17.0
+    # via
+    #   importlib-metadata
+    #   importlib-resources
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools

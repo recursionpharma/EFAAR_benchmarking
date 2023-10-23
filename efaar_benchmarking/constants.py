@@ -3,7 +3,7 @@ from importlib import resources
 BENCHMARK_DATA_DIR = resources.files("efaar_benchmarking").joinpath(  # type:ignore[attr-defined]
     "benchmark_annotations"
 )
-BENCHMARK_SOURCES = ["Reactome", "HuMAP", "CORUM"]
+BENCHMARK_SOURCES = ["Reactome", "HuMAP", "CORUM", "SIGNOR", "StringDB"]
 PERT_LABEL_COL = "gene"
 PERT_SIG_PVAL_COL = "perturbation_pvalue"
 PERT_SIG_PVAL_THR = 0.01

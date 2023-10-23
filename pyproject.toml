@@ -30,6 +30,18 @@ dynamic = [
 dependencies = [
     "scikit-learn",
     "pandas",
+	"pyarrow",
+	"fsspec",
+	"s3fs",
+	"matplotlib",
+	"seaborn",
+	"gcsfs",
+	"pyarrow",
+	"scikit-image",
+	"seaborn",
+	"scvi-tools",
+	"scanpy",
+	"wget",
 ]
 
 [project.optional-dependencies]
@@ -50,6 +62,7 @@ dev = [
 	"types-setuptools",
 	"tox",
 	"validate-pyproject[all]",
+	"jupyterlab",
 ]
 
 
