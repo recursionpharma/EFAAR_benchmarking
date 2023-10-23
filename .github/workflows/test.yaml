@@ -9,6 +9,11 @@ jobs:
       matrix:
         minor_version: [8, 9, 10, 11]
         os: [ubuntu-latest, windows-latest, macos-latest]
+    exclude:
+      # exclude Windows on Python 3.8 due to Jaxlib incompatibility
+      # (might be able to fix by using system-dependent lockfile, but not worth our time)
+      - os: windows-latest
+        minor_version: 8
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v3
