@@ -1,16 +1,33 @@
-aiobotocore==2.5.4
+absl-py==2.0.0
+    # via
+    #   chex
+    #   ml-collections
+    #   optax
+    #   orbax-checkpoint
+aiobotocore==2.7.0
     # via s3fs
 aiohttp==3.8.6
     # via
     #   aiobotocore
+    #   fsspec
     #   gcsfs
     #   s3fs
 aioitertools==0.11.0
     # via aiobotocore
 aiosignal==1.3.1
     # via aiohttp
-anyio==4.0.0
-    # via jupyter-server
+anndata==0.10.2
+    # via
+    #   mudata
+    #   scanpy
+    #   scvi-tools
+annotated-types==0.6.0
+    # via pydantic
+anyio==3.7.1
+    # via
+    #   fastapi
+    #   jupyter-server
+    #   starlette
 appnope==0.1.3
     # via
     #   ipykernel
@@ -19,8 +36,12 @@ argon2-cffi==23.1.0
     # via jupyter-server
 argon2-cffi-bindings==21.2.0
     # via argon2-cffi
+array-api-compat==1.4
+    # via anndata
 arrow==1.3.0
-    # via isoduration
+    # via
+    #   isoduration
+    #   lightning
 asttokens==2.4.0
     # via stack-data
 async-lru==2.0.4
@@ -36,16 +57,27 @@ babel==2.13.0
     # via jupyterlab-server
 backcall==0.2.0
     # via ipython
+backoff==2.2.1
+    # via lightning
 bandit==1.7.5
     # via efaar-benchmarking (pyproject.toml)
 beautifulsoup4==4.12.2
-    # via nbconvert
+    # via
+    #   lightning
+    #   nbconvert
 black==23.10.0
     # via efaar-benchmarking (pyproject.toml)
 bleach==6.1.0
     # via nbconvert
-botocore==1.31.17
-    # via aiobotocore
+blessed==1.20.0
+    # via inquirer
+boto3==1.28.64
+    # via lightning-cloud
+botocore==1.31.64
+    # via
+    #   aiobotocore
+    #   boto3
+    #   s3transfer
 cachetools==5.3.1
     # via
     #   google-auth
@@ -58,57 +90,86 @@ cfgv==3.4.0
     # via pre-commit
 chardet==5.2.0
     # via tox
-charset-normalizer==3.3.0
+charset-normalizer==3.3.1
     # via
     #   aiohttp
     #   requests
+chex==0.1.8
+    # via
+    #   optax
+    #   scvi-tools
 click==8.1.7
     # via
     #   black
     #   docstr-coverage
+    #   lightning
+    #   lightning-cloud
+    #   uvicorn
 colorama==0.4.6
     # via
     #   radon
     #   tox
 comm==0.1.4
     # via ipykernel
+contextlib2==21.6.0
+    # via ml-collections
 contourpy==1.1.1
     # via matplotlib
 coverage[toml]==7.3.2
     # via
     #   efaar-benchmarking (pyproject.toml)
     #   pytest-cov
+croniter==1.4.1
+    # via lightning
 cycler==0.12.1
     # via matplotlib
+dateutils==0.6.12
+    # via lightning
 debugpy==1.8.0
     # via ipykernel
 decorator==5.1.1
     # via
     #   gcsfs
     #   ipython
+deepdiff==6.6.1
+    # via lightning
 defusedxml==0.7.1
     # via nbconvert
 distlib==0.3.7
     # via virtualenv
+dm-tree==0.1.8
+    # via chex
+docrep==0.3.2
+    # via scvi-tools
 docstr-coverage==2.3.0
     # via efaar-benchmarking (pyproject.toml)
+etils[epath,epy]==1.5.1
+    # via orbax-checkpoint
 exceptiongroup==1.1.3
     # via
+    #   anndata
     #   anyio
     #   ipython
     #   pytest
 executing==2.0.0
     # via stack-data
+fastapi==0.104.0
+    # via
+    #   lightning
+    #   lightning-cloud
 fastjsonschema==2.18.1
     # via
     #   nbformat
     #   validate-pyproject
 filelock==3.12.4
     # via
+    #   torch
     #   tox
     #   virtualenv
 flake8==6.1.0
     # via efaar-benchmarking (pyproject.toml)
+flax==0.7.4
+    # via scvi-tools
 fonttools==4.43.1
     # via matplotlib
 fqdn==1.5.1
@@ -117,42 +178,35 @@ frozenlist==1.4.0
     # via
     #   aiohttp
     #   aiosignal
-fsspec==2023.9.2
+fsspec[http]==2023.10.0
     # via
     #   efaar-benchmarking (pyproject.toml)
+    #   etils
     #   gcsfs
+    #   lightning
+    #   pytorch-lightning
     #   s3fs
-gcsfs==2023.9.2
+    #   torch
+gcsfs==0.8.0
     # via efaar-benchmarking (pyproject.toml)
 gitdb==4.0.11
     # via gitpython
 gitpython==3.1.40
     # via bandit
-google-api-core==2.12.0
-    # via
-    #   google-cloud-core
-    #   google-cloud-storage
 google-auth==2.23.3
     # via
     #   gcsfs
-    #   google-api-core
     #   google-auth-oauthlib
-    #   google-cloud-core
-    #   google-cloud-storage
 google-auth-oauthlib==1.1.0
     # via gcsfs
-google-cloud-core==2.3.3
-    # via google-cloud-storage
-google-cloud-storage==2.12.0
-    # via gcsfs
-google-crc32c==1.5.0
+h11==0.14.0
+    # via uvicorn
+h5py==3.10.0
     # via
-    #   google-cloud-storage
-    #   google-resumable-media
-google-resumable-media==2.6.0
-    # via google-cloud-storage
-googleapis-common-protos==1.61.0
-    # via google-api-core
+    #   anndata
+    #   mudata
+    #   scanpy
+    #   scvi-tools
 identify==2.5.30
     # via pre-commit
 idna==3.4
@@ -161,25 +215,47 @@ idna==3.4
     #   jsonschema
     #   requests
     #   yarl
-imageio==2.31.5
+imageio==2.31.6
     # via scikit-image
 importlib-metadata==6.8.0
     # via
+    #   jax
     #   jupyter-client
     #   jupyter-lsp
     #   jupyterlab
     #   jupyterlab-server
     #   nbconvert
 importlib-resources==6.1.0
-    # via matplotlib
+    # via
+    #   etils
+    #   matplotlib
 iniconfig==2.0.0
     # via pytest
+inquirer==3.1.3
+    # via lightning
 ipykernel==6.25.2
     # via jupyterlab
 ipython==8.16.1
     # via ipykernel
 isoduration==20.11.0
     # via jsonschema
+itsdangerous==2.1.2
+    # via starsessions
+jax==0.4.19
+    # via
+    #   chex
+    #   flax
+    #   numpyro
+    #   optax
+    #   orbax-checkpoint
+    #   scvi-tools
+jaxlib==0.4.19
+    # via
+    #   chex
+    #   numpyro
+    #   optax
+    #   orbax-checkpoint
+    #   scvi-tools
 jedi==0.19.1
     # via ipython
 jinja2==3.1.2
@@ -187,11 +263,18 @@ jinja2==3.1.2
     #   jupyter-server
     #   jupyterlab
     #   jupyterlab-server
+    #   lightning
     #   nbconvert
+    #   torch
 jmespath==1.0.1
-    # via botocore
+    # via
+    #   boto3
+    #   botocore
 joblib==1.3.2
-    # via scikit-learn
+    # via
+    #   pynndescent
+    #   scanpy
+    #   scikit-learn
 json5==0.9.14
     # via jupyterlab-server
 jsonpointer==2.4
@@ -239,6 +322,19 @@ kiwisolver==1.4.5
     # via matplotlib
 lazy-loader==0.3
     # via scikit-image
+lightning==2.0.9.post0
+    # via scvi-tools
+lightning-cloud==0.5.43
+    # via lightning
+lightning-utilities==0.9.0
+    # via
+    #   lightning
+    #   pytorch-lightning
+    #   torchmetrics
+llvmlite==0.41.1
+    # via
+    #   numba
+    #   pynndescent
 mando==0.7.1
     # via radon
 markdown-it-py==3.0.0
@@ -250,6 +346,7 @@ markupsafe==2.1.3
 matplotlib==3.8.0
     # via
     #   efaar-benchmarking (pyproject.toml)
+    #   scanpy
     #   seaborn
 matplotlib-inline==0.1.6
     # via
@@ -261,16 +358,37 @@ mdurl==0.1.2
     # via markdown-it-py
 mistune==3.0.2
     # via nbconvert
+ml-collections==0.1.1
+    # via scvi-tools
+ml-dtypes==0.3.1
+    # via
+    #   jax
+    #   jaxlib
+    #   tensorstore
+mpmath==1.3.0
+    # via sympy
+msgpack==1.0.7
+    # via
+    #   flax
+    #   orbax-checkpoint
+mudata==0.2.3
+    # via scvi-tools
 multidict==6.0.4
     # via
     #   aiohttp
     #   yarl
+multipledispatch==1.0.0
+    # via numpyro
 mypy==1.6.1
     # via efaar-benchmarking (pyproject.toml)
 mypy-extensions==1.0.0
     # via
     #   black
     #   mypy
+natsort==8.4.0
+    # via
+    #   anndata
+    #   scanpy
 nbclient==0.8.0
     # via nbconvert
 nbconvert==7.9.2
@@ -281,60 +399,127 @@ nbformat==5.9.2
     #   nbclient
     #   nbconvert
 nest-asyncio==1.5.8
-    # via ipykernel
+    # via
+    #   ipykernel
+    #   orbax-checkpoint
 networkx==3.2
-    # via scikit-image
+    # via
+    #   scanpy
+    #   scikit-image
+    #   torch
 nodeenv==1.8.0
     # via pre-commit
 notebook-shim==0.2.3
     # via jupyterlab
+numba==0.58.1
+    # via
+    #   pynndescent
+    #   scanpy
+    #   sparse
+    #   umap-learn
 numpy==1.26.1
     # via
+    #   anndata
+    #   chex
     #   contourpy
+    #   flax
+    #   h5py
     #   imageio
+    #   jax
+    #   jaxlib
+    #   lightning
     #   matplotlib
+    #   ml-dtypes
+    #   mudata
+    #   numba
+    #   numpyro
+    #   opt-einsum
+    #   optax
+    #   orbax-checkpoint
     #   pandas
+    #   patsy
     #   pyarrow
+    #   pyro-ppl
+    #   pytorch-lightning
+    #   scanpy
     #   scikit-image
     #   scikit-learn
     #   scipy
+    #   scvi-tools
     #   seaborn
+    #   sparse
+    #   statsmodels
+    #   tensorstore
     #   tifffile
+    #   torchmetrics
+    #   umap-learn
+    #   xarray
+numpyro==0.13.2
+    # via scvi-tools
 oauthlib==3.2.2
     # via requests-oauthlib
+opt-einsum==3.3.0
+    # via
+    #   jax
+    #   pyro-ppl
+optax==0.1.7
+    # via
+    #   flax
+    #   scvi-tools
+orbax-checkpoint==0.4.1
+    # via flax
+ordered-set==4.1.0
+    # via deepdiff
 overrides==7.4.0
     # via jupyter-server
 packaging==23.2
     # via
+    #   anndata
     #   black
     #   ipykernel
     #   jupyter-server
     #   jupyterlab
     #   jupyterlab-server
+    #   lightning
+    #   lightning-utilities
     #   matplotlib
     #   nbconvert
     #   pyproject-api
     #   pytest
+    #   pytorch-lightning
+    #   scanpy
     #   scikit-image
+    #   statsmodels
     #   tox
     #   validate-pyproject
+    #   xarray
 pandas==2.1.1
     # via
+    #   anndata
     #   efaar-benchmarking (pyproject.toml)
+    #   mudata
+    #   scanpy
+    #   scvi-tools
     #   seaborn
+    #   statsmodels
+    #   xarray
 pandocfilters==1.5.0
     # via nbconvert
 parso==0.8.3
     # via jedi
 pathspec==0.11.2
     # via black
+patsy==0.5.3
+    # via
+    #   scanpy
+    #   statsmodels
 pbr==5.11.1
     # via stevedore
 pexpect==4.8.0
     # via ipython
 pickleshare==0.7.5
     # via ipython
-pillow==10.1.0
+pillow==10.0.1
     # via
     #   imageio
     #   matplotlib
@@ -356,11 +541,11 @@ prometheus-client==0.17.1
 prompt-toolkit==3.0.39
     # via ipython
 protobuf==4.24.4
-    # via
-    #   google-api-core
-    #   googleapis-common-protos
+    # via orbax-checkpoint
 psutil==5.9.6
-    # via ipykernel
+    # via
+    #   ipykernel
+    #   lightning
 ptyprocess==0.7.0
     # via
     #   pexpect
@@ -379,6 +564,12 @@ pycodestyle==2.11.1
     # via flake8
 pycparser==2.21
     # via cffi
+pydantic==2.1.1
+    # via
+    #   fastapi
+    #   lightning
+pydantic-core==2.4.0
+    # via pydantic
 pyflakes==3.1.0
     # via flake8
 pygments==2.16.1
@@ -386,10 +577,18 @@ pygments==2.16.1
     #   ipython
     #   nbconvert
     #   rich
+pyjwt==2.8.0
+    # via lightning-cloud
+pynndescent==0.5.10
+    # via umap-learn
 pyparsing==3.1.1
     # via matplotlib
 pyproject-api==1.6.1
     # via tox
+pyro-api==0.1.2
+    # via pyro-ppl
+pyro-ppl==1.8.6
+    # via scvi-tools
 pytest==7.4.2
     # via
     #   efaar-benchmarking (pyproject.toml)
@@ -400,21 +599,38 @@ python-dateutil==2.8.2
     # via
     #   arrow
     #   botocore
+    #   croniter
+    #   dateutils
     #   jupyter-client
     #   matplotlib
     #   pandas
+python-editor==1.0.4
+    # via inquirer
 python-json-logger==2.0.7
     # via jupyter-events
+python-multipart==0.0.6
+    # via
+    #   lightning
+    #   lightning-cloud
+pytorch-lightning==2.1.0
+    # via lightning
 pytz==2023.3.post1
-    # via pandas
+    # via
+    #   dateutils
+    #   pandas
 pyupgrade==3.15.0
     # via efaar-benchmarking (pyproject.toml)
 pyyaml==6.0.1
     # via
     #   bandit
     #   docstr-coverage
+    #   flax
     #   jupyter-events
+    #   lightning
+    #   ml-collections
+    #   orbax-checkpoint
     #   pre-commit
+    #   pytorch-lightning
 pyzmq==25.1.1
     # via
     #   ipykernel
@@ -422,6 +638,8 @@ pyzmq==25.1.1
     #   jupyter-server
 radon==6.0.1
     # via efaar-benchmarking (pyproject.toml)
+readchar==4.0.5
+    # via inquirer
 referencing==0.30.2
     # via
     #   jsonschema
@@ -429,10 +647,11 @@ referencing==0.30.2
     #   jupyter-events
 requests==2.31.0
     # via
+    #   fsspec
     #   gcsfs
-    #   google-api-core
-    #   google-cloud-storage
     #   jupyterlab-server
+    #   lightning
+    #   lightning-cloud
     #   requests-oauthlib
 requests-oauthlib==1.3.1
     # via google-auth-oauthlib
@@ -445,32 +664,66 @@ rfc3986-validator==0.1.1
     #   jsonschema
     #   jupyter-events
 rich==13.6.0
-    # via bandit
+    # via
+    #   bandit
+    #   flax
+    #   lightning
+    #   lightning-cloud
+    #   scvi-tools
 rpds-py==0.10.6
     # via
     #   jsonschema
     #   referencing
 rsa==4.9
     # via google-auth
-s3fs==2023.9.2
+s3fs==2023.10.0
+    # via efaar-benchmarking (pyproject.toml)
+s3transfer==0.7.0
+    # via boto3
+scanpy==1.9.5
     # via efaar-benchmarking (pyproject.toml)
 scikit-image==0.22.0
     # via efaar-benchmarking (pyproject.toml)
 scikit-learn==1.3.1
-    # via efaar-benchmarking (pyproject.toml)
+    # via
+    #   efaar-benchmarking (pyproject.toml)
+    #   pynndescent
+    #   scanpy
+    #   scvi-tools
+    #   umap-learn
 scipy==1.11.3
     # via
+    #   anndata
+    #   jax
+    #   jaxlib
+    #   pynndescent
+    #   scanpy
     #   scikit-image
     #   scikit-learn
-seaborn==0.13.0
+    #   scvi-tools
+    #   sparse
+    #   statsmodels
+    #   umap-learn
+scvi-tools==1.0.4
     # via efaar-benchmarking (pyproject.toml)
+seaborn==0.13.0
+    # via
+    #   efaar-benchmarking (pyproject.toml)
+    #   scanpy
 send2trash==1.8.2
     # via jupyter-server
+session-info==1.0.0
+    # via scanpy
 six==1.16.0
     # via
     #   asttokens
     #   bleach
+    #   blessed
+    #   docrep
+    #   lightning-cloud
     #   mando
+    #   ml-collections
+    #   patsy
     #   python-dateutil
     #   rfc3339-validator
 smmap==5.0.1
@@ -479,10 +732,29 @@ sniffio==1.3.0
     # via anyio
 soupsieve==2.5
     # via beautifulsoup4
+sparse==0.14.0
+    # via scvi-tools
 stack-data==0.6.3
     # via ipython
+starlette==0.27.0
+    # via
+    #   fastapi
+    #   lightning
+    #   starsessions
+starsessions==1.3.0
+    # via lightning
+statsmodels==0.14.0
+    # via scanpy
+stdlib-list==0.9.0
+    # via session-info
 stevedore==5.1.0
     # via bandit
+sympy==1.12
+    # via torch
+tensorstore==0.1.46
+    # via
+    #   flax
+    #   orbax-checkpoint
 terminado==0.17.1
     # via
     #   jupyter-server
@@ -505,6 +777,20 @@ tomli==2.0.1
     #   pytest
     #   tox
     #   validate-pyproject
+toolz==0.12.0
+    # via chex
+torch==2.1.0
+    # via
+    #   lightning
+    #   pyro-ppl
+    #   pytorch-lightning
+    #   scvi-tools
+    #   torchmetrics
+torchmetrics==1.2.0
+    # via
+    #   lightning
+    #   pytorch-lightning
+    #   scvi-tools
 tornado==6.3.3
     # via
     #   ipykernel
@@ -515,7 +801,15 @@ tornado==6.3.3
 tox==4.11.3
     # via efaar-benchmarking (pyproject.toml)
 tqdm==4.63.1
-    # via docstr-coverage
+    # via
+    #   docstr-coverage
+    #   lightning
+    #   numpyro
+    #   pyro-ppl
+    #   pytorch-lightning
+    #   scanpy
+    #   scvi-tools
+    #   umap-learn
 traitlets==5.11.2
     # via
     #   comm
@@ -526,6 +820,7 @@ traitlets==5.11.2
     #   jupyter-events
     #   jupyter-server
     #   jupyterlab
+    #   lightning
     #   matplotlib-inline
     #   nbclient
     #   nbconvert
@@ -541,16 +836,39 @@ typing-extensions==4.8.0
     #   aioitertools
     #   async-lru
     #   black
+    #   chex
+    #   etils
+    #   fastapi
+    #   flax
     #   ipython
+    #   lightning
+    #   lightning-utilities
     #   mypy
+    #   orbax-checkpoint
+    #   pydantic
+    #   pydantic-core
+    #   pytorch-lightning
+    #   starlette
+    #   torch
+    #   uvicorn
 tzdata==2023.3
     # via pandas
+ujson==5.8.0
+    # via gcsfs
+umap-learn==0.5.4
+    # via scanpy
 uri-template==1.3.0
     # via jsonschema
 urllib3==1.26.18
     # via
     #   botocore
+    #   lightning
+    #   lightning-cloud
     #   requests
+uvicorn==0.23.2
+    # via
+    #   lightning
+    #   lightning-cloud
 validate-pyproject[all]==0.15
     # via efaar-benchmarking (pyproject.toml)
 virtualenv==20.24.5
@@ -558,7 +876,9 @@ virtualenv==20.24.5
     #   pre-commit
     #   tox
 wcwidth==0.2.8
-    # via prompt-toolkit
+    # via
+    #   blessed
+    #   prompt-toolkit
 webcolors==1.13
     # via jsonschema
 webencodings==0.5.1
@@ -566,13 +886,23 @@ webencodings==0.5.1
     #   bleach
     #   tinycss2
 websocket-client==1.6.4
-    # via jupyter-server
+    # via
+    #   jupyter-server
+    #   lightning
+    #   lightning-cloud
+websockets==12.0
+    # via lightning
+wget==3.2
+    # via efaar-benchmarking (pyproject.toml)
 wrapt==1.15.0
     # via aiobotocore
+xarray==2023.10.1
+    # via scvi-tools
 yarl==1.9.2
     # via aiohttp
 zipp==3.17.0
     # via
+    #   etils
     #   importlib-metadata
     #   importlib-resources
 

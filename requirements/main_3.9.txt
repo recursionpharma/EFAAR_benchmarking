@@ -1,129 +1,331 @@
-aiobotocore==2.5.4
+absl-py==2.0.0
+    # via
+    #   chex
+    #   ml-collections
+    #   optax
+    #   orbax-checkpoint
+aiobotocore==2.7.0
     # via s3fs
 aiohttp==3.8.6
     # via
     #   aiobotocore
+    #   fsspec
     #   gcsfs
     #   s3fs
 aioitertools==0.11.0
     # via aiobotocore
 aiosignal==1.3.1
     # via aiohttp
+anndata==0.10.2
+    # via
+    #   mudata
+    #   scanpy
+    #   scvi-tools
+annotated-types==0.6.0
+    # via pydantic
+anyio==3.7.1
+    # via
+    #   fastapi
+    #   starlette
+array-api-compat==1.4
+    # via anndata
+arrow==1.3.0
+    # via lightning
 async-timeout==4.0.3
     # via aiohttp
 attrs==23.1.0
     # via aiohttp
-botocore==1.31.17
-    # via aiobotocore
+backoff==2.2.1
+    # via lightning
+beautifulsoup4==4.12.2
+    # via lightning
+blessed==1.20.0
+    # via inquirer
+boto3==1.28.64
+    # via lightning-cloud
+botocore==1.31.64
+    # via
+    #   aiobotocore
+    #   boto3
+    #   s3transfer
 cachetools==5.3.1
     # via google-auth
 certifi==2023.7.22
     # via requests
-charset-normalizer==3.3.0
+charset-normalizer==3.3.1
     # via
     #   aiohttp
     #   requests
+chex==0.1.8
+    # via
+    #   optax
+    #   scvi-tools
+click==8.1.7
+    # via
+    #   lightning
+    #   lightning-cloud
+    #   uvicorn
+contextlib2==21.6.0
+    # via ml-collections
 contourpy==1.1.1
     # via matplotlib
+croniter==1.4.1
+    # via lightning
 cycler==0.12.1
     # via matplotlib
+dateutils==0.6.12
+    # via lightning
 decorator==5.1.1
     # via gcsfs
+deepdiff==6.6.1
+    # via lightning
+dm-tree==0.1.8
+    # via chex
+docrep==0.3.2
+    # via scvi-tools
+etils[epath,epy]==1.5.1
+    # via orbax-checkpoint
+exceptiongroup==1.1.3
+    # via
+    #   anndata
+    #   anyio
+fastapi==0.104.0
+    # via
+    #   lightning
+    #   lightning-cloud
+filelock==3.12.4
+    # via torch
+flax==0.7.4
+    # via scvi-tools
 fonttools==4.43.1
     # via matplotlib
 frozenlist==1.4.0
     # via
     #   aiohttp
     #   aiosignal
-fsspec==2023.9.2
+fsspec[http]==2023.10.0
     # via
     #   efaar-benchmarking (pyproject.toml)
+    #   etils
     #   gcsfs
+    #   lightning
+    #   pytorch-lightning
     #   s3fs
-gcsfs==2023.9.2
+    #   torch
+gcsfs==0.8.0
     # via efaar-benchmarking (pyproject.toml)
-google-api-core==2.12.0
-    # via
-    #   google-cloud-core
-    #   google-cloud-storage
 google-auth==2.23.3
     # via
     #   gcsfs
-    #   google-api-core
     #   google-auth-oauthlib
-    #   google-cloud-core
-    #   google-cloud-storage
 google-auth-oauthlib==1.1.0
     # via gcsfs
-google-cloud-core==2.3.3
-    # via google-cloud-storage
-google-cloud-storage==2.12.0
-    # via gcsfs
-google-crc32c==1.5.0
+h11==0.14.0
+    # via uvicorn
+h5py==3.10.0
     # via
-    #   google-cloud-storage
-    #   google-resumable-media
-google-resumable-media==2.6.0
-    # via google-cloud-storage
-googleapis-common-protos==1.61.0
-    # via google-api-core
+    #   anndata
+    #   mudata
+    #   scanpy
+    #   scvi-tools
 idna==3.4
     # via
+    #   anyio
     #   requests
     #   yarl
-imageio==2.31.5
+imageio==2.31.6
     # via scikit-image
+importlib-metadata==6.8.0
+    # via jax
 importlib-resources==6.1.0
-    # via matplotlib
+    # via
+    #   etils
+    #   matplotlib
+inquirer==3.1.3
+    # via lightning
+itsdangerous==2.1.2
+    # via starsessions
+jax==0.4.19
+    # via
+    #   chex
+    #   flax
+    #   numpyro
+    #   optax
+    #   orbax-checkpoint
+    #   scvi-tools
+jaxlib==0.4.19
+    # via
+    #   chex
+    #   numpyro
+    #   optax
+    #   orbax-checkpoint
+    #   scvi-tools
+jinja2==3.1.2
+    # via
+    #   lightning
+    #   torch
 jmespath==1.0.1
-    # via botocore
+    # via
+    #   boto3
+    #   botocore
 joblib==1.3.2
-    # via scikit-learn
+    # via
+    #   pynndescent
+    #   scanpy
+    #   scikit-learn
 kiwisolver==1.4.5
     # via matplotlib
 lazy-loader==0.3
     # via scikit-image
+lightning==2.0.9.post0
+    # via scvi-tools
+lightning-cloud==0.5.43
+    # via lightning
+lightning-utilities==0.9.0
+    # via
+    #   lightning
+    #   pytorch-lightning
+    #   torchmetrics
+llvmlite==0.41.1
+    # via
+    #   numba
+    #   pynndescent
+markdown-it-py==3.0.0
+    # via rich
+markupsafe==2.1.3
+    # via jinja2
 matplotlib==3.8.0
     # via
     #   efaar-benchmarking (pyproject.toml)
+    #   scanpy
     #   seaborn
+mdurl==0.1.2
+    # via markdown-it-py
+ml-collections==0.1.1
+    # via scvi-tools
+ml-dtypes==0.3.1
+    # via
+    #   jax
+    #   jaxlib
+    #   tensorstore
+mpmath==1.3.0
+    # via sympy
+msgpack==1.0.7
+    # via
+    #   flax
+    #   orbax-checkpoint
+mudata==0.2.3
+    # via scvi-tools
 multidict==6.0.4
     # via
     #   aiohttp
     #   yarl
+multipledispatch==1.0.0
+    # via numpyro
+natsort==8.4.0
+    # via
+    #   anndata
+    #   scanpy
+nest-asyncio==1.5.8
+    # via orbax-checkpoint
 networkx==3.2
-    # via scikit-image
+    # via
+    #   scanpy
+    #   scikit-image
+    #   torch
+numba==0.58.1
+    # via
+    #   pynndescent
+    #   scanpy
+    #   sparse
+    #   umap-learn
 numpy==1.26.1
     # via
+    #   anndata
+    #   chex
     #   contourpy
+    #   flax
+    #   h5py
     #   imageio
+    #   jax
+    #   jaxlib
+    #   lightning
     #   matplotlib
+    #   ml-dtypes
+    #   mudata
+    #   numba
+    #   numpyro
+    #   opt-einsum
+    #   optax
+    #   orbax-checkpoint
     #   pandas
+    #   patsy
     #   pyarrow
+    #   pyro-ppl
+    #   pytorch-lightning
+    #   scanpy
     #   scikit-image
     #   scikit-learn
     #   scipy
+    #   scvi-tools
     #   seaborn
+    #   sparse
+    #   statsmodels
+    #   tensorstore
     #   tifffile
+    #   torchmetrics
+    #   umap-learn
+    #   xarray
+numpyro==0.13.2
+    # via scvi-tools
 oauthlib==3.2.2
     # via requests-oauthlib
+opt-einsum==3.3.0
+    # via
+    #   jax
+    #   pyro-ppl
+optax==0.1.7
+    # via
+    #   flax
+    #   scvi-tools
+orbax-checkpoint==0.4.1
+    # via flax
+ordered-set==4.1.0
+    # via deepdiff
 packaging==23.2
     # via
+    #   anndata
+    #   lightning
+    #   lightning-utilities
     #   matplotlib
+    #   pytorch-lightning
+    #   scanpy
     #   scikit-image
+    #   statsmodels
+    #   xarray
 pandas==2.1.1
     # via
+    #   anndata
     #   efaar-benchmarking (pyproject.toml)
+    #   mudata
+    #   scanpy
+    #   scvi-tools
     #   seaborn
-pillow==10.1.0
+    #   statsmodels
+    #   xarray
+patsy==0.5.3
+    # via
+    #   scanpy
+    #   statsmodels
+pillow==10.0.1
     # via
     #   imageio
     #   matplotlib
     #   scikit-image
 protobuf==4.24.4
-    # via
-    #   google-api-core
-    #   googleapis-common-protos
+    # via orbax-checkpoint
+psutil==5.9.6
+    # via lightning
 pyarrow==13.0.0
     # via efaar-benchmarking (pyproject.toml)
 pyasn1==0.5.0
@@ -132,54 +334,221 @@ pyasn1==0.5.0
     #   rsa
 pyasn1-modules==0.3.0
     # via google-auth
+pydantic==2.1.1
+    # via
+    #   fastapi
+    #   lightning
+pydantic-core==2.4.0
+    # via pydantic
+pygments==2.16.1
+    # via rich
+pyjwt==2.8.0
+    # via lightning-cloud
+pynndescent==0.5.10
+    # via umap-learn
 pyparsing==3.1.1
     # via matplotlib
+pyro-api==0.1.2
+    # via pyro-ppl
+pyro-ppl==1.8.6
+    # via scvi-tools
 python-dateutil==2.8.2
     # via
+    #   arrow
     #   botocore
+    #   croniter
+    #   dateutils
     #   matplotlib
     #   pandas
+python-editor==1.0.4
+    # via inquirer
+python-multipart==0.0.6
+    # via
+    #   lightning
+    #   lightning-cloud
+pytorch-lightning==2.1.0
+    # via lightning
 pytz==2023.3.post1
-    # via pandas
+    # via
+    #   dateutils
+    #   pandas
+pyyaml==6.0.1
+    # via
+    #   flax
+    #   lightning
+    #   ml-collections
+    #   orbax-checkpoint
+    #   pytorch-lightning
+readchar==4.0.5
+    # via inquirer
 requests==2.31.0
     # via
+    #   fsspec
     #   gcsfs
-    #   google-api-core
-    #   google-cloud-storage
+    #   lightning
+    #   lightning-cloud
     #   requests-oauthlib
 requests-oauthlib==1.3.1
     # via google-auth-oauthlib
+rich==13.6.0
+    # via
+    #   flax
+    #   lightning
+    #   lightning-cloud
+    #   scvi-tools
 rsa==4.9
     # via google-auth
-s3fs==2023.9.2
+s3fs==2023.10.0
+    # via efaar-benchmarking (pyproject.toml)
+s3transfer==0.7.0
+    # via boto3
+scanpy==1.9.5
     # via efaar-benchmarking (pyproject.toml)
 scikit-image==0.22.0
     # via efaar-benchmarking (pyproject.toml)
 scikit-learn==1.3.1
-    # via efaar-benchmarking (pyproject.toml)
+    # via
+    #   efaar-benchmarking (pyproject.toml)
+    #   pynndescent
+    #   scanpy
+    #   scvi-tools
+    #   umap-learn
 scipy==1.11.3
     # via
+    #   anndata
+    #   jax
+    #   jaxlib
+    #   pynndescent
+    #   scanpy
     #   scikit-image
     #   scikit-learn
-seaborn==0.13.0
+    #   scvi-tools
+    #   sparse
+    #   statsmodels
+    #   umap-learn
+scvi-tools==1.0.4
     # via efaar-benchmarking (pyproject.toml)
+seaborn==0.13.0
+    # via
+    #   efaar-benchmarking (pyproject.toml)
+    #   scanpy
+session-info==1.0.0
+    # via scanpy
 six==1.16.0
-    # via python-dateutil
+    # via
+    #   blessed
+    #   docrep
+    #   lightning-cloud
+    #   ml-collections
+    #   patsy
+    #   python-dateutil
+sniffio==1.3.0
+    # via anyio
+soupsieve==2.5
+    # via beautifulsoup4
+sparse==0.14.0
+    # via scvi-tools
+starlette==0.27.0
+    # via
+    #   fastapi
+    #   lightning
+    #   starsessions
+starsessions==1.3.0
+    # via lightning
+statsmodels==0.14.0
+    # via scanpy
+stdlib-list==0.9.0
+    # via session-info
+sympy==1.12
+    # via torch
+tensorstore==0.1.46
+    # via
+    #   flax
+    #   orbax-checkpoint
 threadpoolctl==3.2.0
     # via scikit-learn
 tifffile==2023.9.26
     # via scikit-image
+toolz==0.12.0
+    # via chex
+torch==2.1.0
+    # via
+    #   lightning
+    #   pyro-ppl
+    #   pytorch-lightning
+    #   scvi-tools
+    #   torchmetrics
+torchmetrics==1.2.0
+    # via
+    #   lightning
+    #   pytorch-lightning
+    #   scvi-tools
+tqdm==4.66.1
+    # via
+    #   lightning
+    #   numpyro
+    #   pyro-ppl
+    #   pytorch-lightning
+    #   scanpy
+    #   scvi-tools
+    #   umap-learn
+traitlets==5.11.2
+    # via lightning
+types-python-dateutil==2.8.19.14
+    # via arrow
 typing-extensions==4.8.0
-    # via aioitertools
+    # via
+    #   aioitertools
+    #   chex
+    #   etils
+    #   fastapi
+    #   flax
+    #   lightning
+    #   lightning-utilities
+    #   orbax-checkpoint
+    #   pydantic
+    #   pydantic-core
+    #   pytorch-lightning
+    #   starlette
+    #   torch
+    #   uvicorn
 tzdata==2023.3
     # via pandas
+ujson==5.8.0
+    # via gcsfs
+umap-learn==0.5.4
+    # via scanpy
 urllib3==1.26.18
     # via
     #   botocore
+    #   lightning
+    #   lightning-cloud
     #   requests
+uvicorn==0.23.2
+    # via
+    #   lightning
+    #   lightning-cloud
+wcwidth==0.2.8
+    # via blessed
+websocket-client==1.6.4
+    # via
+    #   lightning
+    #   lightning-cloud
+websockets==12.0
+    # via lightning
+wget==3.2
+    # via efaar-benchmarking (pyproject.toml)
 wrapt==1.15.0
     # via aiobotocore
+xarray==2023.10.1
+    # via scvi-tools
 yarl==1.9.2
     # via aiohttp
 zipp==3.17.0
-    # via importlib-resources
+    # via
+    #   etils
+    #   importlib-metadata
+    #   importlib-resources
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools
