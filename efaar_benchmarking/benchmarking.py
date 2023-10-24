@@ -1,8 +1,8 @@
-from efaar_benchmarking.utils import compute_pairwise_metrics, get_feats_w_indices
+from efaar_benchmarking.utils import generate_null_cossims, generate_query_cossims, get_benchmark_data, compute_recall
 import efaar_benchmarking.constants as cst
 from sklearn.utils import Bunch
-import numpy as np
-from collections import defaultdict
+import pandas as pd
+import random
 
 
 def pert_stats(
@@ -41,64 +41,87 @@ def pert_stats(
     }
 
 
+
+def _convert_metrics_to_df(
+    metrics: dict,
+    source: str,
+    random_seed_str: str,
+    filter_on_pert_prints: bool,
+) -> pd.DataFrame:
+    """
+    Convert metrics dictionary to dataframe to be used in summary.
+
+    Args:
+        metrics (dict): metrics dictionary
+        source (str): benchmark source name
+        random_seed_str (str): random seed string from random seeds 1 and 2
+        filter_on_pert_prints (bool): whether metrics were computed after filtering on perturbation prints or not
+
+    Returns:
+        pd.DataFrame: a dataframe with metrics
+    """
+    metrics_dict_with_list = {key: [value] for key, value in metrics.items()}
+    metrics_dict_with_list["source"] = [source]
+    metrics_dict_with_list["random_seed"] = [random_seed_str]
+    metrics_dict_with_list["filter_on_pert_prints"] = [filter_on_pert_prints]
+    return pd.DataFrame.from_dict(metrics_dict_with_list)
+
+
 def benchmark(
     map_data: Bunch,
-    pert_label_col: str = cst.PERT_LABEL_COL,
     benchmark_sources: list = cst.BENCHMARK_SOURCES,
-    filter_on_pert_type: bool = False,
-    filter_on_well_type: bool = False,
+    pert_label_col: str = cst.PERT_LABEL_COL,
+    recall_threshold_pairs: list = cst.RECALL_PERC_THRS,
     filter_on_pert_prints: bool = False,
-    run_count: int = cst.RANDOM_COUNT,
-) -> dict:
+    pert_print_pvalue_thr: float = cst.PERT_SIG_PVAL_THR,
+    n_null_samples: int = cst.N_NULL_SAMPLES,
+    random_seed: int = cst.RANDOM_SEED,
+    n_iterations: int = cst.RANDOM_COUNT,
+) -> pd.DataFrame:
     """Perform benchmarking on map data.
 
     Args:
-        map_data (Bunch): The map data containing features and metadata.
-        pert_label_col (str, optional): Column name for perturbation labels. Defaults to cst.PERT_LABEL_COL.
+        map_data (Bunch): The map data containing `features` and `metadata` attributes.
         benchmark_sources (list, optional): List of benchmark sources. Defaults to cst.BENCHMARK_SOURCES.
-        filter_on_pert_type (bool, optional): Flag to filter map data based on perturbation type. Defaults to False.
-        filter_on_well_type (bool, optional): Flag to filter map data based on well type. Defaults to False.
+        pert_label_col (str, optional): Column name for perturbation labels. Defaults to cst.PERT_LABEL_COL.
+        recall_threshold_pairs (list, optional): List of recall percentage threshold pairs. Defaults to cst.RECALL_PERC_THRS.
         filter_on_pert_prints (bool, optional): Flag to filter map data based on perturbation prints. Defaults to False.
-        run_count (int, optional): Number of random seed pairs to use. Defaults to cst.RANDOM_COUNT.
+        pert_print_pvalue_thr (float, optional): P-value threshold for perturbation filtering. Defaults to cst.PERT_SIG_PVAL_THR.
+        n_null_samples (int, optional): Number of null samples to generate. Defaults to cst.N_NULL_SAMPLES.
+        random_seed (int, optional): Random seed to use for generating null samples. Defaults to cst.RANDOM_SEED.
+        n_iterations (int, optional): Number of random seed pairs to use. Defaults to cst.RANDOM_COUNT.
 
     Returns:
-        dict: A dictionary containing the benchmark results for each seed pair and benchmark source.
+        pd.DataFrame: a dataframe with benchmarking results. The columns are:
+            "source": benchmark source name
+            "random_seed": random seed string from random seeds 1 and 2
+            "recall_{low}_{high}": recall at requested thresholds
     """
 
+    assert len(benchmark_sources) > 0 and all([src in cst.BENCHMARK_SOURCES for src in benchmark_sources]), "Invalid benchmark source(s) provided."
     md = map_data.metadata
-    idx = [True] * len(md)
-    if filter_on_pert_type:
-        idx = idx & (md[cst.PERT_TYPE_COL] == cst.PERT_TYPE)
-    if filter_on_well_type:
-        idx = idx & (md[cst.WELL_TYPE_COL] == cst.WELL_TYPE)
-    if filter_on_pert_prints:
-        pval_thresh = cst.PERT_SIG_PVAL_THR if filter_on_pert_prints else 1
-        idx = idx & (md[cst.PERT_SIG_PVAL_COL] <= pval_thresh)
-    print(sum(idx), "gene perturbations in the map.")
-    map_data = Bunch(features=map_data.features[idx], metadata=md[idx])
-    res = defaultdict(dict)  # type: ignore
-    feats_w_indices = get_feats_w_indices(map_data, pert_label_col)
-    if len(set(feats_w_indices.index)) >= cst.MIN_REQ_ENT_CNT:
-        np.random.seed(cst.RANDOM_SEED)
-        # numpy requires seeds to be between 0 and 2 ** 32 - 1
-        random_seed_pairs = np.random.randint(2**32, size=run_count * 2).reshape(run_count, 2)
-        for rs1, rs2 in random_seed_pairs:
-            res_seed = res[f"Seeds_{rs1}_{rs2}"]
-            for src in benchmark_sources:
-                if src not in res_seed:
-                    res_curr = compute_pairwise_metrics(
-                        feats_w_indices,
-                        src,
-                        cst.RECALL_PERC_THR_PAIR,
-                        rs1,
-                        rs2,
-                        cst.N_NULL_SAMPLES,
-                        cst.N_NULL_SAMPLES,
-                    )
-                    if res_curr is not None:
-                        res_seed[src] = res_curr
+    idx = (md[cst.PERT_SIG_PVAL_COL] <= pert_print_pvalue_thr) if filter_on_pert_prints else [True]*len(md)
+    features = map_data.features[idx].set_index(md[idx][pert_label_col]).rename_axis(index=None)
+    del map_data
+    assert len(features) == len(set(features.index)), "Duplicate perturbation labels in the map."
+    assert len(features) >= cst.MIN_REQ_ENT_CNT, "Not enough entities in the map for benchmarking."
+    print(len(features), "perturbations in the map.")
 
-            res[f"Seeds_{rs1}_{rs2}"] = res_seed
-    else:
-        print("Not enough entities in the map for benchmarking")
-    return res
+    metrics_lst = []
+    random.seed(random_seed)
+    random_seed_pairs = [(random.randint(0, 2**31 - 1), random.randint(0, 2**31 - 1)) for _ in range(n_iterations)] # numpy requires seeds to be between 0 and 2 ** 32 - 1
+    for rs1, rs2 in random_seed_pairs:
+        random_seed_str = f"{rs1}_{rs2}"
+        null_cossim = generate_null_cossims(features, n_null_samples, rs1, rs2)
+        for s in benchmark_sources:
+            query_cossim = generate_query_cossims(features, get_benchmark_data(s))
+            single_seed_result = compute_recall(null_cossim, query_cossim, recall_threshold_pairs)
+            metrics_lst.append(
+                _convert_metrics_to_df(
+                    metrics=single_seed_result,
+                    source=s,
+                    random_seed_str=random_seed_str,
+                    filter_on_pert_prints=filter_on_pert_prints,
+                )
+            )
+    return pd.concat(metrics_lst, ignore_index=True)
