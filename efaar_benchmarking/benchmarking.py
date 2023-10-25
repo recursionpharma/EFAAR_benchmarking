@@ -20,7 +20,7 @@ def pert_stats(
 
     Args:
         map_data (Bunch): Map data containing metadata.
-        pert_print_pvalue_thr (float): Perturbation significance threshold. Default is the value from constants.
+        pert_print_pvalue_thr (float): Perturbation significance threshold. Defaults to cst.PERT_SIG_PVAL_THR.
 
     Returns:
         dict: Dictionary containing perturbation statistics:
@@ -31,7 +31,7 @@ def pert_stats(
 
     md = map_data.metadata
     idx = [True] * len(md)
-    pidx = md[cst.PERT_SIG_PVAL_COL] <= pert_sig_thr
+    pidx = md[cst.PERT_SIG_PVAL_COL] <= pert_print_pvalue_thr
     return {
         "all_pert_count": sum(idx),
         "pp_pert_count": sum(idx & pidx),
