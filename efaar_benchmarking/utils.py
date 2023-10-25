@@ -74,9 +74,7 @@ def generate_query_cossims(
             if there are not enough entities for benchmarking.
     """
 
-    gt_source_df = gt_source_df[
-        gt_source_df.entity1.isin(feats.index) & gt_source_df.entity2.isin(feats.index)
-    ]
+    gt_source_df = gt_source_df[gt_source_df.entity1.isin(feats.index) & gt_source_df.entity2.isin(feats.index)]
     entity1_feats = feats.loc[list(set(gt_source_df.entity1))]
     entity2_feats = feats.loc[list(set(gt_source_df.entity2))]
     if len(set(entity1_feats.index)) >= cst.MIN_REQ_ENT_CNT and len(set(entity2_feats.index)) >= cst.MIN_REQ_ENT_CNT:
@@ -103,7 +101,7 @@ def compute_recall(
     query_distribution: np.ndarray,
     recall_threshold_pairs: list,
 ) -> dict:
-    """Compute recall at given percentage thresholds for a query distribution with respect to a null distribution. 
+    """Compute recall at given percentage thresholds for a query distribution with respect to a null distribution.
     Each recall threshold is a pair of floats (left, right) where left and right are floats between 0 and 1.
 
     Parameters:
@@ -118,7 +116,7 @@ def compute_recall(
             - query_distribution_size: the size of the query distribution
             - recall_{left_threshold}_{right_threshold}: recall at the given percentage threshold pair(s)
     """
-    
+
     metrics = {}
     metrics["null_distribution_size"] = null_distribution.shape[0]
     metrics["query_distribution_size"] = query_distribution.shape[0]
@@ -133,3 +131,28 @@ def compute_recall(
             (query_percentage_ranks <= left_threshold) | (query_percentage_ranks >= right_threshold)
         ) / len(query_percentage_ranks)
     return metrics
+
+
+def convert_metrics_to_df(
+    metrics: dict,
+    source: str,
+    random_seed_str: str,
+    filter_on_pert_prints: bool,
+) -> pd.DataFrame:
+    """
+    Convert metrics dictionary to dataframe to be used in summary.
+
+    Args:
+        metrics (dict): metrics dictionary
+        source (str): benchmark source name
+        random_seed_str (str): random seed string from random seeds 1 and 2
+        filter_on_pert_prints (bool): whether metrics were computed after filtering on perturbation prints or not
+
+    Returns:
+        pd.DataFrame: a dataframe with metrics
+    """
+    metrics_dict_with_list = {key: [value] for key, value in metrics.items()}
+    metrics_dict_with_list["source"] = [source]
+    metrics_dict_with_list["random_seed"] = [random_seed_str]
+    metrics_dict_with_list["filter_on_pert_prints"] = [filter_on_pert_prints]
+    return pd.DataFrame.from_dict(metrics_dict_with_list)

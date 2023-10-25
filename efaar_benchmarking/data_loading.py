@@ -1,6 +1,7 @@
 import os
 import wget
 import scanpy as sc
+import numpy as np
 
 
 def load_replogle(gene_type, data_type, data_path="data/"):
@@ -41,4 +42,6 @@ def load_replogle(gene_type, data_type, data_path="data/"):
     if not os.path.exists(data_path + filename):
         wget.download(src, data_path + filename)
 
-    return sc.read_h5ad(data_path + filename)
+    adata = sc.read_h5ad(data_path + filename)
+    adata.X = np.nan_to_num(adata.X)
+    return adata

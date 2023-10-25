@@ -1,4 +1,10 @@
-from efaar_benchmarking.utils import generate_null_cossims, generate_query_cossims, get_benchmark_data, compute_recall
+from efaar_benchmarking.utils import (
+    generate_null_cossims,
+    generate_query_cossims,
+    get_benchmark_data,
+    compute_recall,
+    convert_metrics_to_df,
+)
 import efaar_benchmarking.constants as cst
 from sklearn.utils import Bunch
 import pandas as pd
@@ -41,32 +47,6 @@ def pert_stats(
     }
 
 
-
-def _convert_metrics_to_df(
-    metrics: dict,
-    source: str,
-    random_seed_str: str,
-    filter_on_pert_prints: bool,
-) -> pd.DataFrame:
-    """
-    Convert metrics dictionary to dataframe to be used in summary.
-
-    Args:
-        metrics (dict): metrics dictionary
-        source (str): benchmark source name
-        random_seed_str (str): random seed string from random seeds 1 and 2
-        filter_on_pert_prints (bool): whether metrics were computed after filtering on perturbation prints or not
-
-    Returns:
-        pd.DataFrame: a dataframe with metrics
-    """
-    metrics_dict_with_list = {key: [value] for key, value in metrics.items()}
-    metrics_dict_with_list["source"] = [source]
-    metrics_dict_with_list["random_seed"] = [random_seed_str]
-    metrics_dict_with_list["filter_on_pert_prints"] = [filter_on_pert_prints]
-    return pd.DataFrame.from_dict(metrics_dict_with_list)
-
-
 def benchmark(
     map_data: Bunch,
     benchmark_sources: list = cst.BENCHMARK_SOURCES,
@@ -98,9 +78,11 @@ def benchmark(
             "recall_{low}_{high}": recall at requested thresholds
     """
 
-    assert len(benchmark_sources) > 0 and all([src in cst.BENCHMARK_SOURCES for src in benchmark_sources]), "Invalid benchmark source(s) provided."
+    assert len(benchmark_sources) > 0 and all(
+        [src in cst.BENCHMARK_SOURCES for src in benchmark_sources]
+    ), "Invalid benchmark source(s) provided."
     md = map_data.metadata
-    idx = (md[cst.PERT_SIG_PVAL_COL] <= pert_print_pvalue_thr) if filter_on_pert_prints else [True]*len(md)
+    idx = (md[cst.PERT_SIG_PVAL_COL] <= pert_print_pvalue_thr) if filter_on_pert_prints else [True] * len(md)
     features = map_data.features[idx].set_index(md[idx][pert_label_col]).rename_axis(index=None)
     del map_data
     assert len(features) == len(set(features.index)), "Duplicate perturbation labels in the map."
@@ -109,7 +91,9 @@ def benchmark(
 
     metrics_lst = []
     random.seed(random_seed)
-    random_seed_pairs = [(random.randint(0, 2**31 - 1), random.randint(0, 2**31 - 1)) for _ in range(n_iterations)] # numpy requires seeds to be between 0 and 2 ** 32 - 1
+    random_seed_pairs = [
+        (random.randint(0, 2**31 - 1), random.randint(0, 2**31 - 1)) for _ in range(n_iterations)
+    ]  # numpy requires seeds to be between 0 and 2 ** 32 - 1
     for rs1, rs2 in random_seed_pairs:
         random_seed_str = f"{rs1}_{rs2}"
         null_cossim = generate_null_cossims(features, n_null_samples, rs1, rs2)
