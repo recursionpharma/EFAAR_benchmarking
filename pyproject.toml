@@ -23,7 +23,7 @@ classifiers = [
 	"Programming Language :: Python :: 3",
 ]
 keywords=["efaar_benchmarking"]
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 dynamic = [
 	"version",
 ]
@@ -86,7 +86,7 @@ env = [
 
 [tool.mypy]
 files = "efaar_benchmarking"
-python_version = "3.8"
+python_version = "3.9"
 ignore_missing_imports = true
 show_error_codes = true
 # strict = true
@@ -102,4 +102,4 @@ exclude = "tests"
 
 [tool.black]
 line-length = 120
-target-version = ["py38", "py39", "py310", "py311"]
+target-version = ["py39", "py310", "py311"]
