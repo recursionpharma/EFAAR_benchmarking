@@ -75,21 +75,22 @@ def benchmark(
             "recall_{low}_{high}": recall at requested thresholds
     """
 
-    assert len(benchmark_sources) > 0 and all(
-        [src in cst.BENCHMARK_SOURCES for src in benchmark_sources]
-    ), "Invalid benchmark source(s) provided."
+    if not len(benchmark_sources) > 0 and all([src in cst.BENCHMARK_SOURCES for src in benchmark_sources]):
+        AssertionError("Invalid benchmark source(s) provided.")
     md = map_data.metadata
     idx = (md[cst.PERT_SIG_PVAL_COL] <= pert_pval_thr) if filter_on_pert_prints else [True] * len(md)
     features = map_data.features[idx].set_index(md[idx][pert_label_col]).rename_axis(index=None)
     del map_data
-    assert len(features) == len(set(features.index)), "Duplicate perturbation labels in the map."
-    assert len(features) >= min_req_entity_cnt, "Not enough entities in the map for benchmarking."
-    print(len(features), "perturbations in the map.")
+    if not len(features) == len(set(features.index)):
+        AssertionError("Duplicate perturbation labels in the map.")
+    if not len(features) >= min_req_entity_cnt:
+        AssertionError("Not enough entities in the map for benchmarking.")
+    print(len(features), "perturbations exist in the map.")
 
     metrics_lst = []
     random.seed(random_seed)
     random_seed_pairs = [
-        (random.randint(0, 2**31 - 1), random.randint(0, 2**31 - 1)) for _ in range(n_iterations)
+        (random.randint(0, 2**31 - 1), random.randint(0, 2**31 - 1)) for _ in range(n_iterations)  # nosec
     ]  # numpy requires seeds to be between 0 and 2 ** 32 - 1
     for rs1, rs2 in random_seed_pairs:
         random_seed_str = f"{rs1}_{rs2}"
