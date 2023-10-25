@@ -1,10 +1,7 @@
 from typing import Optional
-
 import numpy as np
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
-from sklearn.utils import Bunch
-
 import efaar_benchmarking.constants as cst
 
 
@@ -51,7 +48,8 @@ def generate_null_cossims(
         rseed_entity2 (int): Random seed for sampling subset from entity2_feats.
 
     Returns:
-        np.ndarray: A NumPy array containing the null cosine similarity values between the randomly sampled subsets of entities.
+        np.ndarray: A NumPy array containing the null cosine similarity values between the randomly sampled subsets
+            of entities.
     """
 
     np.random.seed(rseed_entity1)
@@ -109,8 +107,8 @@ def compute_recall(
     Parameters:
         null_distribution (np.ndarray): The null distribution to compare against
         query_distribution (np.ndarray): The query distribution
-        recall_threshold_pairs (list) A list of pairs of floats (left, right) that represent different recall threshold pairs, where
-            left and right are floats between 0 and 1.
+        recall_threshold_pairs (list) A list of pairs of floats (left, right) that represent different recall threshold
+            pairs, where left and right are floats between 0 and 1.
 
     Returns:
         dict: A dictionary of metrics with the following keys:

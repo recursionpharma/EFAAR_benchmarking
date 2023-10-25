@@ -13,14 +13,14 @@ import random
 
 def pert_stats(
     map_data: Bunch,
-    pert_print_pvalue_thr: float = cst.PERT_SIG_PVAL_THR,
+    pert_pval_thr: float = cst.PERT_SIG_PVAL_THR,
 ):
     """
     Calculate perturbation statistics based on the provided map data.
 
     Args:
         map_data (Bunch): Map data containing metadata.
-        pert_print_pvalue_thr (float): Perturbation significance threshold. Defaults to cst.PERT_SIG_PVAL_THR.
+        pert_pval_thr (float): Perturbation significance threshold. Defaults to cst.PERT_SIG_PVAL_THR.
 
     Returns:
         dict: Dictionary containing perturbation statistics:
@@ -31,7 +31,7 @@ def pert_stats(
 
     md = map_data.metadata
     idx = [True] * len(md)
-    pidx = md[cst.PERT_SIG_PVAL_COL] <= pert_print_pvalue_thr
+    pidx = md[cst.PERT_SIG_PVAL_COL] <= pert_pval_thr
     return {
         "all_pert_count": sum(idx),
         "pp_pert_count": sum(idx & pidx),
@@ -45,7 +45,7 @@ def benchmark(
     pert_label_col: str = cst.PERT_LABEL_COL,
     recall_thr_pairs: list = cst.RECALL_PERC_THRS,
     filter_on_pert_prints: bool = False,
-    pert_print_pvalue_thr: float = cst.PERT_SIG_PVAL_THR,
+    pert_pval_thr: float = cst.PERT_SIG_PVAL_THR,
     n_null_samples: int = cst.N_NULL_SAMPLES,
     random_seed: int = cst.RANDOM_SEED,
     n_iterations: int = cst.RANDOM_COUNT,
@@ -58,7 +58,7 @@ def benchmark(
         pert_label_col (str, optional): Column name for perturbation labels. Defaults to cst.PERT_LABEL_COL.
         recall_thr_pairs (list, optional): List of recall percentage threshold pairs. Defaults to cst.RECALL_PERC_THRS.
         filter_on_pert_prints (bool, optional): Flag to filter map data based on perturbation prints. Defaults to False.
-        pert_print_pvalue_thr (float, optional): P-value threshold for perturbation filtering. Defaults to cst.PERT_SIG_PVAL_THR.
+        pert_pval_thr (float, optional): pvalue threshold for perturbation filtering. Defaults to cst.PERT_SIG_PVAL_THR.
         n_null_samples (int, optional): Number of null samples to generate. Defaults to cst.N_NULL_SAMPLES.
         random_seed (int, optional): Random seed to use for generating null samples. Defaults to cst.RANDOM_SEED.
         n_iterations (int, optional): Number of random seed pairs to use. Defaults to cst.RANDOM_COUNT.
@@ -74,7 +74,7 @@ def benchmark(
         [src in cst.BENCHMARK_SOURCES for src in benchmark_sources]
     ), "Invalid benchmark source(s) provided."
     md = map_data.metadata
-    idx = (md[cst.PERT_SIG_PVAL_COL] <= pert_print_pvalue_thr) if filter_on_pert_prints else [True] * len(md)
+    idx = (md[cst.PERT_SIG_PVAL_COL] <= pert_pval_thr) if filter_on_pert_prints else [True] * len(md)
     features = map_data.features[idx].set_index(md[idx][pert_label_col]).rename_axis(index=None)
     del map_data
     assert len(features) == len(set(features.index)), "Duplicate perturbation labels in the map."
