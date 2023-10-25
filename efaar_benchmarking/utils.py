@@ -3,7 +3,6 @@ from typing import Optional
 import numpy as np
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
-from sklearn.utils import Bunch
 
 import efaar_benchmarking.constants as cst
 
@@ -51,7 +50,8 @@ def generate_null_cossims(
         rseed_entity2 (int): Random seed for sampling subset from entity2_feats.
 
     Returns:
-        np.ndarray: A NumPy array containing the null cosine similarity values between the randomly sampled subsets of entities.
+        np.ndarray: A NumPy array containing the null cosine similarity values between the randomly sampled subsets
+            of entities.
     """
 
     np.random.seed(rseed_entity1)
@@ -64,25 +64,28 @@ def generate_null_cossims(
 def generate_query_cossims(
     feats: pd.DataFrame,
     gt_source_df: pd.DataFrame,
-) -> Optional[np.ndarray]:
+    min_req_entity_cnt: int = cst.MIN_REQ_ENT_CNT,
+) -> np.ndarray:
     """Generate query-specific cosine similarity values between subsets of entities' features.
 
     Args:
         feats (pd.DataFrame): Features of the first set of entities.
         gt_source_df (pd.DataFrame): DataFrame containing ground truth annotation sources.
+        min_req_entity_cnt (int, optional): Minimum required entity count for benchmarking.
+            Defaults to cst.MIN_REQ_ENT_CNT.
 
     Returns:
-        Optional[np.ndarray]: A NumPy array containing the query-specific cosine similarity values, or None
+        np.ndarray: A NumPy array containing the query-specific cosine similarity values, or None
             if there are not enough entities for benchmarking.
     """
 
     gt_source_df = gt_source_df[gt_source_df.entity1.isin(feats.index) & gt_source_df.entity2.isin(feats.index)]
     entity1_feats = feats.loc[list(set(gt_source_df.entity1))]
     entity2_feats = feats.loc[list(set(gt_source_df.entity2))]
-    if len(set(entity1_feats.index)) >= cst.MIN_REQ_ENT_CNT and len(set(entity2_feats.index)) >= cst.MIN_REQ_ENT_CNT:
+    if len(set(entity1_feats.index)) >= min_req_entity_cnt and len(set(entity2_feats.index)) >= min_req_entity_cnt:
         return compute_process_cosine_sim(entity1_feats, entity2_feats, gt_source_df)
     else:
-        return None
+        return np.empty(shape=(0, 0))
 
 
 def get_benchmark_data(src):
@@ -109,8 +112,8 @@ def compute_recall(
     Parameters:
         null_distribution (np.ndarray): The null distribution to compare against
         query_distribution (np.ndarray): The query distribution
-        recall_threshold_pairs (list) A list of pairs of floats (left, right) that represent different recall threshold pairs, where
-            left and right are floats between 0 and 1.
+        recall_threshold_pairs (list) A list of pairs of floats (left, right) that represent different recall threshold
+            pairs, where left and right are floats between 0 and 1.
 
     Returns:
         dict: A dictionary of metrics with the following keys:
@@ -124,14 +127,17 @@ def compute_recall(
     metrics["query_distribution_size"] = query_distribution.shape[0]
 
     sorted_null_distribution = np.sort(null_distribution)
-    query_percentage_ranks = np.searchsorted(sorted_null_distribution, query_distribution) / len(
+    query_percentage_ranks_left = np.searchsorted(null_distribution, query_distribution, side="left") / len(
+        sorted_null_distribution
+    )
+    query_percentage_ranks_right = np.searchsorted(null_distribution, query_distribution, side="right") / len(
         sorted_null_distribution
     )
     for threshold_pair in recall_threshold_pairs:
         left_threshold, right_threshold = np.min(threshold_pair), np.max(threshold_pair)
         metrics[f"recall_{left_threshold}_{right_threshold}"] = sum(
-            (query_percentage_ranks <= left_threshold) | (query_percentage_ranks >= right_threshold)
-        ) / len(query_percentage_ranks)
+            (query_percentage_ranks_right <= left_threshold) | (query_percentage_ranks_left >= right_threshold)
+        ) / len(query_distribution)
     return metrics
 
 
