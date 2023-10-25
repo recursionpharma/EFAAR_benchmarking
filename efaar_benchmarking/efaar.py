@@ -32,7 +32,6 @@ def embed_by_pca(adata, N_LATENT=100):
 
     Parameters:
     adata (AnnData): Annotated data matrix.
-    BATCH_KEY (str): Key for batch information in adata.obs.
     N_LATENT (int): Number of principal components to use.
 
     Returns:
