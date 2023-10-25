@@ -64,12 +64,15 @@ def generate_null_cossims(
 def generate_query_cossims(
     feats: pd.DataFrame,
     gt_source_df: pd.DataFrame,
+    min_req_entity_cnt: int = cst.MIN_REQ_ENT_CNT,
 ) -> np.ndarray:
     """Generate query-specific cosine similarity values between subsets of entities' features.
 
     Args:
         feats (pd.DataFrame): Features of the first set of entities.
         gt_source_df (pd.DataFrame): DataFrame containing ground truth annotation sources.
+        min_req_entity_cnt (int, optional): Minimum required entity count for benchmarking.
+            Defaults to cst.MIN_REQ_ENT_CNT.
 
     Returns:
         np.ndarray: A NumPy array containing the query-specific cosine similarity values, or None
@@ -79,7 +82,7 @@ def generate_query_cossims(
     gt_source_df = gt_source_df[gt_source_df.entity1.isin(feats.index) & gt_source_df.entity2.isin(feats.index)]
     entity1_feats = feats.loc[list(set(gt_source_df.entity1))]
     entity2_feats = feats.loc[list(set(gt_source_df.entity2))]
-    if len(set(entity1_feats.index)) >= cst.MIN_REQ_ENT_CNT and len(set(entity2_feats.index)) >= cst.MIN_REQ_ENT_CNT:
+    if len(set(entity1_feats.index)) >= min_req_entity_cnt and len(set(entity2_feats.index)) >= min_req_entity_cnt:
         return compute_process_cosine_sim(entity1_feats, entity2_feats, gt_source_df)
     else:
         return np.empty(shape=(0, 0))
@@ -124,14 +127,17 @@ def compute_recall(
     metrics["query_distribution_size"] = query_distribution.shape[0]
 
     sorted_null_distribution = np.sort(null_distribution)
-    query_percentage_ranks = np.searchsorted(sorted_null_distribution, query_distribution) / len(
+    query_percentage_ranks_left = np.searchsorted(null_distribution, query_distribution, side="left") / len(
+        sorted_null_distribution
+    )
+    query_percentage_ranks_right = np.searchsorted(null_distribution, query_distribution, side="right") / len(
         sorted_null_distribution
     )
     for threshold_pair in recall_threshold_pairs:
         left_threshold, right_threshold = np.min(threshold_pair), np.max(threshold_pair)
         metrics[f"recall_{left_threshold}_{right_threshold}"] = sum(
-            (query_percentage_ranks <= left_threshold) | (query_percentage_ranks >= right_threshold)
-        ) / len(query_percentage_ranks)
+            (query_percentage_ranks_right <= left_threshold) | (query_percentage_ranks_left >= right_threshold)
+        ) / len(query_distribution)
     return metrics
 
 

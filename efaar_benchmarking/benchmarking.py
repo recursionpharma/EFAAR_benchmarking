@@ -51,6 +51,7 @@ def benchmark(
     n_null_samples: int = cst.N_NULL_SAMPLES,
     random_seed: int = cst.RANDOM_SEED,
     n_iterations: int = cst.RANDOM_COUNT,
+    min_req_entity_cnt: int = cst.MIN_REQ_ENT_CNT,
 ) -> pd.DataFrame:
     """Perform benchmarking on map data.
 
@@ -64,6 +65,8 @@ def benchmark(
         n_null_samples (int, optional): Number of null samples to generate. Defaults to cst.N_NULL_SAMPLES.
         random_seed (int, optional): Random seed to use for generating null samples. Defaults to cst.RANDOM_SEED.
         n_iterations (int, optional): Number of random seed pairs to use. Defaults to cst.RANDOM_COUNT.
+        min_req_entity_cnt (int, optional): Minimum required entity count for benchmarking.
+            Defaults to cst.MIN_REQ_ENT_CNT.
 
     Returns:
         pd.DataFrame: a dataframe with benchmarking results. The columns are:
@@ -80,7 +83,7 @@ def benchmark(
     features = map_data.features[idx].set_index(md[idx][pert_label_col]).rename_axis(index=None)
     del map_data
     assert len(features) == len(set(features.index)), "Duplicate perturbation labels in the map."
-    assert len(features) >= cst.MIN_REQ_ENT_CNT, "Not enough entities in the map for benchmarking."
+    assert len(features) >= min_req_entity_cnt, "Not enough entities in the map for benchmarking."
     print(len(features), "perturbations in the map.")
 
     metrics_lst = []
