@@ -1,7 +1,7 @@
 # EFAAR_benchmarking
 
 This library enables computation and retrieval of metrics to benchmark a whole-genome perturbative map created by the pipeline.
-Metrics that can be computed using this repo are pairwise gene-gene recall for the reactome, corum, and humap datasets which 
+Metrics that can be computed using this repo are pairwise gene-gene recall for the reactome, corum, and humap datasets which
 are publicly available.
 
 By default, we do not filter on perturbation fingerprint, although filtering is available through the parameters to the `benchmark` function.

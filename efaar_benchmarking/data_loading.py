@@ -3,7 +3,6 @@ import wget
 import scanpy as sc
 import numpy as np
 
-
 def load_replogle(gene_type, data_type, data_path="data/"):
     """
     Load Replogle et al. 2020 single-cell RNA-seq data for K562 cells.

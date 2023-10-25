@@ -1,9 +1,11 @@
-from sklearn.utils import Bunch
-from sklearn.metrics.pairwise import cosine_similarity
-import efaar_benchmarking.constants as cst
+from typing import Optional
+
 import numpy as np
 import pandas as pd
-from typing import Optional
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.utils import Bunch
+
+import efaar_benchmarking.constants as cst
 
 
 def compute_process_cosine_sim(

@@ -1,0 +1,44 @@
+name: Test
+on: [push]
+jobs:
+  tests:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        minor_version: [8, 9, 10, 11]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        exclude:
+        # exclude Windows on Python 3.8 due to Jaxlib incompatibility
+        # (might be able to fix by using system-dependent lockfile, but not worth our time)
+        - os: windows-latest
+          minor_version: 8
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+        with:
+          python-version: 3.${{ matrix.minor_version }}
+      - name: update pip
+        run: |
+          pip install -U wheel
+          pip install -U setuptools
+          python -m pip install -U pip
+      - run: pip install tox
+      - run: tox -e py3${{ matrix.minor_version }}
+      - uses: actions/upload-artifact@v3
+        with:
+          name: coverage.${{ matrix.os }}.py3${{ matrix.minor_version }}
+          path: ./.coverage.py3${{ matrix.minor_version }}
+  # coverage:
+  #   needs: tests
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: actions/download-artifact@v3
+  #       with:
+  #         path: .
+  #     - run: pip install coverage
+  #     - run: |
+  #         coverage combine coverage*/
+  #         coverage report --fail-under=0
