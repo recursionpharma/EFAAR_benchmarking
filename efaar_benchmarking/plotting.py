@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
+
 def plot_recall(df):
     """
     Plots a line plot of recall values for several thereshold pairs for each source.
@@ -17,18 +18,31 @@ def plot_recall(df):
 
     col_cnt = 5
     sns.set_style("whitegrid")
-    fig, axs = plt.subplots(nrows=round(len(df['source'].unique())/col_cnt), ncols=col_cnt, figsize=(15, 3), squeeze=False)
+    fig, axs = plt.subplots(
+        nrows=round(len(df["source"].unique()) / col_cnt), ncols=col_cnt, figsize=(15, 3), squeeze=False
+    )
 
     color = "r"
     # Plot each source as a separate subplot
-    for i, source in enumerate(df['source'].unique()):
-        source_df = df[df['source'] == source]
+    for i, source in enumerate(df["source"].unique()):
+        source_df = df[df["source"] == source]
         x_values_orig = [f"{x}, {y}" for x, y in xy_pairs]
         y_values = [list(source_df[f"recall_{x}_{y}"]) for x, y in xy_pairs]
         x_values = [i for i, sublist in zip(x_values_orig, y_values) for _ in sublist]
-        tmp_data = pd.DataFrame({'x': x_values, 'y': sum(y_values, [])})
-        curr_ax = axs[i//col_cnt, i%col_cnt]
-        sns.lineplot(ax=curr_ax, x="x", y="y", data=tmp_data, color=color, marker="o", markersize=8, markerfacecolor=color, markeredgewidth=2, errorbar=('ci', 99))
+        tmp_data = pd.DataFrame({"x": x_values, "y": sum(y_values, [])})
+        curr_ax = axs[i // col_cnt, i % col_cnt]
+        sns.lineplot(
+            ax=curr_ax,
+            x="x",
+            y="y",
+            data=tmp_data,
+            color=color,
+            marker="o",
+            markersize=8,
+            markerfacecolor=color,
+            markeredgewidth=2,
+            errorbar=("ci", 99),
+        )
         curr_ax.set_title(source)
         curr_ax.set_xlabel("Recall Thresholds")
         curr_ax.set_ylabel("Recall Value")

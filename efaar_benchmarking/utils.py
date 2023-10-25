@@ -64,7 +64,7 @@ def generate_null_cossims(
 def generate_query_cossims(
     feats: pd.DataFrame,
     gt_source_df: pd.DataFrame,
-) -> Optional[np.ndarray]:
+) -> np.ndarray:
     """Generate query-specific cosine similarity values between subsets of entities' features.
 
     Args:
@@ -72,7 +72,7 @@ def generate_query_cossims(
         gt_source_df (pd.DataFrame): DataFrame containing ground truth annotation sources.
 
     Returns:
-        Optional[np.ndarray]: A NumPy array containing the query-specific cosine similarity values, or None
+        np.ndarray: A NumPy array containing the query-specific cosine similarity values, or None
             if there are not enough entities for benchmarking.
     """
 
@@ -82,7 +82,7 @@ def generate_query_cossims(
     if len(set(entity1_feats.index)) >= cst.MIN_REQ_ENT_CNT and len(set(entity2_feats.index)) >= cst.MIN_REQ_ENT_CNT:
         return compute_process_cosine_sim(entity1_feats, entity2_feats, gt_source_df)
     else:
-        return None
+        return np.empty(shape=(0, 0))
 
 
 def get_benchmark_data(src):

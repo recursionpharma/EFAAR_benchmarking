@@ -13,18 +13,14 @@ import random
 
 def pert_stats(
     map_data: Bunch,
-    filter_on_pert_type=False,
-    filter_on_well_type=False,
-    pert_sig_thr: float = cst.PERT_SIG_PVAL_THR,
+    pert_print_pvalue_thr: float = cst.PERT_SIG_PVAL_THR,
 ):
     """
     Calculate perturbation statistics based on the provided map data.
 
     Args:
         map_data (Bunch): Map data containing metadata.
-        filter_on_pert_type (bool): Whether to filter based on perturbation type. Default is False.
-        filter_on_well_type (bool): Whether to filter based on well type. Default is False.
-        pert_sig_thr (float): Perturbation significance threshold. Default is the value from constants.
+        pert_print_pvalue_thr (float): Perturbation significance threshold. Default is the value from constants.
 
     Returns:
         dict: Dictionary containing perturbation statistics:
@@ -35,10 +31,6 @@ def pert_stats(
 
     md = map_data.metadata
     idx = [True] * len(md)
-    if filter_on_pert_type:
-        idx = idx & (md[cst.PERT_TYPE_COL] == cst.PERT_TYPE)
-    if filter_on_well_type:
-        idx = idx & (md[cst.WELL_TYPE_COL] == cst.WELL_TYPE)
     pidx = md[cst.PERT_SIG_PVAL_COL] <= pert_sig_thr
     return {
         "all_pert_count": sum(idx),
@@ -99,13 +91,13 @@ def benchmark(
         null_cossim = generate_null_cossims(features, n_null_samples, rs1, rs2)
         for s in benchmark_sources:
             query_cossim = generate_query_cossims(features, get_benchmark_data(s))
-            single_seed_result = compute_recall(null_cossim, query_cossim, recall_thr_pairs)
-            metrics_lst.append(
-                convert_metrics_to_df(
-                    metrics=single_seed_result,
-                    source=s,
-                    random_seed_str=random_seed_str,
-                    filter_on_pert_prints=filter_on_pert_prints,
+            if len(query_cossim) > 0:
+                metrics_lst.append(
+                    convert_metrics_to_df(
+                        metrics=compute_recall(null_cossim, query_cossim, recall_thr_pairs),
+                        source=s,
+                        random_seed_str=random_seed_str,
+                        filter_on_pert_prints=filter_on_pert_prints,
+                    )
                 )
-            )
     return pd.concat(metrics_lst, ignore_index=True)
