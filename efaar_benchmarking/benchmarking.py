@@ -51,7 +51,7 @@ def benchmark(
     map_data: Bunch,
     benchmark_sources: list = cst.BENCHMARK_SOURCES,
     pert_label_col: str = cst.PERT_LABEL_COL,
-    recall_threshold_pairs: list = cst.RECALL_PERC_THRS,
+    recall_thr_pairs: list = cst.RECALL_PERC_THRS,
     filter_on_pert_prints: bool = False,
     pert_print_pvalue_thr: float = cst.PERT_SIG_PVAL_THR,
     n_null_samples: int = cst.N_NULL_SAMPLES,
@@ -64,7 +64,7 @@ def benchmark(
         map_data (Bunch): The map data containing `features` and `metadata` attributes.
         benchmark_sources (list, optional): List of benchmark sources. Defaults to cst.BENCHMARK_SOURCES.
         pert_label_col (str, optional): Column name for perturbation labels. Defaults to cst.PERT_LABEL_COL.
-        recall_threshold_pairs (list, optional): List of recall percentage threshold pairs. Defaults to cst.RECALL_PERC_THRS.
+        recall_thr_pairs (list, optional): List of recall percentage threshold pairs. Defaults to cst.RECALL_PERC_THRS.
         filter_on_pert_prints (bool, optional): Flag to filter map data based on perturbation prints. Defaults to False.
         pert_print_pvalue_thr (float, optional): P-value threshold for perturbation filtering. Defaults to cst.PERT_SIG_PVAL_THR.
         n_null_samples (int, optional): Number of null samples to generate. Defaults to cst.N_NULL_SAMPLES.
@@ -99,9 +99,9 @@ def benchmark(
         null_cossim = generate_null_cossims(features, n_null_samples, rs1, rs2)
         for s in benchmark_sources:
             query_cossim = generate_query_cossims(features, get_benchmark_data(s))
-            single_seed_result = compute_recall(null_cossim, query_cossim, recall_threshold_pairs)
+            single_seed_result = compute_recall(null_cossim, query_cossim, recall_thr_pairs)
             metrics_lst.append(
-                _convert_metrics_to_df(
+                convert_metrics_to_df(
                     metrics=single_seed_result,
                     source=s,
                     random_seed_str=random_seed_str,
