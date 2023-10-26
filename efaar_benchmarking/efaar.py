@@ -82,6 +82,4 @@ def aggregate_by_mean(embeddings, metadata, control_key=cst.CONTROL_PERT_LABEL, 
     for i, pert in enumerate(unique_perts):
         idxs = np.where(metadata[pert_col].values == pert)[0]
         final_embeddings[i, :] = embeddings[idxs, :].mean(0)
-    return Bunch(
-        features=pd.DataFrame(final_embeddings), metadata=pd.DataFrame.from_dict({pert_col: unique_perts})
-    )
+    return Bunch(features=pd.DataFrame(final_embeddings), metadata=pd.DataFrame.from_dict({pert_col: unique_perts}))

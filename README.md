@@ -53,7 +53,7 @@ metadata = adata.obs
 embeddings_scvi = embed_by_scvi(adata)
 embeddings_aligned = align_by_centering(embeddings_scvi, metadata)
 map_data = aggregate_by_mean(embeddings_aligned, metadata)
-metrics = benchmark(map_data, 
+metrics = benchmark(map_data,
 recall_thr_pairs=[(0.01,0.99),(0.02,0.98),(0.03,0.97),(0.04,0.96),(0.05,0.95),(0.06,0.94),(0.07,0.93),(0.08,0.92),(0.09,0.91),(0.1,0.9)])
 plot_recall(metrics["summary"])
 ```
