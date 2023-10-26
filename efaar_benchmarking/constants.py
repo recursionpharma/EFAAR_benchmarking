@@ -4,9 +4,9 @@ BENCHMARK_DATA_DIR = resources.files("efaar_benchmarking").joinpath(  # type:ign
     "benchmark_annotations"
 )
 BENCHMARK_SOURCES = ["Reactome", "HuMAP", "CORUM", "SIGNOR", "StringDB"]
-PERT_LABEL_COL = "perturbation"
+PERT_LABEL_COL = "gene"
 CONTROL_PERT_LABEL = "non-targeting"
-PERT_SIG_PVAL_COL = "perturbation_pvalue"
+PERT_SIG_PVAL_COL = "gene_pvalue"
 PERT_SIG_PVAL_THR = 0.01
 RECALL_PERC_THRS = [(0.05, 0.95), (0.1, 0.9)]
 RANDOM_SEED = 42
