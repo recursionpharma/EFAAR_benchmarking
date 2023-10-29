@@ -61,6 +61,39 @@ def generate_null_cossims(
     return compute_process_cosine_sim(entity1_feats, entity2_feats)
 
 
+def filter_relationships(df):
+    """
+    Filters a DataFrame of relationships between entities, removing any rows with self-relationships, ie.
+        where the same entity appears in both columns.
+
+    Args:
+        df (pd.DataFrame): DataFrame containing columns 'entity1' and 'entity2', representing the entities involved in
+        each relationship.
+
+    Returns:
+        pd.DataFrame: DataFrame containing columns 'entity1' and 'entity2', representing the entities involved in
+        each relationship after removing any rows where the same entity appears in both columns.
+    """
+    df['sorted_entities'] = df.apply(lambda row: tuple(sorted([row.entity1, row.entity2])), axis=1)
+    df['entity1'] = df.sorted_entities.apply(lambda x: x[0])
+    df['entity2'] = df.sorted_entities.apply(lambda x: x[1])
+    return df[['entity1', 'entity2']].query("entity1!=entity2").drop_duplicates()
+
+
+def get_benchmark_relationships(benchmark_data_dir, s):
+    """
+    Reads a CSV file containing benchmark data for a given relationship type and returns a filtered DataFrame.
+
+    Args:
+        benchmark_data_dir (pathlib.Path): The directory containing the benchmark data files.
+        s (str): The name of the file (without extension) containing the benchmark data for the relationship type.
+
+    Returns:
+        pd.DataFrame: A filtered DataFrame containing the benchmark data for the relationship type.
+    """
+    return filter_relationships(pd.read_csv(benchmark_data_dir.joinpath(s + ".txt")))
+
+
 def generate_query_cossims(
     feats: pd.DataFrame,
     gt_source_df: pd.DataFrame,
@@ -88,19 +121,6 @@ def generate_query_cossims(
         return np.empty(shape=(0, 0))
 
 
-def get_benchmark_data(src):
-    """Load benchmark data from a text file.
-
-    Args:
-        src (str): The source identifier for the benchmark data.
-
-    Returns:
-        pd.DataFrame: A DataFrame containing the benchmark data loaded from the text file.
-    """
-
-    return pd.read_csv(cst.BENCHMARK_DATA_DIR.joinpath(src + ".txt"))
-
-
 def compute_recall(
     null_distribution: np.ndarray,
     query_distribution: np.ndarray,
@@ -109,7 +129,7 @@ def compute_recall(
     """Compute recall at given percentage thresholds for a query distribution with respect to a null distribution.
     Each recall threshold is a pair of floats (left, right) where left and right are floats between 0 and 1.
 
-    Parameters:
+    Args:
         null_distribution (np.ndarray): The null distribution to compare against
         query_distribution (np.ndarray): The query distribution
         recall_threshold_pairs (list) A list of pairs of floats (left, right) that represent different recall threshold
@@ -127,10 +147,10 @@ def compute_recall(
     metrics["query_distribution_size"] = query_distribution.shape[0]
 
     sorted_null_distribution = np.sort(null_distribution)
-    query_percentage_ranks_left = np.searchsorted(null_distribution, query_distribution, side="left") / len(
+    query_percentage_ranks_left = np.searchsorted(sorted_null_distribution, query_distribution, side="left") / len(
         sorted_null_distribution
     )
-    query_percentage_ranks_right = np.searchsorted(null_distribution, query_distribution, side="right") / len(
+    query_percentage_ranks_right = np.searchsorted(sorted_null_distribution, query_distribution, side="right") / len(
         sorted_null_distribution
     )
     for threshold_pair in recall_threshold_pairs:
