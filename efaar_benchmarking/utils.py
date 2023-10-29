@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Optional
 
 import numpy as np
@@ -61,7 +62,7 @@ def generate_null_cossims(
     return compute_process_cosine_sim(entity1_feats, entity2_feats)
 
 
-def filter_relationships(df):
+def filter_relationships(df: pd.DataFrame):
     """
     Filters a DataFrame of relationships between entities, removing any rows with self-relationships, ie.
         where the same entity appears in both columns.
@@ -80,18 +81,18 @@ def filter_relationships(df):
     return df[["entity1", "entity2"]].query("entity1!=entity2").drop_duplicates()
 
 
-def get_benchmark_relationships(benchmark_data_dir, s):
+def get_benchmark_relationships(benchmark_data_dir: str, src: str):
     """
-    Reads a CSV file containing benchmark data for a given relationship type and returns a filtered DataFrame.
+    Reads a CSV file containing benchmark data and returns a filtered DataFrame.
 
     Args:
-        benchmark_data_dir (pathlib.Path): The directory containing the benchmark data files.
-        s (str): The name of the file (without extension) containing the benchmark data for the relationship type.
+        benchmark_data_dir (str): The directory containing the benchmark data files.
+        src (str): The name of the source containing the benchmark data.
 
     Returns:
-        pd.DataFrame: A filtered DataFrame containing the benchmark data for the relationship type.
+        pd.DataFrame: A filtered DataFrame containing the benchmark data.
     """
-    return filter_relationships(pd.read_csv(benchmark_data_dir.joinpath(s + ".txt")))
+    return filter_relationships(pd.read_csv(Path(benchmark_data_dir).joinpath(src + ".txt")))
 
 
 def generate_query_cossims(
