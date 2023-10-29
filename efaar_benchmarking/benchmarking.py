@@ -52,7 +52,7 @@ def benchmark(
     random_seed: int = cst.RANDOM_SEED,
     n_iterations: int = cst.RANDOM_COUNT,
     min_req_entity_cnt: int = cst.MIN_REQ_ENT_CNT,
-    benchmark_data_dir: str = cst.BENCHMARK_DATA_DIR
+    benchmark_data_dir: str = cst.BENCHMARK_DATA_DIR,
 ) -> pd.DataFrame:
     """Perform benchmarking on map data.
 

@@ -1,7 +1,8 @@
+import math
+
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-import math
 
 
 def plot_recall(df):
@@ -48,7 +49,7 @@ def plot_recall(df):
         curr_ax.set_ylabel("Recall Value")
         curr_ax.set_xticks(range(len(x_values_orig)))
         curr_ax.set_xticklabels(x_values_orig, rotation=45)
-        curr_ax.set_ylim(0, .8)
+        curr_ax.set_ylim(0, 0.8)
 
     plt.tight_layout()
     plt.show()

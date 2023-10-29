@@ -48,7 +48,7 @@ from efaar_benchmarking.efaar import embed_by_scvi, align_by_centering, aggregat
 from efaar_benchmarking.benchmarking import benchmark
 from efaar_benchmarking.plotting import plot_recall
 
-adata = load_replogle("genome_wide", "raw")
+adata = load_replogle("essential", "raw")
 metadata = adata.obs
 embeddings_scvi = embed_by_scvi(adata)
 embeddings_aligned = align_by_centering(embeddings_scvi, metadata)
@@ -72,7 +72,9 @@ _Giurgiu, M., Reinhard, J., Brauner, B., Dunger-Kaltenbach, I., Fobo, G., Frishm
 _Drew, K., Wallingford, J.B., and Marcotte, E.M. (2021). hu.MAP 2.0: integration of over 15,000 proteomic experiments builds a global compendium of human multiprotein assemblies. Mol. Syst. Biol. 17, e10016. 10.15252/msb.202010016._
 
 **SIGNOR:**
+
 _Licata, L., Lo Surdo, P., Iannuccelli, M., Palma, A., Micarelli, E., Perfetto, L., Peluso, D., Calderone, A., Castagnoli, L., and Cesareni, G. (2019). SIGNOR 2.0, the SIGnaling Network Open Resource 2.0: 2019 update. Nucleic Acids Research. 10.1093/nar/gkz949._
 
 **StringDB:**
+
 _von Mering C, Jensen LJ, Snel B, Hooper SD, Krupp M, Foglierini M, Jouffre N, Huynen MA, Bork P. STRING: known and predicted protein-protein associations, integrated and transferred across organisms. Nucleic Acids Res. 2005 Jan 1;33(Database issue):D433-7. doi: 10.1093/nar/gki005._

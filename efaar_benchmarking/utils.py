@@ -74,10 +74,10 @@ def filter_relationships(df):
         pd.DataFrame: DataFrame containing columns 'entity1' and 'entity2', representing the entities involved in
         each relationship after removing any rows where the same entity appears in both columns.
     """
-    df['sorted_entities'] = df.apply(lambda row: tuple(sorted([row.entity1, row.entity2])), axis=1)
-    df['entity1'] = df.sorted_entities.apply(lambda x: x[0])
-    df['entity2'] = df.sorted_entities.apply(lambda x: x[1])
-    return df[['entity1', 'entity2']].query("entity1!=entity2").drop_duplicates()
+    df["sorted_entities"] = df.apply(lambda row: tuple(sorted([row.entity1, row.entity2])), axis=1)
+    df["entity1"] = df.sorted_entities.apply(lambda x: x[0])
+    df["entity2"] = df.sorted_entities.apply(lambda x: x[1])
+    return df[["entity1", "entity2"]].query("entity1!=entity2").drop_duplicates()
 
 
 def get_benchmark_relationships(benchmark_data_dir, s):
