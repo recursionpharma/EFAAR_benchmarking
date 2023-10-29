@@ -48,7 +48,7 @@ from efaar_benchmarking.efaar import embed_by_scvi, align_by_centering, aggregat
 from efaar_benchmarking.benchmarking import benchmark
 from efaar_benchmarking.plotting import plot_recall
 
-adata = load_replogle("essential", "raw")
+adata = load_replogle("genome_wide", "raw")
 metadata = adata.obs
 embeddings_scvi = embed_by_scvi(adata)
 embeddings_aligned = align_by_centering(embeddings_scvi, metadata)
