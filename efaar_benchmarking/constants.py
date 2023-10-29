@@ -1,8 +1,6 @@
 from importlib import resources
 
-BENCHMARK_DATA_DIR = resources.files("efaar_benchmarking").joinpath(  # type:ignore[attr-defined]
-    "benchmark_annotations"
-)
+BENCHMARK_DATA_DIR = str(resources.files("efaar_benchmarking").joinpath("benchmark_annotations"))
 BENCHMARK_SOURCES = ["Reactome", "HuMAP", "CORUM", "SIGNOR", "StringDB"]
 PERT_LABEL_COL = "gene"
 CONTROL_PERT_LABEL = "non-targeting"

@@ -9,7 +9,7 @@ from efaar_benchmarking.utils import (
     convert_metrics_to_df,
     generate_null_cossims,
     generate_query_cossims,
-    get_benchmark_data,
+    get_benchmark_relationships,
 )
 
 
@@ -52,6 +52,7 @@ def benchmark(
     random_seed: int = cst.RANDOM_SEED,
     n_iterations: int = cst.RANDOM_COUNT,
     min_req_entity_cnt: int = cst.MIN_REQ_ENT_CNT,
+    benchmark_data_dir: str = cst.BENCHMARK_DATA_DIR,
 ) -> pd.DataFrame:
     """Perform benchmarking on map data.
 
@@ -67,6 +68,7 @@ def benchmark(
         n_iterations (int, optional): Number of random seed pairs to use. Defaults to cst.RANDOM_COUNT.
         min_req_entity_cnt (int, optional): Minimum required entity count for benchmarking.
             Defaults to cst.MIN_REQ_ENT_CNT.
+        benchmark_data_dir (str, optional): Path to benchmark data directory. Defaults to cst.BENCHMARK_DATA_DIR.
 
     Returns:
         pd.DataFrame: a dataframe with benchmarking results. The columns are:
@@ -75,7 +77,7 @@ def benchmark(
             "recall_{low}_{high}": recall at requested thresholds
     """
 
-    if not len(benchmark_sources) > 0 and all([src in cst.BENCHMARK_SOURCES for src in benchmark_sources]):
+    if not len(benchmark_sources) > 0 and all([src in benchmark_data_dir for src in benchmark_sources]):
         AssertionError("Invalid benchmark source(s) provided.")
     md = map_data.metadata
     idx = (md[cst.PERT_SIG_PVAL_COL] <= pert_pval_thr) if filter_on_pert_prints else [True] * len(md)
@@ -96,7 +98,7 @@ def benchmark(
         random_seed_str = f"{rs1}_{rs2}"
         null_cossim = generate_null_cossims(features, n_null_samples, rs1, rs2)
         for s in benchmark_sources:
-            query_cossim = generate_query_cossims(features, get_benchmark_data(s))
+            query_cossim = generate_query_cossims(features, get_benchmark_relationships(benchmark_data_dir, s))
             if len(query_cossim) > 0:
                 metrics_lst.append(
                     convert_metrics_to_df(
