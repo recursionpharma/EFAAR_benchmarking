@@ -9,24 +9,25 @@ import pandas as pd
 import scanpy as sc
 import wget
 
-CP_FEATURE_FORMATTER = (
-    "s3://cellpainting-gallery/cpg0016-jump/"
-    "{Metadata_Source}/workspace/profiles/"
-    "{Metadata_Batch}/{Metadata_Plate}/{Metadata_Plate}.parquet"
-)
-
 
 def load_cpg16_crispr(data_path: str = "data/") -> tuple[pd.DataFrame, pd.DataFrame]:
     """
-    Load and return the JUMP-CP (cpg16) CRISPR dataset.
+    Load and return the JUMP-CP (cpg0016) CRISPR dataset.
+    The metadata is downloaded from here:
+        https://zenodo.org/records/7661296/files/jump-cellpainting/metadata-v0.5.0.zip?download=1
+    The cellprofiler features are downloaded from here:
+        https://cellpainting-gallery.s3.amazonaws.com/index.html#cpg0016-jump/
+    We read the metadata first, filter it to CRISPR plates, and download the features for these plates only.
 
     Parameters:
     data_path (str): Path to the directory containing the dataset files.
 
     Returns:
-    features (pandas.DataFrame): A DataFrame containing the CRISPR dataset features.
-    metadata (pandas.DataFrame): A DataFrame containing the CRISPR dataset metadata.
+    tuple[pd.DataFrame, pd.DataFrame]: A tuple containing two DataFrames:
+        - features: A DataFrame containing the CRISPR dataset features.
+        - metadata: A DataFrame containing the CRISPR dataset metadata.
     """
+    metadata_source_path = "https://zenodo.org/records/7661296/files/jump-cellpainting/datasets-v0.5.0.zip?download=1"
     plate_file_name = "plate.csv.gz"
     well_file_name = "well.csv.gz"
     crispr_file_name = "crispr.csv.gz"
@@ -34,9 +35,9 @@ def load_cpg16_crispr(data_path: str = "data/") -> tuple[pd.DataFrame, pd.DataFr
     well_file_path = os.path.join(data_path, well_file_name)
     crispr_file_path = os.path.join(data_path, crispr_file_name)
     if not (os.path.exists(plate_file_path) and os.path.exists(well_file_path) and os.path.exists(crispr_file_path)):
-        source_path = "https://zenodo.org/records/7661296/files/jump-cellpainting/datasets-v0.5.0.zip?download=1"
+        
         path_to_zip_file = data_path + "tmp.zip"
-        wget.download(source_path, path_to_zip_file)
+        wget.download(metadata_source_path, path_to_zip_file)
         with zipfile.ZipFile(path_to_zip_file, "r") as zip_ref:
             for name in zip_ref.namelist():
                 if name.endswith(plate_file_name) or name.endswith(well_file_name) or name.endswith(crispr_file_name):
@@ -52,6 +53,12 @@ def load_cpg16_crispr(data_path: str = "data/") -> tuple[pd.DataFrame, pd.DataFr
     crispr = pd.read_csv(crispr_file_path)
     metadata = well_plate.merge(crispr, on="Metadata_JCP2022")
 
+    cp_feature_source_formatter = (
+        "s3://cellpainting-gallery/cpg0016-jump/"
+        "{Metadata_Source}/workspace/profiles/"
+        "{Metadata_Batch}/{Metadata_Plate}/{Metadata_Plate}.parquet"
+    )
+
     features_file_path = os.path.join(data_path, "cpg_features.parquet")
     if not os.path.exists(features_file_path):
 
@@ -65,8 +72,8 @@ def load_cpg16_crispr(data_path: str = "data/") -> tuple[pd.DataFrame, pd.DataFr
         with ThreadPoolExecutor(max_workers=10) as executer:
             future_to_plate = {
                 executer.submit(
-                    load_plate_features, CP_FEATURE_FORMATTER.format(**row.to_dict())
-                ): CP_FEATURE_FORMATTER.format(**row.to_dict())
+                    load_plate_features, cp_feature_source_formatter.format(**row.to_dict())
+                ): cp_feature_source_formatter.format(**row.to_dict())
                 for _, row in cripsr_plates.iterrows()
             }
             for future in as_completed(future_to_plate):
@@ -78,7 +85,8 @@ def load_cpg16_crispr(data_path: str = "data/") -> tuple[pd.DataFrame, pd.DataFr
 
 def load_replogle(gene_type: str, data_type: str, data_path: str = "data/") -> sc.AnnData:
     """
-    Load Replogle et al. single-cell RNA-seq data for K562 cells on
+    Load Replogle et al. 2022 single-cell RNA-seq data for K562 cells  published here: https://pubmed.ncbi.nlm.nih.gov/35688146/
+    Four types of K562 data and downloaded using the links at:
     plus.figshare.com/articles/dataset/_Mapping_information-rich_genotype-phenotype_landscapes_with_genome-scale_Perturb-seq_Replogle_et_al_2022_processed_Perturb-seq_datasets/20029387
 
     Parameters:
