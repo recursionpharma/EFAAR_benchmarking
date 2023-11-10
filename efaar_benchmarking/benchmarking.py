@@ -44,7 +44,7 @@ def pert_stats(
 def benchmark(
     map_data: Bunch,
     benchmark_sources: list = cst.BENCHMARK_SOURCES,
-    pert_label_col: str = cst.PERT_LABEL_COL,
+    pert_label_col: str = cst.REPLOGLE_PERT_LABEL_COL,
     recall_thr_pairs: list = cst.RECALL_PERC_THRS,
     filter_on_pert_prints: bool = False,
     pert_pval_thr: float = cst.PERT_SIG_PVAL_THR,
@@ -78,15 +78,15 @@ def benchmark(
     """
 
     if not len(benchmark_sources) > 0 and all([src in benchmark_data_dir for src in benchmark_sources]):
-        AssertionError("Invalid benchmark source(s) provided.")
+        ValueError("Invalid benchmark source(s) provided.")
     md = map_data.metadata
     idx = (md[cst.PERT_SIG_PVAL_COL] <= pert_pval_thr) if filter_on_pert_prints else [True] * len(md)
     features = map_data.features[idx].set_index(md[idx][pert_label_col]).rename_axis(index=None)
     del map_data
     if not len(features) == len(set(features.index)):
-        AssertionError("Duplicate perturbation labels in the map.")
+        ValueError("Duplicate perturbation labels in the map.")
     if not len(features) >= min_req_entity_cnt:
-        AssertionError("Not enough entities in the map for benchmarking.")
+        ValueError("Not enough entities in the map for benchmarking.")
     print(len(features), "perturbations exist in the map.")
 
     metrics_lst = []
@@ -98,7 +98,9 @@ def benchmark(
         random_seed_str = f"{rs1}_{rs2}"
         null_cossim = generate_null_cossims(features, n_null_samples, rs1, rs2)
         for s in benchmark_sources:
-            query_cossim = generate_query_cossims(features, get_benchmark_relationships(benchmark_data_dir, s))
+            rels = get_benchmark_relationships(benchmark_data_dir, s)
+            print(len(rels), "relationships exist in the benchmark source.")
+            query_cossim = generate_query_cossims(features, rels)
             if len(query_cossim) > 0:
                 metrics_lst.append(
                     convert_metrics_to_df(
