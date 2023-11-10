@@ -91,6 +91,7 @@ def embed_align_by_pca(
 def align_on_controls(
     embeddings: np.ndarray,
     metadata: pd.DataFrame,
+    scale: bool = True,
     pert_col: str = cst.REPLOGLE_PERT_LABEL_COL,
     control_key: str = cst.CONTROL_PERT_LABEL,
 ) -> np.ndarray:
@@ -100,6 +101,7 @@ def align_on_controls(
     Args:
         embeddings (numpy.ndarray): The embeddings to be aligned.
         metadata (pandas.DataFrame): The metadata containing information about the embeddings.
+        scale (bool): Whether to scale the embeddings besides centering. Defaults to True.
         pert_col (str, optional): The column in the metadata containing perturbation information.
             Defaults to cst.REPLOGLE_PERT_LABEL_COL.
         control_key (str, optional): The key for non-targeting controls in the metadata.
@@ -108,7 +110,7 @@ def align_on_controls(
     Returns:
         numpy.ndarray: The aligned embeddings.
     """
-    ss = StandardScaler()
+    ss = StandardScaler() if scale else StandardScaler(with_std=False)
     ss.fit(embeddings[metadata[pert_col].values == control_key])
     return ss.transform(embeddings)
 
