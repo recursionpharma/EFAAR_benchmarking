@@ -344,7 +344,7 @@ protobuf==4.24.4
     #   orbax-checkpoint
 psutil==5.9.6
     # via lightning
-pyarrow==13.0.0
+pyarrow==14.0.1
     # via efaar-benchmarking (pyproject.toml)
 pyasn1==0.5.0
     # via
