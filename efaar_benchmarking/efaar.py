@@ -144,9 +144,9 @@ def aggregate(
     for i, pert in enumerate(unique_perts):
         idxs = np.where(metadata[pert_col].values == pert)[0]
         if method == "mean":
-            final_embeddings[i, :] = embeddings[idxs, :].mean(0)
+            final_embeddings[i, :] = np.mean(embeddings[idxs, :], axis=0)
         elif method == "median":
-            final_embeddings[i, :] = embeddings[idxs, :].median(0)
+            final_embeddings[i, :] = np.median(embeddings[idxs, :], axis=0)
         else:
             raise ValueError(f"Invalid aggregation method: {method}")
     return Bunch(features=pd.DataFrame(final_embeddings), metadata=pd.DataFrame.from_dict({pert_col: unique_perts}))
