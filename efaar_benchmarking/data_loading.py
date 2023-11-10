@@ -8,7 +8,6 @@ import numpy as np
 import pandas as pd
 import scanpy as sc
 import wget
-from sklearn.covariance import EllipticEnvelope
 
 CP_FEATURE_FORMATTER = (
     "s3://cellpainting-gallery/cpg0016-jump/"
@@ -17,7 +16,17 @@ CP_FEATURE_FORMATTER = (
 )
 
 
-def load_cpg16_crispr(data_path="data/", filter_by_intensity=True, filter_by_cell_count=True, drop_image_cols=True):
+def load_cpg16_crispr(data_path: str = "data/") -> tuple[pd.DataFrame, pd.DataFrame]:
+    """
+    Load and return the JUMP-CP (cpg16) CRISPR dataset.
+
+    Parameters:
+    data_path (str): Path to the directory containing the dataset files.
+
+    Returns:
+    features (pandas.DataFrame): A DataFrame containing the CRISPR dataset features.
+    metadata (pandas.DataFrame): A DataFrame containing the CRISPR dataset metadata.
+    """
     plate_file_name = "plate.csv.gz"
     well_file_name = "well.csv.gz"
     crispr_file_name = "crispr.csv.gz"
@@ -64,29 +73,12 @@ def load_cpg16_crispr(data_path="data/", filter_by_intensity=True, filter_by_cel
                 features.append(future.result())
         pd.concat(features).to_parquet(features_file_path)
     features = pd.read_parquet(features_file_path).dropna(axis=1)
-    if filter_by_intensity:
-        features = features.loc[
-            EllipticEnvelope(contamination=0.01, random_state=42).fit_predict(
-                features[[col for col in features.columns if "ImageQuality_MeanIntensity" in col]]
-            )
-            == 1
-        ]
-    if filter_by_cell_count:
-        mask = np.full(len(features), True)
-        for colname in ["Cytoplasm_Number_Object_Number", "Nuclei_Number_Object_Number"]:
-            mask = mask & (features[colname] >= 50) & (features[colname] <= 350)
-        features = features.loc[mask]
-    if drop_image_cols:
-        features = features.drop(columns=[col for col in features.columns if col.startswith("Image_")])
-
-    metadata_cols = metadata.columns
-    merged_data = metadata.merge(features, on=["Metadata_Source", "Metadata_Plate", "Metadata_Well"])
-    return merged_data.drop(columns=metadata_cols), merged_data[metadata_cols]
+    return features, metadata
 
 
-def load_replogle(gene_type, data_type, data_path="data/"):
+def load_replogle(gene_type: str, data_type: str, data_path: str = "data/") -> sc.AnnData:
     """
-    Load Replogle et al. 2020 single-cell RNA-seq data for K562 cells from
+    Load Replogle et al. single-cell RNA-seq data for K562 cells on
     plus.figshare.com/articles/dataset/_Mapping_information-rich_genotype-phenotype_landscapes_with_genome-scale_Perturb-seq_Replogle_et_al_2022_processed_Perturb-seq_datasets/20029387
 
     Parameters:

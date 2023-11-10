@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import scanpy as sc
 from scvi.model import SCVI
+from sklearn.covariance import EllipticEnvelope
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils import Bunch
@@ -87,7 +88,12 @@ def embed_align_by_pca(
     return features
 
 
-def align_on_controls(embeddings, metadata, pert_col=cst.REPLOGLE_PERT_LABEL_COL, control_key=cst.CONTROL_PERT_LABEL):
+def align_on_controls(
+    embeddings: np.ndarray,
+    metadata: pd.DataFrame,
+    pert_col: str = cst.REPLOGLE_PERT_LABEL_COL,
+    control_key: str = cst.CONTROL_PERT_LABEL,
+) -> np.ndarray:
     """
     Center the embeddings by the control perturbation units in the metadata.
 
@@ -102,15 +108,18 @@ def align_on_controls(embeddings, metadata, pert_col=cst.REPLOGLE_PERT_LABEL_COL
     Returns:
         numpy.ndarray: The aligned embeddings.
     """
-    # return embeddings - embeddings[metadata[pert_col].values == control_key].mean(0)
     ss = StandardScaler()
     ss.fit(embeddings[metadata[pert_col].values == control_key])
     return ss.transform(embeddings)
 
 
 def aggregate(
-    embeddings, metadata, pert_col=cst.REPLOGLE_PERT_LABEL_COL, control_key=cst.CONTROL_PERT_LABEL, method="mean"
-):
+    embeddings: np.ndarray,
+    metadata: pd.DataFrame,
+    pert_col: str = cst.REPLOGLE_PERT_LABEL_COL,
+    control_key: str = cst.CONTROL_PERT_LABEL,
+    method="mean",
+) -> Bunch[pd.DataFrame, pd.DataFrame]:
     """
     Apply the mean or median aggregation to replicate embeddings for each perturbation.
 
@@ -141,3 +150,43 @@ def aggregate(
         else:
             raise ValueError(f"Invalid aggregation method: {method}")
     return Bunch(features=pd.DataFrame(final_embeddings), metadata=pd.DataFrame.from_dict({pert_col: unique_perts}))
+
+
+def filter_cpg16_crispr(
+    features: pd.DataFrame,
+    metadata: pd.DataFrame,
+    filter_by_intensity: bool = True,
+    filter_by_cell_count: bool = True,
+    drop_image_cols: bool = True,
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """
+    Filter the given features and metadata dataframes based on various criteria.
+
+    Args:
+        features (pd.DataFrame): A dataframe containing the features to filter.
+        metadata (pd.DataFrame): A dataframe containing the metadata to filter.
+        filter_by_intensity (bool, optional): Whether to filter by intensity. Defaults to True.
+        filter_by_cell_count (bool, optional): Whether to filter by cell count. Defaults to True.
+        drop_image_cols (bool, optional): Whether to drop image columns. Defaults to True.
+
+    Returns:
+        Tuple[pd.DataFrame, pd.DataFrame]: A tuple containing the filtered features and metadata dataframes.
+    """
+    if filter_by_intensity:
+        features = features.loc[
+            EllipticEnvelope(contamination=0.01, random_state=42).fit_predict(
+                features[[col for col in features.columns if "ImageQuality_MeanIntensity" in col]]
+            )
+            == 1
+        ]
+    if filter_by_cell_count:
+        mask = np.full(len(features), True)
+        for colname in ["Cytoplasm_Number_Object_Number", "Nuclei_Number_Object_Number"]:
+            mask = mask & (features[colname] >= 50) & (features[colname] <= 350)
+        features = features.loc[mask]
+    if drop_image_cols:
+        features = features.drop(columns=[col for col in features.columns if col.startswith("Image_")])
+
+    metadata_cols = metadata.columns
+    merged_data = metadata.merge(features, on=["Metadata_Source", "Metadata_Plate", "Metadata_Well"])
+    return merged_data.drop(columns=metadata_cols), merged_data[metadata_cols]
