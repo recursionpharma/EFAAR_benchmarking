@@ -35,7 +35,6 @@ def load_cpg16_crispr(data_path: str = "data/") -> tuple[pd.DataFrame, pd.DataFr
     well_file_path = os.path.join(data_path, well_file_name)
     crispr_file_path = os.path.join(data_path, crispr_file_name)
     if not (os.path.exists(plate_file_path) and os.path.exists(well_file_path) and os.path.exists(crispr_file_path)):
-        
         path_to_zip_file = data_path + "tmp.zip"
         wget.download(metadata_source_path, path_to_zip_file)
         with zipfile.ZipFile(path_to_zip_file, "r") as zip_ref:
@@ -61,10 +60,6 @@ def load_cpg16_crispr(data_path: str = "data/") -> tuple[pd.DataFrame, pd.DataFr
 
     features_file_path = os.path.join(data_path, "cpg_features.parquet")
     if not os.path.exists(features_file_path):
-
-        def load_plate_features(path: str):
-            return pd.read_parquet(path, storage_options={"anon": True})
-
         cripsr_plates = metadata[
             ["Metadata_Source", "Metadata_Batch", "Metadata_Plate", "Metadata_PlateType"]
         ].drop_duplicates()
@@ -72,7 +67,8 @@ def load_cpg16_crispr(data_path: str = "data/") -> tuple[pd.DataFrame, pd.DataFr
         with ThreadPoolExecutor(max_workers=10) as executer:
             future_to_plate = {
                 executer.submit(
-                    load_plate_features, cp_feature_source_formatter.format(**row.to_dict())
+                    lambda path: pd.read_parquet(path, storage_options={"anon": True}),
+                    cp_feature_source_formatter.format(**row.to_dict()),
                 ): cp_feature_source_formatter.format(**row.to_dict())
                 for _, row in cripsr_plates.iterrows()
             }
@@ -85,9 +81,10 @@ def load_cpg16_crispr(data_path: str = "data/") -> tuple[pd.DataFrame, pd.DataFr
 
 def load_replogle(gene_type: str, data_type: str, data_path: str = "data/") -> sc.AnnData:
     """
-    Load Replogle et al. 2022 single-cell RNA-seq data for K562 cells  published here: https://pubmed.ncbi.nlm.nih.gov/35688146/
+    Load Replogle et al. 2022 single-cell RNA-seq data for K562 cells  published here:
+        https://pubmed.ncbi.nlm.nih.gov/35688146/
     Four types of K562 data and downloaded using the links at:
-    plus.figshare.com/articles/dataset/_Mapping_information-rich_genotype-phenotype_landscapes_with_genome-scale_Perturb-seq_Replogle_et_al_2022_processed_Perturb-seq_datasets/20029387
+        plus.figshare.com/articles/dataset/_Mapping_information-rich_genotype-phenotype_landscapes_with_genome-scale_Perturb-seq_Replogle_et_al_2022_processed_Perturb-seq_datasets/20029387
 
     Parameters:
     gene_type (str): Type of genes to load. Must be either 'essential' or 'genome_wide'.
