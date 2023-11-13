@@ -122,7 +122,5 @@ def load_replogle(gene_type: str, data_type: str, data_path: str = "data/") -> s
         wget.download(src, data_path + filename)
 
     adata = sc.read_h5ad(data_path + filename)
-    mask = adata.X.isna() | np.isinf(adata.X)
-    print(mask.sum() > 0).sum()
-    # adata.X = np.nan_to_num(adata.X)
+    adata.X = adata.X[:, np.all(~adata.X.isna() & ~np.isinf(adata.X), axis=0)]
     return adata
