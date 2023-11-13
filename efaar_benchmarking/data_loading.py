@@ -111,7 +111,7 @@ def load_replogle(gene_type: str, data_type: str, data_path: str = "data/") -> s
             src = "https://ndownloader.figshare.com/files/35775507"
         elif data_type == "normalized":
             filename = "K562_gwps_normalized_singlecell_01.h5ad"
-            src = "https://ndownloader.figshare.com/files/35773217"
+            src = "https://ndownloader.figshare.com/files/35774440"
         else:
             raise ValueError("data_type must be either raw or normalized")
 
@@ -122,5 +122,5 @@ def load_replogle(gene_type: str, data_type: str, data_path: str = "data/") -> s
         wget.download(src, data_path + filename)
 
     adata = sc.read_h5ad(data_path + filename)
-    adata.X = adata.X[:, np.all(~np.isnan(adata.X) & ~np.isinf(adata.X), axis=0)]
+    adata = adata[:, np.all(~np.isnan(adata.X) & ~np.isinf(adata.X), axis=0)]
     return adata
