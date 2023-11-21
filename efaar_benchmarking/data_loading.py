@@ -35,7 +35,7 @@ def load_cpg16_crispr(data_path: str = "data/") -> tuple[pd.DataFrame, pd.DataFr
     well_file_path = os.path.join(data_path, well_file_name)
     crispr_file_path = os.path.join(data_path, crispr_file_name)
     if not (os.path.exists(plate_file_path) and os.path.exists(well_file_path) and os.path.exists(crispr_file_path)):
-        path_to_zip_file = data_path + "tmp.zip"
+        path_to_zip_file = os.path.join(data_path, "tmp.zip")
         wget.download(metadata_source_path, path_to_zip_file)
         with zipfile.ZipFile(path_to_zip_file, "r") as zip_ref:
             for name in zip_ref.namelist():
@@ -118,9 +118,10 @@ def load_replogle(gene_type: str, data_type: str, data_path: str = "data/") -> s
     else:
         raise ValueError("gene_type must be either essential or genome_wide")
 
-    if not os.path.exists(data_path + filename):
-        wget.download(src, data_path + filename)
+    fn = os.path.join(data_path, filename)
+    if not os.path.exists(fn):
+        wget.download(src, fn)
 
-    adata = sc.read_h5ad(data_path + filename)
+    adata = sc.read_h5ad(fn)
     adata = adata[:, np.all(~np.isnan(adata.X) & ~np.isinf(adata.X), axis=0)]
     return adata

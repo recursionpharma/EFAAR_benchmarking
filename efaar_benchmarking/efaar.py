@@ -25,6 +25,7 @@ def embed_by_scvi_anndata(adata, batch_col=cst.REPLOGLE_BATCH_COL, n_latent=128,
     Returns:
         numpy.ndarray: Embedding of the input data using scVI.
     """
+    adata = adata.copy()
     SCVI.setup_anndata(adata, batch_key=batch_col)
     vae = SCVI(adata, n_hidden=n_hidden, n_latent=n_latent)
     vae.train(use_gpu=True)
@@ -47,6 +48,30 @@ def embed_by_pca_anndata(adata, n_latent=100) -> np.ndarray:
     return adata.obsm["X_pca"]
 
 
+def centerscale(features: np.ndarray, metadata: pd.DataFrame = None, plate_col: Optional[str] = None) -> np.ndarray:
+    """
+    Center and scale the input features.
+
+    Args:
+        features (np.ndarray): Input features to be centered and scaled.
+        metadata (pd.DataFrame): Metadata information for the input features.
+        plate_col (str): Name of the column in metadata that contains plate information.
+
+    Returns:
+        np.ndarray: Centered and scaled features.
+    """
+    if plate_col is None:
+        features = StandardScaler().fit_transform(features)
+    else:
+        if metadata is None:
+            raise ValueError("metadata must be provided if plate_col is not None")
+        unq_plates = metadata[plate_col].unique()
+        for plate in unq_plates:
+            ind = metadata[plate_col] == plate
+            features[ind, :] = StandardScaler().fit_transform(features[ind, :])
+    return features
+
+
 def embed_align_by_pca(
     features: np.ndarray,
     metadata: pd.DataFrame = None,
@@ -58,6 +83,7 @@ def embed_align_by_pca(
     Note that we explicitly center & scale the data by plate before and after calling `PCA`.
     Centering and scaling is done by plate if `plate_col` is not None, and on the whole data otherwise.
     Note that `PCA` transformer also does mean-centering on the whole data prior to the PCA operation.
+
     Args:
         features (np.ndarray): Features to transform
         metadata (pd.DataFrame): Metadata. Defaults to None.
@@ -68,18 +94,6 @@ def embed_align_by_pca(
     Returns:
         np.ndarray: Transformed data using PCA.
     """
-
-    def centerscale(features, metadata, plate_col):
-        if plate_col is None:
-            features = StandardScaler().fit_transform(features)
-        else:
-            if metadata is None:
-                raise ValueError("metadata must be provided if plate_col is not None")
-            unq_plates = metadata[plate_col].unique()
-            for plate in unq_plates:
-                ind = metadata[plate_col] == plate
-                features[ind, :] = StandardScaler().fit_transform(features[ind, :])
-        return features
 
     features = centerscale(features, metadata, plate_col)
     features = PCA(variance_or_ncomp).fit_transform(features)
