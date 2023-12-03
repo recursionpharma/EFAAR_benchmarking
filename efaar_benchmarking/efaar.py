@@ -90,6 +90,7 @@ def embed_align_by_pca(
         variance_or_ncomp (float, optional): Variance or number of components to keep after PCA.
             Defaults to 100 (n_components). If between 0 and 1, select the number of components such that
             the amount of variance that needs to be explained is greater than the percentage specified.
+            If 1, a single component is kept, and if None, all components are kept.
         plate_col (str, optional): Column name for plate metadata. Defaults to None.
     Returns:
         np.ndarray: Transformed data using PCA.
@@ -107,7 +108,7 @@ def align_on_controls(
     metadata: pd.DataFrame,
     scale: bool = True,
     pert_col: str = cst.REPLOGLE_PERT_LABEL_COL,
-    control_key: str = cst.CONTROL_PERT_LABEL,
+    control_key: str = cst.REPLOGLE_CONTROL_PERT_LABEL,
 ) -> np.ndarray:
     """
     Center the embeddings by the control perturbation units in the metadata.
@@ -133,7 +134,7 @@ def aggregate(
     embeddings: np.ndarray,
     metadata: pd.DataFrame,
     pert_col: str = cst.REPLOGLE_PERT_LABEL_COL,
-    control_key: str = cst.CONTROL_PERT_LABEL,
+    control_key: str = cst.REPLOGLE_CONTROL_PERT_LABEL,
     method="mean",
 ) -> Bunch[pd.DataFrame, pd.DataFrame]:
     """
@@ -166,6 +167,26 @@ def aggregate(
         else:
             raise ValueError(f"Invalid aggregation method: {method}")
     return Bunch(features=pd.DataFrame(final_embeddings), metadata=pd.DataFrame.from_dict({pert_col: unique_perts}))
+
+
+def filter_to_perturbations(
+    features: pd.DataFrame, metadata: pd.DataFrame, perts: list[str], pert_col: str = cst.REPLOGLE_PERT_LABEL_COL
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """
+    Filters the features and metadata dataframes based on a list of perturbations.
+
+    Args:
+        features (pd.DataFrame): The features dataframe.
+        metadata (pd.DataFrame): The metadata dataframe.
+        perts (list[str]): A list of perturbations to filter.
+        pert_col (str, optional): The column name in the metadata dataframe that contains the perturbation labels.
+            Defaults to cst.REPLOGLE_PERT_LABEL_COL.
+
+    Returns:
+        tuple[pd.DataFrame, pd.DataFrame]: A tuple containing the filtered features and metadata dataframes.
+    """
+    indices = metadata[pert_col].isin(perts)
+    return features[indices], metadata[indices]
 
 
 def filter_cpg16_crispr(
