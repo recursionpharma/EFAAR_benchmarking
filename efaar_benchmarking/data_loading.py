@@ -9,23 +9,78 @@ import pandas as pd
 import scanpy as sc
 import wget
 
+from efaar_benchmarking.constants import PERISCOPE_PLATE_COL
+
+
+def load_periscope(cell_type="HeLa", normalized=False) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """
+    Load PERISCOPE (cpg0021) data for a specific cell type.
+    Find more information about the dataset here: https://www.biorxiv.org/content/10.1101/2023.08.06.552164v1
+    The files containing metadata and CellProfiler features are downloaded from here:
+        https://cellpainting-gallery.s3.amazonaws.com/index.html#cpg0021-periscope/
+
+    Parameters:
+    cell_type (str, optional): The cell type to load data for. Defaults to "HeLa".
+    normalized (bool, optional): Whether to load normalized data. Defaults to False.
+
+    Returns:
+    tuple[pd.DataFrame, pd.DataFrame]: A tuple containing two DataFrames named `features` and `metadata`,
+        representing the loaded data.
+    """
+    per_data_all = []
+    cp_feature_source_formatter = "s3://cellpainting-gallery/cpg0021-periscope/broad/workspace/profiles/{cell_type}/"
+    if cell_type == "A549":
+        plates = ["A", "B", "C", "D", "E", "F", "G", "H", "N"]
+        if normalized:
+            filename_formatter = "20200805_A549_WG_Screen_guide_normalized_ALLBATCHES___CP186{plate}___ALLWELLS.csv.gz"
+        else:
+            filename_formatter = "20200805_A549_WG_Screen_guide_ALLBATCHES___CP186{plate}___ALLWELLS.csv.gz"
+    elif cell_type == "HeLa":
+        plates = ["A", "B", "D", "F", "H", "J", "K", "L", "N"]
+        if normalized:
+            filename_formatter = "20210422_6W_CP257_guide_normalized_ALLBATCHES___CP257{plate}___ALLWELLS.csv.gz"
+        else:
+            filename_formatter = "20210422_6W_CP257_guide_ALLBATCHES___CP257{plate}___ALLWELLS.csv.gz"
+    else:
+        raise ValueError("cell_type must be either HeLa or A549")
+    cp_feature_source_formatter += filename_formatter
+
+    with ThreadPoolExecutor(max_workers=10) as executer:
+        future_to_plate = {
+            executer.submit(
+                lambda path: pd.read_csv(path, compression="gzip", storage_options={"anon": True}),
+                cp_feature_source_formatter.format(cell_type=cell_type, plate=plate),
+            ): plate
+            for plate in plates
+        }
+        for future in as_completed(future_to_plate):
+            per_data = future.result()
+            per_data[PERISCOPE_PLATE_COL] = future_to_plate[future]
+            per_data_all.append(per_data)
+
+    per_data_all = pd.concat(per_data_all)
+    mcols = ["Metadata_Foci_Barcode_MatchedTo_GeneCode", "Metadata_Foci_Barcode_MatchedTo_Barcode", PERISCOPE_PLATE_COL]
+    metadata = per_data[mcols]
+    features = per_data.drop(mcols, axis=1).dropna(axis=1)
+    return features, metadata
+
 
 def load_cpg16_crispr(data_path: str = "data/") -> tuple[pd.DataFrame, pd.DataFrame]:
     """
-    Load and return the JUMP-CP (cpg0016) CRISPR dataset.
+    Load and return the JUMP-CP (cpg0016) CRISPR dataset CellProfiler features.
+    Find more information about the dataset here: https://www.biorxiv.org/content/10.1101/2023.03.23.534023v2
+    We download the metadata first, filter it to CRISPR plates, and load the features for these plates only.
     The metadata is downloaded from here:
         https://zenodo.org/records/7661296/files/jump-cellpainting/metadata-v0.5.0.zip?download=1
-    The cellprofiler features are downloaded from here:
+    The CellProfiler features corresponding to the appropriate plates are loaded from here:
         https://cellpainting-gallery.s3.amazonaws.com/index.html#cpg0016-jump/
-    We read the metadata first, filter it to CRISPR plates, and download the features for these plates only.
 
     Parameters:
     data_path (str): Path to the directory containing the dataset files.
 
     Returns:
-    tuple[pd.DataFrame, pd.DataFrame]: A tuple containing two DataFrames:
-        - features: A DataFrame containing the CRISPR dataset features.
-        - metadata: A DataFrame containing the CRISPR dataset metadata.
+    tuple[pd.DataFrame, pd.DataFrame]: A tuple containing two DataFrames named `features` and `metadata`,
+        representing the loaded data.
     """
     metadata_source_path = "https://zenodo.org/records/7661296/files/jump-cellpainting/datasets-v0.5.0.zip?download=1"
     plate_file_name = "plate.csv.gz"
@@ -81,8 +136,8 @@ def load_cpg16_crispr(data_path: str = "data/") -> tuple[pd.DataFrame, pd.DataFr
 
 def load_replogle(gene_type: str, data_type: str, data_path: str = "data/") -> sc.AnnData:
     """
-    Load Replogle et al. 2022 single-cell RNA-seq data for K562 cells  published here:
-        https://pubmed.ncbi.nlm.nih.gov/35688146/
+    Load Replogle et al. 2022 single-cell RNA-seq data for K562 cells.
+    Find more information about the dataset here: https://pubmed.ncbi.nlm.nih.gov/35688146/
     Four types of K562 data and downloaded using the links at:
         plus.figshare.com/articles/dataset/_Mapping_information-rich_genotype-phenotype_landscapes_with_genome-scale_Perturb-seq_Replogle_et_al_2022_processed_Perturb-seq_datasets/20029387
 
