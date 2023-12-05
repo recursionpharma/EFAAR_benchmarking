@@ -15,7 +15,7 @@ from efaar_benchmarking.utils import (
 )
 
 
-def univariate_consistency_metric(arr: np.ndarray, null: np.ndarray = None) -> tuple[float, float]:
+def univariate_consistency_metric(arr: np.ndarray, null: np.ndarray = np.array([])) -> tuple[float, float]:
     """
     Calculate the univariate consistency metric, i.e. average cosine angle and associated p-value, for a given array.
 
@@ -32,7 +32,7 @@ def univariate_consistency_metric(arr: np.ndarray, null: np.ndarray = None) -> t
         return np.nan, np.nan
     cosine_sim = cosine_similarity(arr)
     avg_angle = np.arccos(cosine_sim[np.tril_indices(cosine_sim.shape[0], k=-1)]).mean()
-    if null is None:
+    if len(null) == 0:
         return avg_angle, np.nan
     else:
         sorted_null = np.sort(null)
@@ -57,6 +57,8 @@ def univariate_consistency_benchmark(
         pert_col (str): The column name in the metadata dataframe representing the perturbations.
         keys_to_drop (str): The perturbation keys to be dropped from the analysis.
         n_samples (int, optional): The number of samples to generate for null distribution. Defaults to 5000.
+        random_seed (int, optional): The random seed to use for generating null distribution.
+            Defaults to cst.RANDOM_SEED.
 
     Returns:
         pd.DataFrame: The dataframe containing the query metrics.
