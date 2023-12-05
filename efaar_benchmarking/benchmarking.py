@@ -15,7 +15,7 @@ from efaar_benchmarking.utils import (
 )
 
 
-def univariate_consistency_metric(arr: np.ndarray, null=None) -> tuple[float, float]:
+def univariate_consistency_metric(arr: np.ndarray, null: np.ndarray = None) -> tuple[float, float]:
     """
     Calculate the univariate consistency metric, i.e. average cosine angle and associated p-value, for a given array.
 

@@ -131,7 +131,9 @@ def load_cpg16_crispr(data_path: str = "data/") -> tuple[pd.DataFrame, pd.DataFr
                 features.append(future.result())
         pd.concat(features).to_parquet(features_file_path)
     features = pd.read_parquet(features_file_path).dropna(axis=1)
-    return features, metadata
+    metadata_cols = metadata.columns
+    merged_data = metadata.merge(features, on=["Metadata_Source", "Metadata_Plate", "Metadata_Well"])
+    return merged_data.drop(columns=metadata_cols), merged_data[metadata_cols]
 
 
 def load_replogle(gene_type: str, data_type: str, data_path: str = "data/") -> sc.AnnData:
