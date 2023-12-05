@@ -68,12 +68,10 @@ def univariate_consistency_benchmark(
     metadata = metadata[indices]
 
     unique_cardinalities = metadata.groupby(pert_col).count().iloc[:, 0].unique()
+    rng = np.random.default_rng(random_seed)
     null = {
-        x: [
-            univariate_consistency_metric(np.random.default_rng(seed=random_seed).choice(features, x, False))[0]
-            for i in range(n_samples)
-        ]
-        for x in unique_cardinalities
+        c: np.array([univariate_consistency_metric(rng.choice(features, c, False))[0] for i in range(n_samples)])
+        for c in unique_cardinalities
     }
 
     features_df = pd.DataFrame(features, index=metadata[pert_col])
@@ -81,9 +79,7 @@ def univariate_consistency_benchmark(
         lambda x: univariate_consistency_metric(x.values, null[len(x)])[1]
     )
     query_metrics.name = "avg_cossim_pval"
-    query_metrics = query_metrics.reset_index()
-
-    return query_metrics
+    return query_metrics.reset_index()
 
 
 def benchmark(
