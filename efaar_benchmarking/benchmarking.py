@@ -21,12 +21,12 @@ def univariate_consistency_metric(arr: np.ndarray, null: np.ndarray = np.array([
 
     Args:
         arr (numpy.ndarray): The input array.
-        null (numpy.ndarray, optional): Null distribution of the metric. Default is None.
+        null (numpy.ndarray, optional): Null distribution of the metric. Defaults to an empty array.
 
     Returns:
         tuple: A tuple containing the average angle (avg_angle) and p-value (pval) of the metric.
-           If the length of the input array is less than 3, returns (None, None).
-           If null is None, returns (avg_angle, None).
+           If the length of the input array is less than 3, returns (NaN, NaN).
+           If null is empty, returns (avg_angle, NaN).
     """
     if len(arr) < 3:
         return np.nan, np.nan
@@ -45,7 +45,7 @@ def univariate_consistency_benchmark(
     metadata: pd.DataFrame,
     pert_col: str,
     keys_to_drop: str,
-    n_samples: int = 5000,
+    n_samples: int = 10000,
     random_seed: int = cst.RANDOM_SEED,
 ) -> pd.DataFrame:
     """
