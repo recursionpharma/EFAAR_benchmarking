@@ -189,7 +189,7 @@ def filter_to_perturbations(
     return features[indices], metadata[indices]
 
 
-def filter_cpg16_crispr(
+def c(
     features: pd.DataFrame,
     metadata: pd.DataFrame,
     filter_by_intensity: bool = True,
