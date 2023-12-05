@@ -20,9 +20,9 @@ def embed_by_scvi_anndata(
 
     Args:
         adata (anndata.AnnData): The AnnData object to be embedded.
-        batch_col (str): The batch key in the AnnData object. Default is "gem_group".
-        n_latent (int): The number of latent dimensions. Default is 128.
-        n_hidden (int): The number of hidden dimensions. Default is 256.
+        batch_col (str): The batch key in the AnnData object. Defaults to REPLOGLE_BATCH_COL.
+        n_latent (int): The number of latent dimensions. Defaults to 128.
+        n_hidden (int): The number of hidden dimensions. Defaults to 256.
 
     Returns:
         numpy.ndarray: Embedding of the input data using scVI.
@@ -41,7 +41,7 @@ def embed_by_pca_anndata(adata, n_latent: int = 100) -> np.ndarray:
 
     Args:
         adata (AnnData): Annotated data matrix.
-        n_latent (int): Number of principal components to use.
+        n_latent (int): Number of principal components to use. Defaults to 100.
 
     Returns:
         numpy.ndarray: Embedding of the input data using PCA.
