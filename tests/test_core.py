@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from efaar_benchmarking.utils import compute_recall, generate_query_cossims
+from efaar_benchmarking.benchmarking import compute_recall, generate_query_cossims
 
 
 def test_generate_query_cossims():

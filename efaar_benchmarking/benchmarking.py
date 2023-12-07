@@ -1,50 +1,267 @@
 import random
+from pathlib import Path
+from typing import Optional
 
+import numpy as np
 import pandas as pd
+from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.utils import Bunch
 
 import efaar_benchmarking.constants as cst
-from efaar_benchmarking.utils import (
-    compute_recall,
-    convert_metrics_to_df,
-    generate_null_cossims,
-    generate_query_cossims,
-    get_benchmark_relationships,
-)
 
 
-def pert_stats(
-    map_data: Bunch,
-    pert_pval_thr: float = cst.PERT_SIG_PVAL_THR,
-):
+def univariate_consistency_metric(arr: np.ndarray, null: np.ndarray = np.array([])) -> tuple[float, float]:
     """
-    Calculate perturbation statistics based on the provided map data.
+    Calculate the univariate consistency metric, i.e. average cosine angle and associated p-value, for a given array.
 
     Args:
-        map_data (Bunch): Map data containing metadata.
-        pert_pval_thr (float): Perturbation significance threshold. Defaults to cst.PERT_SIG_PVAL_THR.
+        arr (numpy.ndarray): The input array.
+        null (numpy.ndarray, optional): Null distribution of the metric. Defaults to an empty array.
 
     Returns:
-        dict: Dictionary containing perturbation statistics:
-            - "all_pert_count": Total count of perturbations.
-            - "pp_pert_count": Count of perturbations that meet the significance threshold.
-            - "pp_pert_percent": Percentage of perturbations that meet the significance threshold.
+        tuple: A tuple containing the average angle (avg_angle) and p-value (pval) of the metric.
+           If the length of the input array is less than 3, returns (NaN, NaN).
+           If null is empty, returns (avg_angle, NaN).
     """
+    if len(arr) < 3:
+        return np.nan, np.nan
+    cosine_sim = cosine_similarity(arr)
+    avg_angle = np.arccos(cosine_sim[np.tril_indices(cosine_sim.shape[0], k=-1)]).mean()
+    if len(null) == 0:
+        return avg_angle, np.nan
+    else:
+        sorted_null = np.sort(null)
+        pval = np.searchsorted(sorted_null, avg_angle) / len(sorted_null)
+        return avg_angle, pval
 
-    md = map_data.metadata
-    idx = [True] * len(md)
-    pidx = md[cst.PERT_SIG_PVAL_COL] <= pert_pval_thr
-    return {
-        "all_pert_count": sum(idx),
-        "pp_pert_count": sum(idx & pidx),
-        "pp_pert_percent": sum(idx & pidx) / sum(idx),
+
+def univariate_consistency_benchmark(
+    features: np.ndarray,
+    metadata: pd.DataFrame,
+    pert_col: str,
+    keys_to_drop: str,
+    n_samples: int = 10000,
+    random_seed: int = cst.RANDOM_SEED,
+) -> pd.DataFrame:
+    """
+    Perform univariate consistency benchmarking on the given features and metadata.
+
+    Args:
+        features (np.ndarray): The array of features.
+        metadata (pd.DataFrame): The metadata dataframe.
+        pert_col (str): The column name in the metadata dataframe representing the perturbations.
+        keys_to_drop (str): The perturbation keys to be dropped from the analysis.
+        n_samples (int, optional): The number of samples to generate for null distribution. Defaults to 5000.
+        random_seed (int, optional): The random seed to use for generating null distribution.
+            Defaults to cst.RANDOM_SEED.
+
+    Returns:
+        pd.DataFrame: The dataframe containing the query metrics.
+    """
+    indices = ~metadata[pert_col].isin(keys_to_drop)
+    features = features[indices]
+    metadata = metadata[indices]
+
+    unique_cardinalities = metadata.groupby(pert_col).count().iloc[:, 0].unique()
+    rng = np.random.default_rng(random_seed)
+    null = {
+        c: np.array([univariate_consistency_metric(rng.choice(features, c, False))[0] for i in range(n_samples)])
+        for c in unique_cardinalities
     }
 
+    features_df = pd.DataFrame(features, index=metadata[pert_col])
+    query_metrics = features_df.groupby(features_df.index).apply(
+        lambda x: univariate_consistency_metric(x.values, null[len(x)])[1]
+    )
+    query_metrics.name = "avg_cossim_pval"
+    return query_metrics.reset_index()
 
-def benchmark(
+
+def compute_process_cosine_sim(
+    entity1_feats: pd.DataFrame,
+    entity2_feats: pd.DataFrame,
+    filter_to_pairs: Optional[pd.DataFrame] = None,
+) -> np.ndarray:
+    """Compute pairwise cosine similarity between two sets of entities' features.
+
+    Args:
+        entity1_feats (pd.DataFrame): Features of the first set of entities.
+        entity2_feats (pd.DataFrame): Features of the second set of entities.
+        filter_to_pairs (Optional[pd.DataFrame], optional): DataFrame to filter the pairs to. Defaults to None.
+
+    Returns:
+        np.ndarray: A NumPy array containing the cosine similarity values between the pairs of entities.
+    """
+
+    cosi = pd.DataFrame(
+        cosine_similarity(entity1_feats, entity2_feats), index=entity1_feats.index, columns=entity2_feats.index
+    )
+    # convert pairwise cosine similarity matrix to a data frame of triples so that filtering and grouping is easy
+    cosi = cosi.stack()[np.ones(cosi.size).astype("bool")].reset_index()
+    cosi.columns = ["entity1", "entity2", "cosine_sim"]  # type: ignore
+    if filter_to_pairs is not None:
+        cosi = cosi.merge(filter_to_pairs, how="right", on=["entity1", "entity2"])
+    cosi = cosi[cosi.entity1 != cosi.entity2]  # remove self cosine similarities
+    return cosi.cosine_sim.values  # type: ignore
+
+
+def generate_null_cossims(
+    feats: pd.DataFrame,
+    n_sample_entities: int,
+    rseed_entity1: int,
+    rseed_entity2: int,
+) -> np.ndarray:
+    """Generate null cosine similarity values between randomly sampled subsets of entities.
+
+    Args:
+        feats (pd.DataFrame): Features of the first set of entities.
+        n_entities (int): Number of entities to sample for null.
+        rseed_entity1 (int): Random seed for sampling subset from entity1_feats.
+        rseed_entity2 (int): Random seed for sampling subset from entity2_feats.
+
+    Returns:
+        np.ndarray: A NumPy array containing the null cosine similarity values between the randomly sampled subsets
+            of entities.
+    """
+
+    np.random.seed(rseed_entity1)
+    entity1_feats = feats.loc[np.random.choice(list(feats.index.unique()), n_sample_entities)]
+    np.random.seed(rseed_entity2)
+    entity2_feats = feats.loc[np.random.choice(list(feats.index.unique()), n_sample_entities)]
+    return compute_process_cosine_sim(entity1_feats, entity2_feats)
+
+
+def filter_relationships(df: pd.DataFrame):
+    """
+    Filters a DataFrame of relationships between entities, removing any rows with self-relationships, ie. where
+        the same entity appears in both columns, and also removing any duplicate relationships (A-B and B-A).
+
+    Args:
+        df (pd.DataFrame): DataFrame containing columns 'entity1' and 'entity2', representing the entities involved in
+        each relationship.
+
+    Returns:
+        pd.DataFrame: DataFrame containing columns 'entity1' and 'entity2', representing the entities involved in
+        each relationship after removing any rows where the same entity appears in both columns.
+    """
+    df["sorted_entities"] = df.apply(lambda row: tuple(sorted([row.entity1, row.entity2])), axis=1)
+    df["entity1"] = df.sorted_entities.apply(lambda x: x[0])
+    df["entity2"] = df.sorted_entities.apply(lambda x: x[1])
+    return df[["entity1", "entity2"]].query("entity1!=entity2").drop_duplicates()
+
+
+def get_benchmark_relationships(benchmark_data_dir: str, src: str, filter=True):
+    """
+    Reads a CSV file containing benchmark data and returns a filtered DataFrame.
+
+    Args:
+        benchmark_data_dir (str): The directory containing the benchmark data files.
+        src (str): The name of the source containing the benchmark data.
+        filter (bool, optional): Whether to filter the DataFrame. Defaults to True.
+
+    Returns:
+        pd.DataFrame: A DataFrame containing the benchmark relationships.
+    """
+    df = pd.read_csv(Path(benchmark_data_dir).joinpath(src + ".txt"))
+    return filter_relationships(df) if filter else df
+
+
+def generate_query_cossims(
+    feats: pd.DataFrame,
+    gt_source_df: pd.DataFrame,
+    min_req_entity_cnt: int = cst.MIN_REQ_ENT_CNT,
+) -> np.ndarray:
+    """Generate query-specific cosine similarity values between subsets of entities' features.
+
+    Args:
+        feats (pd.DataFrame): Features of the first set of entities.
+        gt_source_df (pd.DataFrame): DataFrame containing ground truth annotation sources.
+        min_req_entity_cnt (int, optional): Minimum required entity count for benchmarking.
+            Defaults to cst.MIN_REQ_ENT_CNT.
+
+    Returns:
+        np.ndarray: A NumPy array containing the query-specific cosine similarity values, or None
+            if there are not enough entities for benchmarking.
+    """
+
+    gt_source_df = gt_source_df[gt_source_df.entity1.isin(feats.index) & gt_source_df.entity2.isin(feats.index)]
+    entity1_feats = feats.loc[list(set(gt_source_df.entity1))]
+    entity2_feats = feats.loc[list(set(gt_source_df.entity2))]
+    if len(set(entity1_feats.index)) >= min_req_entity_cnt and len(set(entity2_feats.index)) >= min_req_entity_cnt:
+        return compute_process_cosine_sim(entity1_feats, entity2_feats, gt_source_df)
+    else:
+        return np.empty(shape=(0, 0))
+
+
+def compute_recall(
+    null_distribution: np.ndarray,
+    query_distribution: np.ndarray,
+    recall_threshold_pairs: list,
+) -> dict:
+    """Compute recall at given percentage thresholds for a query distribution with respect to a null distribution.
+    Each recall threshold is a pair of floats (left, right) where left and right are floats between 0 and 1.
+
+    Args:
+        null_distribution (np.ndarray): The null distribution to compare against
+        query_distribution (np.ndarray): The query distribution
+        recall_threshold_pairs (list) A list of pairs of floats (left, right) that represent different recall threshold
+            pairs, where left and right are floats between 0 and 1.
+
+    Returns:
+        dict: A dictionary of metrics with the following keys:
+            - null_distribution_size: the size of the null distribution
+            - query_distribution_size: the size of the query distribution
+            - recall_{left_threshold}_{right_threshold}: recall at the given percentage threshold pair(s)
+    """
+
+    metrics = {}
+    metrics["null_distribution_size"] = null_distribution.shape[0]
+    metrics["query_distribution_size"] = query_distribution.shape[0]
+
+    sorted_null_distribution = np.sort(null_distribution)
+    query_percentage_ranks_left = np.searchsorted(sorted_null_distribution, query_distribution, side="left") / len(
+        sorted_null_distribution
+    )
+    query_percentage_ranks_right = np.searchsorted(sorted_null_distribution, query_distribution, side="right") / len(
+        sorted_null_distribution
+    )
+    for threshold_pair in recall_threshold_pairs:
+        left_threshold, right_threshold = np.min(threshold_pair), np.max(threshold_pair)
+        metrics[f"recall_{left_threshold}_{right_threshold}"] = sum(
+            (query_percentage_ranks_right <= left_threshold) | (query_percentage_ranks_left >= right_threshold)
+        ) / len(query_distribution)
+    return metrics
+
+
+def convert_metrics_to_df(
+    metrics: dict,
+    source: str,
+    random_seed_str: str,
+    filter_on_pert_prints: bool,
+) -> pd.DataFrame:
+    """
+    Convert metrics dictionary to dataframe to be used in summary.
+
+    Args:
+        metrics (dict): metrics dictionary
+        source (str): benchmark source name
+        random_seed_str (str): random seed string from random seeds 1 and 2
+        filter_on_pert_prints (bool): whether metrics were computed after filtering on perturbation prints or not
+
+    Returns:
+        pd.DataFrame: a dataframe with metrics
+    """
+    metrics_dict_with_list = {key: [value] for key, value in metrics.items()}
+    metrics_dict_with_list["source"] = [source]
+    metrics_dict_with_list["random_seed"] = [random_seed_str]
+    metrics_dict_with_list["filter_on_pert_prints"] = [filter_on_pert_prints]
+    return pd.DataFrame.from_dict(metrics_dict_with_list)
+
+
+def multivariate_benchmark(
     map_data: Bunch,
+    pert_col: str,
     benchmark_sources: list = cst.BENCHMARK_SOURCES,
-    pert_label_col: str = cst.REPLOGLE_PERT_LABEL_COL,
     recall_thr_pairs: list = cst.RECALL_PERC_THRS,
     filter_on_pert_prints: bool = False,
     pert_pval_thr: float = cst.PERT_SIG_PVAL_THR,
@@ -58,8 +275,8 @@ def benchmark(
 
     Args:
         map_data (Bunch): The map data containing `features` and `metadata` attributes.
+        pert_col (str, optional): Column name for perturbation labels.
         benchmark_sources (list, optional): List of benchmark sources. Defaults to cst.BENCHMARK_SOURCES.
-        pert_label_col (str, optional): Column name for perturbation labels. Defaults to cst.PERT_LABEL_COL.
         recall_thr_pairs (list, optional): List of recall percentage threshold pairs. Defaults to cst.RECALL_PERC_THRS.
         filter_on_pert_prints (bool, optional): Flag to filter map data based on perturbation prints. Defaults to False.
         pert_pval_thr (float, optional): pvalue threshold for perturbation filtering. Defaults to cst.PERT_SIG_PVAL_THR.
@@ -81,7 +298,7 @@ def benchmark(
         ValueError("Invalid benchmark source(s) provided.")
     md = map_data.metadata
     idx = (md[cst.PERT_SIG_PVAL_COL] <= pert_pval_thr) if filter_on_pert_prints else [True] * len(md)
-    features = map_data.features[idx].set_index(md[idx][pert_label_col]).rename_axis(index=None)
+    features = map_data.features[idx].set_index(md[idx][pert_col]).rename_axis(index=None)
     del map_data
     if not len(features) == len(set(features.index)):
         ValueError("Duplicate perturbation labels in the map.")
@@ -99,8 +316,8 @@ def benchmark(
         null_cossim = generate_null_cossims(features, n_null_samples, rs1, rs2)
         for s in benchmark_sources:
             rels = get_benchmark_relationships(benchmark_data_dir, s)
-            print(len(rels), "relationships exist in the benchmark source.")
             query_cossim = generate_query_cossims(features, rels)
+            print(len(query_cossim), "relationships are used from the benchmark source", s)
             if len(query_cossim) > 0:
                 metrics_lst.append(
                     convert_metrics_to_df(

@@ -12,15 +12,17 @@ from sklearn.utils import Bunch
 import efaar_benchmarking.constants as cst
 
 
-def embed_by_scvi_anndata(adata, batch_col=cst.REPLOGLE_BATCH_COL, n_latent=128, n_hidden=256) -> np.ndarray:
+def embed_by_scvi_anndata(
+    adata, batch_col: str = cst.REPLOGLE_BATCH_COL, n_latent: int = 128, n_hidden: int = 256
+) -> np.ndarray:
     """
     Embed the input AnnData object using scVI.
 
     Args:
         adata (anndata.AnnData): The AnnData object to be embedded.
-        batch_col (str): The batch key in the AnnData object. Default is "gem_group".
-        n_latent (int): The number of latent dimensions. Default is 128.
-        n_hidden (int): The number of hidden dimensions. Default is 256.
+        batch_col (str): The batch key in the AnnData object. Defaults to REPLOGLE_BATCH_COL.
+        n_latent (int): The number of latent dimensions. Defaults to 128.
+        n_hidden (int): The number of hidden dimensions. Defaults to 256.
 
     Returns:
         numpy.ndarray: Embedding of the input data using scVI.
@@ -32,14 +34,14 @@ def embed_by_scvi_anndata(adata, batch_col=cst.REPLOGLE_BATCH_COL, n_latent=128,
     return vae.get_latent_representation()
 
 
-def embed_by_pca_anndata(adata, n_latent=100) -> np.ndarray:
+def embed_by_pca_anndata(adata, n_latent: int = 100) -> np.ndarray:
     """
     Embed the input data using principal component analysis (PCA).
     Note that the data is centered by the `pca` function prior to PCA transformation.
 
     Args:
         adata (AnnData): Annotated data matrix.
-        n_latent (int): Number of principal components to use.
+        n_latent (int): Number of principal components to use. Defaults to 100.
 
     Returns:
         numpy.ndarray: Embedding of the input data using PCA.
@@ -189,7 +191,7 @@ def filter_to_perturbations(
     return features[indices], metadata[indices]
 
 
-def filter_cpg16_crispr(
+def filter_cell_profiler_features(
     features: pd.DataFrame,
     metadata: pd.DataFrame,
     filter_by_intensity: bool = True,
@@ -197,7 +199,7 @@ def filter_cpg16_crispr(
     drop_image_cols: bool = True,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     """
-    Filter the given features and metadata dataframes based on various criteria.
+    Filter the given cell profiler features and metadata dataframes based on various criteria.
 
     Args:
         features (pd.DataFrame): A dataframe containing the features to filter.
@@ -210,20 +212,18 @@ def filter_cpg16_crispr(
         Tuple[pd.DataFrame, pd.DataFrame]: A tuple containing the filtered features and metadata dataframes.
     """
     if filter_by_intensity:
-        features = features.loc[
-            EllipticEnvelope(contamination=0.01, random_state=42).fit_predict(
-                features[[col for col in features.columns if "ImageQuality_MeanIntensity" in col]]
-            )
-            == 1
-        ]
+        intensity_cols = [col for col in features.columns if "ImageQuality_MeanIntensity" in col]
+        if len(intensity_cols) > 0:
+            mask = EllipticEnvelope(contamination=0.01, random_state=42).fit_predict(features[intensity_cols]) == 1
+            features = features.loc[mask]
+            metadata = metadata.loc[mask]
     if filter_by_cell_count:
         mask = np.full(len(features), True)
         for colname in ["Cytoplasm_Number_Object_Number", "Nuclei_Number_Object_Number"]:
             mask = mask & (features[colname] >= 50) & (features[colname] <= 350)
         features = features.loc[mask]
+        metadata = metadata.loc[mask]
     if drop_image_cols:
         features = features.drop(columns=[col for col in features.columns if col.startswith("Image_")])
 
-    metadata_cols = metadata.columns
-    merged_data = metadata.merge(features, on=["Metadata_Source", "Metadata_Plate", "Metadata_Well"])
-    return merged_data.drop(columns=metadata_cols), merged_data[metadata_cols]
+    return features, metadata
