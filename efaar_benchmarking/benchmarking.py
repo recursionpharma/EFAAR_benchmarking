@@ -316,8 +316,8 @@ def multivariate_benchmark(
         null_cossim = generate_null_cossims(features, n_null_samples, rs1, rs2)
         for s in benchmark_sources:
             rels = get_benchmark_relationships(benchmark_data_dir, s)
-            print(len(rels), "relationships exist in the benchmark source.")
             query_cossim = generate_query_cossims(features, rels)
+            print(len(query_cossim), "relationships are used from the benchmark source", s)
             if len(query_cossim) > 0:
                 metrics_lst.append(
                     convert_metrics_to_df(
