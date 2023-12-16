@@ -5,7 +5,7 @@ import pandas as pd
 import seaborn as sns
 
 
-def plot_recall(metric_dfs: dict):
+def plot_recall(metric_dfs: dict, right_sided: bool = False, title=""):
     """
     Plots line plots of recall values for several threshold pairs for each benchmark source and each map.
 
@@ -14,6 +14,8 @@ def plot_recall(metric_dfs: dict):
         Each dataframe needs to have a "source" column and "recall_X_Y" columns for several [X, Y] pairs.
         Each metric dataframe in the dictionary corresponds to a different map. All the dataframes
         need to have the exact same structure (ie same column names and same source values).
+    right_sided (bool): Whether to plot the right-sided recall values. Default is False.
+    title (str): Title for the entire plot. Default is an empty string.
 
     Returns:
     None
@@ -21,7 +23,10 @@ def plot_recall(metric_dfs: dict):
     df_template = list(metric_dfs.values())[0]  # this is used as the template for the structure and labels of the plots
     recall_thr_pairs = [col.split("_")[1:] for col in df_template.columns if col.startswith("recall_")]
     x_values = [f"{x}, {y}" for x, y in recall_thr_pairs]
-    random_recall_values = [float(x) + 1 - float(y) for x, y in recall_thr_pairs]
+    if right_sided:
+        random_recall_values = [1 - float(y) for x, y in recall_thr_pairs]
+    else:
+        random_recall_values = [float(x) + 1 - float(y) for x, y in recall_thr_pairs]
 
     col_cnt = 5
     sns.set_style("whitegrid")
@@ -29,6 +34,9 @@ def plot_recall(metric_dfs: dict):
         nrows=math.ceil(len(df_template["source"].unique()) / col_cnt), ncols=col_cnt, figsize=(15, 3), squeeze=False
     )
     palette = dict(zip(metric_dfs.keys(), sns.color_palette("tab10", len(metric_dfs))))
+
+    # Set the title for the entire plot
+    fig.suptitle(title)
 
     # Plot each source as a separate subplot
     for i, source in enumerate(df_template["source"].unique()):
