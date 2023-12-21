@@ -12,7 +12,7 @@ import wget
 from efaar_benchmarking.constants import PERISCOPE_PLATE_COL
 
 
-def load_periscope(cell_type="HeLa", normalized=False) -> tuple[pd.DataFrame, pd.DataFrame]:
+def load_periscope(cell_type="HeLa", normalized=True) -> tuple[pd.DataFrame, pd.DataFrame]:
     """
     Load PERISCOPE (cpg0021) data for a specific cell type.
     Find more information about the dataset here: https://www.biorxiv.org/content/10.1101/2023.08.06.552164v1
@@ -21,7 +21,7 @@ def load_periscope(cell_type="HeLa", normalized=False) -> tuple[pd.DataFrame, pd
 
     Parameters:
     cell_type (str, optional): The cell type to load data for. Defaults to "HeLa".
-    normalized (bool, optional): Whether to load normalized data. Defaults to False.
+    normalized (bool, optional): Whether to load normalized data. Defaults to True.
 
     Returns:
     tuple[pd.DataFrame, pd.DataFrame]: A tuple containing two DataFrames named `features` and `metadata`,
