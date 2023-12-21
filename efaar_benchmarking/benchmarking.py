@@ -40,7 +40,7 @@ def univariate_consistency_benchmark(
     metadata: pd.DataFrame,
     pert_col: str,
     keys_to_drop: str,
-    n_samples: int = 10000,
+    n_samples: int = cst.N_NULL_SAMPLES,
     random_seed: int = cst.RANDOM_SEED,
 ) -> pd.DataFrame:
     """
@@ -51,7 +51,8 @@ def univariate_consistency_benchmark(
         metadata (pd.DataFrame): The metadata dataframe.
         pert_col (str): The column name in the metadata dataframe representing the perturbations.
         keys_to_drop (str): The perturbation keys to be dropped from the analysis.
-        n_samples (int, optional): The number of samples to generate for null distribution. Defaults to 5000.
+        n_samples (int, optional): The number of samples to generate for null distribution.
+            Defaults to cst.N_NULL_SAMPLES.
         random_seed (int, optional): The random seed to use for generating null distribution.
             Defaults to cst.RANDOM_SEED.
 
@@ -197,6 +198,7 @@ def compute_recall(
     null_distribution: np.ndarray,
     query_distribution: np.ndarray,
     recall_threshold_pairs: list,
+    right_sided: bool = False,
 ) -> dict:
     """Compute recall at given percentage thresholds for a query distribution with respect to a null distribution.
     Each recall threshold is a pair of floats (left, right) where left and right are floats between 0 and 1.
@@ -206,6 +208,8 @@ def compute_recall(
         query_distribution (np.ndarray): The query distribution
         recall_threshold_pairs (list) A list of pairs of floats (left, right) that represent different recall threshold
             pairs, where left and right are floats between 0 and 1.
+        right_sided (bool, optional): Whether to consider only right tail of the distribution or both tails when
+            computing recall Defaults to False (i.e, both tails).
 
     Returns:
         dict: A dictionary of metrics with the following keys:
@@ -227,9 +231,14 @@ def compute_recall(
     )
     for threshold_pair in recall_threshold_pairs:
         left_threshold, right_threshold = np.min(threshold_pair), np.max(threshold_pair)
-        metrics[f"recall_{left_threshold}_{right_threshold}"] = sum(
-            (query_percentage_ranks_right <= left_threshold) | (query_percentage_ranks_left >= right_threshold)
-        ) / len(query_distribution)
+        if right_sided:
+            metrics[f"recall_{left_threshold}_{right_threshold}"] = sum(
+                query_percentage_ranks_left >= right_threshold
+            ) / len(query_distribution)
+        else:
+            metrics[f"recall_{left_threshold}_{right_threshold}"] = sum(
+                (query_percentage_ranks_right <= left_threshold) | (query_percentage_ranks_left >= right_threshold)
+            ) / len(query_distribution)
     return metrics
 
 
@@ -270,6 +279,7 @@ def multivariate_benchmark(
     n_iterations: int = cst.RANDOM_COUNT,
     min_req_entity_cnt: int = cst.MIN_REQ_ENT_CNT,
     benchmark_data_dir: str = cst.BENCHMARK_DATA_DIR,
+    right_sided: bool = False,
 ) -> pd.DataFrame:
     """Perform benchmarking on map data.
 
@@ -321,7 +331,7 @@ def multivariate_benchmark(
             if len(query_cossim) > 0:
                 metrics_lst.append(
                     convert_metrics_to_df(
-                        metrics=compute_recall(null_cossim, query_cossim, recall_thr_pairs),
+                        metrics=compute_recall(null_cossim, query_cossim, recall_thr_pairs, right_sided),
                         source=s,
                         random_seed_str=random_seed_str,
                         filter_on_pert_prints=filter_on_pert_prints,
