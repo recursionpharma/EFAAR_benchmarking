@@ -35,18 +35,19 @@ def embed_by_scvi_anndata(
     return vae.get_latent_representation()
 
 
-def embed_by_pca_anndata(adata, n_latent: int = 100) -> np.ndarray:
+def embed_by_pca_anndata(adata, n_latent: int = 128) -> np.ndarray:
     """
     Embed the input data using principal component analysis (PCA).
     Note that the data is centered by the `pca` function prior to PCA transformation.
 
     Args:
         adata (AnnData): Annotated data matrix.
-        n_latent (int): Number of principal components to use. Defaults to 100.
+        n_latent (int): Number of principal components to use. Defaults to 128.
 
     Returns:
         numpy.ndarray: Embedding of the input data using PCA.
     """
+    print(n_latent)
     sc.pp.pca(adata, n_comps=n_latent)
     return adata.obsm["X_pca"]
 
@@ -80,7 +81,7 @@ def centerscale_on_plate(
 def embed_by_pca(
     features: np.ndarray,
     metadata: pd.DataFrame = None,
-    variance_or_ncomp=100,
+    variance_or_ncomp=128,
     plate_col: Optional[str] = None,
 ) -> np.ndarray:
     """
