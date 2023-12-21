@@ -94,7 +94,7 @@ def embed_by_pca(
         features (np.ndarray): Features to transform
         metadata (pd.DataFrame): Metadata. Defaults to None.
         variance_or_ncomp (float, optional): Variance or number of components to keep after PCA.
-            Defaults to 100 (n_components). If between 0 and 1, select the number of components such that
+            Defaults to 128 (n_components). If between 0 and 1, select the number of components such that
             the amount of variance that needs to be explained is greater than the percentage specified.
             If 1, a single component is kept, and if None, all components are kept.
         plate_col (str, optional): Column name for plate metadata. Defaults to None.
