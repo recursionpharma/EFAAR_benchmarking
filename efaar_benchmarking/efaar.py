@@ -85,7 +85,7 @@ def embed_by_pca(
 ) -> np.ndarray:
     """
     Embed the whole input data using principal component analysis (PCA).
-    Note that we explicitly center & scale the data before and after calling `PCA`.
+    Note that we explicitly center & scale the data before calling `PCA`.
     Centering and scaling is done by plate if `plate_col` is not None, and on the whole data otherwise.
     Also note that `PCA` transformer also does mean-centering on the whole data prior to the PCA operation.
 
