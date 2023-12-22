@@ -1,4 +1,5 @@
 import random
+from multiprocessing import Pool
 from pathlib import Path
 from typing import Optional
 
@@ -69,11 +70,21 @@ def univariate_consistency_benchmark(
     features_df = pd.DataFrame(features, index=metadata[pert_col])
     rng = np.random.default_rng(random_seed)
     if batch_col is None:
+
+        def generate_null(c, features, rng):
+            return np.array(
+                [univariate_consistency_metric(rng.choice(features, c, False))[0] for i in range(n_samples)]
+            )
+
         unique_cardinalities = metadata.groupby(pert_col).count().iloc[:, 0].unique()
-        null = {
-            c: np.array([univariate_consistency_metric(rng.choice(features, c))[0] for _ in range(n_samples)])
-            for c in unique_cardinalities
-        }
+        with Pool() as p:
+            null = {
+                c: result
+                for c, result in zip(
+                    unique_cardinalities, p.starmap(generate_null, [(c, features, rng) for c in unique_cardinalities])
+                )
+            }
+
         query_metrics = features_df.groupby(features_df.index).apply(
             lambda x: univariate_consistency_metric(x.values, null[len(x)])[1]
         )
