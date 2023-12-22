@@ -95,10 +95,12 @@ def univariate_consistency_benchmark(
             for b, c in bscnts:
                 if (b, c) not in nulls_b_cnt:
                     nulls_b_cnt[(b, c)] = [rng.choice(features_df_batch.loc[b], c, False) for _ in range(n_samples)]
-            null_pert[pert] = np.array([
-                univariate_consistency_metric(np.vstack([nulls_b_cnt[(b, c)][i] for b, c in bscnts]))[0]
-                for i in range(n_samples)
-            ])
+            null_pert[pert] = np.array(
+                [
+                    univariate_consistency_metric(np.vstack([nulls_b_cnt[(b, c)][i] for b, c in bscnts]))[0]
+                    for i in range(n_samples)
+                ]
+            )
         query_metrics = features_df.groupby(features_df.index).apply(
             lambda x: univariate_consistency_metric(x.values, null_pert[x.index])[1]
         )
