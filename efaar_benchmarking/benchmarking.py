@@ -38,6 +38,12 @@ def univariate_consistency_metric(arr: np.ndarray, null: np.ndarray = np.array([
         return avg_angle, pval
 
 
+def generate_null(c, features, rng, n_samples):
+    return np.array(
+        [univariate_consistency_metric(rng.choice(features, c, False))[0] for i in range(n_samples)]
+    )
+
+
 def univariate_consistency_benchmark(
     features: np.ndarray,
     metadata: pd.DataFrame,
@@ -70,12 +76,6 @@ def univariate_consistency_benchmark(
     features_df = pd.DataFrame(features, index=metadata[pert_col])
     rng = np.random.default_rng(random_seed)
     if batch_col is None:
-
-        def generate_null(c, features, rng):
-            return np.array(
-                [univariate_consistency_metric(rng.choice(features, c, False))[0] for i in range(n_samples)]
-            )
-
         unique_cardinalities = metadata.groupby(pert_col, observed=True).count().iloc[:, 0].unique()
         with Pool() as p:
             null = {
