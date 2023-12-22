@@ -76,7 +76,7 @@ def univariate_consistency_benchmark(
                 [univariate_consistency_metric(rng.choice(features, c, False))[0] for i in range(n_samples)]
             )
 
-        unique_cardinalities = metadata.groupby(pert_col).count().iloc[:, 0].unique()
+        unique_cardinalities = metadata.groupby(pert_col, observed=True).count().iloc[:, 0].unique()
         with Pool() as p:
             null = {
                 c: result
@@ -89,7 +89,7 @@ def univariate_consistency_benchmark(
             lambda x: univariate_consistency_metric(x.values, null[len(x)])[1]
         )
     else:
-        cardinalities_df = metadata.groupby(by=[pert_col, batch_col]).size().reset_index(name="count")
+        cardinalities_df = metadata.groupby(by=[pert_col, batch_col], observed=True).size().reset_index(name="count")
         df_perts = (
             cardinalities_df.groupby(by=pert_col)[[batch_col, "count"]]
             .apply(lambda x: list(map(tuple, x.values)))
