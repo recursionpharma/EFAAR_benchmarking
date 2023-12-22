@@ -4,6 +4,8 @@ from typing import Optional
 
 import numpy as np
 import pandas as pd
+
+# from dcor import energy_distance
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.utils import Bunch
 
@@ -39,18 +41,20 @@ def univariate_consistency_benchmark(
     features: np.ndarray,
     metadata: pd.DataFrame,
     pert_col: str,
-    keys_to_drop: str,
+    batch_col: Optional[str] = None,
+    keys_to_drop: list = [],
     n_samples: int = cst.N_NULL_SAMPLES,
     random_seed: int = cst.RANDOM_SEED,
 ) -> pd.DataFrame:
     """
-    Perform univariate consistency benchmarking on the given features and metadata.
+    Perform perturbation consistency benchmarking on the given features and metadata.
 
     Args:
         features (np.ndarray): The array of features.
         metadata (pd.DataFrame): The metadata dataframe.
         pert_col (str): The column name in the metadata dataframe representing the perturbations.
-        keys_to_drop (str): The perturbation keys to be dropped from the analysis.
+        batch_col (str): The column name in the metadata dataframe representing the batches.
+        keys_to_drop (list): The perturbation keys to be dropped from the analysis.
         n_samples (int, optional): The number of samples to generate for null distribution.
             Defaults to cst.N_NULL_SAMPLES.
         random_seed (int, optional): The random seed to use for generating null distribution.
@@ -62,20 +66,56 @@ def univariate_consistency_benchmark(
     indices = ~metadata[pert_col].isin(keys_to_drop)
     features = features[indices]
     metadata = metadata[indices]
-
-    unique_cardinalities = metadata.groupby(pert_col).count().iloc[:, 0].unique()
-    rng = np.random.default_rng(random_seed)
-    null = {
-        c: np.array([univariate_consistency_metric(rng.choice(features, c, False))[0] for i in range(n_samples)])
-        for c in unique_cardinalities
-    }
-
     features_df = pd.DataFrame(features, index=metadata[pert_col])
-    query_metrics = features_df.groupby(features_df.index).apply(
-        lambda x: univariate_consistency_metric(x.values, null[len(x)])[1]
-    )
+
+    if batch_col is None:
+        print(metadata.groupby(pert_col))
+        unique_cardinalities = metadata.groupby(pert_col).count().iloc[:, 0].unique()
+        rng = np.random.default_rng(random_seed)
+        null = {
+            c: np.array([univariate_consistency_metric(rng.choice(features, c, False))[0] for i in range(n_samples)])
+            for c in unique_cardinalities
+        }
+        query_metrics = features_df.groupby(features_df.index).apply(
+            lambda x: univariate_consistency_metric(x.values, null[len(x)])[1]
+        )
+    else:
+        cardinalities_df = metadata.groupby(by=[pert_col, batch_col]).size().reset_index(name="count")
+        df_genes = (
+            cardinalities_df.groupby(by=pert_col)[[batch_col, "count"]]
+            .apply(lambda x: list(map(tuple, x.values)))
+            .reset_index()
+        )
+
+        nulls_b_cnt = {}
+        null_pert = {}
+        features_df_batch = pd.DataFrame(features, index=metadata[batch_col])
+        rng = np.random.default_rng(random_seed)
+        for pert, bscnts in df_genes.itertuples(index=False):
+            print(pert)
+            for b, c in bscnts:
+                if (b, c) not in nulls_b_cnt:
+                    nulls_b_cnt[(b, c)] = [rng.choice(features_df_batch.loc[b], c, False) for _ in range(n_samples)]
+            null_pert[pert] = [
+                univariate_consistency_metric(np.vstack([nulls_b_cnt[(b, c)][i] for b, c in bscnts]))[0]
+                for i in range(n_samples)
+            ]
+        query_metrics = features_df.groupby(features_df.index).apply(
+            lambda x: univariate_consistency_metric(x.values, null_pert[x.index])[1]
+        )
     query_metrics.name = "avg_cossim_pval"
     return query_metrics.reset_index()
+
+
+# def univariate_distance_benchmark(
+#     features: np.ndarray,
+#     metadata: pd.DataFrame,
+#     pert_col: str,
+#     keys_to_drop: str,
+#     n_samples: int = cst.N_NULL_SAMPLES,
+#     random_seed: int = cst.RANDOM_SEED,
+# ) -> pd.DataFrame:
+# energy_distance
 
 
 def compute_process_cosine_sim(
