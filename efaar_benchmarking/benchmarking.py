@@ -27,7 +27,7 @@ def univariate_consistency_metric(arr: np.ndarray, null: np.ndarray = np.array([
     """
     if len(arr) < 3:
         return np.nan, np.nan
-    cosine_sim = cosine_similarity(arr)
+    cosine_sim = np.clip(cosine_similarity(arr), -1, 1)  # to avoid floating point precision errors
     avg_angle = np.arccos(cosine_sim[np.tril_indices(cosine_sim.shape[0], k=-1)]).mean()
     if len(null) == 0:
         return avg_angle, np.nan
@@ -67,13 +67,11 @@ def univariate_consistency_benchmark(
     features = features[indices]
     metadata = metadata[indices]
     features_df = pd.DataFrame(features, index=metadata[pert_col])
-
+    rng = np.random.default_rng(random_seed)
     if batch_col is None:
         unique_cardinalities = metadata.groupby(pert_col).count().iloc[:, 0].unique()
-        print(len(unique_cardinalities))
-        rng = np.random.default_rng(random_seed)
         null = {
-            c: np.array([univariate_consistency_metric(rng.choice(features, c, False))[0] for i in range(n_samples)])
+            c: np.array([univariate_consistency_metric(rng.choice(features, c))[0] for _ in range(n_samples)])
             for c in unique_cardinalities
         }
         query_metrics = features_df.groupby(features_df.index).apply(
@@ -89,12 +87,12 @@ def univariate_consistency_benchmark(
         nulls_b_cnt = {}
         null_pert = {}
         features_df_batch = pd.DataFrame(features, index=metadata[batch_col])
-        rng = np.random.default_rng(random_seed)
         for pert, bscnts in df_perts.itertuples(index=False):
-            print(pert)
             for b, c in bscnts:
                 if (b, c) not in nulls_b_cnt:
-                    nulls_b_cnt[(b, c)] = [rng.choice(features_df_batch.loc[b], c, False) for _ in range(n_samples)]
+                    bfeat = np.array(features_df_batch.loc[b])
+                    nulls_b_cnt[(b, c)] = [rng.choice(bfeat, c) for _ in range(n_samples)]
+
             null_pert[pert] = np.array(
                 [
                     univariate_consistency_metric(np.vstack([nulls_b_cnt[(b, c)][i] for b, c in bscnts]))[0]
@@ -102,7 +100,7 @@ def univariate_consistency_benchmark(
                 ]
             )
         query_metrics = features_df.groupby(features_df.index).apply(
-            lambda x: univariate_consistency_metric(x.values, null_pert[x.index])[1]
+            lambda x: univariate_consistency_metric(x.values, null_pert[x.name])[1]
         )
     query_metrics.name = "avg_cossim_pval"
     return query_metrics.reset_index()
@@ -321,6 +319,7 @@ def multivariate_benchmark(
     min_req_entity_cnt: int = cst.MIN_REQ_ENT_CNT,
     benchmark_data_dir: str = cst.BENCHMARK_DATA_DIR,
     right_sided: bool = False,
+    log_stats: bool = False,
 ) -> pd.DataFrame:
     """Perform benchmarking on map data.
 
@@ -337,6 +336,10 @@ def multivariate_benchmark(
         min_req_entity_cnt (int, optional): Minimum required entity count for benchmarking.
             Defaults to cst.MIN_REQ_ENT_CNT.
         benchmark_data_dir (str, optional): Path to benchmark data directory. Defaults to cst.BENCHMARK_DATA_DIR.
+        right_sided (bool, optional): Whether to consider only right tail of the distribution or both tails.
+            Defaults to False (i.e, both tails).
+        log_stats (bool, optional): Whether to print out the number of statistics used while computing the benchmarks.
+            Defaults to False (i.e, no logging).
 
     Returns:
         pd.DataFrame: a dataframe with benchmarking results. The columns are:
@@ -355,7 +358,8 @@ def multivariate_benchmark(
         ValueError("Duplicate perturbation labels in the map.")
     if not len(features) >= min_req_entity_cnt:
         ValueError("Not enough entities in the map for benchmarking.")
-    print(len(features), "perturbations exist in the map.")
+    if log_stats:
+        print(len(features), "perturbations exist in the map.")
 
     metrics_lst = []
     random.seed(random_seed)
@@ -368,7 +372,8 @@ def multivariate_benchmark(
         for s in benchmark_sources:
             rels = get_benchmark_relationships(benchmark_data_dir, s)
             query_cossim = generate_query_cossims(features, rels)
-            print(len(query_cossim), "relationships are used from the benchmark source", s)
+            if log_stats:
+                print(len(query_cossim), "relationships are used from the benchmark source", s)
             if len(query_cossim) > 0:
                 metrics_lst.append(
                     convert_metrics_to_df(
