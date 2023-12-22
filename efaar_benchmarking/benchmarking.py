@@ -69,8 +69,8 @@ def univariate_consistency_benchmark(
     features_df = pd.DataFrame(features, index=metadata[pert_col])
 
     if batch_col is None:
-        print(metadata.groupby(pert_col))
         unique_cardinalities = metadata.groupby(pert_col).count().iloc[:, 0].unique()
+        print(len(unique_cardinalities))
         rng = np.random.default_rng(random_seed)
         null = {
             c: np.array([univariate_consistency_metric(rng.choice(features, c, False))[0] for i in range(n_samples)])
@@ -81,25 +81,24 @@ def univariate_consistency_benchmark(
         )
     else:
         cardinalities_df = metadata.groupby(by=[pert_col, batch_col]).size().reset_index(name="count")
-        df_genes = (
+        df_perts = (
             cardinalities_df.groupby(by=pert_col)[[batch_col, "count"]]
             .apply(lambda x: list(map(tuple, x.values)))
             .reset_index()
         )
-
         nulls_b_cnt = {}
         null_pert = {}
         features_df_batch = pd.DataFrame(features, index=metadata[batch_col])
         rng = np.random.default_rng(random_seed)
-        for pert, bscnts in df_genes.itertuples(index=False):
+        for pert, bscnts in df_perts.itertuples(index=False):
             print(pert)
             for b, c in bscnts:
                 if (b, c) not in nulls_b_cnt:
                     nulls_b_cnt[(b, c)] = [rng.choice(features_df_batch.loc[b], c, False) for _ in range(n_samples)]
-            null_pert[pert] = [
+            null_pert[pert] = np.array([
                 univariate_consistency_metric(np.vstack([nulls_b_cnt[(b, c)][i] for b, c in bscnts]))[0]
                 for i in range(n_samples)
-            ]
+            ])
         query_metrics = features_df.groupby(features_df.index).apply(
             lambda x: univariate_consistency_metric(x.values, null_pert[x.index])[1]
         )
