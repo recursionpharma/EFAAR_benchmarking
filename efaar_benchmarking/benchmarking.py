@@ -38,10 +38,12 @@ def univariate_consistency_metric(arr: np.ndarray, null: np.ndarray = np.array([
         return avg_angle, pval
 
 
-def generate_null(c, features, rng, n_samples):
-    return np.array(
-        [univariate_consistency_metric(rng.choice(features, c, False))[0] for i in range(n_samples)]
-    )
+def _generate_nulls(c, features, rng, n_samples):
+    return np.array([univariate_consistency_metric(rng.choice(features, c, False))[0] for _ in range(n_samples)])
+
+
+def _generate_batch_nulls(b, c, features_df_batch, rng, n_samples):
+    return ((b, c), [rng.choice(np.array(features_df_batch.loc[b]), c) for _ in range(n_samples)])
 
 
 def univariate_consistency_benchmark(
@@ -81,7 +83,8 @@ def univariate_consistency_benchmark(
             null = {
                 c: result
                 for c, result in zip(
-                    unique_cardinalities, p.starmap(generate_null, [(c, features, rng) for c in unique_cardinalities])
+                    unique_cardinalities,
+                    p.starmap(_generate_nulls, [(c, features, rng, n_samples) for c in unique_cardinalities]),
                 )
             }
 
