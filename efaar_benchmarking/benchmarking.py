@@ -87,13 +87,13 @@ def univariate_consistency_benchmark(
                     p.starmap(_generate_nulls, [(c, features, rng, n_samples) for c in unique_cardinalities]),
                 )
             }
-        query_metrics = features_df.groupby(features_df.index).apply(
+        query_metrics = features_df.groupby(features_df.index, observed=True).apply(
             lambda x: univariate_consistency_metric(x.values, null[len(x)])[1]
         )
     else:
         cardinalities_df = metadata.groupby(by=[pert_col, batch_col], observed=True).size().reset_index(name="count")
         df_perts = (
-            cardinalities_df.groupby(by=pert_col)[[batch_col, "count"]]
+            cardinalities_df.groupby(by=pert_col, observed=True)[[batch_col, "count"]]
             .apply(lambda x: list(map(tuple, x.values)))
             .reset_index()
         )
@@ -112,7 +112,7 @@ def univariate_consistency_benchmark(
                     for i in range(n_samples)
                 ]
             )
-        query_metrics = features_df.groupby(features_df.index).apply(
+        query_metrics = features_df.groupby(features_df.index, observed=True).apply(
             lambda x: univariate_consistency_metric(x.values, null_pert[x.name])[1]
         )
     query_metrics.name = "avg_cossim_pval"
