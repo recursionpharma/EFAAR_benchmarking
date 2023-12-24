@@ -87,7 +87,6 @@ def univariate_consistency_benchmark(
                     p.starmap(_generate_nulls, [(c, features, rng, n_samples) for c in unique_cardinalities]),
                 )
             }
-
         query_metrics = features_df.groupby(features_df.index).apply(
             lambda x: univariate_consistency_metric(x.values, null[len(x)])[1]
         )
