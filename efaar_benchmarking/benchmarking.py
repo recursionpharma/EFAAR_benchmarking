@@ -1,10 +1,11 @@
 import random
-from multiprocessing import Pool
 from pathlib import Path
+from time import time
 from typing import Optional
 
 import numpy as np
 import pandas as pd
+from joblib import Parallel, delayed
 
 # from dcor import energy_distance
 from sklearn.metrics.pairwise import cosine_similarity
@@ -36,14 +37,6 @@ def univariate_consistency_metric(arr: np.ndarray, null: np.ndarray = np.array([
         sorted_null = np.sort(null)
         pval = np.searchsorted(sorted_null, avg_angle) / len(sorted_null)
         return avg_angle, pval
-
-
-def _generate_nulls(c, features, rng, n_samples):
-    return np.array([univariate_consistency_metric(rng.choice(features, c, False))[0] for _ in range(n_samples)])
-
-
-def _generate_batch_nulls(b, c, features_df_batch, rng, n_samples):
-    return ((b, c), [rng.choice(np.array(features_df_batch.loc[b]), c) for _ in range(n_samples)])
 
 
 def univariate_consistency_benchmark(
@@ -79,14 +72,10 @@ def univariate_consistency_benchmark(
     rng = np.random.default_rng(random_seed)
     if batch_col is None:
         unique_cardinalities = metadata.groupby(pert_col, observed=True).count().iloc[:, 0].unique()
-        with Pool() as p:
-            null = {
-                c: result
-                for c, result in zip(
-                    unique_cardinalities,
-                    p.starmap(_generate_nulls, [(c, features, rng, n_samples) for c in unique_cardinalities]),
-                )
-            }
+        null = {
+            c: np.array([univariate_consistency_metric(rng.choice(features, c, False))[0] for i in range(n_samples)])
+            for c in unique_cardinalities
+        }
         query_metrics = features_df.groupby(features_df.index, observed=True).apply(
             lambda x: univariate_consistency_metric(x.values, null[len(x)])[1]
         )
@@ -103,15 +92,15 @@ def univariate_consistency_benchmark(
         for pert, bscnts in df_perts.itertuples(index=False):
             for b, c in bscnts:
                 if (b, c) not in nulls_b_cnt:
-                    bfeat = np.array(features_df_batch.loc[b])
-                    nulls_b_cnt[(b, c)] = [rng.choice(bfeat, c) for _ in range(n_samples)]
-
-            null_pert[pert] = np.array(
-                [
-                    univariate_consistency_metric(np.vstack([nulls_b_cnt[(b, c)][i] for b, c in bscnts]))[0]
-                    for i in range(n_samples)
-                ]
+                    # reshape call in the line below is for the outlier case of when a batch has only 1 sample.
+                    bfeat = np.array(features_df_batch.loc[b]).reshape(-1, features_df_batch.shape[1])
+                    nulls_b_cnt[(b, c)] = bfeat[np.random.randint(0, bfeat.shape[0], (n_samples, c))]
+            result_array = np.concatenate([nulls_b_cnt[(b, c)] for b, c in bscnts], axis=1)
+            t = time()
+            null_pert[pert] = Parallel(n_jobs=5)(
+                delayed(lambda x: univariate_consistency_metric(x)[0])(r) for r in result_array
             )
+            print(f"{pert} has {result_array.shape[1]} samples and took {round(time()-t, 2)} seconds.")
         query_metrics = features_df.groupby(features_df.index, observed=True).apply(
             lambda x: univariate_consistency_metric(x.values, null_pert[x.name])[1]
         )
