@@ -1,7 +1,7 @@
 import random
 from pathlib import Path
 from time import time
-from typing import Optional
+from typing import Optional, Union
 
 import numpy as np
 import pandas as pd
@@ -14,7 +14,9 @@ from sklearn.utils import Bunch
 import efaar_benchmarking.constants as cst
 
 
-def univariate_consistency_metric(arr: np.ndarray, null: np.ndarray = np.array([])) -> tuple[float, float]:
+def univariate_consistency_metric(
+    arr: np.ndarray, null: np.ndarray = np.array([])
+) -> Union[tuple[float, float], float, None]:
     """
     Calculate the univariate consistency metric, i.e. average cosine angle and associated p-value, for a given array.
 
@@ -23,16 +25,17 @@ def univariate_consistency_metric(arr: np.ndarray, null: np.ndarray = np.array([
         null (numpy.ndarray, optional): Null distribution of the metric. Defaults to an empty array.
 
     Returns:
-        tuple: A tuple containing the average angle (avg_angle) and p-value (pval) of the metric.
-           If the length of the input array is less than 3, returns (NaN, NaN).
-           If null is empty, returns (avg_angle, NaN).
+        Union[tuple[float, float], float, None]:
+        - If the length of the input array is less than 3, returns None.
+        - If null is empty, returns the average angle as a float.
+        - If null is not empty, returns a tuple containing the average angle and p-value of the metric.
     """
     if len(arr) < 3:
-        return np.nan, np.nan
+        return None
     cosine_sim = np.clip(cosine_similarity(arr), -1, 1)  # to avoid floating point precision errors
     avg_angle = np.arccos(cosine_sim[np.tril_indices(cosine_sim.shape[0], k=-1)]).mean()
     if len(null) == 0:
-        return avg_angle, np.nan
+        return avg_angle
     else:
         sorted_null = np.sort(null)
         pval = np.searchsorted(sorted_null, avg_angle) / len(sorted_null)
@@ -47,6 +50,7 @@ def univariate_consistency_benchmark(
     keys_to_drop: list = [],
     n_samples: int = cst.N_NULL_SAMPLES,
     random_seed: int = cst.RANDOM_SEED,
+    n_jobs: int = 5,
 ) -> pd.DataFrame:
     """
     Perform perturbation consistency benchmarking on the given features and metadata.
@@ -61,6 +65,7 @@ def univariate_consistency_benchmark(
             Defaults to cst.N_NULL_SAMPLES.
         random_seed (int, optional): The random seed to use for generating null distribution.
             Defaults to cst.RANDOM_SEED.
+        n_jobs (int, optional): The number of jobs to run in parallel. Defaults to 5.
 
     Returns:
         pd.DataFrame: The dataframe containing the query metrics.
@@ -69,15 +74,19 @@ def univariate_consistency_benchmark(
     features = features[indices]
     metadata = metadata[indices]
     features_df = pd.DataFrame(features, index=metadata[pert_col])
-    rng = np.random.default_rng(random_seed)
     if batch_col is None:
         unique_cardinalities = metadata.groupby(pert_col, observed=True).count().iloc[:, 0].unique()
         null = {
-            c: np.array([univariate_consistency_metric(rng.choice(features, c, False))[0] for i in range(n_samples)])
+            c: Parallel(n_jobs=n_jobs)(
+                delayed(univariate_consistency_metric)(
+                    np.random.default_rng(random_seed + r * 50).choice(features, c, False)
+                )
+                for r in range(n_samples)
+            )
             for c in unique_cardinalities
         }
         query_metrics = features_df.groupby(features_df.index, observed=True).apply(
-            lambda x: univariate_consistency_metric(x.values, null[len(x)])[1]
+            lambda x: univariate_consistency_metric(x.values, null[len(x)])[1]  # type: ignore[index]
         )
     else:
         cardinalities_df = metadata.groupby(by=[pert_col, batch_col], observed=True).size().reset_index(name="count")
@@ -89,6 +98,7 @@ def univariate_consistency_benchmark(
         nulls_b_cnt = {}
         null_pert = {}
         features_df_batch = pd.DataFrame(features, index=metadata[batch_col])
+        np.random.seed(random_seed)
         for pert, bscnts in df_perts.itertuples(index=False):
             for b, c in bscnts:
                 if (b, c) not in nulls_b_cnt:
@@ -97,12 +107,12 @@ def univariate_consistency_benchmark(
                     nulls_b_cnt[(b, c)] = bfeat[np.random.randint(0, bfeat.shape[0], (n_samples, c))]
             result_array = np.concatenate([nulls_b_cnt[(b, c)] for b, c in bscnts], axis=1)
             t = time()
-            null_pert[pert] = Parallel(n_jobs=5)(
-                delayed(lambda x: univariate_consistency_metric(x)[0])(r) for r in result_array
+            null_pert[pert] = Parallel(n_jobs=n_jobs)(
+                delayed(lambda x: univariate_consistency_metric(x))(r) for r in result_array
             )
             print(f"{pert} has {result_array.shape[1]} samples and took {round(time()-t, 2)} seconds.")
         query_metrics = features_df.groupby(features_df.index, observed=True).apply(
-            lambda x: univariate_consistency_metric(x.values, null_pert[x.name])[1]
+            lambda x: univariate_consistency_metric(x.values, null_pert[x.name])[1]  # type: ignore[index]
         )
     query_metrics.name = "avg_cossim_pval"
     return query_metrics.reset_index()
@@ -112,11 +122,41 @@ def univariate_consistency_benchmark(
 #     features: np.ndarray,
 #     metadata: pd.DataFrame,
 #     pert_col: str,
-#     keys_to_drop: str,
+#     batch_col: Optional[str] = None,
 #     n_samples: int = cst.N_NULL_SAMPLES,
 #     random_seed: int = cst.RANDOM_SEED,
+#     n_jobs: int = 5,
 # ) -> pd.DataFrame:
-# energy_distance
+#     if batch_col is None:
+#         print('TODO')
+#     else:
+#         cardinalities_df = metadata.groupby(by=[pert_col, batch_col], observed=True).size().reset_index(name="count")
+#         df_perts = (
+#             cardinalities_df.groupby(by=pert_col, observed=True)[[batch_col, "count"]]
+#             .apply(lambda x: list(map(tuple, x.values)))
+#             .reset_index()
+#         )
+#         controls_b = {}
+#         features_df = pd.DataFrame(features, index=metadata[pert_col])
+#         features_df_batch = pd.DataFrame(features, index=metadata[batch_col])
+#         np.random.seed(random_seed)
+#         for pert, bscnts in df_perts.itertuples(index=False):  # TODO: NO NEED TO HAVE BATCH COUNTS HERE
+#             for b, _ in bscnts:
+#                 if b not in controls_b:
+#                     bfeat = features_df_batch.loc[b]
+#                     controls_b[b] = bfeat[bfeat[pert_col] == cst.REPLOGLE_CONTROL_PERT_LABEL]
+#             cf = np.concatenate([controls_b[b] for b, _ in bscnts], axis=1)
+#             gf = features_df.loc[pert]
+#             edist = energy_distance(cf, gf)
+#             df = np.concatenate(cf, gf)
+#             t = time()
+#             null_dist = []
+#             for _ in range(n_samples):
+#                 np.random.shuffle(df)
+#                 null_dist.append(energy_distance(df[0:len(gf), :], df[len(gf):len(df), :]))
+#             query_metrics[pert] = sum(x > edist for x in null_dist)/len(null_dist)
+#     query_metrics.name = "avg_cossim_pval"
+#     return query_metrics.reset_index()
 
 
 def compute_process_cosine_sim(
