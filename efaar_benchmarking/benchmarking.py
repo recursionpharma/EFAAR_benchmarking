@@ -16,7 +16,7 @@ import efaar_benchmarking.constants as cst
 
 def univariate_consistency_metric(
     arr: np.ndarray, null: np.ndarray = np.array([])
-) -> Union[tuple[float, float], float, None]:
+) -> Union[Optional[float], tuple[Optional[float], Optional[float]]]:
     """
     Calculate the univariate consistency metric, i.e. average cosine angle and associated p-value, for a given array.
 
@@ -25,13 +25,14 @@ def univariate_consistency_metric(
         null (numpy.ndarray, optional): Null distribution of the metric. Defaults to an empty array.
 
     Returns:
-        Union[tuple[float, float], float, None]:
-        - If the length of the input array is less than 3, returns None.
-        - If null is empty, returns the average angle as a float.
-        - If null is not empty, returns a tuple containing the average angle and p-value of the metric.
+        Union[Optional[float], tuple[Optional[float], Optional[float]]]:
+        - If null is empty, returns the average angle as a float. If the length of the input array is less than 3,
+            returns None.
+        - If null is not empty, returns a tuple containing the average angle and p-value of the metric. If the length
+            of the input array is less than 3, returns (None, None).
     """
-    if len(arr) < 3:
-        return None
+    if len(arr) < 2:
+        return None if len(null) == 0 else None, None
     cosine_sim = np.clip(cosine_similarity(arr), -1, 1)  # to avoid floating point precision errors
     avg_angle = np.arccos(cosine_sim[np.tril_indices(cosine_sim.shape[0], k=-1)]).mean()
     if len(null) == 0:
@@ -79,7 +80,7 @@ def univariate_consistency_benchmark(
         null = {
             c: Parallel(n_jobs=n_jobs)(
                 delayed(univariate_consistency_metric)(
-                    np.random.default_rng(random_seed + r * 50).choice(features, c, False)
+                    np.random.default_rng(random_seed + r).choice(features, c, False)
                 )
                 for r in range(n_samples)
             )
