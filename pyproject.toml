@@ -42,6 +42,7 @@ dependencies = [
 	"scvi-tools",
 	"scanpy",
 	"wget",
+	"dcor"
 ]
 
 [project.optional-dependencies]

@@ -5,9 +5,8 @@ from typing import Optional, Union
 
 import numpy as np
 import pandas as pd
+from dcor import energy_distance
 from joblib import Parallel, delayed
-
-# from dcor import energy_distance
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.utils import Bunch
 
@@ -108,9 +107,7 @@ def univariate_consistency_benchmark(
                     nulls_b_cnt[(b, c)] = bfeat[np.random.randint(0, bfeat.shape[0], (n_samples, c))]
             result_array = np.concatenate([nulls_b_cnt[(b, c)] for b, c in bscnts], axis=1)
             t = time()
-            null_pert[pert] = Parallel(n_jobs=n_jobs)(
-                delayed(lambda x: univariate_consistency_metric(x))(r) for r in result_array
-            )
+            null_pert[pert] = Parallel(n_jobs=n_jobs)(delayed(univariate_consistency_metric)(r) for r in result_array)
             print(f"{pert} has {result_array.shape[1]} samples and took {round(time()-t, 2)} seconds.")
         query_metrics = features_df.groupby(features_df.index, observed=True).apply(
             lambda x: univariate_consistency_metric(x.values, null_pert[x.name])[1]  # type: ignore[index]
@@ -119,45 +116,47 @@ def univariate_consistency_benchmark(
     return query_metrics.reset_index()
 
 
-# def univariate_distance_benchmark(
-#     features: np.ndarray,
-#     metadata: pd.DataFrame,
-#     pert_col: str,
-#     batch_col: Optional[str] = None,
-#     n_samples: int = cst.N_NULL_SAMPLES,
-#     random_seed: int = cst.RANDOM_SEED,
-#     n_jobs: int = 5,
-# ) -> pd.DataFrame:
-#     if batch_col is None:
-#         print('TODO')
-#     else:
-#         cardinalities_df = metadata.groupby(by=[pert_col, batch_col], observed=True).size().reset_index(name="count")
-#         df_perts = (
-#             cardinalities_df.groupby(by=pert_col, observed=True)[[batch_col, "count"]]
-#             .apply(lambda x: list(map(tuple, x.values)))
-#             .reset_index()
-#         )
-#         controls_b = {}
-#         features_df = pd.DataFrame(features, index=metadata[pert_col])
-#         features_df_batch = pd.DataFrame(features, index=metadata[batch_col])
-#         np.random.seed(random_seed)
-#         for pert, bscnts in df_perts.itertuples(index=False):  # TODO: NO NEED TO HAVE BATCH COUNTS HERE
-#             for b, _ in bscnts:
-#                 if b not in controls_b:
-#                     bfeat = features_df_batch.loc[b]
-#                     controls_b[b] = bfeat[bfeat[pert_col] == cst.REPLOGLE_CONTROL_PERT_LABEL]
-#             cf = np.concatenate([controls_b[b] for b, _ in bscnts], axis=1)
-#             gf = features_df.loc[pert]
-#             edist = energy_distance(cf, gf)
-#             df = np.concatenate(cf, gf)
-#             t = time()
-#             null_dist = []
-#             for _ in range(n_samples):
-#                 np.random.shuffle(df)
-#                 null_dist.append(energy_distance(df[0:len(gf), :], df[len(gf):len(df), :]))
-#             query_metrics[pert] = sum(x > edist for x in null_dist)/len(null_dist)
-#     query_metrics.name = "avg_cossim_pval"
-#     return query_metrics.reset_index()
+def univariate_distance_benchmark(
+    features: np.ndarray,
+    metadata: pd.DataFrame,
+    pert_col: str,
+    control_key: str,
+    batch_col: Optional[str] = None,
+    n_samples: int = cst.N_NULL_SAMPLES,
+    random_seed: int = cst.RANDOM_SEED,
+    n_jobs: int = 5,
+) -> pd.DataFrame:
+    if batch_col is None:
+        print("TODO")
+    else:
+        cardinalities_df = metadata.groupby(by=[pert_col, batch_col], observed=True).size().reset_index(name="count")
+        df_perts = (
+            cardinalities_df.groupby(by=pert_col, observed=True)[[batch_col, "count"]]
+            .apply(lambda x: list(map(tuple, x.values)))
+            .reset_index()
+        )
+        controls_b_c = {}
+        features_df = pd.DataFrame(features, index=metadata[pert_col])
+        features_df_batch = pd.DataFrame(features, index=[metadata[pert_col], metadata[batch_col]])
+        query_metrics = []
+        for pert, bscnts in df_perts.itertuples(index=False):
+            for b, c in bscnts:
+                if (b, c) not in controls_b_c:
+                    controls_b_c[b, c] = np.array(features_df_batch.loc[(control_key, b)])
+            cf = np.concatenate([controls_b_c[(b, c)] for b, c in bscnts], axis=0)
+            gf = features_df.loc[pert]
+            edist = energy_distance(cf, gf)
+            af = np.concatenate((cf, gf))
+            t = time()
+            null_dist = Parallel(n_jobs=n_jobs)(
+                delayed(lambda af: energy_distance(af[0 : len(gf), :], af[len(gf) : len(af), :]))(
+                    np.random.default_rng(random_seed + r).choice(af, len(af), False)
+                )
+                for r in range(n_samples)
+            )
+            print(f"{pert} has {len(gf)} samples and took {round(time()-t, 2)} seconds.")
+            query_metrics.append([pert, sum(x > edist for x in null_dist) / len(null_dist)])
+        return pd.DataFrame(query_metrics, columns=["pert", "avg_edist_pval"])
 
 
 def compute_process_cosine_sim(
