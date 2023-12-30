@@ -5,10 +5,11 @@ from typing import Optional, Union
 
 import numpy as np
 import pandas as pd
-from dcor import energy_distance
+from geomloss import SamplesLoss
 from joblib import Parallel, delayed
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.utils import Bunch
+from torch import from_numpy
 
 import efaar_benchmarking.constants as cst
 
@@ -116,6 +117,40 @@ def univariate_consistency_benchmark(
     return query_metrics.reset_index()
 
 
+def univariate_distance_metric(
+    gf: np.ndarray, cf: np.ndarray, null: np.ndarray = np.array([])
+) -> Union[Optional[float], tuple[Optional[float], Optional[float]]]:
+    """
+    Calculate the univariate consistency metric, i.e. average cosine angle and associated p-value, for a given array.
+
+    Args:
+        gf (numpy.ndarray): The feature array for the perturbation replicates.
+        cf (numpy.ndarray): The feature array for the control replicates.
+        null (numpy.ndarray, optional): Null distribution of the metric. Defaults to an empty array.
+
+    Returns:
+        Union[Optional[float], tuple[Optional[float], Optional[float]]]:
+        - If null is empty, returns the average angle as a float. If the length of the input array is less than 3,
+            returns None.
+        - If null is not empty, returns a tuple containing the average angle and p-value of the metric. If the length
+            of the input array is less than 3, returns (None, None).
+    """
+    if len(gf) < 10:
+        return None if len(null) == 0 else None, None
+    edist = SamplesLoss("energy")(from_numpy(gf), from_numpy(cf)).item() * 2
+    if len(null) == 0:
+        return edist
+    else:
+        sorted_null = np.sort(null)
+        pval = 1 - np.searchsorted(sorted_null, edist, side="right") / len(sorted_null)
+        return edist, pval
+
+
+def univariate_distance_metric_null(rng, af, len_gf):
+    indices = rng.choice(len(af), len(af), replace=False)
+    return univariate_distance_metric(af[indices[:len_gf], :], af[indices[len_gf:], :])
+
+
 def univariate_distance_benchmark(
     features: np.ndarray,
     metadata: pd.DataFrame,
@@ -145,17 +180,14 @@ def univariate_distance_benchmark(
                     controls_b_c[b, c] = np.array(features_df_batch.loc[(control_key, b)])
             cf = np.concatenate([controls_b_c[(b, c)] for b, c in bscnts], axis=0)
             gf = features_df.loc[pert]
-            edist = energy_distance(cf, gf)
             af = np.concatenate((cf, gf))
             t = time()
             null_dist = Parallel(n_jobs=n_jobs)(
-                delayed(lambda af: energy_distance(af[0 : len(gf), :], af[len(gf) : len(af), :]))(
-                    np.random.default_rng(random_seed + r).choice(af, len(af), False)
-                )
+                delayed(univariate_distance_metric_null)(np.random.default_rng(random_seed + r), af, len(gf))
                 for r in range(n_samples)
             )
             print(f"{pert} has {len(gf)} samples and took {round(time()-t, 2)} seconds.")
-            query_metrics.append([pert, sum(x > edist for x in null_dist) / len(null_dist)])
+            query_metrics.append([pert, univariate_distance_metric(gf, cf, null_dist)[1]])  # type: ignore[index]
         return pd.DataFrame(query_metrics, columns=["pert", "avg_edist_pval"])
 
 
