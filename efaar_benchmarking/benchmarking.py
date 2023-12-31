@@ -176,7 +176,12 @@ def univariate_distance_benchmark(
         print("TODO")
     else:
         rng = np.random.default_rng(random_seed)
-        cardinalities_df = metadata.groupby(by=[pert_col, batch_col], observed=True).size().reset_index(name="count")
+        cardinalities_df = (
+            metadata[metadata[pert_col] != control_key]
+            .groupby(by=[pert_col, batch_col], observed=True)
+            .size()
+            .reset_index(name="count")
+        )
         df_perts = (
             cardinalities_df.groupby(by=pert_col, observed=True)[[batch_col, "count"]]
             .apply(lambda x: list(map(tuple, x.values)))
