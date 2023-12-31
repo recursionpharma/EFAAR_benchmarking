@@ -94,8 +94,6 @@ coverage[toml]==7.4.0
     #   pytest-cov
 cycler==0.12.1
     # via matplotlib
-dcor==0.6
-    # via efaar_benchmarking (pyproject.toml)
 debugpy==1.8.0
     # via ipykernel
 decorator==5.1.1
@@ -153,6 +151,8 @@ fsspec[http]==2023.12.2
     #   s3fs
     #   torch
 gcsfs==2023.12.2.post1
+    # via efaar_benchmarking (pyproject.toml)
+geomloss==0.2.6
     # via efaar_benchmarking (pyproject.toml)
 gitdb==4.0.11
     # via gitpython
@@ -239,7 +239,6 @@ jmespath==1.0.1
     # via botocore
 joblib==1.3.2
     # via
-    #   dcor
     #   pynndescent
     #   scanpy
     #   scikit-learn
@@ -280,7 +279,7 @@ jupyter-server==2.12.1
     #   notebook-shim
 jupyter-server-terminals==0.5.1
     # via jupyter-server
-jupyterlab==4.0.9
+jupyterlab==4.0.10
     # via efaar_benchmarking (pyproject.toml)
 jupyterlab-pygments==0.3.0
     # via nbconvert
@@ -379,7 +378,6 @@ notebook-shim==0.2.3
     # via jupyterlab
 numba==0.58.1
     # via
-    #   dcor
     #   pynndescent
     #   scanpy
     #   sparse
@@ -389,8 +387,8 @@ numpy==1.26.2
     #   anndata
     #   chex
     #   contourpy
-    #   dcor
     #   flax
+    #   geomloss
     #   h5py
     #   imageio
     #   jax
@@ -614,7 +612,7 @@ rich==13.7.0
     #   bandit
     #   flax
     #   scvi-tools
-rpds-py==0.15.2
+rpds-py==0.16.2
     # via
     #   jsonschema
     #   referencing
@@ -636,7 +634,6 @@ scikit-learn==1.3.2
 scipy==1.11.4
     # via
     #   anndata
-    #   dcor
     #   jax
     #   jaxlib
     #   pynndescent
@@ -716,6 +713,7 @@ toolz==0.12.0
     # via chex
 torch==2.1.2
     # via
+    #   geomloss
     #   lightning
     #   pyro-ppl
     #   pytorch-lightning
@@ -781,7 +779,7 @@ typing-extensions==4.9.0
     #   orbax-checkpoint
     #   pytorch-lightning
     #   torch
-tzdata==2023.3
+tzdata==2023.4
     # via pandas
 umap-learn==0.5.5
     # via scanpy

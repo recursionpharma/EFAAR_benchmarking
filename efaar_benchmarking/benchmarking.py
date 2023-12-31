@@ -26,10 +26,10 @@ def univariate_consistency_metric(
 
     Returns:
         Union[Optional[float], tuple[Optional[float], Optional[float]]]:
-        - If null is empty, returns the average angle as a float. If the length of the input array is less than 3,
+        - If null is empty, returns the average angle as a float. If the length of the input array is less than 2,
             returns None.
         - If null is not empty, returns a tuple containing the average angle and p-value of the metric. If the length
-            of the input array is less than 3, returns (None, None).
+            of the input array is less than 2, returns (None, None).
     """
     if len(arr) < 2:
         return None if len(null) == 0 else None, None
@@ -118,10 +118,10 @@ def univariate_consistency_benchmark(
 
 
 def univariate_distance_metric(
-    gf: np.ndarray, cf: np.ndarray, null: np.ndarray = np.array([])
+    arr1: np.ndarray, arr2: np.ndarray, null: np.ndarray = np.array([])
 ) -> Union[Optional[float], tuple[Optional[float], Optional[float]]]:
     """
-    Calculate the univariate consistency metric, i.e. average cosine angle and associated p-value, for a given array.
+    Calculate the univariate distance metric, i.e. energy distance and associated p-value, for the two given arrays.
 
     Args:
         gf (numpy.ndarray): The feature array for the perturbation replicates.
@@ -130,14 +130,14 @@ def univariate_distance_metric(
 
     Returns:
         Union[Optional[float], tuple[Optional[float], Optional[float]]]:
-        - If null is empty, returns the average angle as a float. If the length of the input array is less than 3,
-            returns None.
-        - If null is not empty, returns a tuple containing the average angle and p-value of the metric. If the length
-            of the input array is less than 3, returns (None, None).
+        - If null is empty, returns the energy distance between arr1 and arr2 as a float.
+            If the length of the input array is less than 10, returns None.
+        - If null is not empty, returns a tuple containing the energy distance and p-value of the metric.
+            If the length of the input array is less than 10, returns (None, None).
     """
-    if len(gf) < 10:
+    if len(arr1) < 10:
         return None if len(null) == 0 else None, None
-    edist = SamplesLoss("energy")(from_numpy(gf), from_numpy(cf)).item() * 2
+    edist = SamplesLoss("energy")(from_numpy(arr1), from_numpy(arr2)).item() * 2
     if len(null) == 0:
         return edist
     else:
