@@ -175,6 +175,7 @@ def univariate_distance_benchmark(
     if batch_col is None:
         print("TODO")
     else:
+        rng = np.random.default_rng(random_seed)
         cardinalities_df = metadata.groupby(by=[pert_col, batch_col], observed=True).size().reset_index(name="count")
         df_perts = (
             cardinalities_df.groupby(by=pert_col, observed=True)[[batch_col, "count"]]
@@ -188,7 +189,7 @@ def univariate_distance_benchmark(
             gf = np.array(features_df.loc[pert])
             for b, c in bscnts:
                 if (b, c) not in controls_b_c:
-                    controls_b_c[b, c] = np.array(features_df.loc[(control_key, b)])
+                    controls_b_c[b, c] = rng.choice(np.array(features_df.loc[(control_key, b)]), c, replace=False)
             cf = np.concatenate([controls_b_c[(b, c)] for b, c in bscnts], axis=0)
             af = np.concatenate((cf, gf))
             t = time()
