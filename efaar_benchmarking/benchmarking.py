@@ -146,9 +146,20 @@ def univariate_distance_metric(
         return edist, pval
 
 
-def univariate_distance_metric_null(rng, af, len_gf):
-    indices = rng.choice(len(af), len(af), replace=False)
-    return univariate_distance_metric(af[indices[:len_gf], :], af[indices[len_gf:], :])
+def univariate_distance_metric_null(rng, combined_array, len_arr1):
+    """
+    Calculate the univariate distance metric for two arrays in a combined array, given a random number generator.
+
+    Parameters:
+    - rng: The random number generator.
+    - combined_array: The combined input array.
+    - len_arr1: The length of the first part of the input array.
+
+    Returns:
+    - The univariate distance metric between the first and second part of the combined array.
+    """
+    indices = rng.choice(len(combined_array), len(combined_array), replace=False)
+    return univariate_distance_metric(combined_array[indices[:len_arr1], :], combined_array[indices[len_arr1:], :])
 
 
 def univariate_distance_benchmark(
@@ -174,11 +185,11 @@ def univariate_distance_benchmark(
         features_df = pd.DataFrame(features, index=[metadata[pert_col], metadata[batch_col]]).sort_index()
         query_metrics = []
         for pert, bscnts in df_perts.itertuples(index=False):
+            gf = np.array(features_df.loc[pert])
             for b, c in bscnts:
                 if (b, c) not in controls_b_c:
                     controls_b_c[b, c] = np.array(features_df.loc[(control_key, b)])
             cf = np.concatenate([controls_b_c[(b, c)] for b, c in bscnts], axis=0)
-            gf = features_df.loc[pert]
             af = np.concatenate((cf, gf))
             t = time()
             null_dist = Parallel(n_jobs=n_jobs)(
