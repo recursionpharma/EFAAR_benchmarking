@@ -171,13 +171,12 @@ def univariate_distance_benchmark(
             .reset_index()
         )
         controls_b_c = {}
-        features_df = pd.DataFrame(features, index=metadata[pert_col])
-        features_df_batch = pd.DataFrame(features, index=[metadata[pert_col], metadata[batch_col]])
+        features_df = pd.DataFrame(features, index=[metadata[pert_col], metadata[batch_col]]).sort_index()
         query_metrics = []
         for pert, bscnts in df_perts.itertuples(index=False):
             for b, c in bscnts:
                 if (b, c) not in controls_b_c:
-                    controls_b_c[b, c] = np.array(features_df_batch.loc[(control_key, b)])
+                    controls_b_c[b, c] = np.array(features_df.loc[(control_key, b)])
             cf = np.concatenate([controls_b_c[(b, c)] for b, c in bscnts], axis=0)
             gf = features_df.loc[pert]
             af = np.concatenate((cf, gf))
