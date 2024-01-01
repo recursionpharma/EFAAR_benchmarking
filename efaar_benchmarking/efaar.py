@@ -47,7 +47,7 @@ def embed_by_pca_anndata(adata, n_latent: int = 128) -> np.ndarray:
     Returns:
         numpy.ndarray: Embedding of the input data using PCA.
     """
-    print(n_latent)
+    adata = adata.copy()
     sc.pp.pca(adata, n_comps=n_latent)
     return adata.obsm["X_pca"]
 
@@ -141,6 +141,7 @@ def tvn_on_controls(
 ) -> np.ndarray:
     """
     Apply TVN (Typical Variation Normalization) to the data based on the control perturbation units.
+    Note that the data is first centered and scaled based on the control units.
 
     Args:
         embeddings (np.ndarray): The embeddings to be normalized.
@@ -151,6 +152,7 @@ def tvn_on_controls(
     Returns:
         np.ndarray: The normalized embeddings.
     """
+    embeddings = centerscale_on_controls(embeddings, metadata, pert_col, control_key)
     ctrl_ind = metadata[pert_col] == control_key
     embeddings = PCA().fit(embeddings[ctrl_ind]).transform(embeddings)
     embeddings = centerscale_on_controls(embeddings, metadata, pert_col, control_key)

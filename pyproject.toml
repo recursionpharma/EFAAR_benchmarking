@@ -42,6 +42,7 @@ dependencies = [
 	"scvi-tools",
 	"scanpy",
 	"wget",
+	"geomloss"
 ]
 
 [project.optional-dependencies]

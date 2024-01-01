@@ -1,16 +1,22 @@
 import random
 from pathlib import Path
-from typing import Optional
+from time import time
+from typing import Optional, Union
 
 import numpy as np
 import pandas as pd
+from geomloss import SamplesLoss
+from joblib import Parallel, delayed
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.utils import Bunch
+from torch import from_numpy
 
 import efaar_benchmarking.constants as cst
 
 
-def univariate_consistency_metric(arr: np.ndarray, null: np.ndarray = np.array([])) -> tuple[float, float]:
+def univariate_consistency_metric(
+    arr: np.ndarray, null: np.ndarray = np.array([])
+) -> Union[Optional[float], tuple[Optional[float], Optional[float]]]:
     """
     Calculate the univariate consistency metric, i.e. average cosine angle and associated p-value, for a given array.
 
@@ -19,16 +25,18 @@ def univariate_consistency_metric(arr: np.ndarray, null: np.ndarray = np.array([
         null (numpy.ndarray, optional): Null distribution of the metric. Defaults to an empty array.
 
     Returns:
-        tuple: A tuple containing the average angle (avg_angle) and p-value (pval) of the metric.
-           If the length of the input array is less than 3, returns (NaN, NaN).
-           If null is empty, returns (avg_angle, NaN).
+        Union[Optional[float], tuple[Optional[float], Optional[float]]]:
+        - If null is empty, returns the average angle as a float. If the length of the input array is less than 2,
+            returns None.
+        - If null is not empty, returns a tuple containing the average angle and p-value of the metric. If the length
+            of the input array is less than 2, returns (None, None).
     """
-    if len(arr) < 3:
-        return np.nan, np.nan
-    cosine_sim = cosine_similarity(arr)
+    if len(arr) < 2:
+        return None if len(null) == 0 else None, None
+    cosine_sim = np.clip(cosine_similarity(arr), -1, 1)  # to avoid floating point precision errors
     avg_angle = np.arccos(cosine_sim[np.tril_indices(cosine_sim.shape[0], k=-1)]).mean()
     if len(null) == 0:
-        return avg_angle, np.nan
+        return avg_angle
     else:
         sorted_null = np.sort(null)
         pval = np.searchsorted(sorted_null, avg_angle) / len(sorted_null)
@@ -39,22 +47,26 @@ def univariate_consistency_benchmark(
     features: np.ndarray,
     metadata: pd.DataFrame,
     pert_col: str,
-    keys_to_drop: str,
+    batch_col: Optional[str] = None,
+    keys_to_drop: list = [],
     n_samples: int = cst.N_NULL_SAMPLES,
     random_seed: int = cst.RANDOM_SEED,
+    n_jobs: int = 5,
 ) -> pd.DataFrame:
     """
-    Perform univariate consistency benchmarking on the given features and metadata.
+    Perform perturbation consistency benchmarking on the given features and metadata.
 
     Args:
         features (np.ndarray): The array of features.
         metadata (pd.DataFrame): The metadata dataframe.
         pert_col (str): The column name in the metadata dataframe representing the perturbations.
-        keys_to_drop (str): The perturbation keys to be dropped from the analysis.
+        batch_col (str): The column name in the metadata dataframe representing the batches.
+        keys_to_drop (list): The perturbation keys to be dropped from the analysis.
         n_samples (int, optional): The number of samples to generate for null distribution.
             Defaults to cst.N_NULL_SAMPLES.
         random_seed (int, optional): The random seed to use for generating null distribution.
             Defaults to cst.RANDOM_SEED.
+        n_jobs (int, optional): The number of jobs to run in parallel. Defaults to 5.
 
     Returns:
         pd.DataFrame: The dataframe containing the query metrics.
@@ -62,20 +74,156 @@ def univariate_consistency_benchmark(
     indices = ~metadata[pert_col].isin(keys_to_drop)
     features = features[indices]
     metadata = metadata[indices]
-
-    unique_cardinalities = metadata.groupby(pert_col).count().iloc[:, 0].unique()
-    rng = np.random.default_rng(random_seed)
-    null = {
-        c: np.array([univariate_consistency_metric(rng.choice(features, c, False))[0] for i in range(n_samples)])
-        for c in unique_cardinalities
-    }
-
     features_df = pd.DataFrame(features, index=metadata[pert_col])
-    query_metrics = features_df.groupby(features_df.index).apply(
-        lambda x: univariate_consistency_metric(x.values, null[len(x)])[1]
-    )
-    query_metrics.name = "avg_cossim_pval"
-    return query_metrics.reset_index()
+    if batch_col is None:
+        unique_cardinalities = metadata.groupby(pert_col, observed=True).count().iloc[:, 0].unique()
+        null = {
+            c: Parallel(n_jobs=n_jobs)(
+                delayed(univariate_consistency_metric)(
+                    np.random.default_rng(random_seed + r).choice(features, c, False)
+                )
+                for r in range(n_samples)
+            )
+            for c in unique_cardinalities
+        }
+        query_metrics = (
+            features_df.groupby(features_df.index, observed=True)
+            .apply(lambda x: univariate_consistency_metric(x.values, null[len(x)])[1])  # type: ignore[index]
+            .reset_index()
+        )
+        query_metrics.columns = ["pert", "pval"]
+        return query_metrics
+    else:
+        cardinalities_df = metadata.groupby(by=[pert_col, batch_col], observed=True).size().reset_index(name="count")
+        df_perts = (
+            cardinalities_df.groupby(by=pert_col, observed=True)[[batch_col, "count"]]
+            .apply(lambda x: list(map(tuple, x.values)))
+            .reset_index()
+        )
+        nulls_b_cnt = {}
+        features_df_batch = pd.DataFrame(features, index=metadata[batch_col])
+        np.random.seed(random_seed)
+        query_metrics = []
+        for pert, bscnts in df_perts.itertuples(index=False):
+            for b, c in bscnts:
+                if (b, c) not in nulls_b_cnt:
+                    # reshape call in the line below is for the outlier case of when a batch has only 1 sample.
+                    bfeat = np.array(features_df_batch.loc[b]).reshape(-1, features_df_batch.shape[1])
+                    nulls_b_cnt[(b, c)] = bfeat[np.random.randint(0, bfeat.shape[0], (n_samples, c))]
+            result_array = np.concatenate([nulls_b_cnt[(b, c)] for b, c in bscnts], axis=1)
+            t = time()
+            null_dist = Parallel(n_jobs=n_jobs)(delayed(univariate_consistency_metric)(r) for r in result_array)
+            print(f"{pert} has {result_array.shape[1]} samples and took {round(time()-t, 2)} seconds.")
+            met, pv = univariate_consistency_metric(features_df.loc[pert].values, null_dist)  # type: ignore[misc]
+            query_metrics.append([pert, met, pv])
+        return pd.DataFrame(query_metrics, columns=["pert", "angle", "pval"])
+
+
+def univariate_distance_metric(
+    arr1: np.ndarray, arr2: np.ndarray, null: np.ndarray = np.array([])
+) -> Union[Optional[float], tuple[Optional[float], Optional[float]]]:
+    """
+    Calculate the univariate distance metric, i.e. energy distance and associated p-value, for the two given arrays.
+
+    Args:
+        gf (numpy.ndarray): The feature array for the perturbation replicates.
+        cf (numpy.ndarray): The feature array for the control replicates.
+        null (numpy.ndarray, optional): Null distribution of the metric. Defaults to an empty array.
+
+    Returns:
+        Union[Optional[float], tuple[Optional[float], Optional[float]]]:
+        - If null is empty, returns the energy distance between arr1 and arr2 as a float.
+            If the length of the input array is less than 10, returns None.
+        - If null is not empty, returns a tuple containing the energy distance and p-value of the metric.
+            If the length of the input array is less than 10, returns (None, None).
+    """
+    if len(arr1) < 10:
+        return None if len(null) == 0 else None, None
+    edist = SamplesLoss("energy")(from_numpy(arr1), from_numpy(arr2)).item() * 2
+    if len(null) == 0:
+        return edist
+    else:
+        sorted_null = np.sort(null)
+        pval = 1 - np.searchsorted(sorted_null, edist, side="right") / len(sorted_null)
+        return edist, pval
+
+
+def univariate_distance_metric_null(rng, combined_array, len_arr1):
+    """
+    Calculate the univariate distance metric for two arrays in a combined array, given a random number generator.
+
+    Parameters:
+    - rng: The random number generator.
+    - combined_array: The combined input array.
+    - len_arr1: The length of the first part of the input array.
+
+    Returns:
+    - The univariate distance metric between the first and second part of the combined array.
+    """
+    indices = rng.choice(len(combined_array), len(combined_array), replace=False)
+    return univariate_distance_metric(combined_array[indices[:len_arr1], :], combined_array[indices[len_arr1:], :])
+
+
+def univariate_distance_benchmark(
+    features: np.ndarray,
+    metadata: pd.DataFrame,
+    pert_col: str,
+    control_key: str,
+    batch_col: Optional[str] = None,
+    n_samples: int = cst.N_NULL_SAMPLES,
+    random_seed: int = cst.RANDOM_SEED,
+    n_jobs: int = 5,
+) -> pd.DataFrame:
+    """
+    Perform univariate distance benchmarking, comparing the controls to the perturbations using the energy distance.
+
+    Args:
+        features (np.ndarray): Array of features.
+        metadata (pd.DataFrame): DataFrame containing metadata.
+        pert_col (str): Column name for perturbation.
+        control_key (str): Control key value.
+        batch_col (Optional[str], optional): Column name for batch. Defaults to None.
+        n_samples (int, optional): Number of null samples. Defaults to cst.N_NULL_SAMPLES.
+        random_seed (int, optional): Random seed. Defaults to cst.RANDOM_SEED.
+        n_jobs (int, optional): Number of parallel jobs. Defaults to 5.
+
+    Returns:
+        pd.DataFrame: DataFrame containing query metrics.
+    """
+    if batch_col is None:
+        print("TODO")
+    else:
+        rng = np.random.default_rng(random_seed)
+        cardinalities_df = (
+            metadata[metadata[pert_col] != control_key]
+            .groupby(by=[pert_col, batch_col], observed=True)
+            .size()
+            .reset_index(name="count")
+        )
+        df_perts = (
+            cardinalities_df.groupby(by=pert_col, observed=True)[[batch_col, "count"]]
+            .apply(lambda x: list(map(tuple, x.values)))
+            .reset_index()
+        )
+        controls_b_c = {}
+        features_df = pd.DataFrame(features, index=[metadata[pert_col], metadata[batch_col]]).sort_index()
+        query_metrics = []
+        for pert, bscnts in df_perts.itertuples(index=False):
+            gf = np.array(features_df.loc[pert])
+            for b, c in bscnts:
+                if (b, c) not in controls_b_c:
+                    controls_b_c[b, c] = rng.choice(np.array(features_df.loc[(control_key, b)]), c, replace=False)
+            cf = np.concatenate([controls_b_c[(b, c)] for b, c in bscnts], axis=0)
+            af = np.concatenate((cf, gf))
+            t = time()
+            null_dist = Parallel(n_jobs=n_jobs)(
+                delayed(univariate_distance_metric_null)(np.random.default_rng(random_seed + r), af, len(gf))
+                for r in range(n_samples)
+            )
+            print(f"{pert} has {len(gf)} samples and took {round(time()-t, 2)} seconds.")
+            met, pv = univariate_distance_metric(gf, cf, null_dist)  # type: ignore[misc]
+            query_metrics.append([pert, met, pv])
+        return pd.DataFrame(query_metrics, columns=["pert", "edist", "pval"])
 
 
 def compute_process_cosine_sim(
@@ -280,6 +428,7 @@ def multivariate_benchmark(
     min_req_entity_cnt: int = cst.MIN_REQ_ENT_CNT,
     benchmark_data_dir: str = cst.BENCHMARK_DATA_DIR,
     right_sided: bool = False,
+    log_stats: bool = False,
 ) -> pd.DataFrame:
     """Perform benchmarking on map data.
 
@@ -296,6 +445,10 @@ def multivariate_benchmark(
         min_req_entity_cnt (int, optional): Minimum required entity count for benchmarking.
             Defaults to cst.MIN_REQ_ENT_CNT.
         benchmark_data_dir (str, optional): Path to benchmark data directory. Defaults to cst.BENCHMARK_DATA_DIR.
+        right_sided (bool, optional): Whether to consider only right tail of the distribution or both tails.
+            Defaults to False (i.e, both tails).
+        log_stats (bool, optional): Whether to print out the number of statistics used while computing the benchmarks.
+            Defaults to False (i.e, no logging).
 
     Returns:
         pd.DataFrame: a dataframe with benchmarking results. The columns are:
@@ -314,7 +467,8 @@ def multivariate_benchmark(
         ValueError("Duplicate perturbation labels in the map.")
     if not len(features) >= min_req_entity_cnt:
         ValueError("Not enough entities in the map for benchmarking.")
-    print(len(features), "perturbations exist in the map.")
+    if log_stats:
+        print(len(features), "perturbations exist in the map.")
 
     metrics_lst = []
     random.seed(random_seed)
@@ -327,7 +481,8 @@ def multivariate_benchmark(
         for s in benchmark_sources:
             rels = get_benchmark_relationships(benchmark_data_dir, s)
             query_cossim = generate_query_cossims(features, rels)
-            print(len(query_cossim), "relationships are used from the benchmark source", s)
+            if log_stats:
+                print(len(query_cossim), "relationships are used from the benchmark source", s)
             if len(query_cossim) > 0:
                 metrics_lst.append(
                     convert_metrics_to_df(
