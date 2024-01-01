@@ -172,6 +172,22 @@ def univariate_distance_benchmark(
     random_seed: int = cst.RANDOM_SEED,
     n_jobs: int = 5,
 ) -> pd.DataFrame:
+    """
+    Perform univariate distance benchmarking, comparing the controls to the perturbations using the energy distance.
+
+    Args:
+        features (np.ndarray): Array of features.
+        metadata (pd.DataFrame): DataFrame containing metadata.
+        pert_col (str): Column name for perturbation.
+        control_key (str): Control key value.
+        batch_col (Optional[str], optional): Column name for batch. Defaults to None.
+        n_samples (int, optional): Number of null samples. Defaults to cst.N_NULL_SAMPLES.
+        random_seed (int, optional): Random seed. Defaults to cst.RANDOM_SEED.
+        n_jobs (int, optional): Number of parallel jobs. Defaults to 5.
+
+    Returns:
+        pd.DataFrame: DataFrame containing query metrics.
+    """
     if batch_col is None:
         print("TODO")
     else:
