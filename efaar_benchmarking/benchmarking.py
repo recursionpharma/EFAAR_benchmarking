@@ -114,7 +114,9 @@ def univariate_consistency_benchmark(
             t = time()
             null_dist = Parallel(n_jobs=n_jobs)(delayed(univariate_consistency_metric)(r) for r in result_array)
             print(f"{pert} has {result_array.shape[1]} samples and took {round(time()-t, 2)} seconds.")
-            met, pv = univariate_consistency_metric(features_df.loc[pert].values, null_dist)  # type: ignore[misc]
+            met, pv = univariate_consistency_metric(  # type: ignore[misc]
+                np.array(features_df.loc[pert]).reshape(-1, features_df.shape[1]), null_dist
+            )
             query_metrics.append([pert, met, pv])
         return pd.DataFrame(query_metrics, columns=["pert", "angle", "pval"])
 
