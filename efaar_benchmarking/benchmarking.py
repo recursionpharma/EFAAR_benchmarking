@@ -86,9 +86,13 @@ def univariate_consistency_benchmark(
             )
             for c in unique_cardinalities
         }
-        query_metrics = features_df.groupby(features_df.index, observed=True).apply(
-            lambda x: univariate_consistency_metric(x.values, null[len(x)])[1]  # type: ignore[index]
+        query_metrics = (
+            features_df.groupby(features_df.index, observed=True)
+            .apply(lambda x: univariate_consistency_metric(x.values, null[len(x)])[1])  # type: ignore[index]
+            .reset_index()
         )
+        query_metrics.columns = ["pert", "pval"]
+        return query_metrics
     else:
         cardinalities_df = metadata.groupby(by=[pert_col, batch_col], observed=True).size().reset_index(name="count")
         df_perts = (
@@ -97,9 +101,9 @@ def univariate_consistency_benchmark(
             .reset_index()
         )
         nulls_b_cnt = {}
-        null_pert = {}
         features_df_batch = pd.DataFrame(features, index=metadata[batch_col])
         np.random.seed(random_seed)
+        query_metrics = []
         for pert, bscnts in df_perts.itertuples(index=False):
             for b, c in bscnts:
                 if (b, c) not in nulls_b_cnt:
@@ -108,13 +112,11 @@ def univariate_consistency_benchmark(
                     nulls_b_cnt[(b, c)] = bfeat[np.random.randint(0, bfeat.shape[0], (n_samples, c))]
             result_array = np.concatenate([nulls_b_cnt[(b, c)] for b, c in bscnts], axis=1)
             t = time()
-            null_pert[pert] = Parallel(n_jobs=n_jobs)(delayed(univariate_consistency_metric)(r) for r in result_array)
+            null_dist = Parallel(n_jobs=n_jobs)(delayed(univariate_consistency_metric)(r) for r in result_array)
             print(f"{pert} has {result_array.shape[1]} samples and took {round(time()-t, 2)} seconds.")
-        query_metrics = features_df.groupby(features_df.index, observed=True).apply(
-            lambda x: univariate_consistency_metric(x.values, null_pert[x.name])[1]  # type: ignore[index]
-        )
-    query_metrics.name = "avg_cossim_pval"
-    return query_metrics.reset_index()
+            met, pv = univariate_consistency_metric(features_df.loc[pert].values, null_dist)  # type: ignore[misc]
+            query_metrics.append([pert, met, pv])
+        return pd.DataFrame(query_metrics, columns=["pert", "angle", "pval"])
 
 
 def univariate_distance_metric(
@@ -219,8 +221,9 @@ def univariate_distance_benchmark(
                 for r in range(n_samples)
             )
             print(f"{pert} has {len(gf)} samples and took {round(time()-t, 2)} seconds.")
-            query_metrics.append([pert, univariate_distance_metric(gf, cf, null_dist)[1]])  # type: ignore[index]
-        return pd.DataFrame(query_metrics, columns=["pert", "avg_edist_pval"])
+            met, pv = univariate_distance_metric(gf, cf, null_dist)  # type: ignore[misc]
+            query_metrics.append([pert, met, pv])
+        return pd.DataFrame(query_metrics, columns=["pert", "edist", "pval"])
 
 
 def compute_process_cosine_sim(
