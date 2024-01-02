@@ -60,8 +60,8 @@ def load_periscope(cell_type="HeLa", normalized=True) -> tuple[pd.DataFrame, pd.
 
     per_data_all = pd.concat(per_data_all)
     mcols = ["Metadata_Foci_Barcode_MatchedTo_GeneCode", "Metadata_Foci_Barcode_MatchedTo_Barcode", PERISCOPE_PLATE_COL]
-    metadata = per_data[mcols]
-    features = per_data.drop(mcols, axis=1).dropna(axis=1)
+    metadata = per_data_all[mcols]
+    features = per_data_all.drop(mcols, axis=1).dropna(axis=1)
     return features, metadata
 
 
