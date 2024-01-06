@@ -16,9 +16,8 @@ REPLOGLE_BATCH_COL = "gem_group"
 
 JUMP_CONTROL_PERT_LABEL = "non-targeting"
 JUMP_PERT_LABEL_COL = "Metadata_Symbol"
-JUMP_PLATE_COL = "Metadata_Plate"
-JUMP_BATCH_COL = "Metadata_Batch"
+JUMP_BATCH_COL = "Metadata_Plate"
 
 PERISCOPE_CONTROL_PERT_LABEL = "nontargeting"
 PERISCOPE_PERT_LABEL_COL = "Metadata_Foci_Barcode_MatchedTo_GeneCode"
-PERISCOPE_PLATE_COL = "Metadata_Plate"
+PERISCOPE_BATCH_COL = "Metadata_Plate"
