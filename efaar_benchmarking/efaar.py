@@ -52,28 +52,28 @@ def embed_by_pca_anndata(adata, n_latent: int = 128) -> np.ndarray:
     return adata.obsm["X_pca"]
 
 
-def centerscale_on_plate(
-    features: np.ndarray, metadata: pd.DataFrame = None, plate_col: Optional[str] = None
+def centerscale_on_batch(
+    features: np.ndarray, metadata: pd.DataFrame = None, batch_col: Optional[str] = None
 ) -> np.ndarray:
     """
-    Center and scale the input features based on the plate information.
+    Center and scale the input features based on the batch information.
 
     Args:
         features (np.ndarray): Input features to be centered and scaled.
         metadata (pd.DataFrame): Metadata information for the input features.
-        plate_col (str): Name of the column in metadata that contains plate information.
+        batch_col (str): Name of the column in metadata that contains batch information.
 
     Returns:
         np.ndarray: Centered and scaled features.
     """
-    if plate_col is None:
+    if batch_col is None:
         features = StandardScaler().fit_transform(features)
     else:
         if metadata is None:
-            raise ValueError("metadata must be provided if plate_col is not None")
-        unq_plates = metadata[plate_col].unique()
-        for plate in unq_plates:
-            ind = metadata[plate_col] == plate
+            raise ValueError("metadata must be provided if batch_col is not None")
+        batches = metadata[batch_col].unique()
+        for batch in batches:
+            ind = metadata[batch_col] == batch
             features[ind, :] = StandardScaler().fit_transform(features[ind, :])
     return features
 
@@ -82,12 +82,12 @@ def embed_by_pca(
     features: np.ndarray,
     metadata: pd.DataFrame = None,
     variance_or_ncomp=128,
-    plate_col: Optional[str] = None,
+    batch_col: Optional[str] = None,
 ) -> np.ndarray:
     """
     Embed the whole input data using principal component analysis (PCA).
     Note that we explicitly center & scale the data before calling `PCA`.
-    Centering and scaling is done by plate if `plate_col` is not None, and on the whole data otherwise.
+    Centering and scaling is done by batch if `batch_col` is not None, and on the whole data otherwise.
     Also note that `PCA` transformer also does mean-centering on the whole data prior to the PCA operation.
 
     Args:
@@ -97,14 +97,13 @@ def embed_by_pca(
             Defaults to 128 (n_components). If between 0 and 1, select the number of components such that
             the amount of variance that needs to be explained is greater than the percentage specified.
             If 1, a single component is kept, and if None, all components are kept.
-        plate_col (str, optional): Column name for plate metadata. Defaults to None.
+        batch_col (str, optional): Column name for batch information. Defaults to None.
     Returns:
         np.ndarray: Transformed data using PCA.
     """
 
-    features = centerscale_on_plate(features, metadata, plate_col)
+    features = centerscale_on_batch(features, metadata, batch_col)
     features = PCA(variance_or_ncomp).fit_transform(features)
-
     return features
 
 
@@ -138,6 +137,7 @@ def tvn_on_controls(
     metadata: pd.DataFrame,
     pert_col: str,
     control_key: str,
+    batch_col: str,
 ) -> np.ndarray:
     """
     Apply TVN (Typical Variation Normalization) to the data based on the control perturbation units.
@@ -148,17 +148,29 @@ def tvn_on_controls(
         metadata (pd.DataFrame): The metadata containing information about the samples.
         pert_col (str, optional): The column name in the metadata DataFrame that represents the perturbation labels.
         control_key (str, optional): The control perturbation label.
+        batch_col: Column name in the metadata DataFrame representing the batch labels.
 
     Returns:
         np.ndarray: The normalized embeddings.
     """
-    embeddings = centerscale_on_controls(embeddings, metadata, pert_col, control_key)
     ctrl_ind = metadata[pert_col] == control_key
+    embeddings = centerscale_on_controls(embeddings, metadata, pert_col, control_key)
     embeddings = PCA().fit(embeddings[ctrl_ind]).transform(embeddings)
     embeddings = centerscale_on_controls(embeddings, metadata, pert_col, control_key)
-    source_cov = np.cov(embeddings[ctrl_ind], rowvar=False, ddof=1) + 0.5 * np.eye(embeddings.shape[1])
-    source_cov_half_inv = linalg.fractional_matrix_power(source_cov, -0.5)
-    return np.matmul(embeddings, source_cov_half_inv)
+
+    target_cov = np.cov(embeddings[ctrl_ind], rowvar=False, ddof=1) + 0.5 * np.eye(embeddings.shape[1])
+    target_cov_half = linalg.fractional_matrix_power(target_cov, 0.5)
+
+    batches = metadata[batch_col].unique()
+    for batch in batches:
+        batch_ind = metadata[batch_col] == batch
+        source_cov = np.cov(embeddings[batch_ind], rowvar=False, ddof=1) + 0.5 * np.eye(embeddings.shape[1])
+        source_cov_half_inv = linalg.fractional_matrix_power(source_cov, -0.5)
+        # Whitening step on current batch
+        whitened_embeddings = np.matmul(embeddings[batch_ind], source_cov_half_inv)
+        # Colorizing step on current batch
+        embeddings[batch_ind] = np.matmul(whitened_embeddings, target_cov_half)
+    return embeddings
 
 
 def aggregate(

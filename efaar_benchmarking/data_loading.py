@@ -9,7 +9,7 @@ import pandas as pd
 import scanpy as sc
 import wget
 
-from efaar_benchmarking.constants import PERISCOPE_PLATE_COL
+from efaar_benchmarking.constants import PERISCOPE_BATCH_COL
 
 
 def load_periscope(cell_type="HeLa", normalized=True) -> tuple[pd.DataFrame, pd.DataFrame]:
@@ -55,11 +55,11 @@ def load_periscope(cell_type="HeLa", normalized=True) -> tuple[pd.DataFrame, pd.
         }
         for future in as_completed(future_to_plate):
             per_data = future.result()
-            per_data[PERISCOPE_PLATE_COL] = future_to_plate[future]
+            per_data[PERISCOPE_BATCH_COL] = future_to_plate[future]
             per_data_all.append(per_data)
 
     per_data_all = pd.concat(per_data_all)
-    mcols = ["Metadata_Foci_Barcode_MatchedTo_GeneCode", "Metadata_Foci_Barcode_MatchedTo_Barcode", PERISCOPE_PLATE_COL]
+    mcols = ["Metadata_Foci_Barcode_MatchedTo_GeneCode", "Metadata_Foci_Barcode_MatchedTo_Barcode", PERISCOPE_BATCH_COL]
     metadata = per_data_all[mcols]  # type: ignore[call-overload]
     features = per_data_all.drop(mcols, axis=1).dropna(axis=1)  # type: ignore[attr-defined]
     return features, metadata
