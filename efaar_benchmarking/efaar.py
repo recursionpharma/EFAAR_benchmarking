@@ -137,7 +137,7 @@ def tvn_on_controls(
     metadata: pd.DataFrame,
     pert_col: str,
     control_key: str,
-    batch_col: str,
+    batch_col_coral: Optional[str] = None,
 ) -> np.ndarray:
     """
     Apply TVN (Typical Variation Normalization) to the data based on the control perturbation units.
@@ -146,9 +146,10 @@ def tvn_on_controls(
     Args:
         embeddings (np.ndarray): The embeddings to be normalized.
         metadata (pd.DataFrame): The metadata containing information about the samples.
-        pert_col (str, optional): The column name in the metadata DataFrame that represents the perturbation labels.
-        control_key (str, optional): The control perturbation label.
-        batch_col: Column name in the metadata DataFrame representing the batch labels.
+        pert_col (str): The column name in the metadata DataFrame that represents the perturbation labels.
+        control_key (str): The control perturbation label.
+        batch_col_coral (str, optional): Column name in the metadata DataFrame representing the batch labels
+            to be used for CORAL normalization. Defaults to None.
 
     Returns:
         np.ndarray: The normalized embeddings.
@@ -157,19 +158,14 @@ def tvn_on_controls(
     embeddings = centerscale_on_controls(embeddings, metadata, pert_col, control_key)
     embeddings = PCA().fit(embeddings[ctrl_ind]).transform(embeddings)
     embeddings = centerscale_on_controls(embeddings, metadata, pert_col, control_key)
-
-    target_cov = np.cov(embeddings[ctrl_ind], rowvar=False, ddof=1) + 0.5 * np.eye(embeddings.shape[1])
-    target_cov_half = linalg.fractional_matrix_power(target_cov, 0.5)
-
-    batches = metadata[batch_col].unique()
-    for batch in batches:
-        batch_ind = metadata[batch_col] == batch
-        source_cov = np.cov(embeddings[batch_ind], rowvar=False, ddof=1) + 0.5 * np.eye(embeddings.shape[1])
-        source_cov_half_inv = linalg.fractional_matrix_power(source_cov, -0.5)
-        # Whitening step on current batch
-        whitened_embeddings = np.matmul(embeddings[batch_ind], source_cov_half_inv)
-        # Colorizing step on current batch
-        embeddings[batch_ind] = np.matmul(whitened_embeddings, target_cov_half)
+    if batch_col_coral is not None:
+        batches = metadata[batch_col_coral].unique()
+        for batch in batches:
+            batch_ind = metadata[batch_col_coral] == batch
+            batch_control_ind = batch_ind & (metadata[pert_col] == control_key)
+            source_cov = np.cov(embeddings[batch_control_ind], rowvar=False, ddof=1) + 0.5 * np.eye(embeddings.shape[1])
+            source_cov_half_inv = linalg.fractional_matrix_power(source_cov, -0.5)
+            embeddings[batch_ind] = np.matmul(embeddings[batch_ind], source_cov_half_inv)
     return embeddings
 
 
@@ -196,17 +192,19 @@ def aggregate(
             - 'features': The aggregated embeddings.
             - 'metadata': A DataFrame containing the perturbation labels for each row in 'data'.
     """
+
     unique_perts = list(np.unique(metadata[pert_col].values))
     unique_perts.remove(control_key)
     final_embeddings = np.zeros((len(unique_perts), embeddings.shape[1]))
+    if method == "mean":
+        aggr_func = np.mean
+    elif method == "median":
+        aggr_func = np.median
+    else:
+        raise ValueError(f"Invalid aggregation method: {method}")
     for i, pert in enumerate(unique_perts):
         idxs = np.where(metadata[pert_col].values == pert)[0]
-        if method == "mean":
-            final_embeddings[i, :] = np.mean(embeddings[idxs, :], axis=0)
-        elif method == "median":
-            final_embeddings[i, :] = np.median(embeddings[idxs, :], axis=0)
-        else:
-            raise ValueError(f"Invalid aggregation method: {method}")
+        final_embeddings[i, :] = aggr_func(embeddings[idxs, :], axis=0)
     return Bunch(features=pd.DataFrame(final_embeddings), metadata=pd.DataFrame.from_dict({pert_col: unique_perts}))
 
 
