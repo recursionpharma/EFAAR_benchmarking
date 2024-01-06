@@ -31,14 +31,14 @@ def load_periscope(cell_type="HeLa", normalized=True) -> tuple[pd.DataFrame, pd.
     cp_feature_source_formatter = "s3://cellpainting-gallery/cpg0021-periscope/broad/workspace/profiles/{cell_type}/"
     if cell_type == "A549":
         plates = ["A", "B", "C", "D", "E", "F", "G", "H", "N"]
-        plate_to_batch = {p: 'batch1' for p in plates}
+        plate_to_batch = {p: "batch1" for p in plates}
         if normalized:
             filename_formatter = "20200805_A549_WG_Screen_guide_normalized_ALLBATCHES___CP186{plate}___ALLWELLS.csv.gz"
         else:
             filename_formatter = "20200805_A549_WG_Screen_guide_ALLBATCHES___CP186{plate}___ALLWELLS.csv.gz"
     elif cell_type == "HeLa":
         plates = ["A", "B", "D", "F", "H", "J", "K", "L", "N"]
-        plate_to_batch = {p: 'batch1' if p in ["A", "B", "D", "F", "H"] else 'batch2' for p in plates}
+        plate_to_batch = {p: "batch1" if p in ["A", "B", "D", "F", "H"] else "batch2" for p in plates}
         if normalized:
             filename_formatter = "20210422_6W_CP257_guide_normalized_ALLBATCHES___CP257{plate}___ALLWELLS.csv.gz"
         else:
