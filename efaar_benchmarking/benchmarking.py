@@ -139,7 +139,7 @@ def univariate_distance_metric(
         - If null is not empty, returns a tuple containing the energy distance and p-value of the metric.
             If the length of the input array is less than 10, returns (None, None).
     """
-    if len(arr1) < 10:
+    if len(arr1) < 5:
         return None if len(null) == 0 else None, None
     edist = SamplesLoss("energy")(from_numpy(arr1), from_numpy(arr2)).item() * 2
     if len(null) == 0:
