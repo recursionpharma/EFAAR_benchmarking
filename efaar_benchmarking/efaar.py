@@ -199,7 +199,7 @@ def aggregate(
     if method == "mean":
         aggr_func = np.mean
     elif method == "median":
-        aggr_func = np.median
+        aggr_func = np.median  # type: ignore[assignment]
     else:
         raise ValueError(f"Invalid aggregation method: {method}")
     for i, pert in enumerate(unique_perts):
