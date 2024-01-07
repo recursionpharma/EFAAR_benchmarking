@@ -113,11 +113,11 @@ def univariate_consistency_benchmark(
             result_array = np.concatenate([nulls_b_cnt[(b, c)] for b, c in bscnts], axis=1)
             t = time()
             null_dist = Parallel(n_jobs=n_jobs)(delayed(univariate_consistency_metric)(r) for r in result_array)
-            print(f"{pert} has {result_array.shape[1]} samples and took {round(time()-t, 2)} seconds.")
             met, pv = univariate_consistency_metric(  # type: ignore[misc]
                 np.array(features_df.loc[pert]).reshape(-1, features_df.shape[1]), null_dist
             )
             query_metrics.append([pert, met, pv])
+            print(f"{pert} has {result_array.shape[1]} samples and took {round(time()-t, 2)} seconds: {met} {pv}")
         return pd.DataFrame(query_metrics, columns=["pert", "angle", "pval"])
 
 
@@ -171,8 +171,7 @@ def univariate_distance_benchmark(
     metadata: pd.DataFrame,
     pert_col: str,
     control_key: str,
-    batch_col: str,
-    keys_to_drop: list = [],
+    batch_col: Optional[str] = None,
     n_samples: int = cst.N_NULL_SAMPLES,
     random_seed: int = cst.RANDOM_SEED,
     n_jobs: int = 5,
@@ -185,9 +184,7 @@ def univariate_distance_benchmark(
         metadata (pd.DataFrame): DataFrame containing metadata.
         pert_col (str): Column name for perturbation.
         control_key (str): Control key value.
-        batch_col (str): Column name for batch.
-        keys_to_drop (list, optional): List of keys to drop from the analysis (should not include control key).
-            Defaults to [].
+        batch_col (Optional[str], optional): Column name for batch. Defaults to None.
         n_samples (int, optional): Number of null samples. Defaults to cst.N_NULL_SAMPLES.
         random_seed (int, optional): Random seed. Defaults to cst.RANDOM_SEED.
         n_jobs (int, optional): Number of parallel jobs. Defaults to 5.
@@ -195,40 +192,40 @@ def univariate_distance_benchmark(
     Returns:
         pd.DataFrame: DataFrame containing query metrics.
     """
-    indices = ~metadata[pert_col].isin(keys_to_drop)
-    features = features[indices]
-    metadata = metadata[indices]
-    rng = np.random.default_rng(random_seed)
-    cardinalities_df = (
-        metadata[metadata[pert_col] != control_key]
-        .groupby(by=[pert_col, batch_col], observed=True)
-        .size()
-        .reset_index(name="count")
-    )
-    df_perts = (
-        cardinalities_df.groupby(by=pert_col, observed=True)[[batch_col, "count"]]
-        .apply(lambda x: list(map(tuple, x.values)))
-        .reset_index()
-    )
-    controls_b_c = {}
-    features_df = pd.DataFrame(features, index=[metadata[pert_col], metadata[batch_col]]).sort_index()
-    query_metrics = []
-    for pert, bscnts in df_perts.itertuples(index=False):
-        gf = np.array(features_df.loc[pert])
-        for b, c in bscnts:
-            if (b, c) not in controls_b_c:
-                controls_b_c[b, c] = rng.choice(np.array(features_df.loc[(control_key, b)]), c, replace=False)
-        cf = np.concatenate([controls_b_c[(b, c)] for b, c in bscnts], axis=0)
-        af = np.concatenate((cf, gf))
-        t = time()
-        null_dist = Parallel(n_jobs=n_jobs)(
-            delayed(univariate_distance_metric_null)(np.random.default_rng(random_seed + r), af, len(gf))
-            for r in range(n_samples)
+    if batch_col is None:
+        print("TODO")
+    else:
+        rng = np.random.default_rng(random_seed)
+        cardinalities_df = (
+            metadata[metadata[pert_col] != control_key]
+            .groupby(by=[pert_col, batch_col], observed=True)
+            .size()
+            .reset_index(name="count")
         )
-        print(f"{pert} has {len(gf)} samples and took {round(time()-t, 2)} seconds.")
-        met, pv = univariate_distance_metric(gf, cf, null_dist)  # type: ignore[misc]
-        query_metrics.append([pert, met, pv])
-    return pd.DataFrame(query_metrics, columns=["pert", "edist", "pval"])
+        df_perts = (
+            cardinalities_df.groupby(by=pert_col, observed=True)[[batch_col, "count"]]
+            .apply(lambda x: list(map(tuple, x.values)))
+            .reset_index()
+        )
+        controls_b_c = {}
+        features_df = pd.DataFrame(features, index=[metadata[pert_col], metadata[batch_col]]).sort_index()
+        query_metrics = []
+        for pert, bscnts in df_perts.itertuples(index=False):
+            gf = np.array(features_df.loc[pert])
+            for b, c in bscnts:
+                if (b, c) not in controls_b_c:
+                    controls_b_c[b, c] = rng.choice(np.array(features_df.loc[(control_key, b)]), c, replace=False)
+            cf = np.concatenate([controls_b_c[(b, c)] for b, c in bscnts], axis=0)
+            af = np.concatenate((cf, gf))
+            t = time()
+            null_dist = Parallel(n_jobs=n_jobs)(
+                delayed(univariate_distance_metric_null)(np.random.default_rng(random_seed + r), af, len(gf))
+                for r in range(n_samples)
+            )
+            met, pv = univariate_distance_metric(gf, cf, null_dist)  # type: ignore[misc]
+            query_metrics.append([pert, met, pv])
+            print(f"{pert} has {len(gf)} samples and took {round(time()-t, 2)} seconds: {met} {pv}")
+        return pd.DataFrame(query_metrics, columns=["pert", "edist", "pval"])
 
 
 def compute_process_cosine_sim(
