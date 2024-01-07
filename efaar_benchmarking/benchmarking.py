@@ -171,8 +171,8 @@ def univariate_distance_benchmark(
     metadata: pd.DataFrame,
     pert_col: str,
     control_key: str,
+    batch_col,
     keys_to_drop: list = [],
-    batch_col: Optional[str] = None,
     n_samples: int = cst.N_NULL_SAMPLES,
     random_seed: int = cst.RANDOM_SEED,
     n_jobs: int = 5,
@@ -187,7 +187,7 @@ def univariate_distance_benchmark(
         control_key (str): Control key value.
         keys_to_drop (list, optional): List of column names to drop from metadata. Should not include control_key.
             Defaults to [].
-        batch_col (Optional[str], optional): Column name for batch. Defaults to None.
+        batch_col (str): Column name for batch.
         n_samples (int, optional): Number of null samples. Defaults to cst.N_NULL_SAMPLES.
         random_seed (int, optional): Random seed. Defaults to cst.RANDOM_SEED.
         n_jobs (int, optional): Number of parallel jobs. Defaults to 5.
