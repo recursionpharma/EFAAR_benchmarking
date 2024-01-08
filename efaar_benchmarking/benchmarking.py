@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 from geomloss import SamplesLoss
 from joblib import Parallel, delayed
+from scipy.stats import ks_2samp
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.utils import Bunch
 from torch import from_numpy
@@ -500,3 +501,64 @@ def multivariate_benchmark(
                     )
                 )
     return pd.concat(metrics_lst, ignore_index=True)
+
+
+def get_benchmark_clusters(benchmark_data_dir: str, src: str, min_genes: int = 10):
+    file_path = Path(benchmark_data_dir).joinpath(src + "_clusters.tsv")
+    result_dict = {}
+    with open(file_path) as file:
+        for line in file:
+            parts = line.strip().split("\t")
+            if len(parts) == 2:
+                key, genes_str = parts
+                genes_set = set(genes_str.split())
+                if len(genes_set) >= min_genes:
+                    result_dict[key] = genes_set
+    return result_dict
+
+
+def cluster_benchmark(
+    map_data: Bunch,
+    pert_col: str,
+    source: str = "CORUM",
+    benchmark_data_dir: str = cst.BENCHMARK_DATA_DIR,
+    min_genes: int = 10,
+):
+    bench_dict = get_benchmark_clusters(benchmark_data_dir, source)
+    print(len(bench_dict), "clusters are used from the benchmark source", source)
+    results = []
+    for k, cluster in bench_dict.items():
+        cluster_data = map_data.features[map_data.metadata[pert_col].isin(cluster)]
+        if len(cluster_data) < min_genes:
+            continue
+        not_cluster_data = map_data.features[~map_data.metadata[pert_col].isin(cluster)]
+
+        within_cossim_mat = cosine_similarity(cluster_data.values, cluster_data.values)
+        within_cossim_mat_vals = within_cossim_mat[np.triu_indices(within_cossim_mat.shape[0], k=1)]
+        between_cossim_mat_vals = cosine_similarity(cluster_data.values, not_cluster_data.values).flatten()
+
+        ks_res = ks_2samp(within_cossim_mat_vals, between_cossim_mat_vals)
+        results.append(
+            [
+                k,
+                within_cossim_mat_vals.mean(),
+                between_cossim_mat_vals.mean(),
+                len(cluster_data),
+                len(not_cluster_data),
+                ks_res.statistic,
+                ks_res.pvalue,
+            ]
+        )
+
+    return pd.DataFrame(
+        results,
+        columns=[
+            "cluster",
+            "within_cossim_mean",
+            "between_cossim_mean",
+            "cluster_size",
+            "not_cluster_size",
+            "ks_stat",
+            "ks_pval",
+        ],
+    )
