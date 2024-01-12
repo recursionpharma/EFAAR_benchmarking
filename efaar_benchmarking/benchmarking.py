@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 from geomloss import SamplesLoss
 from joblib import Parallel, delayed
-from scipy.stats import ks_2samp
+from scipy.stats import hypergeom, ks_2samp
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.utils import Bunch
 from torch import from_numpy
@@ -194,7 +194,7 @@ def univariate_distance_benchmark(
         pd.DataFrame: DataFrame containing query metrics.
     """
     if batch_col is None:
-        print("TODO")
+        print("No-batch version of this function is not implemented yet. Please provide a batch column.")
     else:
         rng = np.random.default_rng(random_seed)
         cardinalities_df = (
@@ -498,17 +498,30 @@ def multivariate_benchmark(
     return pd.concat(metrics_lst, ignore_index=True)
 
 
-def get_benchmark_clusters(benchmark_data_dir: str, src: str, min_genes: int = 10):
-    file_path = Path(benchmark_data_dir).joinpath(src + "_clusters.tsv")
+def get_benchmark_clusters(benchmark_data_dir: str, source: str = "CORUM", min_genes: int = 1):
+    """
+    Retrieves benchmark clusters from a file.
+
+    Args:
+        benchmark_data_dir (str): The directory where the benchmark data is located.
+        source (str): The benchmark source identifier.
+        min_genes (int, optional): The minimum number of genes required for a cluster to be included. Defaults to 1.
+
+    Returns:
+        dict: A dictionary containing the benchmark clusters, where the keys are cluster identifiers and the values are
+            sets of genes.
+    """
     result_dict = {}
-    with open(file_path) as file:
-        for line in file:
-            parts = line.strip().split("\t")
-            if len(parts) == 2:
-                key, genes_str = parts
+    if source == "CORUM":
+        file_path = Path(benchmark_data_dir).joinpath(source + "_clusters.tsv")
+        with open(file_path) as file:
+            for line in file:
+                key, genes_str = line.strip().split("\t")
                 genes_set = set(genes_str.split())
                 if len(genes_set) >= min_genes:
                     result_dict[key] = genes_set
+    else:
+        raise ValueError(f"Invalid benchmark source {source} provided.")
     return result_dict
 
 
@@ -519,10 +532,26 @@ def cluster_benchmark(
     benchmark_data_dir: str = cst.BENCHMARK_DATA_DIR,
     min_genes: int = 10,
 ):
-    bench_dict = get_benchmark_clusters(benchmark_data_dir, source)
-    print(len(bench_dict), "clusters are used from the benchmark source", source)
+    """
+    Perform benchmarking of a map based on known biological cluster of perturbations.
+
+    Args:
+        map_data (Bunch): The data containing features and metadata.
+        pert_col (str): The column name in the metadata used representing perturbation information.
+        source (str, optional): The benchmark source. Defaults to "CORUM".
+        benchmark_data_dir (str, optional): The directory containing benchmark data. Defaults to cst.BENCHMARK_DATA_DIR.
+        min_genes (int, optional): The minimum number of genes required in a cluster. Defaults to 10.
+
+    Returns:
+        pd.DataFrame: A DataFrame containing the benchmarking results, including cluster information, within-cluster
+            cosine similarity mean, between-cluster cosine similarity mean, cluster size, not-cluster size,
+            Kolmogorov-Smirnov statistic and p-value describing how different within-cluster cosine and between-cluster
+            cosine similarity distributions are.
+    """
+    benchmark_clusters = get_benchmark_clusters(benchmark_data_dir, source, min_genes)
+    print(len(benchmark_clusters), "clusters are used from the benchmark source", source)
     results = []
-    for k, cluster in bench_dict.items():
+    for k, cluster in benchmark_clusters.items():
         cluster_data = map_data.features[map_data.metadata[pert_col].isin(cluster)]
         if len(cluster_data) < min_genes:
             continue
@@ -557,3 +586,74 @@ def cluster_benchmark(
             "ks_pval",
         ],
     )
+
+
+def enrichment(
+    genes,
+    source: str = "CORUM",
+    benchmark_data_dir: str = cst.BENCHMARK_DATA_DIR,
+    min_genes: int = 3,
+    pval_thr=0.01,
+    bg_gene_cnt=20000,
+):
+    """
+    Compute enrichment of a set of genes in a benchmark source.
+
+    Args:
+        genes (list): List of genes to compute enrichment for.
+        source (str, optional): The benchmark source. Defaults to "CORUM".
+        benchmark_data_dir (str, optional): The directory containing the benchmark data.
+            Defaults to cst.BENCHMARK_DATA_DIR.
+        min_genes (int, optional): The minimum number of genes required in a benchmark cluster. Defaults to 3.
+        pval_thr (float, optional): The p-value threshold for significance. Defaults to 0.01.
+        bg_gene_cnt (int, optional): The total number of background genes. Defaults to 20000.
+
+    Returns:
+        pandas.DataFrame: A DataFrame containing the clusters, p-values, and gene intersections that pass the
+            significance threshold.
+    """
+    benchmark_clusters = get_benchmark_clusters(benchmark_data_dir, source, min_genes)
+    print(len(benchmark_clusters), "clusters are used from the benchmark source", source)
+    pvals = []
+    for k, cluster in benchmark_clusters.items():
+        inter = set(genes).intersection(cluster)
+        pval = hypergeom.sf(len(inter) - 1, bg_gene_cnt, len(genes), len(cluster))
+        pvals.append([k, pval, inter, len(cluster)])
+    pvals = pd.DataFrame(pvals, columns=["cluster", "pval", "intersection", "cluster size"])
+    return pvals[pvals.pval <= pval_thr].sort_values("pval").reset_index(drop=True)  # type: ignore
+
+
+def compute_top_similars(map_data: Bunch, pert_col: str, pert1: str, pert2: Optional[str] = None, topx: int = 10):
+    """
+    Compute the cosine similarity between perturbations in a map_data object and return the top similar perturbations.
+
+    Args:
+        map_data (Bunch): A map_data object containing the data and metadata.
+        pert_col (str): The column name in the metadata that contains the perturbation labels.
+        pert1 (str): The label of the perturbation for which to compute the cosine similarity.
+        pert2 (str, optional): The label of a second perturbation to compare with pert1.
+        topx (int, optional): The number of top similar perturbations to return.
+
+    Returns:
+        If pert2 is not provided or does not exist in the map_data, returns a DataFrame containing the top similar
+            perturbations to pert1.
+        If pert2 is provided and exists in the map_data, returns a tuple containing:
+            - A DataFrame containing the top similar perturbations to pert1.
+            - The rank of pert2 among the top similar perturbations to pert1.
+            - The cosine similarity between pert1 and pert2.
+    """
+    if pert1 not in map_data.metadata[pert_col].values:
+        raise ValueError(f"{pert1} does not exist in this map.")
+    cosi = pd.DataFrame(
+        cosine_similarity(map_data.features), index=map_data.metadata[pert_col], columns=map_data.metadata[pert_col]
+    )
+    pert1_rels = cosi.loc[pert1].reset_index()
+    pert1_rels = pert1_rels[pert1_rels[pert_col] != pert1]
+    pert1_rels.columns = ["pert", "cosine_sim"]
+    pert1_rels = pert1_rels.sort_values("cosine_sim", ascending=False).reset_index(drop=True)
+    if pert2 is None or (pert2 is not None and pert2 not in map_data.metadata[pert_col].values):
+        if pert2 is not None:
+            print(f"{pert2} does not exist in this map.")
+        return pert1_rels.head(topx)
+    else:
+        return pert1_rels.head(topx), pert1_rels[pert1_rels["pert"] == pert2].index[0] + 1, cosi.loc[pert1, pert2]
