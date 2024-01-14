@@ -1,7 +1,7 @@
 # Contributing to EFAAR_benchmarking
 
 Thank you for your interest in contributing to our project! From commenting on and triaging issues, to reviewing and sending Pull Requests, all contributions are welcome.
-We aim to build a welcoming and friendly community for anyone who wants to use or contribute to our project.
+We aim to build a welcoming and friendly community for anyone who wants to use or contribute to methods for building and benchmarking perturbative maps of biology.
 
 ## Code of Conduct
 
@@ -29,13 +29,13 @@ We use GitHub Issues to track bugs and features. Report them there.
 
 3. Setup the virtual environment and activate it.
 
-4. Install the dependencies via `pip install -e .`
+4. Install the dependencies via `pip install -e .`.
 
-### Making and Submitting Changes
+### Making Changes
 
 * Before making any changes, ensure you have the latest version of the project by pulling the changes from trunk.
 
-* Create a new branch for your changes. This could be for adding functionality or addressing a bug.
+* Create a new branch for your changes.
 
 * While developing, make sure to to add a docstring to all new functions, that clearly yet briefly explains what the function does, what the inputs and outputs are, and what exceptions the function can raise.
 
@@ -43,7 +43,7 @@ We use GitHub Issues to track bugs and features. Report them there.
 
 * Make sure your changes are atomic (i.e., each commit should contain a single logical change), and the commit message clearly describes this change. This makes the commit history much easier to understand.
 
-* If you use a new benchmark source to evaluate maps, make sure to add it to `benchmark_annotations` folder with license information added to the LICENSE file for benchmark annotations [here](https://github.com/recursionpharma/EFAAR_benchmarking/blob/trunk/efaar_benchmarking/benchmark_annotations/LICENSE).
+* If you use a new benchmark source to evaluate maps, make sure to add it to `benchmark_annotations` folder with license information added to the LICENSE file [here](https://github.com/recursionpharma/EFAAR_benchmarking/blob/trunk/efaar_benchmarking/benchmark_annotations/LICENSE).
 
 * If you are adding functions for a new perturbative map build, make sure you add a notebook to enable others so they can reproduce your results.
 
@@ -51,7 +51,7 @@ We use GitHub Issues to track bugs and features. Report them there.
 
 * Make sure to run `pre-commit run --all-files` to find and fix simple issues before submission.
 
-* Stage and commit your changes: `git add <modified files>` and `git commit -m "your message"`. Your commit message should be a brief description of what changes were made.
+* Stage and commit your changes: `git add <modified files>` and `git commit -m "your message"`. Your commit message should include a brief description of what changes were made.
 
 * Push your branch: `git push origin <branch-name>`.
 
@@ -59,7 +59,7 @@ We use GitHub Issues to track bugs and features. Report them there.
 
 * Describe your changes in the Pull Request and link any related issues.
 
-* Wait for the review and make any necessary changes.
+* Wait for the review from maintainers and make any necessary changes after the review.
 
 * After approval, your changes will be merged. Congratulations!
 
