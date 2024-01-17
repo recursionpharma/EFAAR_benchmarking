@@ -15,11 +15,12 @@ from torch import from_numpy
 import efaar_benchmarking.constants as cst
 
 
-def univariate_consistency_metric(
+def pert_signal_consistency_metric(
     arr: np.ndarray, null: np.ndarray = np.array([])
 ) -> Union[Optional[float], tuple[Optional[float], Optional[float]]]:
     """
-    Calculate the univariate consistency metric, i.e. average cosine angle and associated p-value, for a given array.
+    Calculate the perturbation signal consistency metric, i.e., average cosine angle and associated p-value,
+        for a given array.
 
     Args:
         arr (numpy.ndarray): The input array.
@@ -44,7 +45,7 @@ def univariate_consistency_metric(
         return avg_angle, pval
 
 
-def univariate_consistency_benchmark(
+def pert_signal_consistency_benchmark(
     features: np.ndarray,
     metadata: pd.DataFrame,
     pert_col: str,
@@ -80,7 +81,7 @@ def univariate_consistency_benchmark(
         unique_cardinalities = metadata.groupby(pert_col, observed=True).count().iloc[:, 0].unique()
         null = {
             c: Parallel(n_jobs=n_jobs)(
-                delayed(univariate_consistency_metric)(
+                delayed(pert_signal_consistency_metric)(
                     np.random.default_rng(random_seed + r).choice(features, c, False)
                 )
                 for r in range(n_samples)
@@ -89,7 +90,7 @@ def univariate_consistency_benchmark(
         }
         query_metrics = (
             features_df.groupby(features_df.index, observed=True)
-            .apply(lambda x: univariate_consistency_metric(x.values, null[len(x)])[1])  # type: ignore[index]
+            .apply(lambda x: pert_signal_consistency_metric(x.values, null[len(x)])[1])  # type: ignore[index]
             .reset_index()
         )
         query_metrics.columns = ["pert", "pval"]
@@ -113,8 +114,8 @@ def univariate_consistency_benchmark(
                     nulls_b_cnt[(b, c)] = bfeat[np.random.randint(0, bfeat.shape[0], (n_samples, c))]
             result_array = np.concatenate([nulls_b_cnt[(b, c)] for b, c in bscnts], axis=1)
             t = time()
-            null_dist = Parallel(n_jobs=n_jobs)(delayed(univariate_consistency_metric)(r) for r in result_array)
-            met, pv = univariate_consistency_metric(  # type: ignore[misc]
+            null_dist = Parallel(n_jobs=n_jobs)(delayed(pert_signal_consistency_metric)(r) for r in result_array)
+            met, pv = pert_signal_consistency_metric(  # type: ignore[misc]
                 np.array(features_df.loc[pert]).reshape(-1, features_df.shape[1]), null_dist
             )
             query_metrics.append([pert, met, pv])
@@ -122,11 +123,12 @@ def univariate_consistency_benchmark(
         return pd.DataFrame(query_metrics, columns=["pert", "angle", "pval"])
 
 
-def univariate_distance_metric(
+def pert_signal_distance_metric(
     arr1: np.ndarray, arr2: np.ndarray, null: np.ndarray = np.array([])
 ) -> Union[Optional[float], tuple[Optional[float], Optional[float]]]:
     """
-    Calculate the univariate distance metric, i.e. energy distance and associated p-value, for the two given arrays.
+    Calculate the perturbation signal distance metric, i.e., energy distance and associated p-value,
+        for the two given arrays.
 
     Args:
         gf (numpy.ndarray): The feature array for the perturbation replicates.
@@ -151,23 +153,30 @@ def univariate_distance_metric(
         return edist, pval
 
 
-def univariate_distance_metric_null(rng, combined_array, len_arr1):
+def pert_signal_distance_metric_null(
+    rng: np.random.Generator, combined_array: np.ndarray, len_arr1: int
+) -> Union[Optional[float], tuple[Optional[float], Optional[float]]]:
     """
-    Calculate the univariate distance metric for two arrays in a combined array, given a random number generator.
+    Calculate the perturbation signal distance metric for two arrays in a combined array,
+        given a random number generator.
 
-    Parameters:
-    - rng: The random number generator.
-    - combined_array: The combined input array.
-    - len_arr1: The length of the first part of the input array.
+    Args:
+        rng (np.random.Generator): The random number generator.
+        combined_array (np.ndarray): The combined input array.
+        len_arr1 (int): The length of the first part of the input array.
 
     Returns:
-    - The univariate distance metric between the first and second part of the combined array.
+        Union[Optional[float], tuple[Optional[float], Optional[float]]]:
+        - If null is empty, returns the energy distance between arr1 and arr2 as a float.
+            If the length of the input array is less than 10, returns None.
+        - If null is not empty, returns a tuple containing the energy distance and p-value of the metric.
+            If the length of the input array is less than 10, returns (None, None).
     """
     indices = rng.choice(len(combined_array), len(combined_array), replace=False)
-    return univariate_distance_metric(combined_array[indices[:len_arr1], :], combined_array[indices[len_arr1:], :])
+    return pert_signal_distance_metric(combined_array[indices[:len_arr1], :], combined_array[indices[len_arr1:], :])
 
 
-def univariate_distance_benchmark(
+def pert_signal_distance_benchmark(
     features: np.ndarray,
     metadata: pd.DataFrame,
     pert_col: str,
@@ -179,7 +188,8 @@ def univariate_distance_benchmark(
     n_jobs: int = 5,
 ) -> pd.DataFrame:
     """
-    Perform univariate distance benchmarking, comparing the controls to the perturbations using the energy distance.
+    Perform perturbation signal distance benchmarking, comparing the controls to the perturbations
+        using the energy distance.
 
     Args:
         features (np.ndarray): Array of features.
@@ -227,10 +237,10 @@ def univariate_distance_benchmark(
         af = np.concatenate((cf, gf))
         t = time()
         null_dist = Parallel(n_jobs=n_jobs)(
-            delayed(univariate_distance_metric_null)(np.random.default_rng(random_seed + r), af, len(gf))
+            delayed(pert_signal_distance_metric_null)(np.random.default_rng(random_seed + r), af, len(gf))
             for r in range(n_samples)
         )
-        met, pv = univariate_distance_metric(gf, cf, null_dist)  # type: ignore[misc]
+        met, pv = pert_signal_distance_metric(gf, cf, null_dist)  # type: ignore[misc]
         query_metrics.append([pert, met, pv])
         print(f"{pert} has {len(gf)} samples and took {round(time()-t, 2)} seconds: {met} {pv}")
     return pd.DataFrame(query_metrics, columns=["pert", "edist", "pval"])
@@ -425,7 +435,7 @@ def convert_metrics_to_df(
     return pd.DataFrame.from_dict(metrics_dict_with_list)
 
 
-def multivariate_benchmark(
+def known_relationship_benchmark(
     map_data: Bunch,
     pert_col: str,
     benchmark_sources: list = cst.BENCHMARK_SOURCES,
@@ -440,7 +450,8 @@ def multivariate_benchmark(
     right_sided: bool = False,
     log_stats: bool = False,
 ) -> pd.DataFrame:
-    """Perform benchmarking on map data.
+    """
+    Perform benchmarking on aggregated map data against biological relationships.
 
     Args:
         map_data (Bunch): The map data containing `features` and `metadata` attributes.
