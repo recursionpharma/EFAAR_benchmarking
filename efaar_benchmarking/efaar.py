@@ -14,14 +14,14 @@ import efaar_benchmarking.constants as cst
 
 
 def embed_by_scvi_anndata(
-    adata, batch_col: str = cst.REPLOGLE_BATCH_COL, n_latent: int = 128, n_hidden: int = 256
+    adata, batch_col: str = cst.GWPS_BATCH_COL, n_latent: int = 128, n_hidden: int = 256
 ) -> np.ndarray:
     """
     Embed the input AnnData object using scVI.
 
     Args:
         adata (anndata.AnnData): The AnnData object to be embedded.
-        batch_col (str): The batch key in the AnnData object. Defaults to REPLOGLE_BATCH_COL.
+        batch_col (str): The batch key in the AnnData object. Defaults to GWPS_BATCH_COL.
         n_latent (int): The number of latent dimensions. Defaults to 128.
         n_hidden (int): The number of hidden dimensions. Defaults to 256.
 
