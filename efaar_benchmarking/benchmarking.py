@@ -138,9 +138,9 @@ def pert_signal_distance_metric(
     Returns:
         Union[Optional[float], tuple[Optional[float], Optional[float]]]:
         - If null is empty, returns the energy distance between arr1 and arr2 as a float.
-            If the length of the input array is less than 10, returns None.
+            If the length of the input array is less than 5, returns None.
         - If null is not empty, returns a tuple containing the energy distance and p-value of the metric.
-            If the length of the input array is less than 10, returns (None, None).
+            If the length of the input array is less than 5, returns (None, None).
     """
     if len(arr1) < 5:
         return None if len(null) == 0 else None, None
@@ -155,7 +155,7 @@ def pert_signal_distance_metric(
 
 def pert_signal_distance_metric_null(
     rng: np.random.Generator, combined_array: np.ndarray, len_arr1: int
-) -> Union[Optional[float], tuple[Optional[float], Optional[float]]]:
+) -> tuple[Optional[float], Optional[float]]:
     """
     Calculate the perturbation signal distance metric for two arrays in a combined array,
         given a random number generator.
@@ -166,14 +166,14 @@ def pert_signal_distance_metric_null(
         len_arr1 (int): The length of the first part of the input array.
 
     Returns:
-        Union[Optional[float], tuple[Optional[float], Optional[float]]]:
-        - If null is empty, returns the energy distance between arr1 and arr2 as a float.
-            If the length of the input array is less than 10, returns None.
-        - If null is not empty, returns a tuple containing the energy distance and p-value of the metric.
-            If the length of the input array is less than 10, returns (None, None).
+        tuple[Optional[float], Optional[float]]:
     """
+    if len(combined_array) <= len_arr1:
+        raise ValueError(f"len(combined_array) needs to be larger than {len_arr1}")
     indices = rng.choice(len(combined_array), len(combined_array), replace=False)
-    return pert_signal_distance_metric(combined_array[indices[:len_arr1], :], combined_array[indices[len_arr1:], :])
+    return pert_signal_distance_metric(
+        combined_array[indices[:len_arr1], :], combined_array[indices[len_arr1:], :]
+    )  # type: ignore[return-value]
 
 
 def pert_signal_distance_benchmark(
@@ -267,11 +267,11 @@ def compute_process_cosine_sim(
     )
     # convert pairwise cosine similarity matrix to a data frame of triples so that filtering and grouping is easy
     cosi = cosi.stack()[np.ones(cosi.size).astype("bool")].reset_index()
-    cosi.columns = ["entity1", "entity2", "cosine_sim"]  # type: ignore
+    cosi.columns = ["entity1", "entity2", "cosine_sim"]
     if filter_to_pairs is not None:
         cosi = cosi.merge(filter_to_pairs, how="right", on=["entity1", "entity2"])
     cosi = cosi[cosi.entity1 != cosi.entity2]  # remove self cosine similarities
-    return cosi.cosine_sim.values  # type: ignore
+    return cosi.cosine_sim.values
 
 
 def generate_null_cossims(
