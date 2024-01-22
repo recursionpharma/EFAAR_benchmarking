@@ -474,7 +474,7 @@ pbr==6.0.0
     # via stevedore
 pexpect==4.9.0
     # via ipython
-pillow==10.1.0
+pillow==10.2.0
     # via
     #   imageio
     #   matplotlib
