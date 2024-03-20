@@ -50,7 +50,7 @@ bandit[toml]==1.7.6
     # via efaar_benchmarking (pyproject.toml)
 beautifulsoup4==4.12.2
     # via nbconvert
-black==23.12.1
+black==24.3.0
     # via efaar_benchmarking (pyproject.toml)
 bleach==6.1.0
     # via nbconvert
