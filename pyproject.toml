@@ -104,3 +104,10 @@ exclude = "tests"
 [tool.black]
 line-length = 120
 target-version = ["py39", "py310", "py311"]
+
+[tool.ruff]
+select = ["E", "F"]
+ignore = []
+exclude = [".bzr", ".direnv", ".eggs", ".git", ".mypy_cache", ".nox", ".ruff_cache", ".tox", ".venv", "__pypackages__", "_build", "build", "dist", "venv"]
+line-length = 120
+target-version = "py39"
