@@ -109,7 +109,7 @@ h5py==3.10.0
     #   mudata
     #   scanpy
     #   scvi-tools
-idna==3.6
+idna==3.7
     # via
     #   requests
     #   yarl
