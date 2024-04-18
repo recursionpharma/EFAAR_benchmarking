@@ -6,7 +6,7 @@ absl-py==2.0.0
     #   orbax-checkpoint
 aiobotocore==2.9.0
     # via s3fs
-aiohttp==3.9.2
+aiohttp==3.9.4
     # via
     #   aiobotocore
     #   fsspec
