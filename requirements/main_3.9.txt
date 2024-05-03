@@ -419,7 +419,7 @@ torchmetrics==1.2.1
     #   lightning
     #   pytorch-lightning
     #   scvi-tools
-tqdm==4.66.1
+tqdm==4.66.3
     # via
     #   lightning
     #   numpyro

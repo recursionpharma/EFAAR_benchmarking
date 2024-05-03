@@ -714,7 +714,7 @@ tornado==6.4
     #   terminado
 tox==4.11.4
     # via efaar_benchmarking (pyproject.toml)
-tqdm==4.63.1
+tqdm==4.66.3
     # via
     #   docstr-coverage
     #   lightning
