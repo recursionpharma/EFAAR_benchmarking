@@ -36,9 +36,7 @@ certifi==2023.11.17
 charset-normalizer==3.3.2
     # via requests
 chex==0.1.8
-    # via
-    #   optax
-    #   scvi-tools
+    # via optax
 contextlib2==21.6.0
     # via ml-collections
 contourpy==1.2.0
@@ -203,7 +201,6 @@ numba==0.58.1
     # via
     #   pynndescent
     #   scanpy
-    #   sparse
     #   umap-learn
 numpy==1.26.2
     # via
@@ -236,13 +233,11 @@ numpy==1.26.2
     #   scipy
     #   scvi-tools
     #   seaborn
-    #   sparse
     #   statsmodels
     #   tensorstore
     #   tifffile
     #   torchmetrics
     #   umap-learn
-    #   xarray
 numpyro==0.13.2
     # via scvi-tools
 oauthlib==3.2.2
@@ -268,7 +263,6 @@ packaging==23.2
     #   scikit-image
     #   statsmodels
     #   torchmetrics
-    #   xarray
 pandas==2.1.4
     # via
     #   anndata
@@ -278,7 +272,6 @@ pandas==2.1.4
     #   scvi-tools
     #   seaborn
     #   statsmodels
-    #   xarray
 patsy==0.5.5
     # via
     #   scanpy
@@ -365,10 +358,9 @@ scipy==1.11.4
     #   scikit-image
     #   scikit-learn
     #   scvi-tools
-    #   sparse
     #   statsmodels
     #   umap-learn
-scvi-tools==1.1.0
+scvi-tools==1.1.2
     # via efaar_benchmarking (pyproject.toml)
 seaborn==0.12.2
     # via
@@ -376,14 +368,14 @@ seaborn==0.12.2
     #   scanpy
 session-info==1.0.0
     # via scanpy
+setuptools==70.0.0
+    # via lightning-utilities
 six==1.16.0
     # via
     #   docrep
     #   ml-collections
     #   patsy
     #   python-dateutil
-sparse==0.14.0
-    # via scvi-tools
 statsmodels==0.14.1
     # via scanpy
 stdlib-list==0.10.0
@@ -444,12 +436,7 @@ wget==3.2
     # via efaar_benchmarking (pyproject.toml)
 wrapt==1.16.0
     # via aiobotocore
-xarray==2023.12.0
-    # via scvi-tools
 yarl==1.9.4
     # via aiohttp
 zipp==3.17.0
     # via etils
-
-# The following packages are considered to be unsafe in a requirements file:
-# setuptools
