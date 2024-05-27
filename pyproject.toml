@@ -30,19 +30,18 @@ dynamic = [
 dependencies = [
     "scikit-learn",
     "pandas",
-	"pyarrow",
-	"fsspec",
-	"s3fs",
+	"numpy",
 	"matplotlib",
-	"seaborn",
-	"gcsfs",
-	"pyarrow",
-	"scikit-image",
+	"matplotlib_venn",
+	"upsetplotly",
 	"seaborn",
 	"scvi-tools",
 	"scanpy",
 	"wget",
-	"geomloss"
+	"geomloss",
+	"torch",
+	"joblib",
+	"scipy",
 ]
 
 [project.optional-dependencies]

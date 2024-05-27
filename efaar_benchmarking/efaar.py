@@ -3,7 +3,7 @@ from typing import Optional
 import numpy as np
 import pandas as pd
 import scanpy as sc
-import scipy.linalg as linalg
+from scipy import linalg
 from scvi.model import SCVI
 from sklearn.covariance import EllipticEnvelope
 from sklearn.decomposition import PCA

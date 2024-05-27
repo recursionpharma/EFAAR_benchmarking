@@ -4,16 +4,8 @@ absl-py==2.0.0
     #   ml-collections
     #   optax
     #   orbax-checkpoint
-aiobotocore==2.9.0
-    # via s3fs
 aiohttp==3.9.2
-    # via
-    #   aiobotocore
-    #   fsspec
-    #   gcsfs
-    #   s3fs
-aioitertools==0.11.0
-    # via aiobotocore
+    # via fsspec
 aiosignal==1.3.1
     # via aiohttp
 anndata==0.10.3
@@ -54,12 +46,8 @@ black==23.12.1
     # via efaar_benchmarking (pyproject.toml)
 bleach==6.1.0
     # via nbconvert
-botocore==1.33.13
-    # via aiobotocore
 cachetools==5.3.2
-    # via
-    #   google-auth
-    #   tox
+    # via tox
 certifi==2023.11.17
     # via requests
 cffi==1.16.0
@@ -95,9 +83,7 @@ cycler==0.12.1
 debugpy==1.8.0
     # via ipykernel
 decorator==5.1.1
-    # via
-    #   gcsfs
-    #   ipython
+    # via ipython
 defusedxml==0.7.1
     # via nbconvert
 distlib==0.3.8
@@ -141,15 +127,10 @@ frozenlist==1.4.1
     #   aiosignal
 fsspec[http]==2023.12.2
     # via
-    #   efaar_benchmarking (pyproject.toml)
     #   etils
-    #   gcsfs
     #   lightning
     #   pytorch-lightning
-    #   s3fs
     #   torch
-gcsfs==2023.12.2.post1
-    # via efaar_benchmarking (pyproject.toml)
 geomloss==0.2.6
     # via efaar_benchmarking (pyproject.toml)
 get-annotations==0.1.2
@@ -158,31 +139,6 @@ gitdb==4.0.11
     # via gitpython
 gitpython==3.1.41
     # via bandit
-google-api-core==2.15.0
-    # via
-    #   google-cloud-core
-    #   google-cloud-storage
-google-auth==2.25.2
-    # via
-    #   gcsfs
-    #   google-api-core
-    #   google-auth-oauthlib
-    #   google-cloud-core
-    #   google-cloud-storage
-google-auth-oauthlib==1.2.0
-    # via gcsfs
-google-cloud-core==2.4.1
-    # via google-cloud-storage
-google-cloud-storage==2.14.0
-    # via gcsfs
-google-crc32c==1.5.0
-    # via
-    #   google-cloud-storage
-    #   google-resumable-media
-google-resumable-media==2.7.0
-    # via google-cloud-storage
-googleapis-common-protos==1.62.0
-    # via google-api-core
 h5py==3.10.0
     # via
     #   anndata
@@ -197,8 +153,6 @@ idna==3.6
     #   jsonschema
     #   requests
     #   yarl
-imageio==2.33.1
-    # via scikit-image
 importlib-metadata==7.0.1
     # via
     #   jax
@@ -245,10 +199,9 @@ jinja2==3.1.3
     #   jupyterlab-server
     #   nbconvert
     #   torch
-jmespath==1.0.1
-    # via botocore
 joblib==1.3.2
     # via
+    #   efaar_benchmarking (pyproject.toml)
     #   pynndescent
     #   scanpy
     #   scikit-learn
@@ -297,8 +250,6 @@ jupyterlab-server==2.25.2
     # via jupyterlab
 kiwisolver==1.4.5
     # via matplotlib
-lazy-loader==0.3
-    # via scikit-image
 lightning==2.1.3
     # via scvi-tools
 lightning-utilities==0.10.0
@@ -321,12 +272,15 @@ markupsafe==2.1.3
 matplotlib==3.8.2
     # via
     #   efaar_benchmarking (pyproject.toml)
+    #   matplotlib-venn
     #   scanpy
     #   seaborn
 matplotlib-inline==0.1.6
     # via
     #   ipykernel
     #   ipython
+matplotlib-venn==0.11.10
+    # via efaar_benchmarking (pyproject.toml)
 mccabe==0.7.0
     # via flake8
 mdurl==0.1.2
@@ -380,7 +334,6 @@ nest-asyncio==1.5.8
 networkx==3.2.1
     # via
     #   scanpy
-    #   scikit-image
     #   torch
 nodeenv==1.8.0
     # via pre-commit
@@ -396,14 +349,15 @@ numpy==1.26.2
     #   anndata
     #   chex
     #   contourpy
+    #   efaar_benchmarking (pyproject.toml)
     #   flax
     #   geomloss
     #   h5py
-    #   imageio
     #   jax
     #   jaxlib
     #   lightning
     #   matplotlib
+    #   matplotlib-venn
     #   ml-dtypes
     #   mudata
     #   numba
@@ -413,24 +367,19 @@ numpy==1.26.2
     #   orbax-checkpoint
     #   pandas
     #   patsy
-    #   pyarrow
     #   pyro-ppl
     #   pytorch-lightning
     #   scanpy
-    #   scikit-image
     #   scikit-learn
     #   scipy
     #   scvi-tools
     #   seaborn
     #   statsmodels
     #   tensorstore
-    #   tifffile
     #   torchmetrics
     #   umap-learn
 numpyro==0.13.2
     # via scvi-tools
-oauthlib==3.2.2
-    # via requests-oauthlib
 opt-einsum==3.3.0
     # via
     #   jax
@@ -455,11 +404,11 @@ packaging==23.2
     #   lightning-utilities
     #   matplotlib
     #   nbconvert
+    #   plotly
     #   pyproject-api
     #   pytest
     #   pytorch-lightning
     #   scanpy
-    #   scikit-image
     #   statsmodels
     #   torchmetrics
     #   tox
@@ -488,16 +437,15 @@ pbr==6.0.0
 pexpect==4.9.0
     # via ipython
 pillow==10.3.0
-    # via
-    #   imageio
-    #   matplotlib
-    #   scikit-image
+    # via matplotlib
 platformdirs==4.1.0
     # via
     #   black
     #   jupyter-core
     #   tox
     #   virtualenv
+plotly==5.22.0
+    # via upsetplotly
 pluggy==1.3.0
     # via
     #   pytest
@@ -509,10 +457,7 @@ prometheus-client==0.19.0
 prompt-toolkit==3.0.43
     # via ipython
 protobuf==4.25.1
-    # via
-    #   google-api-core
-    #   googleapis-common-protos
-    #   orbax-checkpoint
+    # via orbax-checkpoint
 psutil==5.9.7
     # via ipykernel
 ptyprocess==0.7.0
@@ -521,14 +466,6 @@ ptyprocess==0.7.0
     #   terminado
 pure-eval==0.2.2
     # via stack-data
-pyarrow==14.0.2
-    # via efaar_benchmarking (pyproject.toml)
-pyasn1==0.5.1
-    # via
-    #   pyasn1-modules
-    #   rsa
-pyasn1-modules==0.3.0
-    # via google-auth
 pycodestyle==2.11.1
     # via flake8
 pycparser==2.21
@@ -559,7 +496,6 @@ pytest-cov==4.1.0
 python-dateutil==2.8.2
     # via
     #   arrow
-    #   botocore
     #   jupyter-client
     #   matplotlib
     #   pandas
@@ -597,13 +533,7 @@ referencing==0.32.0
 requests==2.31.0
     # via
     #   fsspec
-    #   gcsfs
-    #   google-api-core
-    #   google-cloud-storage
     #   jupyterlab-server
-    #   requests-oauthlib
-requests-oauthlib==1.3.1
-    # via google-auth-oauthlib
 rfc3339-validator==0.1.4
     # via
     #   jsonschema
@@ -621,13 +551,7 @@ rpds-py==0.16.2
     # via
     #   jsonschema
     #   referencing
-rsa==4.9
-    # via google-auth
-s3fs==2023.12.2
-    # via efaar_benchmarking (pyproject.toml)
 scanpy==1.9.6
-    # via efaar_benchmarking (pyproject.toml)
-scikit-image==0.22.0
     # via efaar_benchmarking (pyproject.toml)
 scikit-learn==1.3.2
     # via
@@ -639,11 +563,12 @@ scikit-learn==1.3.2
 scipy==1.11.4
     # via
     #   anndata
+    #   efaar_benchmarking (pyproject.toml)
     #   jax
     #   jaxlib
+    #   matplotlib-venn
     #   pynndescent
     #   scanpy
-    #   scikit-image
     #   scikit-learn
     #   scvi-tools
     #   statsmodels
@@ -688,6 +613,8 @@ stevedore==5.1.0
     # via bandit
 sympy==1.12
     # via torch
+tenacity==8.3.0
+    # via plotly
 tensorstore==0.1.51
     # via
     #   flax
@@ -698,8 +625,6 @@ terminado==0.18.0
     #   jupyter-server-terminals
 threadpoolctl==3.2.0
     # via scikit-learn
-tifffile==2023.12.9
-    # via scikit-image
 tinycss2==1.2.1
     # via nbconvert
 tokenize-rt==5.2.0
@@ -719,6 +644,7 @@ toolz==0.12.0
     # via chex
 torch==2.1.2
     # via
+    #   efaar_benchmarking (pyproject.toml)
     #   geomloss
     #   lightning
     #   pyro-ppl
@@ -749,6 +675,7 @@ tqdm==4.63.1
     #   scanpy
     #   scvi-tools
     #   umap-learn
+    #   upsetplotly
 traitlets==5.14.0
     # via
     #   comm
@@ -773,7 +700,6 @@ types-setuptools==69.0.0.0
     # via efaar_benchmarking (pyproject.toml)
 typing-extensions==4.9.0
     # via
-    #   aioitertools
     #   anyio
     #   async-lru
     #   black
@@ -791,12 +717,12 @@ tzdata==2023.4
     # via pandas
 umap-learn==0.5.5
     # via scanpy
+upsetplotly==0.1.7
+    # via efaar_benchmarking (pyproject.toml)
 uri-template==1.3.0
     # via jsonschema
 urllib3==1.26.18
-    # via
-    #   botocore
-    #   requests
+    # via requests
 validate-pyproject[all]==0.15
     # via efaar_benchmarking (pyproject.toml)
 virtualenv==20.25.0
@@ -815,8 +741,6 @@ websocket-client==1.7.0
     # via jupyter-server
 wget==3.2
     # via efaar_benchmarking (pyproject.toml)
-wrapt==1.16.0
-    # via aiobotocore
 yarl==1.9.4
     # via aiohttp
 zipp==3.17.0
