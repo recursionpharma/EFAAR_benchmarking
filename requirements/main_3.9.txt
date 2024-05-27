@@ -262,7 +262,7 @@ pyyaml==6.0.1
     #   ml-collections
     #   orbax-checkpoint
     #   pytorch-lightning
-requests==2.31.0
+requests==2.32.2
     # via fsspec
 rich==13.7.0
     # via
