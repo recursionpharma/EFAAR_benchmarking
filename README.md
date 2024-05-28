@@ -30,13 +30,13 @@ This package is installable via `pip`.
 pip install efaar_benchmarking
 ```
 
-## Example code:
+## Usage guidance:
 
-Please see `notebooks/map_building_benchmarking.ipynb`.
+First, run `notebooks/map_building_benchmarking.ipynb` for GWPS, JUMP, and PERISCOPE individually. This process will build each of these maps and report the perturbation signal and biological relationship benchmarks. Afterwards, run `notebooks/map_evaluation_comparison.ipynb` to explore the constructed maps using the methods presented in our paper. In order for the latter notebook to work, make sure to set the `save_results` parameter to True in the former notebook.
 
 ## Contribution guidance:
 
-Please see `CONTRIBUTING.md`.
+See `CONTRIBUTING.md`.
 
 ## References for the relationship annotation sources:
 
