@@ -31,7 +31,7 @@ def embed_by_scvi_anndata(
     adata = adata.copy()
     SCVI.setup_anndata(adata, batch_key=batch_col)
     vae = SCVI(adata, n_hidden=n_hidden, n_latent=n_latent)
-    vae.train(use_gpu=True)
+    vae.train()
     return vae.get_latent_representation()
 
 
