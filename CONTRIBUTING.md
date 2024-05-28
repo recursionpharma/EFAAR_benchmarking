@@ -45,7 +45,9 @@ We use GitHub Issues to track bugs and features. Report them there.
 
 * If you use a new benchmark source to evaluate maps, make sure to add it to `benchmark_annotations` folder with license information added to the LICENSE file [here](https://github.com/recursionpharma/EFAAR_benchmarking/blob/trunk/efaar_benchmarking/benchmark_annotations/LICENSE).
 
-* If you are adding functions for a new perturbative map build, make sure you add a notebook to enable others so they can reproduce your results.
+* New map building pipeline functions go into the `efaar.py` module. New map benchmarking functions go into the `benchmarking.py` module. Data loading functions for new perturbation datasets go into the `data_loading.py` module.
+
+* If you are adding new functions to build and benchmark new maps, make sure to update the existing notebooks or add a new notebook to enable others to reproduce your results.
 
 ## Submitting Changes
 
