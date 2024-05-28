@@ -414,7 +414,6 @@ def convert_metrics_to_df(
     metrics: dict,
     source: str,
     random_seed_str: str,
-    filter_on_pert_prints: bool,
 ) -> pd.DataFrame:
     """
     Convert metrics dictionary to dataframe to be used in summary.
@@ -423,7 +422,6 @@ def convert_metrics_to_df(
         metrics (dict): metrics dictionary
         source (str): benchmark source name
         random_seed_str (str): random seed string from random seeds 1 and 2
-        filter_on_pert_prints (bool): whether metrics were computed after filtering on perturbation prints or not
 
     Returns:
         pd.DataFrame: a dataframe with metrics
@@ -431,7 +429,6 @@ def convert_metrics_to_df(
     metrics_dict_with_list = {key: [value] for key, value in metrics.items()}
     metrics_dict_with_list["source"] = [source]
     metrics_dict_with_list["random_seed"] = [random_seed_str]
-    metrics_dict_with_list["filter_on_pert_prints"] = [filter_on_pert_prints]
     return pd.DataFrame.from_dict(metrics_dict_with_list)
 
 
@@ -440,8 +437,6 @@ def known_relationship_benchmark(
     pert_col: str,
     benchmark_sources: list = cst.BENCHMARK_SOURCES,
     recall_thr_pairs: list = cst.RECALL_PERC_THRS,
-    filter_on_pert_prints: bool = False,
-    pert_pval_thr: float = cst.PERT_SIG_PVAL_THR,
     n_null_samples: int = cst.N_NULL_SAMPLES,
     random_seed: int = cst.RANDOM_SEED,
     n_iterations: int = cst.RANDOM_COUNT,
@@ -458,8 +453,6 @@ def known_relationship_benchmark(
         pert_col (str, optional): Column name for perturbation labels.
         benchmark_sources (list, optional): List of benchmark sources. Defaults to cst.BENCHMARK_SOURCES.
         recall_thr_pairs (list, optional): List of recall percentage threshold pairs. Defaults to cst.RECALL_PERC_THRS.
-        filter_on_pert_prints (bool, optional): Flag to filter map data based on perturbation prints. Defaults to False.
-        pert_pval_thr (float, optional): pvalue threshold for perturbation filtering. Defaults to cst.PERT_SIG_PVAL_THR.
         n_null_samples (int, optional): Number of null samples to generate. Defaults to cst.N_NULL_SAMPLES.
         random_seed (int, optional): Random seed to use for generating null samples. Defaults to cst.RANDOM_SEED.
         n_iterations (int, optional): Number of random seed pairs to use. Defaults to cst.RANDOM_COUNT.
@@ -481,8 +474,7 @@ def known_relationship_benchmark(
     if not len(benchmark_sources) > 0 and all([src in benchmark_data_dir for src in benchmark_sources]):
         ValueError("Invalid benchmark source(s) provided.")
     md = map_data.metadata
-    idx = (md[cst.PERT_SIG_PVAL_COL] <= pert_pval_thr) if filter_on_pert_prints else [True] * len(md)
-    features = map_data.features[idx].set_index(md[idx][pert_col]).rename_axis(index=None)
+    features = map_data.features.set_index(md[pert_col]).rename_axis(index=None)
     del map_data
     if not len(features) == len(set(features.index)):
         ValueError("Duplicate perturbation labels in the map.")
@@ -510,7 +502,6 @@ def known_relationship_benchmark(
                         metrics=compute_recall(null_cossim, query_cossim, recall_thr_pairs, right_sided),
                         source=s,
                         random_seed_str=random_seed_str,
-                        filter_on_pert_prints=filter_on_pert_prints,
                     )
                 )
     return pd.concat(metrics_lst, ignore_index=True)
