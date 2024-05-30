@@ -143,7 +143,7 @@ def load_cpg16_crispr(data_path: str = "data/") -> tuple[pd.DataFrame, pd.DataFr
     return merged_data.drop(columns=metadata_cols), merged_data[metadata_cols]
 
 
-def load_gwps(gene_type: str, data_type: str, data_path: str = "data/") -> sc.AnnData:
+def load_gwps(data_type: str, gene_type: str, data_path: str = "data/") -> sc.AnnData:
     """
     Load Replogle et al. 2022 single-cell RNA-seq data for K562 cells.
     Find more information about the dataset here: https://pubmed.ncbi.nlm.nih.gov/35688146/
@@ -151,10 +151,10 @@ def load_gwps(gene_type: str, data_type: str, data_path: str = "data/") -> sc.An
         plus.figshare.com/articles/dataset/_Mapping_information-rich_genotype-phenotype_landscapes_with_genome-scale_Perturb-seq_Replogle_et_al_2022_processed_Perturb-seq_datasets/20029387
 
     Parameters:
-    gene_type (str): Type of genes to load. Must be either 'essential' or 'genome_wide'.
     data_type (str): Type of data to load. Must be either 'raw' or 'normalized'.
-        Normalized means Z-normalized by gemgroup.
-    data_path (str): Path to the directory where the data will be downloaded and saved.
+        Normalized means Z-normalized by gem_group.
+    gene_type (str): Type of genes to load. Must be either 'essential' or 'all'.
+    data_path (str): Path to the directory where the data will be saved.
 
     Returns:
     Anndata object containing the single-cell RNA-seq data.
@@ -169,7 +169,7 @@ def load_gwps(gene_type: str, data_type: str, data_path: str = "data/") -> sc.An
         else:
             raise ValueError("data_type must be either raw or normalized")
 
-    elif gene_type == "genome_wide":
+    elif gene_type == "all":
         if data_type == "raw":
             filename = "K562_gwps_raw_singlecell_01.h5ad"
             src = "https://ndownloader.figshare.com/files/35775507"
@@ -180,7 +180,7 @@ def load_gwps(gene_type: str, data_type: str, data_path: str = "data/") -> sc.An
             raise ValueError("data_type must be either raw or normalized")
 
     else:
-        raise ValueError("gene_type must be either essential or genome_wide")
+        raise ValueError("gene_type must be either essential or all")
 
     fn = os.path.join(data_path, filename)
     if not os.path.exists(fn):
