@@ -4,3 +4,5 @@
 .csv filter=lfs diff=lfs merge=lfs -text
 efaar_benchmarking/expression_data/HeLa_expression.csv filter=lfs diff=lfs merge=lfs -text
 efaar_benchmarking/expression_data/U2OS_expression.csv filter=lfs diff=lfs merge=lfs -text
+JUMP_aggr_CP-PCA128-TVN_map.pkl filter=lfs diff=lfs merge=lfs -text
+PERISCOPE_aggr_CP-PCA128-TVN_map.pkl filter=lfs diff=lfs merge=lfs -text
