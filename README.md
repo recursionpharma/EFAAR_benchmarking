@@ -34,8 +34,10 @@ pip install efaar_benchmarking
 
 First, run `notebooks/map_building_benchmarking.ipynb` for GWPS, JUMP, and PERISCOPE individually. This process will build each of these maps and report the perturbation signal and biological relationship benchmarks. Afterwards, run `notebooks/map_evaluation_comparison.ipynb` to explore the constructed maps using the methods presented in our paper. In order for the latter notebook to work, make sure to set the `save_results` parameter to True in the former notebook.
 
-Note that we've uploaded the 128-dimensional TVN maps we constructed for GWPS, JUMP, and PERISCOPE to the `notebooks/data` directory. So, for convenience, one can run notebooks/map_evaluation_comparison.ipynb directly on these uploaded map files if they wish to explore the maps further.
+We've uploaded the 128-dimensional TVN maps we constructed for GWPS, JUMP, and PERISCOPE to the `notebooks/data` directory. So, for convenience, one can run notebooks/map_evaluation_comparison.ipynb directly on these uploaded map files if they wish to explore the maps further without running `notebooks/map_building_benchmarking.ipynb`.
 RPIE CNN embeddings are available as separate parquet files per plate in the embeddings.tar file, downloadable from https://rxrx3.rxrx.ai/downloads. The code for loading these embeddings and processing through TVN and other EFAAR steps detailed in our study is not currently in this repo, but we have plans to include it in the near future. It's important to note that in the rxrx3 data, all but ~1000 genes are anonymized, and we intend to maintain that level of anonymity in this repo.
+
+Note that you have to install GitHub LFS (Large File Storage) to properly utilize the files under `notebooks/data` and `efaar_benchmarking/expression_data` in your local clone of the repository.
 
 ## Contribution guidance:
 
