@@ -143,7 +143,7 @@ def load_cpg16_crispr(data_path: str = "data/") -> tuple[pd.DataFrame, pd.DataFr
     return merged_data.drop(columns=metadata_cols), merged_data[metadata_cols]
 
 
-def load_gwps(data_type: str, gene_type: str, data_path: str = "data/") -> sc.AnnData:
+def load_gwps(data_type: str, gene_type: str = "all", data_path: str = "data/") -> sc.AnnData:
     """
     Load Replogle et al. 2022 single-cell RNA-seq data for K562 cells.
     Find more information about the dataset here: https://pubmed.ncbi.nlm.nih.gov/35688146/
@@ -153,7 +153,7 @@ def load_gwps(data_type: str, gene_type: str, data_path: str = "data/") -> sc.An
     Parameters:
     data_type (str): Type of data to load. Must be either 'raw' or 'normalized'.
         Normalized means Z-normalized by gem_group.
-    gene_type (str): Type of genes to load. Must be either 'essential' or 'all'.
+    gene_type (str): Type of genes to load. Must be either 'essential' or 'all'. Defaults to 'all'.
     data_path (str): Path to the directory where the data will be saved.
 
     Returns:
