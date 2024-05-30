@@ -4,6 +4,8 @@
 .csv filter=lfs diff=lfs merge=lfs -text
 efaar_benchmarking/expression_data/HeLa_expression.csv filter=lfs diff=lfs merge=lfs -text
 efaar_benchmarking/expression_data/U2OS_expression.csv filter=lfs diff=lfs merge=lfs -text
-JUMP_aggr_CP-PCA128-TVN_map.pkl filter=lfs diff=lfs merge=lfs -text
-PERISCOPE_aggr_CP-PCA128-TVN_map.pkl filter=lfs diff=lfs merge=lfs -text
+notebooks/data/JUMP_aggr_CP-PCA128-TVN_map.pkl filter=lfs diff=lfs merge=lfs -text
+notebooks/data/PERISCOPE_aggr_CP-PCA128-TVN_map.pkl filter=lfs diff=lfs merge=lfs -text
 notebooks/data/GWPS_aggr_scVI128-TVN_map.pkl filter=lfs diff=lfs merge=lfs -text
+notebooks/data/JUMP_pre_agg_metadata.pkl filter=lfs diff=lfs merge=lfs -text
+notebooks/data/PERISCOPE_pre_agg_metadata.pkl filter=lfs diff=lfs merge=lfs -text
