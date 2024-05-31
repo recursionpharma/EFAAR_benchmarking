@@ -5,7 +5,7 @@ import pandas as pd
 import seaborn as sns
 
 
-def plot_recall(metric_dfs: dict, right_sided: bool = False, title=""):
+def plot_recall(metric_dfs: dict, title=""):
     """
     Plots line plots of recall values for several threshold pairs for each benchmark source and each map.
 
@@ -23,10 +23,7 @@ def plot_recall(metric_dfs: dict, right_sided: bool = False, title=""):
     df_template = list(metric_dfs.values())[0]  # this is used as the template for the structure and labels of the plots
     recall_thr_pairs = [col.split("_")[1:] for col in df_template.columns if col.startswith("recall_")]
     x_values = [f"{x}, {y}" for x, y in recall_thr_pairs]
-    if right_sided:
-        random_recall_values = [1 - float(y) for x, y in recall_thr_pairs]
-    else:
-        random_recall_values = [float(x) + 1 - float(y) for x, y in recall_thr_pairs]
+    random_recall_values = [float(x) + 1 - float(y) for x, y in recall_thr_pairs]
 
     col_cnt = 5
     sns.set_style("whitegrid")
