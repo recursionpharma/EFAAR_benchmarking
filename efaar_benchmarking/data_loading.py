@@ -69,7 +69,7 @@ def load_periscope(cell_type="HeLa", plate_type="DMEM", normalized=True) -> tupl
     ]
     metadata = per_data_all[mcols]  # type: ignore[call-overload]
     features = per_data_all.drop(mcols, axis=1).dropna(axis=1)  # type: ignore[attr-defined]
-    return features, metadata
+    return features.reset_index(drop=True), metadata.reset_index(drop=True)
 
 
 def load_cpg16_crispr(data_path: str = "data/") -> tuple[pd.DataFrame, pd.DataFrame]:
