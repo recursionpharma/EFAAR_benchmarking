@@ -274,7 +274,7 @@ def compute_process_cosine_sim(
 
 
 def generate_null_cossims(feats: pd.DataFrame) -> np.ndarray:
-    """Generate null cosine similarity values between randomly sampled subsets of entities.
+    """Generate empirical null cosine similarity distribution.
 
     Args:
         feats (pd.DataFrame): Features of the entities.
