@@ -61,7 +61,8 @@ def load_periscope(cell_type="HeLa", plate_type="DMEM", normalized=True) -> tupl
             per_data[PERISCOPE_BATCH_COL] = future_to_plate[future]
             per_data_all.append(per_data)
 
-    per_data_all = pd.concat(per_data_all).reset_index(drop=True)
+    per_data_all = pd.concat(per_data_all)
+    per_data_all.reset_index(drop=True, inplace=True)
     mcols = [
         "Metadata_Foci_Barcode_MatchedTo_GeneCode",
         "Metadata_Foci_Barcode_MatchedTo_Barcode",
