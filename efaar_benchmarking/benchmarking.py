@@ -245,47 +245,6 @@ def pert_signal_distance_benchmark(
     return pd.DataFrame(query_metrics, columns=["pert", "edist", "pval"])
 
 
-def compute_process_cosine_sim(
-    entity1_feats: pd.DataFrame,
-    entity2_feats: pd.DataFrame,
-    filter_to_pairs: Optional[pd.DataFrame] = None,
-) -> np.ndarray:
-    """Compute pairwise cosine similarity between two sets of entities' features.
-
-    Args:
-        entity1_feats (pd.DataFrame): Features of the first set of entities.
-        entity2_feats (pd.DataFrame): Features of the second set of entities.
-        filter_to_pairs (Optional[pd.DataFrame], optional): DataFrame to filter the pairs to. Defaults to None.
-
-    Returns:
-        np.ndarray: A NumPy array containing the cosine similarity values between the pairs of entities.
-    """
-
-    cosi = pd.DataFrame(
-        cosine_similarity(entity1_feats, entity2_feats), index=entity1_feats.index, columns=entity2_feats.index
-    )
-    # convert pairwise cosine similarity matrix to a data frame of triples so that filtering and grouping is easy
-    cosi = cosi.stack()[np.ones(cosi.size).astype("bool")].reset_index()
-    cosi.columns = ["entity1", "entity2", "cosine_sim"]
-    if filter_to_pairs is not None:
-        cosi = cosi.merge(filter_to_pairs, how="right", on=["entity1", "entity2"])
-    cosi = cosi[cosi.entity1 != cosi.entity2]  # remove self cosine similarities
-    return cosi.cosine_sim.values
-
-
-def generate_null_cossims(feats: pd.DataFrame) -> np.ndarray:
-    """Generate empirical null cosine similarity distribution.
-
-    Args:
-        feats (pd.DataFrame): Features of the entities.
-
-    Returns:
-        np.ndarray: A NumPy array containing the empirical null cosine similarity values.
-    """
-
-    return compute_process_cosine_sim(feats, feats)
-
-
 def filter_relationships(df: pd.DataFrame):
     """
     Filters a DataFrame of relationships between entities, removing any rows with self-relationships, ie. where
@@ -321,31 +280,20 @@ def get_benchmark_relationships(benchmark_data_dir: str, src: str, filter=True):
     return filter_relationships(df) if filter else df
 
 
-def generate_query_cossims(
-    feats: pd.DataFrame,
-    gt_source_df: pd.DataFrame,
-    min_req_entity_cnt: int = cst.MIN_REQ_ENT_CNT,
-) -> np.ndarray:
-    """Generate cosine similarity values between entities' features.
+def generate_query_cossims(cossim_matrix: pd.DataFrame, rels: pd.DataFrame):
+    """
+    Generate cosine similarities for the query relationships.
 
     Args:
-        feats (pd.DataFrame): Features of the first set of entities.
-        gt_source_df (pd.DataFrame): DataFrame containing ground truth annotation sources.
-        min_req_entity_cnt (int, optional): Minimum required entity count for benchmarking.
-            Defaults to cst.MIN_REQ_ENT_CNT.
+        cossim_matrix (pd.DataFrame): The cosine similarity matrix.
+        rels (pd.DataFrame): The relationships DataFrame.
 
     Returns:
-        np.ndarray: A NumPy array containing the query-specific cosine similarity values, or None
-            if there are not enough entities for benchmarking.
+        np.ndarray: A NumPy array containing the cosine similarity values for the query relationships.
     """
-
-    gt_source_df = gt_source_df[gt_source_df.entity1.isin(feats.index) & gt_source_df.entity2.isin(feats.index)]
-    entity1_feats = feats.loc[list(set(gt_source_df.entity1))]
-    entity2_feats = feats.loc[list(set(gt_source_df.entity2))]
-    if len(set(entity1_feats.index)) >= min_req_entity_cnt and len(set(entity2_feats.index)) >= min_req_entity_cnt:
-        return compute_process_cosine_sim(entity1_feats, entity2_feats, gt_source_df)
-    else:
-        return np.empty(shape=(0, 0))
+    rels["sorted_pair"] = rels.apply(lambda row: tuple(sorted([row["entity1"], row["entity2"]])), axis=1)
+    unique_pairs = rels["sorted_pair"].drop_duplicates()
+    return np.array([cossim_matrix.loc[pair[0], pair[1]] for pair in unique_pairs])
 
 
 def compute_recall(
@@ -446,15 +394,17 @@ def known_relationship_benchmark(
         print(len(features), "perturbations exist in the map.")
 
     metrics_lst = []
-    null_cossim = generate_null_cossims(features)
+    cossim_matrix = pd.DataFrame(cosine_similarity(features, features), index=features.index, columns=features.index)
+    cossim_values = cossim_matrix.values[np.triu_indices(cossim_matrix.shape[0], k=1)]
     for s in benchmark_sources:
         rels = get_benchmark_relationships(benchmark_data_dir, s)
-        query_cossim = generate_query_cossims(features, rels)
+        rels = rels[rels.entity1.isin(features.index) & rels.entity2.isin(features.index)]
+        query_cossim = generate_query_cossims(cossim_matrix, rels)
         if log_stats:
             print(len(query_cossim), "relationships are used from the benchmark source", s)
         if len(query_cossim) > 0:
             metrics_lst.append(
-                convert_metrics_to_df(metrics=compute_recall(null_cossim, query_cossim, recall_thr_pairs), source=s)
+                convert_metrics_to_df(metrics=compute_recall(cossim_values, query_cossim, recall_thr_pairs), source=s)
             )
     return pd.concat(metrics_lst, ignore_index=True)
 
