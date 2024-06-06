@@ -280,22 +280,6 @@ def get_benchmark_relationships(benchmark_data_dir: str, src: str, filter=True):
     return filter_relationships(df) if filter else df
 
 
-def generate_query_cossims(cossim_matrix: pd.DataFrame, rels: pd.DataFrame):
-    """
-    Generate cosine similarities for the query relationships.
-
-    Args:
-        cossim_matrix (pd.DataFrame): The cosine similarity matrix.
-        rels (pd.DataFrame): The relationships DataFrame.
-
-    Returns:
-        np.ndarray: A NumPy array containing the cosine similarity values for the query relationships.
-    """
-    rels["sorted_pair"] = rels.apply(lambda row: tuple(sorted([row["entity1"], row["entity2"]])), axis=1)
-    unique_pairs = rels["sorted_pair"].drop_duplicates()
-    return np.array([cossim_matrix.loc[pair[0], pair[1]] for pair in unique_pairs])
-
-
 def compute_recall(
     null_distribution: np.ndarray,
     query_distribution: np.ndarray,
@@ -399,7 +383,7 @@ def known_relationship_benchmark(
     for s in benchmark_sources:
         rels = get_benchmark_relationships(benchmark_data_dir, s)
         rels = rels[rels.entity1.isin(features.index) & rels.entity2.isin(features.index)]
-        query_cossim = generate_query_cossims(cossim_matrix, rels)
+        query_cossim = np.array([cossim_matrix.loc[e1, e2] for e1, e2 in rels.itertuples(index=False)])
         if log_stats:
             print(len(query_cossim), "relationships are used from the benchmark source", s)
         if len(query_cossim) > 0:
