@@ -279,4 +279,4 @@ def filter_cell_profiler_features(
     if drop_image_cols:
         features = features.drop(columns=[col for col in features.columns if col.startswith("Image_")])
 
-    return features, metadata
+    return features.reset_index(drop=True), metadata.reset_index(drop=True)
