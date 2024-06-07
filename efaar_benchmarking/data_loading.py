@@ -9,8 +9,6 @@ import pandas as pd
 import scanpy as sc
 import wget
 
-from efaar_benchmarking.constants import PERISCOPE_BATCH_COL
-
 
 def load_periscope(cell_type="HeLa", plate_type="DMEM", normalized=True) -> tuple[pd.DataFrame, pd.DataFrame]:
     """
@@ -58,7 +56,7 @@ def load_periscope(cell_type="HeLa", plate_type="DMEM", normalized=True) -> tupl
         }
         for future in as_completed(future_to_plate):
             per_data = future.result()
-            per_data[PERISCOPE_BATCH_COL] = future_to_plate[future]
+            per_data["Metadata_Plate"] = future_to_plate[future]
             per_data_all.append(per_data)
 
     per_data_all = pd.concat(per_data_all)
@@ -66,7 +64,7 @@ def load_periscope(cell_type="HeLa", plate_type="DMEM", normalized=True) -> tupl
     mcols = [
         "Metadata_Foci_Barcode_MatchedTo_GeneCode",
         "Metadata_Foci_Barcode_MatchedTo_Barcode",
-        PERISCOPE_BATCH_COL,
+        "Metadata_Plate",
     ]
     metadata = per_data_all[mcols]  # type: ignore[call-overload]
     features = per_data_all.drop(mcols, axis=1).dropna(axis=1)  # type: ignore[attr-defined]
@@ -139,9 +137,9 @@ def load_cpg16_crispr(data_path: str = "data/") -> tuple[pd.DataFrame, pd.DataFr
                 features.append(future.result())
         pd.concat(features).to_parquet(features_file_path)
     features = pd.read_parquet(features_file_path).dropna(axis=1)
-    metadata_cols = metadata.columns
     merged_data = metadata.merge(features, on=["Metadata_Source", "Metadata_Plate", "Metadata_Well"])
-    return merged_data.drop(columns=metadata_cols), merged_data[metadata_cols]
+    metadata_cols = ["Metadata_Symbol", "Metadata_Plate", "Metadata_Batch"]
+    return merged_data.drop(columns=metadata.columns), merged_data[metadata_cols]
 
 
 def load_gwps(data_type: str, gene_type: str = "all", data_path: str = "data/") -> sc.AnnData:

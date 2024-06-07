@@ -39,6 +39,7 @@ def embed_by_pca_anndata(adata, n_latent: int = 128) -> np.ndarray:
     """
     Embed the input data using principal component analysis (PCA).
     Note that the data is centered by the `pca` function prior to PCA transformation.
+    Also note that we are passing batch-normalized anndata to this function.
 
     Args:
         adata (AnnData): Annotated data matrix.
@@ -52,11 +53,12 @@ def embed_by_pca_anndata(adata, n_latent: int = 128) -> np.ndarray:
     return adata.obsm["X_pca"]
 
 
-def centerscale_on_batch(
+def centerscale_by_batch(
     features: np.ndarray, metadata: pd.DataFrame = None, batch_col: Optional[str] = None
 ) -> np.ndarray:
     """
-    Center and scale the input features based on the batch information.
+    Center and scale the input features by each batch. Not using any controls at all.
+    We are using this prior to embedding high-dimensional data with PCA.
 
     Args:
         features (np.ndarray): Input features to be centered and scaled.
@@ -66,6 +68,7 @@ def centerscale_on_batch(
     Returns:
         np.ndarray: Centered and scaled features.
     """
+    features = features.copy()
     if batch_col is None:
         features = StandardScaler().fit_transform(features)
     else:
@@ -86,7 +89,7 @@ def embed_by_pca(
 ) -> np.ndarray:
     """
     Embed the whole input data using principal component analysis (PCA).
-    Note that we explicitly center & scale the data before calling `PCA`.
+    Note that we explicitly center & scale the data (by batch) before an embedding operation with `PCA`.
     Centering and scaling is done by batch if `batch_col` is not None, and on the whole data otherwise.
     Also note that `PCA` transformer also does mean-centering on the whole data prior to the PCA operation.
 
@@ -101,8 +104,8 @@ def embed_by_pca(
     Returns:
         np.ndarray: Transformed data using PCA.
     """
-
-    features = centerscale_on_batch(features, metadata, batch_col)
+    features = features.copy()
+    features = centerscale_by_batch(features, metadata, batch_col)
     features = PCA(variance_or_ncomp).fit_transform(features)
     return features
 
@@ -112,24 +115,33 @@ def centerscale_on_controls(
     metadata: pd.DataFrame,
     pert_col: str,
     control_key: str,
-    scale: bool = True,
+    batch_col: Optional[str] = None,
 ) -> np.ndarray:
     """
-    Center and scale the embeddings by the control perturbation units in the metadata.
+    Center and scale the embeddings on the control perturbation units in the metadata.
+    If batch information is provided, the embeddings are centered and scaled by batch.
 
     Args:
         embeddings (numpy.ndarray): The embeddings to be aligned.
         metadata (pandas.DataFrame): The metadata containing information about the embeddings.
         pert_col (str, optional): The column in the metadata containing perturbation information.
         control_key (str, optional): The key for non-targeting controls in the metadata.
-        scale (bool): Whether to scale the embeddings besides centering. Defaults to True.
-
+        batch_col (str, optional): Column name in the metadata representing the batch labels.
+            Defaults to None.
     Returns:
         numpy.ndarray: The aligned embeddings.
     """
+    embeddings = embeddings.copy()
+    if batch_col is not None:
+        batches = metadata[batch_col].unique()
+        for batch in batches:
+            batch_ind = metadata[batch_col] == batch
+            batch_control_ind = batch_ind & (metadata[pert_col] == control_key)
+            embeddings[batch_ind] = StandardScaler().fit(embeddings[batch_control_ind]).transform(embeddings[batch_ind])
+        return embeddings
+
     control_ind = metadata[pert_col] == control_key
-    ss = StandardScaler() if scale else StandardScaler(with_std=False)
-    return ss.fit(embeddings[control_ind]).transform(embeddings)
+    return StandardScaler().fit(embeddings[control_ind]).transform(embeddings)
 
 
 def tvn_on_controls(
@@ -137,7 +149,7 @@ def tvn_on_controls(
     metadata: pd.DataFrame,
     pert_col: str,
     control_key: str,
-    batch_col_coral: Optional[str] = None,
+    batch_col: Optional[str] = None,
 ) -> np.ndarray:
     """
     Apply TVN (Typical Variation Normalization) to the data based on the control perturbation units.
@@ -148,20 +160,21 @@ def tvn_on_controls(
         metadata (pd.DataFrame): The metadata containing information about the samples.
         pert_col (str): The column name in the metadata DataFrame that represents the perturbation labels.
         control_key (str): The control perturbation label.
-        batch_col_coral (str, optional): Column name in the metadata DataFrame representing the batch labels
+        batch_col (str, optional): Column name in the metadata DataFrame representing the batch labels
             to be used for CORAL normalization. Defaults to None.
 
     Returns:
         np.ndarray: The normalized embeddings.
     """
+    embeddings = embeddings.copy()
     ctrl_ind = metadata[pert_col] == control_key
     embeddings = centerscale_on_controls(embeddings, metadata, pert_col, control_key)
     embeddings = PCA().fit(embeddings[ctrl_ind]).transform(embeddings)
     embeddings = centerscale_on_controls(embeddings, metadata, pert_col, control_key)
-    if batch_col_coral is not None:
-        batches = metadata[batch_col_coral].unique()
+    if batch_col is not None:
+        batches = metadata[batch_col].unique()
         for batch in batches:
-            batch_ind = metadata[batch_col_coral] == batch
+            batch_ind = metadata[batch_col] == batch
             batch_control_ind = batch_ind & (metadata[pert_col] == control_key)
             source_cov = np.cov(embeddings[batch_control_ind], rowvar=False, ddof=1) + 0.5 * np.eye(embeddings.shape[1])
             source_cov_half_inv = linalg.fractional_matrix_power(source_cov, -0.5)
@@ -173,11 +186,13 @@ def aggregate(
     embeddings: np.ndarray,
     metadata: pd.DataFrame,
     pert_col: str,
-    control_key: str,
+    keys_to_remove: list[str] = [],
     method="mean",
 ) -> Bunch[pd.DataFrame, pd.DataFrame]:
     """
     Apply the mean or median aggregation to replicate embeddings for each perturbation.
+    Note that this function resets the index of the metadata DataFrame so that we can access groups
+    in embeddings by index.
 
     Args:
         embeddings (numpy.ndarray): The embeddings to be aggregated.
@@ -192,20 +207,22 @@ def aggregate(
             - 'features': The aggregated embeddings.
             - 'metadata': A DataFrame containing the perturbation labels for each row in 'data'.
     """
-
-    unique_perts = list(np.unique(metadata[pert_col].values))
-    unique_perts.remove(control_key)
-    final_embeddings = np.zeros((len(unique_perts), embeddings.shape[1]))
-    if method == "mean":
-        aggr_func = np.mean
-    elif method == "median":
-        aggr_func = np.median  # type: ignore[assignment]
-    else:
+    final_embeddings = []
+    metadata = metadata.reset_index(drop=True)
+    aggr_func = np.mean if method == "mean" else np.median if method == "median" else None
+    if aggr_func is None:
         raise ValueError(f"Invalid aggregation method: {method}")
-    for i, pert in enumerate(unique_perts):
-        idxs = np.where(metadata[pert_col].values == pert)[0]
-        final_embeddings[i, :] = aggr_func(embeddings[idxs, :], axis=0)
-    return Bunch(features=pd.DataFrame(final_embeddings), metadata=pd.DataFrame.from_dict({pert_col: unique_perts}))
+    grouping = metadata.groupby(pert_col)
+    unique_perts = []
+    for pert, group in grouping:
+        if pert in keys_to_remove:
+            continue
+        final_emb = aggr_func(embeddings[group.index.values, :], axis=0)
+        final_embeddings.append(final_emb)
+        unique_perts.append(pert)
+    return Bunch(
+        features=pd.DataFrame(np.vstack(final_embeddings)), metadata=pd.DataFrame.from_dict({pert_col: unique_perts})
+    )
 
 
 def filter_to_perturbations(
