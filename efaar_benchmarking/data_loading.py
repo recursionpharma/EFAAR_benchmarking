@@ -139,8 +139,8 @@ def load_cpg16_crispr(data_path: str = "data/") -> tuple[pd.DataFrame, pd.DataFr
                 features.append(future.result())
         pd.concat(features).to_parquet(features_file_path)
     features = pd.read_parquet(features_file_path).dropna(axis=1)
-    metadata_cols = metadata.columns
     merged_data = metadata.merge(features, on=["Metadata_Source", "Metadata_Plate", "Metadata_Well"])
+    metadata_cols = ["Metadata_Symbol", "Metadata_Plate", "Metadata_Batch"]
     return merged_data.drop(columns=metadata_cols), merged_data[metadata_cols]
 
 
