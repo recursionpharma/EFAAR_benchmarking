@@ -42,6 +42,7 @@ dependencies = [
 	"torch",
 	"joblib",
 	"scipy",
+ 	"s3fs",
 ]
 
 [project.optional-dependencies]
