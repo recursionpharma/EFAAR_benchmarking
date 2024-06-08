@@ -188,3 +188,32 @@ def load_gwps(data_type: str, gene_type: str = "all", data_path: str = "data/") 
     adata = sc.read_h5ad(fn)
     adata = adata[:, np.all(~np.isnan(adata.X) & ~np.isinf(adata.X), axis=0)]
     return adata
+
+
+def load_rxrx3(data_path: str = "data/rxrx3/"):
+    """
+    Load Recursion's rxrx3 dataset.
+    Note that you have to download the RPIE CNNBC embeddings and metadata manually from
+    https://rxrx3.rxrx.ai/downloads as a sign-in process is required.
+    Data is expected to be present as unzipped files in the `data_path` directory passed as an argument here.
+
+    Args:
+        data_path (str): Path to the data directory. Default is "data/rxrx3/".
+
+    Returns:
+        tuple: A tuple containing two pandas DataFrames:
+            - features: DataFrame containing the extracted features.
+            - metadata: DataFrame containing the metadata information.
+
+    """
+    metadata = pd.read_csv(os.path.join(data_path, "metadata_rxrx3.csv"), low_memory=False)
+    rxrx3 = pd.read_parquet(os.path.join(data_path, "embeddings")).merge(metadata, on="well_id")
+    mcols = ["experiment_name", "plate", "treatment"]
+    fcols = [x for x in list(rxrx3.columns) if "feature" in x]
+    rxrx3 = rxrx3[mcols + fcols]
+    rxrx3.dropna(inplace=True)
+    metadata = rxrx3[mcols]
+    metadata["gene"] = metadata["treatment"].apply(lambda x: x.split("_")[0] if "_control" not in x else x)
+    metadata = metadata.drop(columns=["treatment"]).reset_index(drop=True)
+    features = rxrx3[fcols].reset_index(drop=True)
+    return features, metadata

@@ -1,42 +1,45 @@
+import os
+
 import numpy as np
 import pandas as pd
 
-from efaar_benchmarking import benchmarking
+from efaar_benchmarking import benchmarking, constants
 
 
-def test_generate_query_cossims():
-    feats = pd.DataFrame(
-        np.array([[1, 4, 9], [2, 5, 8], [9, 5, 7]]),
-        index=[f"g{i}" for i in range(3)],
-        columns=[f"f{i}" for i in range(3)],
-    )
-    gt_source_df = pd.DataFrame({"entity1": ["g0", "g1"], "entity2": ["g1", "g2"], "source": ["s0", "s1"]})
-    result = benchmarking.generate_query_cossims(feats, gt_source_df, min_req_entity_cnt=1)
-    assert isinstance(result, np.ndarray)
-    assert result.shape == (2,)
-    np.testing.assert_array_almost_equal(result, np.array([0.98463063, 0.82457065]), decimal=8)
+def test_pert_signal_consistency_metric():
+    arr1 = np.array([[1, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5]])
+    null = np.array([1, 2, 3, 4, 5])
+
+    result = benchmarking.pert_signal_consistency_metric(arr1)
+    assert result == 0
+
+    result = benchmarking.pert_signal_consistency_metric(arr1, null)
+    assert round(result[0]) == 0
+    assert round(result[1]) == 0
 
 
-def test_compute_process_cosine_sim_same_entities():
-    feats1 = pd.DataFrame(
-        np.random.rand(10, 3), index=[f"g{i}" for i in range(10)], columns=[f"f{i}" for i in range(3)]
-    )
-    feats2 = pd.DataFrame(
-        np.random.rand(10, 3), index=[f"g{i}" for i in range(10)], columns=[f"f{i}" for i in range(3)]
-    )
-    result = benchmarking.compute_process_cosine_sim(feats1, feats2)
-    assert result.shape == (90,)
+def test_pert_signal_distance_metric():
+    arr1 = np.array([[1, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5]])
+    arr2 = np.array([[6, 7, 8, 9, 10], [6, 7, 8, 9, 10], [6, 7, 8, 9, 10], [6, 7, 8, 9, 10], [6, 7, 8, 9, 10]])
+    null = np.array([1, 2, 3, 4, 5])
+
+    result = benchmarking.pert_signal_distance_metric(arr1, arr1)
+    assert result == 0
+
+    result = benchmarking.pert_signal_distance_metric(arr1, arr2)
+    assert round(result) == 22
+
+    result = benchmarking.pert_signal_distance_metric(arr1, arr2, null)
+    assert round(result[0]) == 22
+    assert round(result[1]) == 0
 
 
-def test_compute_process_cosine_sim_different_entities():
-    feats1 = pd.DataFrame(
-        np.random.rand(10, 3), index=[f"g{i}" for i in range(10)], columns=[f"f{i}" for i in range(3)]
-    )
-    feats2 = pd.DataFrame(
-        np.random.rand(10, 3), index=[f"g{i}" for i in range(10, 20)], columns=[f"f{i}" for i in range(3)]
-    )
-    result = benchmarking.compute_process_cosine_sim(feats1, feats2)
-    assert result.shape == (100,)
+def test_benchmark_annotations():
+    benchmark_files = [f for f in os.listdir(constants.BENCHMARK_DATA_DIR) if f.endswith(".txt")]
+    for file in benchmark_files:
+        with open(os.path.join(constants.BENCHMARK_DATA_DIR, file)) as f:
+            header = f.readline().strip().split(",")
+            assert header[0] == "entity1" and header[1] == "entity2"
 
 
 def test_compute_recall():

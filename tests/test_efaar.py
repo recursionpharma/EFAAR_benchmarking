@@ -23,7 +23,7 @@ def test_centerscale_on_batch():
     metadata = pd.DataFrame({"batch": ["batch1", "batch1", "batch2"]})
     batch_col = "batch"
     expected_result = np.array([[-1, -1, -1], [1, 1, 1], [0, 0, 0]])
-    scaled_features = efaar.centerscale_on_batch(features, metadata, batch_col)
+    scaled_features = efaar.centerscale_by_batch(features, metadata, batch_col)
     assert np.array_equal(scaled_features, expected_result)
 
 
