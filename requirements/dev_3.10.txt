@@ -708,7 +708,7 @@ upsetplotly==0.1.7
     # via efaar_benchmarking (pyproject.toml)
 uri-template==1.3.0
     # via jsonschema
-urllib3==2.0.7
+urllib3==1.26.19
     # via requests
 validate-pyproject[all]==0.15
     # via efaar_benchmarking (pyproject.toml)
