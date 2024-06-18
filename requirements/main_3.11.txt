@@ -260,7 +260,7 @@ rich==13.7.0
     #   scvi-tools
 scanpy==1.9.6
     # via efaar_benchmarking (pyproject.toml)
-scikit-learn==1.3.2
+scikit-learn==1.5.0
     # via
     #   efaar_benchmarking (pyproject.toml)
     #   pynndescent
