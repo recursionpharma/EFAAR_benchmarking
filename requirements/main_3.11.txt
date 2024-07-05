@@ -17,7 +17,7 @@ array-api-compat==1.4
     # via anndata
 attrs==23.1.0
     # via aiohttp
-certifi==2023.11.17
+certifi==2024.7.4
     # via requests
 charset-normalizer==3.3.2
     # via requests
