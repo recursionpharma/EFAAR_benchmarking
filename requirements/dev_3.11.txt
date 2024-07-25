@@ -611,7 +611,7 @@ tokenize-rt==5.2.0
     # via pyupgrade
 toolz==0.12.0
     # via chex
-torch==2.1.2
+torch==2.2.0
     # via
     #   efaar_benchmarking (pyproject.toml)
     #   geomloss
