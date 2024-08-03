@@ -23,7 +23,7 @@ classifiers = [
 	"Programming Language :: Python :: 3",
 ]
 keywords=["efaar_benchmarking"]
-requires-python = ">=3.9"
+requires-python = ">=3.11"
 dynamic = [
 	"version",
 ]
@@ -36,7 +36,6 @@ dependencies = [
 	"upsetplotly",
 	"seaborn",
 	"scvi-tools",
-	"scanpy",
 	"wget",
 	"geomloss",
 	"torch",
@@ -87,7 +86,7 @@ env = [
 
 [tool.mypy]
 files = "efaar_benchmarking"
-python_version = "3.9"
+python_version = "3.11"
 ignore_missing_imports = true
 show_error_codes = true
 # strict = true
@@ -103,11 +102,11 @@ exclude = "tests"
 
 [tool.black]
 line-length = 120
-target-version = ["py39", "py310", "py311"]
+target-version = ["py311"]
 
 [tool.ruff]
 select = ["E", "F"]
 ignore = []
 exclude = [".bzr", ".direnv", ".eggs", ".git", ".mypy_cache", ".nox", ".ruff_cache", ".tox", ".venv", "__pypackages__", "_build", "build", "dist", "venv"]
 line-length = 120
-target-version = "py39"
+target-version = "py311"
