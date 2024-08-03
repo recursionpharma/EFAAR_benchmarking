@@ -1,5 +1,4 @@
 from pathlib import Path
-from time import time
 from typing import Optional, Union
 
 import numpy as np
@@ -15,124 +14,96 @@ import efaar_benchmarking.constants as cst
 
 
 def pert_signal_consistency_metric(
-    arr: np.ndarray, null: np.ndarray = np.array([])
+    arr: np.ndarray, sorted_null: np.ndarray = np.array([])
 ) -> Union[Optional[float], tuple[Optional[float], Optional[float]]]:
     """
-    Calculate the perturbation signal consistency metric, i.e., average cosine angle and associated p-value,
+    Calculate the perturbation signal consistency metric, i.e., average cosine and associated p-value,
         for a given array.
 
     Args:
         arr (numpy.ndarray): The input array.
-        null (numpy.ndarray, optional): Null distribution of the metric. Defaults to an empty array.
+        sorted_null (numpy.ndarray, optional): Null distribution of the metric. Defaults to an empty array.
+            If not empty, required to be sorted in ascending order prior to passing to this function.
 
     Returns:
         Union[Optional[float], tuple[Optional[float], Optional[float]]]:
-        - If null is empty, returns the average angle as a float. If the length of the input array is less than 2,
+        - If null is empty, returns the average cosine as a float. If the length of the input array is less than 2,
             returns None.
-        - If null is not empty, returns a tuple containing the average angle and p-value of the metric. If the length
+        - If null is not empty, returns a tuple containing the average cosine and p-value of the metric. If the length
             of the input array is less than 2, returns (None, None).
     """
     if len(arr) < 2:
-        return None if len(null) == 0 else None, None
+        return np.nan if len(sorted_null) == 0 else (np.nan, np.nan)
+
     cosine_sim = np.clip(cosine_similarity(arr), -1, 1)  # to avoid floating point precision errors
-    avg_angle = np.arccos(cosine_sim[np.tril_indices(cosine_sim.shape[0], k=-1)]).mean()
-    if len(null) == 0:
-        return avg_angle
+    cosine_sim = cosine_sim[np.tril_indices(cosine_sim.shape[0], k=-1)].mean()
+
+    if len(sorted_null) == 0:
+        return cosine_sim
     else:
-        sorted_null = np.sort(null)
-        pval = np.searchsorted(sorted_null, avg_angle) / len(sorted_null)
-        return avg_angle, pval
+        pval = 1 - np.searchsorted(sorted_null, cosine_sim) / len(sorted_null)
+        return cosine_sim, pval
 
 
 def pert_signal_consistency_benchmark(
     features: np.ndarray,
     metadata: pd.DataFrame,
     pert_col: str,
-    batch_col: Optional[str] = None,
+    neg_ctrl_perts: list,
     keys_to_drop: list = [],
-    n_samples: int = cst.N_NULL_SAMPLES,
-    random_seed: int = cst.RANDOM_SEED,
     n_jobs: int = 5,
 ) -> pd.DataFrame:
     """
     Perform perturbation consistency benchmarking on the given features and metadata.
+    Filter out perturbations specified in the `keys_to_drop` list.
+    Use negative control perturbations specified in the `neg_ctrl_perts` list for the null distribution.
+    Calculate the query metrics for each perturbation and return them in a dataframe.
 
     Args:
         features (np.ndarray): The array of features.
         metadata (pd.DataFrame): The metadata dataframe.
         pert_col (str): The column name in the metadata dataframe representing the perturbations.
-        batch_col (str): The column name in the metadata dataframe representing the batches.
-        keys_to_drop (list): The perturbation keys to be dropped from the analysis.
-        n_samples (int, optional): The number of samples to generate for null distribution.
-            Defaults to cst.N_NULL_SAMPLES.
-        random_seed (int, optional): The random seed to use for generating null distribution.
-            Defaults to cst.RANDOM_SEED.
+        neg_ctrl_perts (list): The list of negative control perturbations. Typically unexpressed genes.
+        keys_to_drop (list, optional): The perturbation keys to be dropped from the analysis. Defaults to [].
         n_jobs (int, optional): The number of jobs to run in parallel. Defaults to 5.
 
     Returns:
         pd.DataFrame: The dataframe containing the query metrics.
+
     """
     indices = ~metadata[pert_col].isin(keys_to_drop)
     features = features[indices]
     metadata = metadata[indices]
     features_df = pd.DataFrame(features, index=metadata[pert_col])
-    if batch_col is None:
-        unique_cardinalities = metadata.groupby(pert_col, observed=True).count().iloc[:, 0].unique()
-        null = {
-            c: Parallel(n_jobs=n_jobs)(
-                delayed(pert_signal_consistency_metric)(
-                    np.random.default_rng(random_seed + r).choice(features, c, False)
-                )
-                for r in range(n_samples)
-            )
-            for c in unique_cardinalities
-        }
-        query_metrics = (
-            features_df.groupby(features_df.index, observed=True)
-            .apply(lambda x: pert_signal_consistency_metric(x.values, null[len(x)])[1])  # type: ignore[index]
-            .reset_index()
+    null_dist = Parallel(n_jobs=n_jobs, verbose=5)(
+        delayed(pert_signal_consistency_metric)(np.array(features_df.loc[pert]).reshape(-1, features_df.shape[1]))
+        for pert in set(metadata[pert_col]).intersection(neg_ctrl_perts)
+    )
+    null_dist = np.sort(null_dist)
+    positive_perts = metadata[~metadata[pert_col].isin(neg_ctrl_perts)][pert_col].unique()
+
+    def process_pert(pert):
+        met, pv = pert_signal_consistency_metric(
+            np.array(features_df.loc[pert]).reshape(-1, features_df.shape[1]), null_dist
         )
-        query_metrics.columns = ["pert", "pval"]
-        return query_metrics
-    else:
-        cardinalities_df = metadata.groupby(by=[pert_col, batch_col], observed=True).size().reset_index(name="count")
-        df_perts = (
-            cardinalities_df.groupby(by=pert_col, observed=True)[[batch_col, "count"]]
-            .apply(lambda x: list(map(tuple, x.values)))
-            .reset_index()
-        )
-        nulls_b_cnt = {}
-        features_df_batch = pd.DataFrame(features, index=metadata[batch_col])
-        np.random.seed(random_seed)
-        query_metrics = []
-        for pert, bscnts in df_perts.itertuples(index=False):
-            for b, c in bscnts:
-                if (b, c) not in nulls_b_cnt:
-                    # reshape call in the line below is for the outlier case of when a batch has only 1 sample.
-                    bfeat = np.array(features_df_batch.loc[b]).reshape(-1, features_df_batch.shape[1])
-                    nulls_b_cnt[(b, c)] = bfeat[np.random.randint(0, bfeat.shape[0], (n_samples, c))]
-            result_array = np.concatenate([nulls_b_cnt[(b, c)] for b, c in bscnts], axis=1)
-            t = time()
-            null_dist = Parallel(n_jobs=n_jobs)(delayed(pert_signal_consistency_metric)(r) for r in result_array)
-            met, pv = pert_signal_consistency_metric(  # type: ignore[misc]
-                np.array(features_df.loc[pert]).reshape(-1, features_df.shape[1]), null_dist
-            )
-            query_metrics.append([pert, met, pv])
-            print(f"{pert} has {result_array.shape[1]} samples and took {round(time()-t, 2)} seconds: {met} {pv}")
-        return pd.DataFrame(query_metrics, columns=["pert", "angle", "pval"])
+        return [pert, met, pv]
+
+    query_metrics = Parallel(n_jobs=n_jobs, verbose=5)(delayed(process_pert)(pert) for pert in positive_perts)
+    return pd.DataFrame(query_metrics, columns=["pert", "avgcossim", "pval"])
 
 
 def pert_signal_distance_metric(
-    arr1: np.ndarray, arr2: np.ndarray, null: np.ndarray = np.array([])
+    arr1: np.ndarray, arr2: np.ndarray, sorted_null: np.ndarray = np.array([])
 ) -> Union[Optional[float], tuple[Optional[float], Optional[float]]]:
     """
     Calculate the perturbation signal distance metric, i.e., energy distance and associated p-value,
         for the two given arrays.
 
     Args:
-        gf (numpy.ndarray): The feature array for the perturbation replicates.
-        cf (numpy.ndarray): The feature array for the control replicates.
-        null (numpy.ndarray, optional): Null distribution of the metric. Defaults to an empty array.
+        arr1 (numpy.ndarray): The feature array for the perturbation replicates.
+        arr2 (numpy.ndarray): The feature array for the control replicates.
+        sorted_null (numpy.ndarray, optional): Null distribution of the metric. Defaults to an empty array.
+            If not empty, required to be sorted in ascending order prior to passing to this function.
 
     Returns:
         Union[Optional[float], tuple[Optional[float], Optional[float]]]:
@@ -142,106 +113,72 @@ def pert_signal_distance_metric(
             If the length of the input array is less than 5, returns (None, None).
     """
     if len(arr1) < 5:
-        return None if len(null) == 0 else None, None
+        return np.nan if len(sorted_null) == 0 else (np.nan, np.nan)
     edist = SamplesLoss("energy")(from_numpy(arr1), from_numpy(arr2)).item() * 2
-    if len(null) == 0:
+    if len(sorted_null) == 0:
         return edist
     else:
-        sorted_null = np.sort(null)
         pval = 1 - np.searchsorted(sorted_null, edist, side="right") / len(sorted_null)
         return edist, pval
-
-
-def pert_signal_distance_metric_null(
-    rng: np.random.Generator, combined_array: np.ndarray, len_arr1: int
-) -> tuple[Optional[float], Optional[float]]:
-    """
-    Calculate the perturbation signal distance metric for two arrays in a combined array,
-        given a random number generator.
-
-    Args:
-        rng (np.random.Generator): The random number generator.
-        combined_array (np.ndarray): The combined input array.
-        len_arr1 (int): The length of the first part of the input array.
-
-    Returns:
-        tuple[Optional[float], Optional[float]]:
-    """
-    if len(combined_array) <= len_arr1:
-        raise ValueError(f"len(combined_array) needs to be larger than {len_arr1}")
-    indices = rng.choice(len(combined_array), len(combined_array), replace=False)
-    return pert_signal_distance_metric(
-        combined_array[indices[:len_arr1], :], combined_array[indices[len_arr1:], :]
-    )  # type: ignore[return-value]
 
 
 def pert_signal_distance_benchmark(
     features: np.ndarray,
     metadata: pd.DataFrame,
     pert_col: str,
+    neg_ctrl_perts: list,
     control_key: str,
-    batch_col,
+    max_controls: int = 1000,
     keys_to_drop: list = [],
-    n_samples: int = cst.N_NULL_SAMPLES,
-    random_seed: int = cst.RANDOM_SEED,
     n_jobs: int = 5,
 ) -> pd.DataFrame:
     """
     Perform perturbation signal distance benchmarking, comparing the controls to the perturbations
-        using the energy distance.
+    using the energy distance.
+    Filter out perturbations specified in the `keys_to_drop` list.
+    Use negative control perturbations specified in the `neg_ctrl_perts` list for the null distribution.
 
     Args:
         features (np.ndarray): Array of features.
         metadata (pd.DataFrame): DataFrame containing metadata.
         pert_col (str): Column name for perturbation.
+        neg_ctrl_perts (list): List of negative control perturbations.
         control_key (str): Control key value.
+        max_controls (int, optional): Maximum number of control perturbations to sample so energy distance
+            computation runs efficiently. Defaults to 1000.
         keys_to_drop (list, optional): List of column names to drop from metadata. Should not include control_key.
             Defaults to [].
-        batch_col (str): Column name for batch.
-        n_samples (int, optional): Number of null samples. Defaults to cst.N_NULL_SAMPLES.
-        random_seed (int, optional): Random seed. Defaults to cst.RANDOM_SEED.
         n_jobs (int, optional): Number of parallel jobs. Defaults to 5.
 
     Returns:
         pd.DataFrame: DataFrame containing query metrics.
+
+    Raises:
+        ValueError: If control_key is in keys_to_drop.
     """
-    if batch_col is None:
-        raise ValueError("batch_col=None option is yet to be implemented. Please provide a batch column.")
     if control_key in keys_to_drop:
         raise ValueError("control_key should not be in keys_to_drop.")
     indices = ~metadata[pert_col].isin(keys_to_drop)
     features = features[indices]
     metadata = metadata[indices]
-    rng = np.random.default_rng(random_seed)
-    cardinalities_df = (
-        metadata[metadata[pert_col] != control_key]
-        .groupby(by=[pert_col, batch_col], observed=True)
-        .size()
-        .reset_index(name="count")
+    features_df = pd.DataFrame(features, index=metadata[pert_col]).sort_index()
+    cf_df = features_df.loc[control_key]
+    cf = np.array(cf_df.sample(min(max_controls, len(cf_df))))
+    del cf_df
+    null_dist = Parallel(n_jobs=n_jobs, verbose=5)(
+        delayed(pert_signal_distance_metric)(np.array(features_df.loc[pert]).reshape(-1, features_df.shape[1]), cf)
+        for pert in set(metadata[pert_col]).intersection(neg_ctrl_perts)
     )
-    df_perts = (
-        cardinalities_df.groupby(by=pert_col, observed=True)[[batch_col, "count"]]
-        .apply(lambda x: list(map(tuple, x.values)))
-        .reset_index()
-    )
-    controls_b_c = {}
-    features_df = pd.DataFrame(features, index=[metadata[pert_col], metadata[batch_col]]).sort_index()
-    query_metrics = []
-    for pert, bscnts in df_perts.itertuples(index=False):
-        gf = np.array(features_df.loc[pert])
-        for b, c in bscnts:
-            if (b, c) not in controls_b_c:
-                controls_b_c[b, c] = rng.choice(np.array(features_df.loc[(control_key, b)]), c, replace=False)
-        cf = np.concatenate([controls_b_c[(b, c)] for b, c in bscnts], axis=0)
-        af = np.concatenate((cf, gf))
-        t = time()
-        null_dist = Parallel(n_jobs=n_jobs)(
-            delayed(pert_signal_distance_metric_null)(np.random.default_rng(random_seed + r), af, len(gf))
-            for r in range(n_samples)
+    null_dist = np.sort(null_dist)
+    positive_perts = metadata[~metadata[pert_col].isin(neg_ctrl_perts)][pert_col].unique()
+
+    def process_pert(pert):
+        met, pv = pert_signal_distance_metric(
+            np.array(features_df.loc[pert]).reshape(-1, features_df.shape[1]), cf, null_dist
         )
-        met, pv = pert_signal_distance_metric(gf, cf, null_dist)  # type: ignore[misc]
-        query_metrics.append([pert, met, pv])
-        print(f"{pert} has {len(gf)} samples and took {round(time()-t, 2)} seconds: {met} {pv}")
+        return [pert, met, pv]
+
+    query_metrics = Parallel(n_jobs=n_jobs, verbose=5)(delayed(process_pert)(pert) for pert in positive_perts)
     return pd.DataFrame(query_metrics, columns=["pert", "edist", "pval"])
 
 
@@ -393,7 +330,9 @@ def known_relationship_benchmark(
     return pd.concat(metrics_lst, ignore_index=True)
 
 
-def get_benchmark_clusters(benchmark_data_dir: str, source: str = "CORUM", min_genes: int = 1):
+def get_benchmark_clusters(
+    benchmark_data_dir: str, source: str = "CORUM", min_genes: int = 1, map_genes: list = []
+) -> dict:
     """
     Retrieves benchmark clusters from a file.
 
@@ -412,12 +351,23 @@ def get_benchmark_clusters(benchmark_data_dir: str, source: str = "CORUM", min_g
         with open(file_path) as file:
             for line in file:
                 key, genes_str = line.strip().split("\t")
-                genes_set = set(genes_str.split())
-                if len(genes_set) >= min_genes:
-                    result_dict[key] = genes_set
+                result_dict[key] = set(genes_str.split())
+    elif source == "GO":
+        file_path = Path(benchmark_data_dir).joinpath("c5.go.v2023.2.Hs.symbols.gmt")
+        with open(file_path) as f:
+            for line in f:
+                split_line = line.strip().split("\t")
+                result_dict[split_line[0]] = set(split_line[2:])
     else:
         raise ValueError(f"Invalid benchmark source {source} provided.")
-    return result_dict
+
+    result_dict_final = {}
+    if len(map_genes) > 0:
+        for key, genes_set in result_dict.items():
+            gns = genes_set.intersection(map_genes)
+            if len(gns) >= min_genes:
+                result_dict_final[key] = sorted(gns)
+    return result_dict_final
 
 
 def cluster_benchmark(
@@ -443,15 +393,16 @@ def cluster_benchmark(
             Kolmogorov-Smirnov statistic and p-value describing how different within-cluster cosine and between-cluster
             cosine similarity distributions are.
     """
-    benchmark_clusters = get_benchmark_clusters(benchmark_data_dir, source, min_genes)
+    print(len(map_data.metadata), "genes in the map")
+    benchmark_clusters = get_benchmark_clusters(
+        benchmark_data_dir, source, min_genes, list(map_data.metadata[pert_col])
+    )
     print(len(benchmark_clusters), "clusters are used from the benchmark source", source)
     results = []
     for k, cluster in benchmark_clusters.items():
-        cluster_data = map_data.features[map_data.metadata[pert_col].isin(cluster)]
-        if len(cluster_data) < min_genes:
-            continue
-        not_cluster_data = map_data.features[~map_data.metadata[pert_col].isin(cluster)]
-
+        ind = map_data.metadata[pert_col].isin(cluster)
+        cluster_data = map_data.features[ind.values]
+        not_cluster_data = map_data.features[~ind.values]
         within_cossim_mat = cosine_similarity(cluster_data.values, cluster_data.values)
         within_cossim_mat_vals = within_cossim_mat[np.triu_indices(within_cossim_mat.shape[0], k=1)]
         between_cossim_mat_vals = cosine_similarity(cluster_data.values, not_cluster_data.values).flatten()
@@ -462,6 +413,7 @@ def cluster_benchmark(
                 k,
                 within_cossim_mat_vals.mean(),
                 between_cossim_mat_vals.mean(),
+                list(map_data.metadata[pert_col].loc[ind]) if not np.isnan(ks_res.pvalue) else [],
                 len(cluster_data),
                 len(not_cluster_data),
                 ks_res.statistic,
@@ -475,6 +427,7 @@ def cluster_benchmark(
             "cluster",
             "within_cossim_mean",
             "between_cossim_mean",
+            "genes",
             "cluster_size",
             "not_cluster_size",
             "ks_stat",
@@ -485,37 +438,44 @@ def cluster_benchmark(
 
 def enrichment(
     genes,
-    source: str = "CORUM",
+    map_genes,
+    source: str = "GO",
     benchmark_data_dir: str = cst.BENCHMARK_DATA_DIR,
-    min_genes: int = 3,
+    min_genes: int = 10,
     pval_thr=0.01,
-    bg_gene_cnt=20000,
+    corrected: bool = True,
 ):
     """
     Compute enrichment of a set of genes in a benchmark source.
 
     Args:
         genes (list): List of genes to compute enrichment for.
+        all_genes_in_map (list): List of all genes in the map tested for enrichment.
         source (str, optional): The benchmark source. Defaults to "CORUM".
         benchmark_data_dir (str, optional): The directory containing the benchmark data.
             Defaults to cst.BENCHMARK_DATA_DIR.
         min_genes (int, optional): The minimum number of genes required in a benchmark cluster. Defaults to 3.
         pval_thr (float, optional): The p-value threshold for significance. Defaults to 0.01.
-        bg_gene_cnt (int, optional): The total number of background genes. Defaults to 20000.
+        corrected (bool, optional): Whether the p-values should be Bonferroni-corrected for multiple hypothesis testing.
+            Defaults to True.
 
     Returns:
         pandas.DataFrame: A DataFrame containing the clusters, p-values, and gene intersections that pass the
             significance threshold.
     """
-    benchmark_clusters = get_benchmark_clusters(benchmark_data_dir, source, min_genes)
+    benchmark_clusters = get_benchmark_clusters(benchmark_data_dir, source, min_genes, map_genes)
     print(len(benchmark_clusters), "clusters are used from the benchmark source", source)
     pvals = []
     for k, cluster in benchmark_clusters.items():
         inter = set(genes).intersection(cluster)
-        pval = hypergeom.sf(len(inter) - 1, bg_gene_cnt, len(genes), len(cluster))
-        pvals.append([k, pval, inter, len(cluster)])
-    pvals = pd.DataFrame(pvals, columns=["cluster", "pval", "intersection", "cluster size"])
-    return pvals[pvals.pval <= pval_thr].sort_values("pval").reset_index(drop=True)  # type: ignore
+        uni = set(genes).union(cluster)
+        pval = hypergeom.sf(len(inter) - 1, len(map_genes), len(genes), len(cluster))
+        pvals.append([k, pval, len(cluster), inter, len(inter) / len(uni)])
+    pvals_df = pd.DataFrame(pvals, columns=["cluster", "pval", "cluster_size", "intersection", "jaccard"])
+    if corrected:
+        pvals_df["pval"] = pvals_df["pval"] * len(pvals_df)
+        pvals_df["pval"] = pvals_df["pval"].apply(lambda x: min(x, 1))
+    return pvals_df[pvals_df.pval <= pval_thr].sort_values("pval").reset_index(drop=True)
 
 
 def compute_top_similars(map_data: Bunch, pert_col: str, pert1: str, pert2: Optional[str] = None, topx: int = 10):
