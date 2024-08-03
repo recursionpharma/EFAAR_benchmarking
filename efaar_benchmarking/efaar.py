@@ -2,20 +2,15 @@ from typing import Optional
 
 import numpy as np
 import pandas as pd
-import scanpy as sc
-from scipy import linalg
+from scipy import linalg, sparse
 from scvi.model import SCVI
 from sklearn.covariance import EllipticEnvelope
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils import Bunch
 
-import efaar_benchmarking.constants as cst
 
-
-def embed_by_scvi_anndata(
-    adata, batch_col: str = cst.GWPS_BATCH_COL, n_latent: int = 128, n_hidden: int = 256
-) -> np.ndarray:
+def embed_by_scvi_anndata(adata, batch_col: str, n_latent: int = 128, n_hidden: int = 256) -> np.ndarray:
     """
     Embed the input AnnData object using scVI.
 
@@ -35,22 +30,24 @@ def embed_by_scvi_anndata(
     return vae.get_latent_representation()
 
 
-def embed_by_pca_anndata(adata, n_latent: int = 128) -> np.ndarray:
+def embed_by_pca_anndata(adata, batch_col: str, n_latent: int = 128) -> np.ndarray:
     """
     Embed the input data using principal component analysis (PCA).
-    Note that the data is centered by the `pca` function prior to PCA transformation.
-    Also note that we are passing batch-normalized anndata to this function.
 
     Args:
         adata (AnnData): Annotated data matrix.
+        batch_col (str): The batch key in the AnnData object.
         n_latent (int): Number of principal components to use. Defaults to 128.
 
     Returns:
         numpy.ndarray: Embedding of the input data using PCA.
     """
-    adata = adata.copy()
-    sc.pp.pca(adata, n_comps=n_latent)
-    return adata.obsm["X_pca"]
+    return embed_by_pca(
+        features=adata.X.toarray() if sparse.issparse(adata.X) else adata.X,
+        metadata=adata.obs,
+        variance_or_ncomp=n_latent,
+        batch_col=batch_col,
+    )
 
 
 def centerscale_by_batch(
@@ -167,8 +164,8 @@ def tvn_on_controls(
         np.ndarray: The normalized embeddings.
     """
     embeddings = embeddings.copy()
-    ctrl_ind = metadata[pert_col] == control_key
     embeddings = centerscale_on_controls(embeddings, metadata, pert_col, control_key)
+    ctrl_ind = metadata[pert_col] == control_key
     embeddings = PCA().fit(embeddings[ctrl_ind]).transform(embeddings)
     embeddings = centerscale_on_controls(embeddings, metadata, pert_col, control_key)
     if batch_col is not None:
