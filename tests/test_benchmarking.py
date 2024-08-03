@@ -11,25 +11,25 @@ def test_pert_signal_consistency_metric():
     null = np.array([1, 2, 3, 4, 5])
 
     result = benchmarking.pert_signal_consistency_metric(arr1)
-    assert result == 0
+    assert result == 1
 
     result = benchmarking.pert_signal_consistency_metric(arr1, null)
-    assert round(result[0]) == 0
-    assert round(result[1]) == 0
+    assert round(result[0]) == 1
+    assert round(result[1]) == 1
 
 
-def test_pert_signal_distance_metric():
+def test_pert_signal_magnitude_metric():
     arr1 = np.array([[1, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5]])
     arr2 = np.array([[6, 7, 8, 9, 10], [6, 7, 8, 9, 10], [6, 7, 8, 9, 10], [6, 7, 8, 9, 10], [6, 7, 8, 9, 10]])
     null = np.array([1, 2, 3, 4, 5])
 
-    result = benchmarking.pert_signal_distance_metric(arr1, arr1)
+    result = benchmarking.pert_signal_magnitude_metric(arr1, arr1)
     assert result == 0
 
-    result = benchmarking.pert_signal_distance_metric(arr1, arr2)
+    result = benchmarking.pert_signal_magnitude_metric(arr1, arr2)
     assert round(result) == 22
 
-    result = benchmarking.pert_signal_distance_metric(arr1, arr2, null)
+    result = benchmarking.pert_signal_magnitude_metric(arr1, arr2, null)
     assert round(result[0]) == 22
     assert round(result[1]) == 0
 

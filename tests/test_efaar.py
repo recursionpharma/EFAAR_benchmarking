@@ -14,7 +14,8 @@ def test_embed_by_scvi_anndata():
 
 def test_embed_by_pca_anndata():
     adata = AnnData(np.random.rand(10, 300))
-    embedding = efaar.embed_by_pca_anndata(adata, 7)
+    adata.obs["batch"] = ["batch1"] * 5 + ["batch2"] * 5
+    embedding = efaar.embed_by_pca_anndata(adata, "batch", 7)
     assert embedding.shape == (10, 7)
 
 

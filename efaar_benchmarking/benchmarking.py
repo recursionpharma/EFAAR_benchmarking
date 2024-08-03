@@ -92,11 +92,11 @@ def pert_signal_consistency_benchmark(
     return pd.DataFrame(query_metrics, columns=["pert", "avgcossim", "pval"])
 
 
-def pert_signal_distance_metric(
+def pert_signal_magnitude_metric(
     arr1: np.ndarray, arr2: np.ndarray, sorted_null: np.ndarray = np.array([])
 ) -> Union[Optional[float], tuple[Optional[float], Optional[float]]]:
     """
-    Calculate the perturbation signal distance metric, i.e., energy distance and associated p-value,
+    Calculate the perturbation signal magnitude metric, i.e., energy distance and associated p-value,
         for the two given arrays.
 
     Args:
@@ -122,7 +122,7 @@ def pert_signal_distance_metric(
         return edist, pval
 
 
-def pert_signal_distance_benchmark(
+def pert_signal_magnitude_benchmark(
     features: np.ndarray,
     metadata: pd.DataFrame,
     pert_col: str,
@@ -133,7 +133,7 @@ def pert_signal_distance_benchmark(
     n_jobs: int = 5,
 ) -> pd.DataFrame:
     """
-    Perform perturbation signal distance benchmarking, comparing the controls to the perturbations
+    Perform perturbation signal magnitude benchmarking, comparing the controls to the perturbations
     using the energy distance.
     Filter out perturbations specified in the `keys_to_drop` list.
     Use negative control perturbations specified in the `neg_ctrl_perts` list for the null distribution.
@@ -166,14 +166,14 @@ def pert_signal_distance_benchmark(
     cf = np.array(cf_df.sample(min(max_controls, len(cf_df))))
     del cf_df
     null_dist = Parallel(n_jobs=n_jobs, verbose=5)(
-        delayed(pert_signal_distance_metric)(np.array(features_df.loc[pert]).reshape(-1, features_df.shape[1]), cf)
+        delayed(pert_signal_magnitude_metric)(np.array(features_df.loc[pert]).reshape(-1, features_df.shape[1]), cf)
         for pert in set(metadata[pert_col]).intersection(neg_ctrl_perts)
     )
     null_dist = np.sort(null_dist)
     positive_perts = metadata[~metadata[pert_col].isin(neg_ctrl_perts)][pert_col].unique()
 
     def process_pert(pert):
-        met, pv = pert_signal_distance_metric(
+        met, pv = pert_signal_magnitude_metric(
             np.array(features_df.loc[pert]).reshape(-1, features_df.shape[1]), cf, null_dist
         )
         return [pert, met, pv]
