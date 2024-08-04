@@ -15,7 +15,7 @@ We use GitHub Issues to track bugs and features. Report them there.
 
 ### Prerequisites
 
-* Python 3.10 or later
+* Python 3.11 or later
 
 * Pip for installing Python dependencies
 
