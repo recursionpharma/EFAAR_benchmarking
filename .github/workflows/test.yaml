@@ -7,7 +7,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        minor_version: [9, 10, 11]
+        minor_version: [11]
         os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
       - uses: actions/checkout@v3
@@ -25,15 +25,15 @@ jobs:
         with:
           name: coverage.${{ matrix.os }}.py3${{ matrix.minor_version }}
           path: ./.coverage.py3${{ matrix.minor_version }}
-  # coverage:
-  #   needs: tests
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/download-artifact@v3
-  #       with:
-  #         path: .
-  #     - run: pip install coverage
-  #     - run: |
-  #         coverage combine coverage*/
-  #         coverage report --fail-under=0
+  coverage:
+    needs: tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v3
+        with:
+          path: .
+      - run: pip install coverage
+      - run: |
+          coverage combine coverage*/
+          coverage report --fail-under=0
