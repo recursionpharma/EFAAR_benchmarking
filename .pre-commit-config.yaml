@@ -28,13 +28,13 @@ repos:
     rev: v3.15.0
     hooks:
     -   id: pyupgrade
-        args: [--py39-plus]
+        args: [--py311-plus]
 
 -   repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.6.1
     hooks:
     -   id: mypy
-        args: [--ignore-missing-imports, --python-version=3.9, --install-types, --non-interactive]
+        args: [--ignore-missing-imports, --python-version=3.11, --install-types, --non-interactive]
 
 -   repo: https://github.com/PyCQA/flake8
     rev: '6.1.0'
@@ -51,7 +51,7 @@ repos:
     rev: 23.10.1
     hooks:
     - id: black
-      language_version: python3.9
+      language_version: python3.11
 
 -   repo: https://github.com/abravalheri/validate-pyproject
     rev: v0.15
