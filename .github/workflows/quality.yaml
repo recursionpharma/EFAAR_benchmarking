@@ -15,4 +15,5 @@ jobs:
           pip install -U setuptools
           python -m pip install -U pip
       - run: pip install tox
+      - run: pre-commit clean
       - run: tox -e style
