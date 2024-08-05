@@ -1,5 +1,4 @@
 from pathlib import Path
-from typing import Optional, Union
 
 import numpy as np
 import pandas as pd
@@ -15,7 +14,7 @@ import efaar_benchmarking.constants as cst
 
 def pert_signal_consistency_metric(
     arr: np.ndarray, sorted_null: np.ndarray = np.array([])
-) -> Union[Optional[float], tuple[Optional[float], Optional[float]]]:
+) -> float | None | tuple[float | None, float | None]:
     """
     Calculate the perturbation signal consistency metric, i.e., average cosine and associated p-value,
         for a given array.
@@ -94,7 +93,7 @@ def pert_signal_consistency_benchmark(
 
 def pert_signal_magnitude_metric(
     arr1: np.ndarray, arr2: np.ndarray, sorted_null: np.ndarray = np.array([])
-) -> Union[Optional[float], tuple[Optional[float], Optional[float]]]:
+) -> float | None | tuple[float | None, float | None]:
     """
     Calculate the perturbation signal magnitude metric, i.e., energy distance and associated p-value,
         for the two given arrays.
@@ -478,7 +477,7 @@ def enrichment(
     return pvals_df[pvals_df.pval <= pval_thr].sort_values("pval").reset_index(drop=True)
 
 
-def compute_top_similars(map_data: Bunch, pert_col: str, pert1: str, pert2: Optional[str] = None, topx: int = 10):
+def compute_top_similars(map_data: Bunch, pert_col: str, pert1: str, pert2: str | None = None, topx: int = 10):
     """
     Compute the cosine similarity between perturbations in a map_data object and return the top similar perturbations.
 

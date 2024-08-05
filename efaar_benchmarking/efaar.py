@@ -1,5 +1,3 @@
-from typing import Optional
-
 import numpy as np
 import pandas as pd
 from scipy import linalg, sparse
@@ -51,7 +49,7 @@ def embed_by_pca_anndata(adata, batch_col: str, n_latent: int = 128) -> np.ndarr
 
 
 def centerscale_by_batch(
-    features: np.ndarray, metadata: pd.DataFrame = None, batch_col: Optional[str] = None
+    features: np.ndarray, metadata: pd.DataFrame = None, batch_col: str | None = None
 ) -> np.ndarray:
     """
     Center and scale the input features by each batch. Not using any controls at all.
@@ -82,7 +80,7 @@ def embed_by_pca(
     features: np.ndarray,
     metadata: pd.DataFrame = None,
     variance_or_ncomp=128,
-    batch_col: Optional[str] = None,
+    batch_col: str | None = None,
 ) -> np.ndarray:
     """
     Embed the whole input data using principal component analysis (PCA).
@@ -112,7 +110,7 @@ def centerscale_on_controls(
     metadata: pd.DataFrame,
     pert_col: str,
     control_key: str,
-    batch_col: Optional[str] = None,
+    batch_col: str | None = None,
 ) -> np.ndarray:
     """
     Center and scale the embeddings on the control perturbation units in the metadata.
@@ -146,7 +144,7 @@ def tvn_on_controls(
     metadata: pd.DataFrame,
     pert_col: str,
     control_key: str,
-    batch_col: Optional[str] = None,
+    batch_col: str | None = None,
 ) -> np.ndarray:
     """
     Apply TVN (Typical Variation Normalization) to the data based on the control perturbation units.

@@ -104,11 +104,6 @@ exclude = "tests"
 line-length = 120
 target-version = ["py311"]
 
-[tool.flake8]
-max-line-length = 120
-extend-ignore = "E203"
-exclude = ["build", "tests", ".asv", ".git", "venv", "migrations/versions", ".tox"]
-
 [tool.ruff]
 select = ["E", "F"]
 ignore = []
