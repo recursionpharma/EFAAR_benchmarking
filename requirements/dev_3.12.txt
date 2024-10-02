@@ -540,8 +540,10 @@ send2trash==1.8.3
     # via jupyter-server
 setuptools==75.1.0
     # via
+    #   chex
     #   jupyterlab
     #   lightning-utilities
+    #   torch
 six==1.16.0
     # via
     #   asttokens
@@ -638,7 +640,6 @@ typing-extensions==4.12.2
     #   chex
     #   etils
     #   flax
-    #   ipython
     #   lightning
     #   lightning-utilities
     #   mypy

@@ -250,7 +250,10 @@ scvi-tools==1.1.2
 seaborn==0.13.2
     # via efaar-benchmarking (pyproject.toml)
 setuptools==75.1.0
-    # via lightning-utilities
+    # via
+    #   chex
+    #   lightning-utilities
+    #   torch
 six==1.16.0
     # via
     #   docrep
