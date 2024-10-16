@@ -7,7 +7,7 @@ efaar_benchmarking/expression_data/U2OS_expression.csv filter=lfs diff=lfs merge
 notebooks/data/GWPS_map_cache.pkl filter=lfs diff=lfs merge=lfs -text
 notebooks/data/cpg0016_map_cache.pkl filter=lfs diff=lfs merge=lfs -text
 notebooks/data/cpg0021_map_cache.pkl filter=lfs diff=lfs merge=lfs -text
+notebooks/data/GWPS_metadata.pkl filter=lfs diff=lfs merge=lfs -text
 notebooks/data/cpg0016_metadata.pkl filter=lfs diff=lfs merge=lfs -text
 notebooks/data/cpg0021_metadata.pkl filter=lfs diff=lfs merge=lfs -text
 efaar_benchmarking/benchmark_annotations/c5.go.v2023.2.Hs.symbols.gmt filter=lfs diff=lfs merge=lfs -text
-data/GWPS_metadata.pkl filter=lfs diff=lfs merge=lfs -text
