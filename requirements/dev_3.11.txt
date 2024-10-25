@@ -18,6 +18,7 @@ aiosignal==1.3.1
 anndata==0.10.3
     # via
     #   mudata
+    #   scanpy
     #   scvi-tools
 anyio==4.2.0
     # via jupyter-server
@@ -42,12 +43,12 @@ attrs==23.1.0
     #   referencing
 babel==2.14.0
     # via jupyterlab-server
-bandit[toml]==1.7.6
-    # via efaar_benchmarking (pyproject.toml)
+bandit==1.7.6
+    # via efaar-benchmarking (pyproject.toml)
 beautifulsoup4==4.12.2
     # via nbconvert
 black==23.12.1
-    # via efaar_benchmarking (pyproject.toml)
+    # via efaar-benchmarking (pyproject.toml)
 bleach==6.1.0
     # via nbconvert
 botocore==1.34.131
@@ -80,9 +81,9 @@ contextlib2==21.6.0
     # via ml-collections
 contourpy==1.2.0
     # via matplotlib
-coverage[toml]==7.4.0
+coverage==7.4.0
     # via
-    #   efaar_benchmarking (pyproject.toml)
+    #   efaar-benchmarking (pyproject.toml)
     #   pytest-cov
 cycler==0.12.1
     # via matplotlib
@@ -99,8 +100,8 @@ dm-tree==0.1.8
 docrep==0.3.2
     # via scvi-tools
 docstr-coverage==2.3.0
-    # via efaar_benchmarking (pyproject.toml)
-etils[epath,epy]==1.6.0
+    # via efaar-benchmarking (pyproject.toml)
+etils==1.6.0
     # via orbax-checkpoint
 executing==2.0.1
     # via stack-data
@@ -114,7 +115,7 @@ filelock==3.13.1
     #   tox
     #   virtualenv
 flake8==6.1.0
-    # via efaar_benchmarking (pyproject.toml)
+    # via efaar-benchmarking (pyproject.toml)
 flax==0.7.5
     # via scvi-tools
 fonttools==4.47.0
@@ -125,7 +126,7 @@ frozenlist==1.4.1
     # via
     #   aiohttp
     #   aiosignal
-fsspec[http]==2023.12.2
+fsspec==2023.12.2
     # via
     #   etils
     #   lightning
@@ -133,7 +134,7 @@ fsspec[http]==2023.12.2
     #   s3fs
     #   torch
 geomloss==0.2.6
-    # via efaar_benchmarking (pyproject.toml)
+    # via efaar-benchmarking (pyproject.toml)
 gitdb==4.0.11
     # via gitpython
 gitpython==3.1.41
@@ -142,6 +143,7 @@ h5py==3.10.0
     # via
     #   anndata
     #   mudata
+    #   scanpy
     #   scvi-tools
 identify==2.5.33
     # via pre-commit
@@ -162,7 +164,7 @@ ipython==8.19.0
 isoduration==20.11.0
     # via jsonschema
 isort==5.13.2
-    # via efaar_benchmarking (pyproject.toml)
+    # via efaar-benchmarking (pyproject.toml)
 jax==0.4.23
     # via
     #   chex
@@ -191,13 +193,15 @@ jmespath==1.0.1
     # via botocore
 joblib==1.3.2
     # via
-    #   efaar_benchmarking (pyproject.toml)
+    #   efaar-benchmarking (pyproject.toml)
+    #   pynndescent
+    #   scanpy
     #   scikit-learn
 json5==0.9.14
     # via jupyterlab-server
 jsonpointer==2.4
     # via jsonschema
-jsonschema[format-nongpl]==4.20.0
+jsonschema==4.20.0
     # via
     #   jupyter-events
     #   jupyterlab-server
@@ -231,20 +235,26 @@ jupyter-server==2.12.1
 jupyter-server-terminals==0.5.1
     # via jupyter-server
 jupyterlab==4.0.11
-    # via efaar_benchmarking (pyproject.toml)
+    # via efaar-benchmarking (pyproject.toml)
 jupyterlab-pygments==0.3.0
     # via nbconvert
 jupyterlab-server==2.25.2
     # via jupyterlab
 kiwisolver==1.4.5
     # via matplotlib
-lightning==2.3.3
+legacy-api-wrap==1.4
+    # via scanpy
+lightning==2.1.4
     # via scvi-tools
 lightning-utilities==0.10.0
     # via
     #   lightning
     #   pytorch-lightning
     #   torchmetrics
+llvmlite==0.43.0
+    # via
+    #   numba
+    #   pynndescent
 mando==0.7.1
     # via radon
 markdown-it-py==3.0.0
@@ -255,15 +265,16 @@ markupsafe==2.1.3
     #   nbconvert
 matplotlib==3.8.2
     # via
-    #   efaar_benchmarking (pyproject.toml)
+    #   efaar-benchmarking (pyproject.toml)
     #   matplotlib-venn
+    #   scanpy
     #   seaborn
 matplotlib-inline==0.1.6
     # via
     #   ipykernel
     #   ipython
 matplotlib-venn==0.11.10
-    # via efaar_benchmarking (pyproject.toml)
+    # via efaar-benchmarking (pyproject.toml)
 mccabe==0.7.0
     # via flake8
 mdurl==0.1.2
@@ -292,13 +303,15 @@ multidict==6.0.4
 multipledispatch==1.0.0
     # via numpyro
 mypy==1.8.0
-    # via efaar_benchmarking (pyproject.toml)
+    # via efaar-benchmarking (pyproject.toml)
 mypy-extensions==1.0.0
     # via
     #   black
     #   mypy
 natsort==8.4.0
-    # via anndata
+    # via
+    #   anndata
+    #   scanpy
 nbclient==0.9.0
     # via nbconvert
 nbconvert==7.13.1
@@ -313,17 +326,24 @@ nest-asyncio==1.5.8
     #   ipykernel
     #   orbax-checkpoint
 networkx==3.2.1
-    # via torch
+    # via
+    #   scanpy
+    #   torch
 nodeenv==1.8.0
     # via pre-commit
 notebook-shim==0.2.3
     # via jupyterlab
+numba==0.60.0
+    # via
+    #   pynndescent
+    #   scanpy
+    #   umap-learn
 numpy==1.26.2
     # via
+    #   efaar-benchmarking (pyproject.toml)
     #   anndata
     #   chex
     #   contourpy
-    #   efaar_benchmarking (pyproject.toml)
     #   flax
     #   geomloss
     #   h5py
@@ -334,19 +354,25 @@ numpy==1.26.2
     #   matplotlib-venn
     #   ml-dtypes
     #   mudata
+    #   numba
     #   numpyro
     #   opt-einsum
     #   optax
     #   orbax-checkpoint
     #   pandas
+    #   patsy
+    #   pyarrow
     #   pyro-ppl
     #   pytorch-lightning
+    #   scanpy
     #   scikit-learn
     #   scipy
     #   scvi-tools
     #   seaborn
+    #   statsmodels
     #   tensorstore
     #   torchmetrics
+    #   umap-learn
 numpyro==0.13.2
     # via scvi-tools
 opt-einsum==3.3.0
@@ -377,22 +403,30 @@ packaging==23.2
     #   pyproject-api
     #   pytest
     #   pytorch-lightning
+    #   scanpy
+    #   statsmodels
     #   torchmetrics
     #   tox
     #   validate-pyproject
 pandas==2.1.4
     # via
+    #   efaar-benchmarking (pyproject.toml)
     #   anndata
-    #   efaar_benchmarking (pyproject.toml)
     #   mudata
+    #   scanpy
     #   scvi-tools
     #   seaborn
+    #   statsmodels
 pandocfilters==1.5.0
     # via nbconvert
 parso==0.8.3
     # via jedi
 pathspec==0.12.1
     # via black
+patsy==0.5.6
+    # via
+    #   scanpy
+    #   statsmodels
 pbr==6.0.0
     # via stevedore
 pexpect==4.9.0
@@ -412,7 +446,7 @@ pluggy==1.3.0
     #   pytest
     #   tox
 pre-commit==3.6.0
-    # via efaar_benchmarking (pyproject.toml)
+    # via efaar-benchmarking (pyproject.toml)
 prometheus-client==0.19.0
     # via jupyter-server
 prompt-toolkit==3.0.43
@@ -427,6 +461,8 @@ ptyprocess==0.7.0
     #   terminado
 pure-eval==0.2.2
     # via stack-data
+pyarrow==17.0.0
+    # via efaar-benchmarking (pyproject.toml)
 pycodestyle==2.11.1
     # via flake8
 pycparser==2.21
@@ -438,6 +474,10 @@ pygments==2.17.2
     #   ipython
     #   nbconvert
     #   rich
+pynndescent==0.5.13
+    # via
+    #   scanpy
+    #   umap-learn
 pyparsing==3.1.1
     # via matplotlib
 pyproject-api==1.6.1
@@ -448,10 +488,10 @@ pyro-ppl==1.8.6
     # via scvi-tools
 pytest==7.4.3
     # via
-    #   efaar_benchmarking (pyproject.toml)
+    #   efaar-benchmarking (pyproject.toml)
     #   pytest-cov
 pytest-cov==4.1.0
-    # via efaar_benchmarking (pyproject.toml)
+    # via efaar-benchmarking (pyproject.toml)
 python-dateutil==2.8.2
     # via
     #   arrow
@@ -466,7 +506,7 @@ pytorch-lightning==2.1.3
 pytz==2023.3.post1
     # via pandas
 pyupgrade==3.15.0
-    # via efaar_benchmarking (pyproject.toml)
+    # via efaar-benchmarking (pyproject.toml)
 pyyaml==6.0.1
     # via
     #   bandit
@@ -484,7 +524,7 @@ pyzmq==25.1.2
     #   jupyter-client
     #   jupyter-server
 radon==6.0.1
-    # via efaar_benchmarking (pyproject.toml)
+    # via efaar-benchmarking (pyproject.toml)
 referencing==0.32.0
     # via
     #   jsonschema
@@ -512,26 +552,39 @@ rpds-py==0.16.2
     #   jsonschema
     #   referencing
 s3fs==2023.12.2
-    # via efaar_benchmarking (pyproject.toml)
+    # via efaar-benchmarking (pyproject.toml)
+scanpy==1.10.3
+    # via efaar-benchmarking (pyproject.toml)
 scikit-learn==1.3.2
     # via
-    #   efaar_benchmarking (pyproject.toml)
+    #   efaar-benchmarking (pyproject.toml)
+    #   pynndescent
+    #   scanpy
     #   scvi-tools
+    #   umap-learn
 scipy==1.11.4
     # via
+    #   efaar-benchmarking (pyproject.toml)
     #   anndata
-    #   efaar_benchmarking (pyproject.toml)
     #   jax
     #   jaxlib
     #   matplotlib-venn
+    #   pynndescent
+    #   scanpy
     #   scikit-learn
     #   scvi-tools
+    #   statsmodels
+    #   umap-learn
 scvi-tools==1.1.2
-    # via efaar_benchmarking (pyproject.toml)
-seaborn==0.12.2
-    # via efaar_benchmarking (pyproject.toml)
+    # via efaar-benchmarking (pyproject.toml)
+seaborn==0.13.2
+    # via
+    #   efaar-benchmarking (pyproject.toml)
+    #   scanpy
 send2trash==1.8.2
     # via jupyter-server
+session-info==1.0.0
+    # via scanpy
 setuptools==70.0.0
     # via
     #   lightning-utilities
@@ -543,6 +596,7 @@ six==1.16.0
     #   docrep
     #   mando
     #   ml-collections
+    #   patsy
     #   python-dateutil
     #   rfc3339-validator
 smmap==5.0.1
@@ -553,6 +607,10 @@ soupsieve==2.5
     # via beautifulsoup4
 stack-data==0.6.3
     # via ipython
+statsmodels==0.14.4
+    # via scanpy
+stdlib-list==0.11.0
+    # via session-info
 stevedore==5.1.0
     # via bandit
 sympy==1.12
@@ -573,11 +631,13 @@ tinycss2==1.2.1
     # via nbconvert
 tokenize-rt==5.2.0
     # via pyupgrade
+tomli==2.0.2
+    # via coverage
 toolz==0.12.0
     # via chex
 torch==2.1.2
     # via
-    #   efaar_benchmarking (pyproject.toml)
+    #   efaar-benchmarking (pyproject.toml)
     #   geomloss
     #   lightning
     #   pyro-ppl
@@ -597,7 +657,7 @@ tornado==6.4
     #   jupyterlab
     #   terminado
 tox==4.11.4
-    # via efaar_benchmarking (pyproject.toml)
+    # via efaar-benchmarking (pyproject.toml)
 tqdm==4.63.1
     # via
     #   docstr-coverage
@@ -605,7 +665,9 @@ tqdm==4.63.1
     #   numpyro
     #   pyro-ppl
     #   pytorch-lightning
+    #   scanpy
     #   scvi-tools
+    #   umap-learn
     #   upsetplotly
 traitlets==5.14.0
     # via
@@ -624,11 +686,11 @@ traitlets==5.14.0
 trove-classifiers==2023.11.29
     # via validate-pyproject
 types-pkg-resources==0.1.3
-    # via efaar_benchmarking (pyproject.toml)
+    # via efaar-benchmarking (pyproject.toml)
 types-python-dateutil==2.8.19.14
     # via arrow
 types-setuptools==69.0.0.0
-    # via efaar_benchmarking (pyproject.toml)
+    # via efaar-benchmarking (pyproject.toml)
 typing-extensions==4.9.0
     # via
     #   chex
@@ -642,16 +704,18 @@ typing-extensions==4.9.0
     #   torch
 tzdata==2023.4
     # via pandas
+umap-learn==0.5.6
+    # via scanpy
 upsetplotly==0.1.7
-    # via efaar_benchmarking (pyproject.toml)
+    # via efaar-benchmarking (pyproject.toml)
 uri-template==1.3.0
     # via jsonschema
 urllib3==2.0.7
     # via
     #   botocore
     #   requests
-validate-pyproject[all]==0.15
-    # via efaar_benchmarking (pyproject.toml)
+validate-pyproject==0.15
+    # via efaar-benchmarking (pyproject.toml)
 virtualenv==20.25.0
     # via
     #   pre-commit
@@ -667,7 +731,7 @@ webencodings==0.5.1
 websocket-client==1.7.0
     # via jupyter-server
 wget==3.2
-    # via efaar_benchmarking (pyproject.toml)
+    # via efaar-benchmarking (pyproject.toml)
 wrapt==1.16.0
     # via aiobotocore
 yarl==1.9.4
