@@ -1,9 +1,34 @@
 import os
+import pytest
 
 import numpy as np
 import pandas as pd
 
 from efaar_benchmarking import benchmarking, constants
+
+
+@pytest.fixture
+def sample_map_data():
+    data = {
+        "perturbation": ["compound1", "gene1", "compound2", "gene2"],
+        "concentration": [10.0, np.nan, 1.0, np.nan],
+        "feature_1": [0.1, 0.2, 0.3, 0.4],
+        "feature_2": [0.5, 0.6, 0.7, 0.8],
+    }
+    return pd.DataFrame(data)
+
+
+@pytest.fixture
+def mock_read_csv(monkeypatch):
+    def mock_read_csv(path):
+        data = {
+            "treatment": ["compound1", "compound2"],
+            "gene_symbol": ["gene1", "gene2"],
+            "nM_value": [500, 1500],
+        }
+        return pd.DataFrame(data)
+
+    monkeypatch.setattr(pd, "read_csv", mock_read_csv)
 
 
 def test_pert_signal_consistency_metric():
@@ -60,3 +85,32 @@ def test_filter_relationships():
     df = pd.DataFrame({"entity1": ["A", "B", "A", "C", "D"], "entity2": ["B", "A", "A", "D", "C"]})
     filtered_df = benchmarking.filter_relationships(df)
     assert len(filtered_df) == 2
+
+
+@pytest.mark.parametrize(
+    "compound, gene, concentration, expected",
+    [
+        ("compound1", "gene1", 10.0, 0.9923),
+        ("compound2", "gene2", 1.0, 0.9983),
+        ("compound1", "gene3", 10.0, None),
+    ],
+)
+def test_cosine_similarity_from_map(compound, gene, concentration, expected, sample_map_data):
+    result = benchmarking.cosine_similarity_from_map(compound, gene, concentration, sample_map_data)
+    print(result)
+    if result is not None:
+        assert np.isclose(result, expected, atol=1e-4)
+    else:
+        assert result == expected
+
+
+def test_compound_gene_benchmark(mock_read_csv, sample_map_data):
+    aps_df, curves = benchmarking.compound_gene_benchmark(
+        sample_map_data, nM_activity_threshold=1000, benchmark_data_dir="dummy_dir"
+    )
+
+    assert not aps_df.empty
+    assert list(aps_df.columns) == ["concentration", "average_precision"]
+    assert "1.0" in curves
+    assert "max" in curves
+    assert isinstance(curves["max"], tuple)

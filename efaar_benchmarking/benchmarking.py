@@ -2,11 +2,15 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+
 from geomloss import SamplesLoss
 from joblib import Parallel, delayed
+
 from scipy.stats import hypergeom, ks_2samp
 from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.metrics import precision_recall_curve, average_precision_score
 from sklearn.utils import Bunch
+
 from torch import from_numpy
 
 import efaar_benchmarking.constants as cst
@@ -511,3 +515,92 @@ def compute_top_similars(map_data: Bunch, pert_col: str, pert1: str, pert2: str 
         return pert1_rels.head(topx)
     else:
         return pert1_rels.head(topx), pert1_rels[pert1_rels["pert"] == pert2].index[0] + 1, cosi.loc[pert1, pert2]
+
+
+def cosine_similarity_from_map(
+    compound: str, gene: str, compound_concentration: float, map_data: pd.DataFrame, pert_col: str = "perturbation"
+) -> float | None:
+    """
+    Returns the cosine similarity between two perturbations (compound or gene).
+
+    Args:
+        compound (str): The first perturbation id (either compound or gene).
+        gene (str): The second perturbation id (either compound or gene).
+        compound_concentration (float): The concentration of the compound.
+        map_data (pd.DataFrame): The map_data dataframe containing both compounds and genes.
+        pert_col (str, optional): The column name in the map_data dataframe representing the perturbations.
+            Defaults to "perturbation".
+
+    Returns:
+        float: The cosine similarity between the two perturbations.
+    """
+    feature_columns = [col for col in map_data.columns if col.startswith("feature_")]
+
+    compound_data = map_data[
+        (map_data["perturbation"] == compound) & (map_data["concentration"] == compound_concentration)
+    ][feature_columns]
+    gene_data = map_data[map_data["perturbation"] == gene][feature_columns]
+
+    if compound_data.empty or gene_data.empty:
+        return None
+
+    compound_values = compound_data.iloc[0].values
+    gene_values = gene_data.iloc[0].values
+
+    return compound_values.dot(gene_values) / (np.linalg.norm(compound_values) * np.linalg.norm(gene_values))
+
+
+def compound_gene_benchmark(
+    map_data: pd.DataFrame,
+    nM_activity_threshold: float = 1000,
+    pert_col: str = "perturbation",
+    benchmark_data_dir: str = cst.BENCHMARK_DATA_DIR,
+) -> tuple[pd.DataFrame, dict]:
+    """Compute benchmarks for compound-gene pairs.
+
+    Args:
+        map_data (pd.DataFrame): DataFrame containing the embeddings and metadata.
+        nM_activity_threshold (float): Concentration threshold to use for the benchmark in nM.
+            Ground truth relationships below this threshold will be considered as positives. Default is 1000 nM.
+        pert_col (str): Column name containing the perturbation information. Default is "perturbation".
+        benchmark_data_dir (str): Directory to save the benchmark data. Default is cst.BENCHMARK_DATA_DIR.
+
+    Returns:
+        tuple[pd.DataFrame, dict]: A tuple containing:
+            - A DataFrame containing the average precision scores for different concentrations and the maximum value.
+            - A dictionary containing the precision-recall curves for different concentrations and the maximum value.
+
+    """
+
+    truth = pd.read_csv(Path(benchmark_data_dir).joinpath("compound_gene_interactions.csv"))
+    truth["active"] = truth["nM_value"] <= nM_activity_threshold
+
+
+    for conc in cst.COMPOUND_CONCENTRATIONS:
+        truth[f"cosine_similarity_{conc}"] = truth.apply(
+            lambda x: cosine_similarity_from_map(x["treatment"], x["gene_symbol"], conc, map_data, pert_col), axis=1
+        )
+        truth[f"cosine_similarity_{conc}"] = truth[f"cosine_similarity_{conc}"].apply(
+            lambda x: abs(x) if x is not None else x
+        )
+    truth["cosine_similarity_max"] = truth[[col for col in truth.columns if col.startswith("cosine_similarity_")]].max(
+        axis=1, skipna=True
+    )
+
+    curves, aps = {}, {}
+    for conc_str in cst.COMPOUND_CONCENTRATIONS + ["max"]:
+        cos_sim = truth[f"cosine_similarity_{conc_str}"]
+        to_keep = ~cos_sim.isna()
+        cos_sim = cos_sim[to_keep]
+        labels = truth["active"][to_keep]
+
+        try:
+            precision, recall, _ = precision_recall_curve(labels, cos_sim)
+            curves[f"{conc_str}"] = (precision, recall)
+            aps[f"{conc_str}"] = average_precision_score(labels, cos_sim)
+        except ValueError:
+            pass
+
+    aps["baseline"] = truth["active"].mean()
+
+    return pd.DataFrame(aps.items(), columns=["concentration", "average_precision"]), curves
