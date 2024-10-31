@@ -2,15 +2,12 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-
 from geomloss import SamplesLoss
 from joblib import Parallel, delayed
-
 from scipy.stats import hypergeom, ks_2samp
+from sklearn.metrics import average_precision_score, precision_recall_curve
 from sklearn.metrics.pairwise import cosine_similarity
-from sklearn.metrics import precision_recall_curve, average_precision_score
 from sklearn.utils import Bunch
-
 from torch import from_numpy
 
 import efaar_benchmarking.constants as cst
@@ -574,7 +571,6 @@ def compound_gene_benchmark(
 
     truth = pd.read_csv(Path(benchmark_data_dir).joinpath("compound_gene_interactions.csv"))
     truth["active"] = truth["nM_value"] <= nM_activity_threshold
-
 
     for conc in cst.COMPOUND_CONCENTRATIONS:
         truth[f"cosine_similarity_{conc}"] = truth.apply(
