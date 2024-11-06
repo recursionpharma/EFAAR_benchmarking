@@ -5,7 +5,6 @@ import pandas as pd
 from geomloss import SamplesLoss
 from joblib import Parallel, delayed
 from scipy.stats import hypergeom, ks_2samp
-from sklearn.metrics import average_precision_score, precision_recall_curve
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.utils import Bunch
 from torch import from_numpy
