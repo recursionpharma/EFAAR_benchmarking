@@ -609,48 +609,19 @@ def compute_similarities(
 
 
 def compute_baseline_predictions(
-    truth: pd.DataFrame,
-    activity_threshold: float,
-    inactivity_threshold: float,
+    predictions: Dict[str, List[Tuple[np.ndarray, np.ndarray]]],
     config: BenchmarkConfig,
 ) -> Dict[str, List[Tuple[np.ndarray, np.ndarray]]]:
-    """Generate baseline predictions for evaluation."""
+    """Generate baseline predictions using random scores for the same labels."""
     rng = np.random.default_rng(config.random_seed)
-    predictions = {conc: [] for conc in cst.COMPOUND_CONCENTRATIONS + ["max"]}
-
-    if config.aggregate_by == AggregateBy.COMPOUND:
-        # Baseline predictions for aggregation by compound
-        all_genes = set(truth["gene_symbol"].unique())
-        target_col = "gene_symbol"
-        pool = all_genes
-        items = truth["treatment"].unique()
-    else:
-        # Baseline predictions for aggregation by gene
-        all_compounds = set(truth["treatment"].unique())
-        target_col = "treatment"
-        pool = all_compounds
-        items = truth["gene_symbol"].unique()
-
-    for item in items:
-        item_data = truth[truth[target_col] == item]
-        targets, labels = sample_for_item(
-            item_data,
-            pool,
-            activity_threshold,
-            inactivity_threshold,
-            target_col,
-            config.min_negatives,
-            config.random_seed,
-        )
-
-        if len(targets) == 0:
-            continue
-
-        for conc in predictions.keys():
-            scores = rng.random(len(targets))
-            predictions[conc].append((scores, labels))
-
-    return predictions
+    baseline_predictions = {}
+    for conc, preds in predictions.items():
+        baseline_preds = []
+        for _, labels in preds:
+            scores = rng.random(len(labels))
+            baseline_preds.append((scores, labels))
+        baseline_predictions[conc] = baseline_preds
+    return baseline_predictions
 
 
 def aggregate_predictions(
@@ -673,10 +644,15 @@ def aggregate_predictions(
             aps = []
             aucs = []
             for scores, labels in preds:
+                if len(scores) == 0 or not np.any(labels):
+                    continue
                 ap, auc = compute_metrics(scores, labels)
                 aps.append(ap)
                 aucs.append(auc)
-            results[conc] = {"average_precision": np.mean(aps), "auc_roc": np.mean(aucs)}
+            if aps:
+                results[conc] = {"average_precision": np.mean(aps), "auc_roc": np.mean(aucs)}
+            else:
+                results[conc] = {"average_precision": 0.0, "auc_roc": 0.5}
     return results
 
 
@@ -771,30 +747,30 @@ def process_predictions(
                 if not np.all(np.isnan(scores)):
                     predictions[conc].append((scores, labels))
                     scores_by_conc[conc] = scores
+            if scores_by_conc:
+                max_scores = np.nanmax(np.vstack(list(scores_by_conc.values())), axis=0)
+                if not np.all(np.isnan(max_scores)):
+                    predictions["max"].append((max_scores, labels))
         else:
             for conc in cst.COMPOUND_CONCENTRATIONS:
                 try:
                     sim_conc = similarities.xs(conc, level="concentration")
                     available = sim_conc.index.intersection(targets)
                     if not available.empty:
-                        scores = sim_conc.loc[available, item].values
+                        sim_conc_item = sim_conc.loc[available, item]
+                        scores = sim_conc_item.values
                         labels_filtered = labels[np.isin(targets, available)]
                         if not np.all(np.isnan(scores)):
                             predictions[conc].append((scores, labels_filtered))
                             scores_by_conc[conc] = pd.Series(scores, index=available)
                 except KeyError:
                     continue
-
-        if scores_by_conc:
-            if config.aggregate_by == AggregateBy.COMPOUND:
-                max_scores = np.nanmax(np.vstack(list(scores_by_conc.values())), axis=0)
-                if not np.all(np.isnan(max_scores)):
-                    predictions["max"].append((max_scores, labels))
-            else:
+            if scores_by_conc:
                 available = set().union(*[scores_by_conc[conc].index for conc in scores_by_conc])
                 if available:
+                    available = list(available)
                     scores_df = pd.DataFrame(
-                        {conc: scores_by_conc[conc] for conc in scores_by_conc}, index=list(available)
+                        {conc: scores_by_conc[conc] for conc in scores_by_conc}, index=available
                     )
                     max_scores = scores_df.max(axis=1).values
                     labels_filtered = labels[np.isin(targets, available)]
@@ -821,7 +797,7 @@ def compound_gene_benchmark(
 
     thresholds = (activity_threshold, inactivity_threshold)
     predictions = process_predictions(truth, similarities, config, thresholds, pert_col)
-    baseline_preds = compute_baseline_predictions(truth, activity_threshold, inactivity_threshold, config)
+    baseline_preds = compute_baseline_predictions(predictions, config)
 
     results_dict = aggregate_predictions(predictions, config)
     baseline_dict = aggregate_predictions(baseline_preds, config)
@@ -830,7 +806,7 @@ def compound_gene_benchmark(
     results.rename(columns={"index": "concentration"}, inplace=True)
 
     baseline = pd.DataFrame.from_dict(baseline_dict, orient="index")
-    results["baseline_average_precision"] = baseline["average_precision"].values
-    results["baseline_auc_roc"] = baseline["auc_roc"].values
+    baseline = baseline.reset_index().rename(columns={'index': 'concentration'})
+    results = results.merge(baseline, on='concentration', suffixes=('', '_baseline'))
 
     return results
