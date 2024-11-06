@@ -1,3 +1,4 @@
+from itertools import product
 from pathlib import Path
 
 import numpy as np
@@ -550,53 +551,54 @@ def cosine_similarity_from_map(
 def compound_gene_benchmark(
     map_data: pd.DataFrame,
     nM_activity_threshold: float = 1000,
+    nM_inactive_threshold: float = 10000,
     pert_col: str = "perturbation",
     benchmark_data_dir: str = cst.BENCHMARK_DATA_DIR,
 ) -> tuple[pd.DataFrame, dict]:
-    """Compute benchmarks for compound-gene pairs.
-
-    Args:
-        map_data (pd.DataFrame): DataFrame containing the embeddings and metadata.
-        nM_activity_threshold (float): Concentration threshold to use for the benchmark in nM.
-            Ground truth relationships below this threshold will be considered as positives. Default is 1000 nM.
-        pert_col (str): Column name containing the perturbation information. Default is "perturbation".
-        benchmark_data_dir (str): Directory to save the benchmark data. Default is cst.BENCHMARK_DATA_DIR.
-
-    Returns:
-        tuple[pd.DataFrame, dict]: A tuple containing:
-            - A DataFrame containing the average precision scores for different concentrations and the maximum value.
-            - A dictionary containing the precision-recall curves for different concentrations and the maximum value.
-
-    """
-
+    """Compute benchmarks for compound-gene pairs."""
     truth = pd.read_csv(Path(benchmark_data_dir).joinpath("compound_gene_interactions.csv"))
-    truth["active"] = truth["nM_value"] <= nM_activity_threshold
+    compounds = truth["treatment"].unique()
+    genes = truth["gene_symbol"].unique()
 
-    for conc in cst.COMPOUND_CONCENTRATIONS:
-        truth[f"cosine_similarity_{conc}"] = truth.apply(
-            lambda x: cosine_similarity_from_map(x["treatment"], x["gene_symbol"], conc, map_data, pert_col), axis=1
-        )
-        truth[f"cosine_similarity_{conc}"] = truth[f"cosine_similarity_{conc}"].apply(
-            lambda x: abs(x) if x is not None else x
-        )
-    truth["cosine_similarity_max"] = truth[[col for col in truth.columns if col.startswith("cosine_similarity_")]].max(
-        axis=1, skipna=True
-    )
+    # Create a dataframe with all compound-gene pairs
+    all_pairs = pd.DataFrame(list(product(compounds, genes)), columns=["treatment", "gene_symbol"])
+    all_pairs = all_pairs.merge(truth, on=["treatment", "gene_symbol"], how="left")
+    all_pairs["nM_value"] = all_pairs["nM_value"].fillna(nM_inactive_threshold + 1)
+    all_pairs["active"] = all_pairs["nM_value"] <= nM_activity_threshold
+    all_pairs["inactive"] = all_pairs["nM_value"] > nM_inactive_threshold
 
-    curves, aps = {}, {}
+    # Compute cosine similarities using numpy broadcasting
+    cosine_similarities = np.zeros((len(all_pairs), len(cst.COMPOUND_CONCENTRATIONS) + 1))
+    for i, conc in enumerate(cst.COMPOUND_CONCENTRATIONS):
+        cosine_similarities[:, i] = (
+            all_pairs.apply(
+                lambda x: cosine_similarity_from_map(x["treatment"], x["gene_symbol"], conc, map_data, pert_col), axis=1
+            )
+            .fillna(0)
+            .abs()
+            .values
+        )
+    cosine_similarities[:, -1] = np.max(cosine_similarities[:, :-1], axis=1)
+
+    # Add cosine similarity columns to the dataframe
+    cosine_similarity_cols = [f"cosine_similarity_{conc}" for conc in cst.COMPOUND_CONCENTRATIONS] + [
+        "cosine_similarity_max"
+    ]
+    all_pairs[cosine_similarity_cols] = cosine_similarities
+
+    # Compute per-compound mAP using numpy
+    aps_per_compound = {}
     for conc_str in cst.COMPOUND_CONCENTRATIONS + ["max"]:
-        cos_sim = truth[f"cosine_similarity_{conc_str}"]
-        to_keep = ~cos_sim.isna()
-        cos_sim = cos_sim[to_keep]
-        labels = truth["active"][to_keep]
+        aps_per_compound[conc_str] = {}
+        for compound in compounds:
+            compound_mask = all_pairs["treatment"] == compound
+            cos_sim = all_pairs.loc[compound_mask, f"cosine_similarity_{conc_str}"].values
+            labels = all_pairs.loc[compound_mask, "active"].values
 
-        try:
-            precision, recall, _ = precision_recall_curve(labels, cos_sim)
-            curves[f"{conc_str}"] = (precision, recall)
-            aps[f"{conc_str}"] = average_precision_score(labels, cos_sim)
-        except ValueError:
-            pass
+            if labels.sum() > 0:  # Only compute AP if there are positive labels
+                aps_per_compound[conc_str][compound] = average_precision_score(labels, cos_sim)
 
-    aps["baseline"] = truth["active"].mean()
+    aps = {conc_str: np.mean(list(aps.values())) for conc_str, aps in aps_per_compound.items()}
+    aps["baseline"] = all_pairs["active"].mean()
 
-    return pd.DataFrame(aps.items(), columns=["concentration", "average_precision"]), curves
+    return pd.DataFrame(aps.items(), columns=["concentration", "average_precision"])
