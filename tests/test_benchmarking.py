@@ -20,14 +20,34 @@ from efaar_benchmarking.benchmarking import (
 
 
 @pytest.fixture
+def sample_truth_data():
+    """Create sample ground truth data with known properties."""
+    return pd.DataFrame(
+        {
+            "treatment": ["compound1", "compound1", "compound2", "compound2"],
+            "gene_symbol": ["gene1", "gene2", "gene1", "gene2"],
+            "nM_value": [100, 5000, 15000, 500],  # Mix of active, gray zone, and inactive
+        }
+    )
+
+
+@pytest.fixture
 def sample_map_data():
-    data = {
-        "perturbation": ["compound1", "gene1", "compound2", "gene2"],
-        "concentration": [10.0, np.nan, 1.0, np.nan],
-        "feature_1": [0.1, 0.2, 0.3, 0.4],
-        "feature_2": [0.5, 0.6, 0.7, 0.8],
-    }
-    return pd.DataFrame(data)
+    """Create sample embedding data with known similarities."""
+    features = pd.DataFrame(
+        {"feat1": [1.0, 0.0, 0.0, 1.0], "feat2": [0.0, 1.0, 1.0, 0.0]},
+        index=["compound1_id", "compound2_id", "gene1_id", "gene2_id"],
+    )
+
+    metadata = pd.DataFrame(
+        {
+            "perturbation": ["compound1", "compound2", "gene1", "gene2"],
+            "concentration": ["1.0", "1.0", np.nan, np.nan],
+        },
+        index=["compound1_id", "compound2_id", "gene1_id", "gene2_id"],
+    )
+
+    return Bunch(features=features, metadata=metadata)
 
 
 @pytest.fixture
@@ -128,37 +148,6 @@ def test_compound_gene_benchmark(mock_read_csv, sample_map_data):
     assert isinstance(curves["max"], tuple)
 
 
-@pytest.fixture
-def sample_truth_data():
-    """Create sample ground truth data with known properties."""
-    return pd.DataFrame(
-        {
-            "treatment": ["compound1", "compound1", "compound2", "compound2"],
-            "gene_symbol": ["gene1", "gene2", "gene1", "gene2"],
-            "nM_value": [100, 5000, 15000, 500],  # Mix of active, gray zone, and inactive
-        }
-    )
-
-
-@pytest.fixture
-def sample_map_data():
-    """Create sample embedding data with known similarities."""
-    features = pd.DataFrame(
-        {"feat1": [1.0, 0.0, 0.0, 1.0], "feat2": [0.0, 1.0, 1.0, 0.0]},
-        index=["compound1_id", "compound2_id", "gene1_id", "gene2_id"],
-    )
-
-    metadata = pd.DataFrame(
-        {
-            "perturbation": ["compound1", "compound2", "gene1", "gene2"],
-            "concentration": ["1.0", "1.0", np.nan, np.nan],
-        },
-        index=["compound1_id", "compound2_id", "gene1_id", "gene2_id"],
-    )
-
-    return Bunch(features=features, metadata=metadata)
-
-
 def test_compute_similarities_basic(sample_map_data):
     """Test basic similarity computation."""
     truth = pd.DataFrame({"treatment": ["compound1", "compound2"], "gene_symbol": ["gene1", "gene2"]})
@@ -219,7 +208,11 @@ def test_compute_metrics():
 def test_full_benchmark_macro_compound(sample_truth_data, sample_map_data):
     """Test full benchmark with macro averaging by compound."""
     config = BenchmarkConfig(
-        average_type=AverageType.MACRO, aggregate_by=AggregateBy.COMPOUND, min_negatives=2, random_seed=42
+        average_type=AverageType.MACRO,
+        aggregate_by=AggregateBy.COMPOUND,
+        min_negatives=2,  # Using min_negatives
+        random_seed=42,
+        quantiles=[0.25, 0.5, 0.75],  # Include quantiles if applicable
     )
 
     results = compound_gene_benchmark(
@@ -236,6 +229,10 @@ def test_full_benchmark_macro_compound(sample_truth_data, sample_map_data):
     assert "auc_roc" in results.columns
     assert "baseline_average_precision" in results.columns
     assert "baseline_auc_roc" in results.columns
+    # If quantiles are included
+    if config.quantiles:
+        for q in config.quantiles:
+            assert f"ap_quantile_{q}" in results.columns
     assert len(results) > 0
     assert "max" in results["concentration"].values
 
@@ -243,7 +240,10 @@ def test_full_benchmark_macro_compound(sample_truth_data, sample_map_data):
 def test_full_benchmark_micro_gene(sample_truth_data, sample_map_data):
     """Test full benchmark with micro averaging by gene."""
     config = BenchmarkConfig(
-        average_type=AverageType.MICRO, aggregate_by=AggregateBy.GENE, min_negatives=2, random_seed=42
+        average_type=AverageType.MICRO,
+        aggregate_by=AggregateBy.GENE,
+        min_negatives=2,  # Using min_negatives
+        random_seed=42,
     )
 
     results = compound_gene_benchmark(
@@ -262,8 +262,9 @@ def test_benchmark_edge_cases(sample_map_data):
     """Test benchmark behavior with edge cases."""
     # Empty truth data
     empty_truth = pd.DataFrame(columns=["treatment", "gene_symbol", "nM_value"])
+    config = BenchmarkConfig(random_seed=42)
     with pytest.raises(ValueError):
-        compound_gene_benchmark(map_data=sample_map_data, truth_data=empty_truth)
+        compound_gene_benchmark(map_data=sample_map_data, truth_data=empty_truth, config=config)
 
     # All inactive data
     all_inactive = pd.DataFrame(
@@ -273,14 +274,17 @@ def test_benchmark_edge_cases(sample_map_data):
             "nM_value": [20000],  # Above inactivity threshold
         }
     )
-    results = compound_gene_benchmark(map_data=sample_map_data, truth_data=all_inactive)
+    results = compound_gene_benchmark(map_data=sample_map_data, truth_data=all_inactive, config=config)
     assert len(results) > 0
     assert all(results["average_precision"] == 0.0)  # No positives should give 0 AP
 
 
 def test_process_predictions(sample_truth_data, sample_map_data):
     """Test prediction processing logic."""
-    config = BenchmarkConfig()
+    config = BenchmarkConfig(
+        min_negatives=2,
+        random_seed=42,
+    )
     similarities = compute_similarities(sample_truth_data, sample_map_data, "perturbation")
 
     predictions = process_predictions(
@@ -293,8 +297,7 @@ def test_process_predictions(sample_truth_data, sample_map_data):
 
     # Check prediction format
     for conc, preds in predictions.items():
-        if preds:
-            scores, labels = preds[0]
+        for scores, labels in preds:
             assert isinstance(scores, np.ndarray)
             assert isinstance(labels, np.ndarray)
             assert len(scores) == len(labels)
@@ -311,6 +314,6 @@ def test_config_validation():
     with pytest.raises(ValueError):
         BenchmarkConfig(aggregate_by="invalid")
 
-    # Invalid min negatives
+    # Invalid min_negatives
     with pytest.raises(ValueError):
         BenchmarkConfig(min_negatives=-1)
