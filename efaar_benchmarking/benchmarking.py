@@ -25,6 +25,7 @@ class AggregateBy(Enum):
     COMPOUND = "compound"
     GENE = "gene"
 
+
 @dataclass
 class BenchmarkConfig:
     """Configuration for benchmark computation."""
@@ -790,9 +791,7 @@ def process_predictions(
                 available = set().union(*[scores_by_conc[conc].index for conc in scores_by_conc])
                 if available:
                     available = list(available)
-                    scores_df = pd.DataFrame(
-                        {conc: scores_by_conc[conc] for conc in scores_by_conc}, index=available
-                    )
+                    scores_df = pd.DataFrame({conc: scores_by_conc[conc] for conc in scores_by_conc}, index=available)
                     max_scores = scores_df.max(axis=1).values
                     labels_filtered = labels[np.isin(targets, available)]
                     if not np.all(np.isnan(max_scores)):
@@ -831,6 +830,6 @@ def compound_gene_benchmark(
     baseline = pd.DataFrame.from_dict(baseline_dict, orient="index").reset_index()
     baseline.rename(columns={"index": "concentration"}, inplace=True)
     # Merge baseline metrics with results
-    results = results.merge(baseline, on='concentration', suffixes=('', '_baseline'))
+    results = results.merge(baseline, on="concentration", suffixes=("", "_baseline"))
 
     return results
