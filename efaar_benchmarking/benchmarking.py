@@ -34,6 +34,7 @@ class BenchmarkConfig:
     min_negatives: int = 20
     n_baseline_sims: int = 100
     random_seed: int = 42
+    quantiles: Optional[List[float]] = None  # New parameter for quantiles
 
 
 def pert_signal_consistency_metric(
@@ -632,14 +633,23 @@ def aggregate_predictions(
     results = {}
     for conc, preds in predictions.items():
         if not preds:
-            results[conc] = {"average_precision": 0.0, "auc_roc": 0.5}
+            # Initialize result dictionary with zeros and default quantiles
+            result = {"average_precision": 0.0, "auc_roc": 0.5}
+            if config.quantiles:
+                for q in config.quantiles:
+                    result[f"ap_quantile_{q}"] = 0.0
+            results[conc] = result
             continue
 
         if config.average_type == AverageType.MICRO:
             scores = np.concatenate([p[0] for p in preds])
             labels = np.concatenate([p[1] for p in preds])
             ap, auc = compute_metrics(scores, labels)
-            results[conc] = {"average_precision": ap, "auc_roc": auc}
+            result = {"average_precision": ap, "auc_roc": auc}
+            if config.quantiles:
+                # For micro averaging, quantiles are not applicable; set to overall AP
+                for q in config.quantiles:
+                    result[f"ap_quantile_{q}"] = ap
         else:  # MACRO
             aps = []
             aucs = []
@@ -650,9 +660,20 @@ def aggregate_predictions(
                 aps.append(ap)
                 aucs.append(auc)
             if aps:
-                results[conc] = {"average_precision": np.mean(aps), "auc_roc": np.mean(aucs)}
+                mean_ap = np.mean(aps)
+                mean_auc = np.mean(aucs)
+                result = {"average_precision": mean_ap, "auc_roc": mean_auc}
+                if config.quantiles:
+                    # Compute quantiles
+                    for q in config.quantiles:
+                        quantile_value = np.quantile(aps, q)
+                        result[f"ap_quantile_{q}"] = quantile_value
             else:
-                results[conc] = {"average_precision": 0.0, "auc_roc": 0.5}
+                result = {"average_precision": 0.0, "auc_roc": 0.5}
+                if config.quantiles:
+                    for q in config.quantiles:
+                        result[f"ap_quantile_{q}"] = 0.0
+        results[conc] = result
     return results
 
 
@@ -802,11 +823,14 @@ def compound_gene_benchmark(
     results_dict = aggregate_predictions(predictions, config)
     baseline_dict = aggregate_predictions(baseline_preds, config)
 
+    # Convert results to DataFrame
     results = pd.DataFrame.from_dict(results_dict, orient="index").reset_index()
     results.rename(columns={"index": "concentration"}, inplace=True)
 
-    baseline = pd.DataFrame.from_dict(baseline_dict, orient="index")
-    baseline = baseline.reset_index().rename(columns={'index': 'concentration'})
+    # Convert baseline results to DataFrame
+    baseline = pd.DataFrame.from_dict(baseline_dict, orient="index").reset_index()
+    baseline.rename(columns={"index": "concentration"}, inplace=True)
+    # Merge baseline metrics with results
     results = results.merge(baseline, on='concentration', suffixes=('', '_baseline'))
 
     return results
