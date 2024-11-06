@@ -1,15 +1,39 @@
+from dataclasses import dataclass
+from enum import Enum
 from pathlib import Path
+from typing import Dict, List, Optional, Set, Tuple
 
 import numpy as np
 import pandas as pd
 from geomloss import SamplesLoss
 from joblib import Parallel, delayed
 from scipy.stats import hypergeom, ks_2samp
+from sklearn.metrics import roc_auc_score
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.utils import Bunch
 from torch import from_numpy
 
 import efaar_benchmarking.constants as cst
+
+
+class AverageType(Enum):
+    MICRO = "micro"
+    MACRO = "macro"
+
+
+class AggregateBy(Enum):
+    COMPOUND = "compound"
+    GENE = "gene"
+
+@dataclass
+class BenchmarkConfig:
+    """Configuration for benchmark computation."""
+
+    average_type: AverageType = AverageType.MACRO
+    aggregate_by: AggregateBy = AggregateBy.COMPOUND
+    min_negatives: int = 20
+    n_baseline_sims: int = 100
+    random_seed: int = 42
 
 
 def pert_signal_consistency_metric(
@@ -552,120 +576,21 @@ def load_truth_data(benchmark_data_dir: str) -> pd.DataFrame:
     return pd.read_csv(truth_data_path)
 
 
-def compute_average_precision(scores: np.ndarray, labels: np.ndarray) -> float:
-    """
-    Compute average precision using an optimized implementation.
-
-    Parameters:
-        scores (np.ndarray): The predicted scores.
-        labels (np.ndarray): The ground truth binary labels.
-
-    Returns:
-        float: The average precision score.
-    """
-    if len(scores) == 0 or not np.any(labels):
-        return 0.0
-
-    # Sort scores and corresponding labels in descending order
-    sorted_indices = np.argsort(scores)[::-1]
-    sorted_labels = labels[sorted_indices]
-
-    # Calculate true positives cumulative sum
-    tp_cumsum = np.cumsum(sorted_labels)
-    positions = np.arange(1, len(sorted_labels) + 1)
-
-    # Precision at each position
-    precision = tp_cumsum / positions
-
-    # Calculate average precision
-    average_precision = np.sum(precision * sorted_labels) / sorted_labels.sum()
-    return average_precision
-
-
-def sample_genes_for_compound(
-    compound_data: pd.DataFrame,
-    gene_pool: set,
-    activity_threshold: float,
-    inactivity_threshold: float,
-    min_negatives: int = 20,
-    random_seed: int = cst.RANDOM_SEED,
-) -> Tuple[np.ndarray, np.ndarray]:
-    """
-    Sample positive and negative genes for a given compound.
-
-    Parameters:
-        compound_data (pd.DataFrame): DataFrame containing compound-gene interaction data.
-        gene_pool (set): Set of all possible genes.
-        activity_threshold (float): Threshold for active genes based on nM value.
-        inactivity_threshold (float): Threshold for ineligible genes based on nM value.
-        min_negatives (int): Minimum number of negative samples.
-        random_seed (int): Seed for random number generator.
-
-    Returns:
-        Tuple[np.ndarray, np.ndarray]: Tuple of genes to use and their corresponding labels.
-    """
-    rng = np.random.default_rng(random_seed)
-
-    # Identify active genes
-    active_genes = compound_data.loc[
-        compound_data["nM_value"] <= activity_threshold, "gene_symbol"
-    ].unique()
-    if len(active_genes) == 0:
-        return np.array([]), np.array([])
-
-    # Identify ineligible genes
-    ineligible_genes = compound_data.loc[
-        (compound_data["nM_value"] > activity_threshold) &
-        (compound_data["nM_value"] <= inactivity_threshold),
-        "gene_symbol"
-    ].unique()
-
-    # Sample negative genes
-    eligible_genes = gene_pool - set(active_genes) - set(ineligible_genes)
-    n_negatives = max(2 * len(active_genes), min_negatives)
-    if len(eligible_genes) < n_negatives:
-        return np.array([]), np.array([])
-
-    negative_genes = rng.choice(list(eligible_genes), n_negatives, replace=False)
-    genes_to_use = np.concatenate([active_genes, negative_genes])
-
-    # Create binary labels
-    labels = np.isin(genes_to_use, active_genes).astype(int)
-
-    return genes_to_use, labels
-
-
 def compute_similarities(
     truth: pd.DataFrame,
     map_data: Bunch,
     pert_col: str,
     randomize: bool = False,
 ) -> pd.DataFrame:
-    """
-    Compute cosine similarities between compounds and genes with proper alignment.
-
-    Parameters:
-        truth (pd.DataFrame): Ground truth DataFrame.
-        map_data (Bunch): Data containing features and metadata.
-        pert_col (str): Column name for perturbations.
-        randomize (bool): If True, similarities are randomized.
-
-    Returns:
-        pd.DataFrame: DataFrame containing similarities with a MultiIndex.
-    """
+    """Compute cosine similarities between compounds and genes."""
     treatments = truth["treatment"].unique()
     genes = truth["gene_symbol"].unique()
 
-    # Filter metadata
     compound_meta = map_data.metadata[map_data.metadata[pert_col].isin(treatments)].copy()
     gene_meta = map_data.metadata[map_data.metadata[pert_col].isin(genes)].copy()
 
     if compound_meta.empty or gene_meta.empty:
         raise ValueError("No matching compounds or genes found in metadata.")
-
-    # Reset indices to ensure alignment
-    compound_meta.reset_index(drop=True, inplace=True)
-    gene_meta.reset_index(drop=True, inplace=True)
 
     if randomize:
         rng = np.random.default_rng(cst.RANDOM_SEED)
@@ -673,71 +598,210 @@ def compute_similarities(
     else:
         compound_features = map_data.features.loc[compound_meta.index]
         gene_features = map_data.features.loc[gene_meta.index]
-        similarities = cosine_similarity(compound_features, gene_features)
-        similarities = np.abs(similarities)
+        similarities = np.abs(cosine_similarity(compound_features, gene_features))
 
-    # Create MultiIndex for rows
     index = pd.MultiIndex.from_arrays(
         [compound_meta[pert_col].values, compound_meta["concentration"].values],
         names=[pert_col, "concentration"],
     )
 
-    similarities_df = pd.DataFrame(
-        similarities,
-        index=index,
-        columns=gene_meta[pert_col].values,
-    )
-    return similarities_df
+    return pd.DataFrame(similarities, index=index, columns=gene_meta[pert_col].values)
 
 
-def compute_baseline_ap(
+def compute_baseline_predictions(
     truth: pd.DataFrame,
     activity_threshold: float,
     inactivity_threshold: float,
-    min_negatives: int = 20,
-    n_simulations: int = 1000,
-) -> float:
-    """
-    Compute the expected random baseline average precision through simulation.
+    config: BenchmarkConfig,
+) -> Dict[str, List[Tuple[np.ndarray, np.ndarray]]]:
+    """Generate baseline predictions for evaluation."""
+    rng = np.random.default_rng(config.random_seed)
+    predictions = {conc: [] for conc in cst.COMPOUND_CONCENTRATIONS + ["max"]}
 
-    Parameters:
-        truth (pd.DataFrame): Ground truth DataFrame.
-        activity_threshold (float): Threshold for active genes based on nM value.
-        inactivity_threshold (float): Threshold for ineligible genes based on nM value.
-        min_negatives (int): Minimum number of negative samples.
-        n_simulations (int): Number of simulations to run.
+    if config.aggregate_by == AggregateBy.COMPOUND:
+        # Baseline predictions for aggregation by compound
+        all_genes = set(truth["gene_symbol"].unique())
+        target_col = "gene_symbol"
+        pool = all_genes
+        items = truth["treatment"].unique()
+    else:
+        # Baseline predictions for aggregation by gene
+        all_compounds = set(truth["treatment"].unique())
+        target_col = "treatment"
+        pool = all_compounds
+        items = truth["gene_symbol"].unique()
 
-    Returns:
-        float: The baseline average precision.
-    """
-    rng = np.random.default_rng(cst.RANDOM_SEED)
-    all_genes = set(truth["gene_symbol"].unique())
-    compound_aps = []
-
-    for compound in truth["treatment"].unique():
-        compound_data = truth[truth["treatment"] == compound]
-        genes_to_use, labels = sample_genes_for_compound(
-            compound_data,
-            all_genes,
+    for item in items:
+        item_data = truth[truth[target_col] == item]
+        targets, labels = sample_for_item(
+            item_data,
+            pool,
             activity_threshold,
             inactivity_threshold,
-            min_negatives,
-            random_seed=cst.RANDOM_SEED,
+            target_col,
+            config.min_negatives,
+            config.random_seed,
         )
 
-        if len(genes_to_use) == 0:
+        if len(targets) == 0:
             continue
 
-        # Simulate average precision over multiple random scores
-        random_scores = rng.random((n_simulations, len(genes_to_use)))
-        # Vectorized computation of APs
-        aps = []
-        for scores in random_scores:
-            ap = compute_average_precision(scores, labels)
-            aps.append(ap)
-        compound_aps.append(np.mean(aps))
+        for conc in predictions.keys():
+            scores = rng.random(len(targets))
+            predictions[conc].append((scores, labels))
 
-    return np.mean(compound_aps) if compound_aps else 0.0
+    return predictions
+
+
+def aggregate_predictions(
+    predictions: Dict[str, List[Tuple[np.ndarray, np.ndarray]]],
+    config: BenchmarkConfig,
+) -> Dict[str, Dict[str, float]]:
+    """Aggregate predictions across compounds or genes."""
+    results = {}
+    for conc, preds in predictions.items():
+        if not preds:
+            results[conc] = {"average_precision": 0.0, "auc_roc": 0.5}
+            continue
+
+        if config.average_type == AverageType.MICRO:
+            scores = np.concatenate([p[0] for p in preds])
+            labels = np.concatenate([p[1] for p in preds])
+            ap, auc = compute_metrics(scores, labels)
+            results[conc] = {"average_precision": ap, "auc_roc": auc}
+        else:  # MACRO
+            aps = []
+            aucs = []
+            for scores, labels in preds:
+                ap, auc = compute_metrics(scores, labels)
+                aps.append(ap)
+                aucs.append(auc)
+            results[conc] = {"average_precision": np.mean(aps), "auc_roc": np.mean(aucs)}
+    return results
+
+
+def compute_metrics(scores: np.ndarray, labels: np.ndarray) -> Tuple[float, float]:
+    """Compute average precision and AUC-ROC."""
+    if len(scores) == 0 or not np.any(labels):
+        return 0.0, 0.5
+
+    sorted_indices = np.argsort(scores)[::-1]
+    sorted_labels = labels[sorted_indices]
+    tp_cumsum = np.cumsum(sorted_labels)
+    precision = tp_cumsum / np.arange(1, len(sorted_labels) + 1)
+    ap = np.sum(precision * sorted_labels) / sorted_labels.sum()
+    auc = roc_auc_score(labels, scores)
+    return ap, auc
+
+
+def sample_for_item(
+    item_data: pd.DataFrame,
+    pool: Set[str],
+    activity_threshold: float,
+    inactivity_threshold: float,
+    target_col: str,
+    min_negatives: int = 20,
+    random_seed: int = 42,
+) -> Tuple[np.ndarray, np.ndarray]:
+    """Generic sampling function for both compounds and genes."""
+    rng = np.random.default_rng(random_seed)
+
+    actives = item_data.loc[item_data["nM_value"] <= activity_threshold, target_col].unique()
+    if len(actives) == 0:
+        return np.array([]), np.array([])
+
+    ineligibles = item_data.loc[
+        (item_data["nM_value"] > activity_threshold) & (item_data["nM_value"] <= inactivity_threshold), target_col
+    ].unique()
+
+    eligibles = pool - set(actives) - set(ineligibles)
+    n_negatives = max(2 * len(actives), min_negatives)
+
+    if len(eligibles) < n_negatives:
+        return np.array([]), np.array([])
+
+    negatives = rng.choice(list(eligibles), n_negatives, replace=False)
+    items = np.concatenate([actives, negatives])
+    labels = np.isin(items, actives).astype(int)
+
+    return items, labels
+
+
+def process_predictions(
+    data: pd.DataFrame,
+    similarities: pd.DataFrame,
+    config: BenchmarkConfig,
+    thresholds: Tuple[float, float],
+    pert_col: str = "perturbation",
+) -> Dict[str, List[Tuple[np.ndarray, np.ndarray]]]:
+    """Process predictions for either compounds or genes."""
+    activity_threshold, inactivity_threshold = thresholds
+    predictions = {conc: [] for conc in cst.COMPOUND_CONCENTRATIONS + ["max"]}
+
+    if config.aggregate_by == AggregateBy.COMPOUND:
+        pool = set(data["gene_symbol"].unique())
+        item_col, target_col = "treatment", "gene_symbol"
+    else:
+        pool = set(data["treatment"].unique())
+        item_col, target_col = "gene_symbol", "treatment"
+
+    for item in data[item_col].unique():
+        if config.aggregate_by == AggregateBy.COMPOUND and item not in similarities.index.get_level_values(pert_col):
+            continue
+
+        item_data = data[data[item_col] == item]
+        targets, labels = sample_for_item(
+            item_data,
+            pool,
+            activity_threshold,
+            inactivity_threshold,
+            target_col,
+            config.min_negatives,
+            config.random_seed,
+        )
+
+        if len(targets) == 0:
+            continue
+
+        scores_by_conc = {}
+        if config.aggregate_by == AggregateBy.COMPOUND:
+            item_similarities = similarities.loc[item]
+            for conc in item_similarities.index.unique():
+                scores = item_similarities.loc[conc, targets].values
+                if not np.all(np.isnan(scores)):
+                    predictions[conc].append((scores, labels))
+                    scores_by_conc[conc] = scores
+        else:
+            for conc in cst.COMPOUND_CONCENTRATIONS:
+                try:
+                    sim_conc = similarities.xs(conc, level="concentration")
+                    available = sim_conc.index.intersection(targets)
+                    if not available.empty:
+                        scores = sim_conc.loc[available, item].values
+                        labels_filtered = labels[np.isin(targets, available)]
+                        if not np.all(np.isnan(scores)):
+                            predictions[conc].append((scores, labels_filtered))
+                            scores_by_conc[conc] = pd.Series(scores, index=available)
+                except KeyError:
+                    continue
+
+        if scores_by_conc:
+            if config.aggregate_by == AggregateBy.COMPOUND:
+                max_scores = np.nanmax(np.vstack(list(scores_by_conc.values())), axis=0)
+                if not np.all(np.isnan(max_scores)):
+                    predictions["max"].append((max_scores, labels))
+            else:
+                available = set().union(*[scores_by_conc[conc].index for conc in scores_by_conc])
+                if available:
+                    scores_df = pd.DataFrame(
+                        {conc: scores_by_conc[conc] for conc in scores_by_conc}, index=list(available)
+                    )
+                    max_scores = scores_df.max(axis=1).values
+                    labels_filtered = labels[np.isin(targets, available)]
+                    if not np.all(np.isnan(max_scores)):
+                        predictions["max"].append((max_scores, labels_filtered))
+
+    return predictions
 
 
 def compound_gene_benchmark(
@@ -748,79 +812,25 @@ def compound_gene_benchmark(
     benchmark_data_dir: str = cst.BENCHMARK_DATA_DIR,
     truth_data: Optional[pd.DataFrame] = None,
     check_random: bool = False,
-    min_negatives: int = 20,
+    config: Optional[BenchmarkConfig] = None,
 ) -> pd.DataFrame:
-    """
-    Main benchmark function to compute average precision for compounds and genes.
-
-    Parameters:
-        map_data (Bunch): Data containing features and metadata.
-        activity_threshold (float): Threshold for active genes based on nM value.
-        inactivity_threshold (float): Threshold for ineligible genes based on nM value.
-        pert_col (str): Column name for perturbations.
-        benchmark_data_dir (str): Directory containing benchmark data.
-        truth_data (Optional[pd.DataFrame]): Optional ground truth DataFrame.
-        check_random (bool): If True, similarities are randomized.
-        min_negatives (int): Minimum number of negative samples.
-
-    Returns:
-        pd.DataFrame: DataFrame containing average precision results.
-    """
-    truth = load_truth_data(benchmark_data_dir) if truth_data is None else truth_data
+    """Main benchmark function."""
+    config = config or BenchmarkConfig()
+    truth = truth_data if truth_data is not None else load_truth_data(benchmark_data_dir)
     similarities = compute_similarities(truth, map_data, pert_col, randomize=check_random)
 
-    compound_aps = {}
-    for compound in truth["treatment"].unique():
-        if compound not in similarities.index.get_level_values(pert_col):
-            continue
+    thresholds = (activity_threshold, inactivity_threshold)
+    predictions = process_predictions(truth, similarities, config, thresholds, pert_col)
+    baseline_preds = compute_baseline_predictions(truth, activity_threshold, inactivity_threshold, config)
 
-        compound_similarities = similarities.loc[compound]
-        compound_data = truth[truth["treatment"] == compound]
-        genes_to_use, labels = sample_genes_for_compound(
-            compound_data,
-            set(similarities.columns),
-            activity_threshold,
-            inactivity_threshold,
-            min_negatives,
-            random_seed=cst.RANDOM_SEED,
-        )
+    results_dict = aggregate_predictions(predictions, config)
+    baseline_dict = aggregate_predictions(baseline_preds, config)
 
-        if len(genes_to_use) == 0:
-            continue
+    results = pd.DataFrame.from_dict(results_dict, orient="index").reset_index()
+    results.rename(columns={"index": "concentration"}, inplace=True)
 
-        aps = {}
-        scores_by_conc = {}
-        for conc in compound_similarities.index.unique():
-            conc_similarities = compound_similarities.loc[conc, genes_to_use]
-            scores = conc_similarities.values
-            if np.all(np.isnan(scores)):
-                continue
-            ap = compute_average_precision(scores, labels)
-            if ap > 0:
-                aps[conc] = ap
-                scores_by_conc[conc] = scores
+    baseline = pd.DataFrame.from_dict(baseline_dict, orient="index")
+    results["baseline_average_precision"] = baseline["average_precision"].values
+    results["baseline_auc_roc"] = baseline["auc_roc"].values
 
-        if scores_by_conc:
-            max_scores = np.nanmax(np.vstack(list(scores_by_conc.values())), axis=0)
-            if not np.all(np.isnan(max_scores)):
-                ap = compute_average_precision(max_scores, labels)
-                if ap > 0:
-                    aps["max"] = ap
-
-        if aps:
-            compound_aps[compound] = aps
-
-    # Compute mean average precision for each concentration
-    results = {}
-    for conc in cst.COMPOUND_CONCENTRATIONS + ["max"]:
-        ap_list = [aps[conc] for aps in compound_aps.values() if conc in aps]
-        results[conc] = np.mean(ap_list) if ap_list else 0.0
-
-    results["baseline"] = compute_baseline_ap(
-        truth,
-        activity_threshold,
-        inactivity_threshold,
-        min_negatives,
-    )
-
-    return pd.DataFrame(list(results.items()), columns=["concentration", "average_precision"])
+    return results
