@@ -34,19 +34,25 @@ def sample_truth_data():
 def sample_map_data():
     """Create sample embedding data with known similarities."""
     features = pd.DataFrame(
-        {"feat1": [1.0, 0.0, 0.0, 1.0], "feat2": [0.0, 1.0, 1.0, 0.0]},
+        {"feature_1": [1.0, 0.0, 0.0, 1.0], "feature_2": [0.0, 1.0, 1.0, 0.0]},
         index=["compound1_id", "compound2_id", "gene1_id", "gene2_id"],
     )
 
     metadata = pd.DataFrame(
         {
             "perturbation": ["compound1", "compound2", "gene1", "gene2"],
-            "concentration": ["1.0", "1.0", np.nan, np.nan],
+            "concentration": [1.0, 1.0, np.nan, np.nan],
         },
         index=["compound1_id", "compound2_id", "gene1_id", "gene2_id"],
     )
 
     return Bunch(features=features, metadata=metadata)
+
+
+@pytest.fixture
+def sample_map_data_df(sample_map_data):
+    """Create sample embedding data with known similarities as a single DataFrame."""
+    return pd.concat([sample_map_data.features, sample_map_data.metadata], axis=1)
 
 
 @pytest.fixture
@@ -121,14 +127,13 @@ def test_filter_relationships():
 @pytest.mark.parametrize(
     "compound, gene, concentration, expected",
     [
-        ("compound1", "gene1", 10.0, 0.9923),
-        ("compound2", "gene2", 1.0, 0.9983),
+        ("compound1", "gene1", 1.0, 0.0),
+        ("compound2", "gene1", 1.0, 1.0),
         ("compound1", "gene3", 10.0, None),
     ],
 )
-def test_cosine_similarity_from_map(compound, gene, concentration, expected, sample_map_data):
-    result = benchmarking.cosine_similarity_from_map(compound, gene, concentration, sample_map_data)
-    print(result)
+def test_cosine_similarity_from_map(compound, gene, concentration, expected, sample_map_data_df):
+    result = benchmarking.cosine_similarity_from_map(compound, gene, concentration, sample_map_data_df)
     if result is not None:
         assert np.isclose(result, expected, atol=1e-4)
     else:
@@ -136,15 +141,18 @@ def test_cosine_similarity_from_map(compound, gene, concentration, expected, sam
 
 
 def test_compound_gene_benchmark(mock_read_csv, sample_map_data):
-    aps_df, curves = benchmarking.compound_gene_benchmark(
-        sample_map_data, nM_activity_threshold=1000, benchmark_data_dir="dummy_dir"
+    aps_df = benchmarking.compound_gene_benchmark(
+        sample_map_data, activity_threshold=1000, benchmark_data_dir="dummy_dir"
     )
 
     assert not aps_df.empty
-    assert list(aps_df.columns) == ["concentration", "average_precision"]
-    assert "1.0" in curves
-    assert "max" in curves
-    assert isinstance(curves["max"], tuple)
+    assert list(aps_df.columns) == [
+        "concentration",
+        "average_precision",
+        "auc_roc",
+        "average_precision_baseline",
+        "auc_roc_baseline",
+    ]
 
 
 def test_compute_similarities_basic(sample_map_data):
@@ -154,9 +162,8 @@ def test_compute_similarities_basic(sample_map_data):
     sims = compute_similarities(truth, sample_map_data, "perturbation")
 
     assert isinstance(sims, pd.DataFrame)
-    assert sims.shape == (2, 2)  # 2 compounds x 2 genes
-    # compound1 should be perfectly similar to gene1 (same features)
-    assert np.isclose(sims.loc[("compound1", "1.0"), "gene1"], 1.0)
+    assert sims.shape == (2, 2)
+    assert np.isclose(sims.loc[("compound2", 1.0), "gene1"], 1.0)
 
 
 def test_compute_similarities_randomized(sample_map_data):
@@ -188,7 +195,7 @@ def test_sample_for_item():
     assert len(items) > 0
     assert len(labels) == len(items)
     assert sum(labels) == 1  # Only gene1 should be positive
-    assert "gene3" not in items  # Should be excluded as it's in gray zone
+    assert "gene2" not in items  # Should be excluded as it's in gray zone
 
 
 def test_compute_metrics():
@@ -198,10 +205,8 @@ def test_compute_metrics():
 
     ap, auc = compute_metrics(scores, labels)
 
-    assert 0 <= ap <= 1
-    assert 0 <= auc <= 1
-    # With these specific values, AP should be less than 0.75
-    assert ap < 0.75
+    assert auc == 0.5
+    assert ap == 0.75
 
 
 def test_full_benchmark_macro_compound(sample_truth_data, sample_map_data):
@@ -226,8 +231,8 @@ def test_full_benchmark_macro_compound(sample_truth_data, sample_map_data):
     assert "concentration" in results.columns
     assert "average_precision" in results.columns
     assert "auc_roc" in results.columns
-    assert "baseline_average_precision" in results.columns
-    assert "baseline_auc_roc" in results.columns
+    assert "average_precision_baseline" in results.columns
+    assert "auc_roc_baseline" in results.columns
     # If quantiles are included
     if config.quantiles:
         for q in config.quantiles:
@@ -241,7 +246,7 @@ def test_full_benchmark_micro_gene(sample_truth_data, sample_map_data):
     config = BenchmarkConfig(
         average_type=AverageType.MICRO,
         aggregate_by=AggregateBy.GENE,
-        min_negatives=2,  # Using min_negatives
+        min_negatives=2,
         random_seed=42,
     )
 
@@ -254,7 +259,7 @@ def test_full_benchmark_micro_gene(sample_truth_data, sample_map_data):
     )
 
     assert isinstance(results, pd.DataFrame)
-    assert all(results["baseline_auc_roc"] == 0.5)  # Random baseline should have 0.5 AUC-ROC
+    assert all(results["auc_roc_baseline"] == 0.5)
 
 
 def test_benchmark_edge_cases(sample_map_data):
@@ -305,14 +310,11 @@ def test_process_predictions(sample_truth_data, sample_map_data):
 
 def test_config_validation():
     """Test configuration validation."""
-    # Invalid average type
     with pytest.raises(ValueError):
         BenchmarkConfig(average_type="invalid")
 
-    # Invalid aggregate by
     with pytest.raises(ValueError):
         BenchmarkConfig(aggregate_by="invalid")
 
-    # Invalid min_negatives
     with pytest.raises(ValueError):
         BenchmarkConfig(min_negatives=-1)

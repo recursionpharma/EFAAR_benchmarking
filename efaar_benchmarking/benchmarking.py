@@ -34,7 +34,15 @@ class BenchmarkConfig:
     min_negatives: int = 20
     n_baseline_sims: int = 100
     random_seed: int = 42
-    quantiles: list[float] | None = None  # New parameter for quantiles
+    quantiles: list[float] | None = None
+
+    def __post_init__(self):
+        if not isinstance(self.average_type, AverageType):
+            raise ValueError(f"Invalid average_type: {self.average_type}")
+        if not isinstance(self.aggregate_by, AggregateBy):
+            raise ValueError(f"Invalid aggregate_by: {self.aggregate_by}")
+        if self.min_negatives < 0:
+            raise ValueError(f"min_negatives must be non-negative, got {self.min_negatives}")
 
 
 def pert_signal_consistency_metric(
@@ -59,7 +67,8 @@ def pert_signal_consistency_metric(
     if len(arr) < 2:
         return np.nan if len(sorted_null) == 0 else (np.nan, np.nan)
 
-    cosine_sim = np.clip(cosine_similarity(arr), -1, 1)  # to avoid floating point precision errors
+    # To avoid floating point precision errors
+    cosine_sim = np.clip(cosine_similarity(arr), -1, 1)
     cosine_sim = cosine_sim[np.tril_indices(cosine_sim.shape[0], k=-1)].mean()
 
     if len(sorted_null) == 0:
@@ -539,7 +548,7 @@ def compute_top_similars(map_data: Bunch, pert_col: str, pert1: str, pert2: str 
 
 
 def cosine_similarity_from_map(
-    compound: str, gene: str, compound_concentration: float, map_data: pd.DataFrame, pert_col: str = "perturbation"
+    compound: str, gene: str, compound_concentration: float, map_data: pd.DataFrame
 ) -> float | None:
     """
     Returns the cosine similarity between two perturbations (compound or gene).
@@ -549,8 +558,6 @@ def cosine_similarity_from_map(
         gene (str): The second perturbation id (either compound or gene).
         compound_concentration (float): The concentration of the compound.
         map_data (pd.DataFrame): The map_data dataframe containing both compounds and genes.
-        pert_col (str, optional): The column name in the map_data dataframe representing the perturbations.
-            Defaults to "perturbation".
 
     Returns:
         float: The cosine similarity between the two perturbations.
@@ -633,7 +640,6 @@ def aggregate_predictions(
     results: dict[str, dict] = {}
     for conc, preds in predictions.items():
         if not preds:
-            # Initialize result dictionary with zeros and default quantiles
             result: dict[str, float | np.float64] = {"average_precision": 0.0, "auc_roc": 0.5}
             if config.quantiles:
                 for q in config.quantiles:
@@ -664,7 +670,6 @@ def aggregate_predictions(
                 mean_auc = np.mean(aucs)
                 result = {"average_precision": mean_ap, "auc_roc": mean_auc}
                 if config.quantiles:
-                    # Compute quantiles
                     for q in config.quantiles:
                         quantile_value = np.quantile(aps, q)
                         result[f"ap_quantile_{q}"] = quantile_value
@@ -821,14 +826,12 @@ def compound_gene_benchmark(
     results_dict = aggregate_predictions(predictions, config)
     baseline_dict = aggregate_predictions(baseline_preds, config)
 
-    # Convert results to DataFrame
     results = pd.DataFrame.from_dict(results_dict, orient="index").reset_index()
     results.rename(columns={"index": "concentration"}, inplace=True)
 
-    # Convert baseline results to DataFrame
     baseline = pd.DataFrame.from_dict(baseline_dict, orient="index").reset_index()
     baseline.rename(columns={"index": "concentration"}, inplace=True)
-    # Merge baseline metrics with results
+
     results = results.merge(baseline, on="concentration", suffixes=("", "_baseline"))
 
     return results
