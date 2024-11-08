@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Dict, List, Optional, Set, Tuple
 
 import numpy as np
 import pandas as pd
@@ -35,7 +34,7 @@ class BenchmarkConfig:
     min_negatives: int = 20
     n_baseline_sims: int = 100
     random_seed: int = 42
-    quantiles: Optional[List[float]] = None  # New parameter for quantiles
+    quantiles: list[float] | None = None  # New parameter for quantiles
 
 
 def pert_signal_consistency_metric(
@@ -611,9 +610,9 @@ def compute_similarities(
 
 
 def compute_baseline_predictions(
-    predictions: Dict[str, List[Tuple[np.ndarray, np.ndarray]]],
+    predictions: dict[str, list[tuple[np.ndarray, np.ndarray]]],
     config: BenchmarkConfig,
-) -> Dict[str, List[Tuple[np.ndarray, np.ndarray]]]:
+) -> dict[str, list[tuple[np.ndarray, np.ndarray]]]:
     """Generate baseline predictions using random scores for the same labels."""
     rng = np.random.default_rng(config.random_seed)
     baseline_predictions = {}
@@ -627,15 +626,15 @@ def compute_baseline_predictions(
 
 
 def aggregate_predictions(
-    predictions: Dict[str, List[Tuple[np.ndarray, np.ndarray]]],
+    predictions: dict[str, list[tuple[np.ndarray, np.ndarray]]],
     config: BenchmarkConfig,
-) -> Dict[str, Dict[str, float]]:
+) -> dict[str, dict[str, float]]:
     """Aggregate predictions across compounds or genes."""
-    results = {}
+    results: dict[str, dict] = {}
     for conc, preds in predictions.items():
         if not preds:
             # Initialize result dictionary with zeros and default quantiles
-            result = {"average_precision": 0.0, "auc_roc": 0.5}
+            result: dict[str, float | np.float64] = {"average_precision": 0.0, "auc_roc": 0.5}
             if config.quantiles:
                 for q in config.quantiles:
                     result[f"ap_quantile_{q}"] = 0.0
@@ -651,7 +650,7 @@ def aggregate_predictions(
                 # For micro averaging, quantiles are not applicable; set to overall AP
                 for q in config.quantiles:
                     result[f"ap_quantile_{q}"] = ap
-        else:  # MACRO
+        else:
             aps = []
             aucs = []
             for scores, labels in preds:
@@ -678,7 +677,7 @@ def aggregate_predictions(
     return results
 
 
-def compute_metrics(scores: np.ndarray, labels: np.ndarray) -> Tuple[float, float]:
+def compute_metrics(scores: np.ndarray, labels: np.ndarray) -> tuple[float, float]:
     """Compute average precision and AUC-ROC."""
     if len(scores) == 0 or not np.any(labels):
         return 0.0, 0.5
@@ -694,13 +693,13 @@ def compute_metrics(scores: np.ndarray, labels: np.ndarray) -> Tuple[float, floa
 
 def sample_for_item(
     item_data: pd.DataFrame,
-    pool: Set[str],
+    pool: set[str],
     activity_threshold: float,
     inactivity_threshold: float,
     target_col: str,
     min_negatives: int = 20,
     random_seed: int = 42,
-) -> Tuple[np.ndarray, np.ndarray]:
+) -> tuple[np.ndarray, np.ndarray]:
     """Generic sampling function for both compounds and genes."""
     rng = np.random.default_rng(random_seed)
 
@@ -729,12 +728,12 @@ def process_predictions(
     data: pd.DataFrame,
     similarities: pd.DataFrame,
     config: BenchmarkConfig,
-    thresholds: Tuple[float, float],
+    thresholds: tuple[float, float],
     pert_col: str = "perturbation",
-) -> Dict[str, List[Tuple[np.ndarray, np.ndarray]]]:
+) -> dict[str, list[tuple[np.ndarray, np.ndarray]]]:
     """Process predictions for either compounds or genes."""
     activity_threshold, inactivity_threshold = thresholds
-    predictions = {conc: [] for conc in cst.COMPOUND_CONCENTRATIONS + ["max"]}
+    predictions: dict = {conc: [] for conc in cst.COMPOUND_CONCENTRATIONS + ["max"]}
 
     if config.aggregate_by == AggregateBy.COMPOUND:
         pool = set(data["gene_symbol"].unique())
@@ -806,9 +805,9 @@ def compound_gene_benchmark(
     inactivity_threshold: float = 10000,
     pert_col: str = "perturbation",
     benchmark_data_dir: str = cst.BENCHMARK_DATA_DIR,
-    truth_data: Optional[pd.DataFrame] = None,
+    truth_data: pd.DataFrame | None = None,
     check_random: bool = False,
-    config: Optional[BenchmarkConfig] = None,
+    config: BenchmarkConfig | None = None,
 ) -> pd.DataFrame:
     """Main benchmark function."""
     config = config or BenchmarkConfig()
