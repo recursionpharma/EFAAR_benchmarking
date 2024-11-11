@@ -32,8 +32,6 @@ pip install efaar_benchmarking
 
 First, run `notebooks/map_building_benchmarking.ipynb` for GWPS, cpg0016, and cpg0021 individually. This process will build each of these maps and report the perturbation signal and biological relationship benchmarks. Afterwards, run `notebooks/map_evaluation_comparison.ipynb` to explore the constructed maps using the methods presented in our paper. In order for the latter notebook to work, make sure to set the `save_results` parameter to True in the former notebook.
 
-`notebooks/rxrx3_benchmarking.ipynb` contains an example of extracting gene-gene relationships recall and compound-gene average precision scores for the public Rxrx3 dataset.
-
 We've uploaded the 128-dimensional PCA-TVN maps we constructed for GWPS, cpg0016, and cpg0021 to the `notebooks/data` directory. So, for convenience, one can run `notebooks/map_evaluation_comparison.ipynb` directly on these uploaded map files if they wish to explore the maps further without running `notebooks/map_building_benchmarking.ipynb`. See `notebooks/data/LICENSE` for terms of use for each dataset.
 
 RxRx3 embeddings are available as separate parquet files per plate in the embeddings.tar file, downloadable from https://rxrx3.rxrx.ai/downloads. Note that in this data, all but 733 genes are anonymized.
@@ -84,7 +82,7 @@ _Harding SD, Armstrong JF, Faccenda E, Southan C, Alexander SPH, Davenport AP, S
 
 
 ## Gene-compound relationship benchmark
-In `notebooks/rxrx3_core_benchmarks_openphenom.ipynb` we leverage a specialized benchmark to measure compound activity against a gene.
+In `notebooks/rxrx3_core_benchmarks_openphenom.ipynb` we leverage a specialized benchmark to run the gene-gene benchmarks above and also to measure compound activity against a gene.
 
 This benchmark evaluates the zero-shot prediction of compound-gene activity using cosine similarities between model embeddings. Specifically, for each compound, we assess whether the cosine similarities correctly rank the compound's known target genes higher than a randomly sampled set of other genes from the ground truth dataset.
 
