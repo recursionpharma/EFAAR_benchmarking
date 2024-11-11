@@ -16,18 +16,33 @@ import efaar_benchmarking.constants as cst
 
 
 class AverageType(Enum):
+    """Enumeration for averaging method selection.
+
+    With MICRO, the average is computed for each perturbation and then averaged across all perturbations.
+    With MACRO, the average is computed for each perturbation and then averaged across all perturbations.
+    """
+
     MICRO = "micro"
     MACRO = "macro"
 
 
 class AggregateBy(Enum):
+    """Enumeration for aggregation method selection.
+
+    With COMPOUND, the average is computed for each compound and then averaged across all compounds.
+    With GENE, the average is computed for each gene and then averaged across all genes.
+    """
+
     COMPOUND = "compound"
     GENE = "gene"
 
 
 @dataclass
 class BenchmarkConfig:
-    """Configuration for benchmark computation."""
+    """Configuration for benchmark computation.
+
+    Set consistent configuration parameters across all benchmarks.
+    """
 
     average_type: AverageType = AverageType.MACRO
     aggregate_by: AggregateBy = AggregateBy.COMPOUND
@@ -37,6 +52,7 @@ class BenchmarkConfig:
     quantiles: list[float] | None = None
 
     def __post_init__(self):
+        """Validate the configuration parameters."""
         if not isinstance(self.average_type, AverageType):
             raise ValueError(f"Invalid average_type: {self.average_type}")
         if not isinstance(self.aggregate_by, AggregateBy):
@@ -579,7 +595,14 @@ def cosine_similarity_from_map(
 
 
 def load_truth_data(benchmark_data_dir: str) -> pd.DataFrame:
-    """Load the ground truth data from a CSV file."""
+    """Load the ground truth data from a CSV file.
+
+    Args:
+        benchmark_data_dir (str): The directory containing the benchmark data files.
+
+    Returns:
+        pd.DataFrame: The ground truth data.
+    """
     truth_data_path = Path(benchmark_data_dir) / "compound_gene_interactions.csv"
     return pd.read_csv(truth_data_path)
 
@@ -590,7 +613,18 @@ def compute_similarities(
     pert_col: str,
     randomize: bool = False,
 ) -> pd.DataFrame:
-    """Compute cosine similarities between compounds and genes."""
+    """Compute cosine similarities between compounds and genes.
+
+    Args:
+        truth (pd.DataFrame): The ground truth data containing compound-gene interactions.
+        map_data (Bunch): The map data containing features and metadata.
+        pert_col (str): The column name in the metadata representing perturbations.
+        randomize (bool, optional): Whether to randomize the similarities for baseline computation.
+            Defaults to False.
+
+    Returns:
+        pd.DataFrame: A DataFrame containing the cosine similarities between compounds and genes.
+    """
     treatments = truth["treatment"].unique()
     genes = truth["gene_symbol"].unique()
 
@@ -620,7 +654,15 @@ def compute_baseline_predictions(
     predictions: dict[str, list[tuple[np.ndarray, np.ndarray]]],
     config: BenchmarkConfig,
 ) -> dict[str, list[tuple[np.ndarray, np.ndarray]]]:
-    """Generate baseline predictions using random scores for the same labels."""
+    """Generate baseline predictions using random scores for the same labels.
+
+    Args:
+        predictions (dict): The predictions to generate baselines for.
+        config (BenchmarkConfig): The benchmark configuration.
+
+    Returns:
+        dict: The baseline predictions
+    """
     rng = np.random.default_rng(config.random_seed)
     baseline_predictions = {}
     for conc, preds in predictions.items():
@@ -636,7 +678,15 @@ def aggregate_predictions(
     predictions: dict[str, list[tuple[np.ndarray, np.ndarray]]],
     config: BenchmarkConfig,
 ) -> dict[str, dict[str, float]]:
-    """Aggregate predictions across compounds or genes."""
+    """Aggregate predictions across compounds or genes.
+
+    Args:
+        predictions (dict): The predictions to aggregate.
+        config (BenchmarkConfig): The benchmark configuration.
+
+    Returns:
+        dict: The aggregated predictions
+    """
     results: dict[str, dict] = {}
     for conc, preds in predictions.items():
         if not preds:
@@ -683,7 +733,15 @@ def aggregate_predictions(
 
 
 def compute_metrics(scores: np.ndarray, labels: np.ndarray) -> tuple[float, float]:
-    """Compute average precision and AUC-ROC."""
+    """Compute average precision and AUC-ROC.
+
+    Args:
+        scores (np.ndarray): The predicted scores.
+        labels (np.ndarray): The true labels.
+
+    Returns:
+        tuple: The average precision and AUC-ROC.
+    """
     if len(scores) == 0 or not np.any(labels):
         return 0.0, 0.5
 
@@ -705,7 +763,20 @@ def sample_for_item(
     min_negatives: int = 20,
     random_seed: int = 42,
 ) -> tuple[np.ndarray, np.ndarray]:
-    """Generic sampling function for both compounds and genes."""
+    """Generic sampling function for both compounds and genes.
+
+    Args:
+        item_data (pd.DataFrame): The data for the item.
+        pool (set): The pool of items to sample from.
+        activity_threshold (float): The activity threshold for the item.
+        inactivity_threshold (float): The inactivity threshold for the item.
+        target_col (str): The column name in the item data representing the target.
+        min_negatives (int, optional): The minimum number of negative samples to take. Defaults to 20.
+        random_seed (int, optional): The random seed. Defaults to 42.
+
+    Returns:
+        tuple: The sampled items and labels.
+    """
     rng = np.random.default_rng(random_seed)
 
     actives = item_data.loc[item_data["nM_value"] <= activity_threshold, target_col].unique()
@@ -736,7 +807,18 @@ def process_predictions(
     thresholds: tuple[float, float],
     pert_col: str = "perturbation",
 ) -> dict[str, list[tuple[np.ndarray, np.ndarray]]]:
-    """Process predictions for either compounds or genes."""
+    """Process predictions for either compounds or genes.
+
+    Args:
+        data (pd.DataFrame): The data containing the perturbation-gene relationships.
+        similarities (pd.DataFrame): The similarities between compounds and genes.
+        config (BenchmarkConfig): The benchmark configuration.
+        thresholds (tuple): The activity and inactivity thresholds.
+        pert_col (str, optional): The column name in the data representing perturbations. Defaults to "perturbation".
+
+    Returns:
+        dict: The predictions for each compound or gene.
+    """
     activity_threshold, inactivity_threshold = thresholds
     predictions: dict = {conc: [] for conc in cst.COMPOUND_CONCENTRATIONS + ["max"]}
 
@@ -814,7 +896,23 @@ def compound_gene_benchmark(
     check_random: bool = False,
     config: BenchmarkConfig | None = None,
 ) -> pd.DataFrame:
-    """Main benchmark function."""
+    """Main compound-gene benchmarking function.
+
+    Args:
+        map_data (Bunch): The map data containing features and metadata.
+        activity_threshold (float, optional): The activity threshold. Defaults to 1000.
+        inactivity_threshold (float, optional): The inactivity threshold. Defaults to 10000.
+        pert_col (str, optional): The column name in the metadata representing perturbations.
+            Defaults to "perturbation".
+        benchmark_data_dir (str, optional): The directory containing the benchmark data.
+            Defaults to cst.BENCHMARK_DATA_DIR.
+        truth_data (pd.DataFrame, optional): The ground truth data. Defaults to None.
+        check_random (bool, optional): Whether to check random scores for baseline computation. Defaults to False.
+        config (BenchmarkConfig, optional): The benchmark configuration. Defaults to None.
+
+    Returns:
+        pd.DataFrame: The benchmarking results.
+    """
     config = config or BenchmarkConfig()
     truth = truth_data if truth_data is not None else load_truth_data(benchmark_data_dir)
     similarities = compute_similarities(truth, map_data, pert_col, randomize=check_random)
