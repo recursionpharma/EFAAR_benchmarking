@@ -32,8 +32,6 @@ pip install efaar_benchmarking
 
 First, run `notebooks/map_building_benchmarking.ipynb` for GWPS, cpg0016, and cpg0021 individually. This process will build each of these maps and report the perturbation signal and biological relationship benchmarks. Afterwards, run `notebooks/map_evaluation_comparison.ipynb` to explore the constructed maps using the methods presented in our paper. In order for the latter notebook to work, make sure to set the `save_results` parameter to True in the former notebook.
 
-`notebooks/rxrx3_benchmarking.ipynb` contains an example of extracting gene-gene relationships recall and compound-gene average precision scores for the public Rxrx3 dataset.
-
 We've uploaded the 128-dimensional PCA-TVN maps we constructed for GWPS, cpg0016, and cpg0021 to the `notebooks/data` directory. So, for convenience, one can run `notebooks/map_evaluation_comparison.ipynb` directly on these uploaded map files if they wish to explore the maps further without running `notebooks/map_building_benchmarking.ipynb`. See `notebooks/data/LICENSE` for terms of use for each dataset.
 
 RxRx3 embeddings are available as separate parquet files per plate in the embeddings.tar file, downloadable from https://rxrx3.rxrx.ai/downloads. Note that in this data, all but 733 genes are anonymized.
@@ -81,3 +79,13 @@ _Gilson,M.K., Liu,T., Baitaluk,M., Nicola,G., Hwang, L. and Chong,J. BindingDB i
 **Guide to Pharmacology:**
 
 _Harding SD, Armstrong JF, Faccenda E, Southan C, Alexander SPH, Davenport AP, Spedding M, Davies JA. (2023) The IUPHAR/BPS Guide to PHARMACOLOGY in 2024. Nucl. Acids Res. 2024; 52(D1):D1438-D1449. doi:10.1093/nar/gkad944. [Full text]. PMID: 37897341._
+
+
+## Gene-compound relationship benchmark
+In `notebooks/rxrx3_core_benchmarks_openphenom.ipynb` we leverage a specialized benchmark to run the gene-gene benchmarks above and also to measure compound activity against a gene. This is based on our RxRx3-core dataset hosted on [huggingface](https://huggingface.co/datasets/recursionpharma/rxrx3-core).
+
+This benchmark evaluates the zero-shot prediction of compound-gene activity using cosine similarities between model embeddings. Specifically, for each compound, we assess whether the cosine similarities correctly rank the compound's known target genes higher than a randomly sampled set of other genes from the ground truth dataset.
+
+To achieve this, we compute the cosine similarity between each compound and gene across all available concentrations and take the maximum similarity score for each pair. This approach captures the strongest potential interaction regardless of concentration, even if negatives come from different concentrations than positives.
+
+We then treat the absolute value of the cosine similarity as a confidence measure—similar to a classifier's probability score—and compute the AUC (Area Under the ROC Curve) and average precision for each compound. The final results report the median AUC and average precision across all compounds, compared against a random baseline.

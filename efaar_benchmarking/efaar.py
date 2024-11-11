@@ -139,6 +139,35 @@ def centerscale_on_controls(
     return StandardScaler().fit(embeddings[control_ind]).transform(embeddings)
 
 
+def pca_centerscale_on_controls(
+    embeddings: np.ndarray,
+    metadata: pd.DataFrame,
+    pert_col: str,
+    control_key: str,
+    batch_col: str | None = None,
+) -> np.ndarray:
+    """
+    Fit PCA on controls then center and scale the embeddings on the control perturbation units.
+
+    Args:
+        embeddings (numpy.ndarray): The embeddings to be aligned.
+        metadata (pandas.DataFrame): The metadata containing information about the embeddings.
+        pert_col (str, optional): The column in the metadata containing perturbation information.
+        control_key (str, optional): The key for non-targeting controls in the metadata.
+        batch_col (str, optional): Column name in the metadata representing the batch labels.
+            Defaults to None.
+    Returns:
+        numpy.ndarray: The aligned embeddings.
+    """
+    X = embeddings.copy()
+    X_controls = X[metadata[pert_col] == control_key]
+    if not len(X_controls):
+        raise ValueError(f"No control samples found for {control_key}")
+    pca = PCA().fit(X_controls)
+    X_pca = pca.transform(X)
+    return centerscale_on_controls(X_pca, metadata, pert_col, control_key, batch_col=batch_col)
+
+
 def tvn_on_controls(
     embeddings: np.ndarray,
     metadata: pd.DataFrame,
