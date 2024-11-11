@@ -1,9 +1,5 @@
 [build-system]
-requires = [
-    "setuptools>=45",
-    "wheel",
-    "setuptools-scm[toml]>=6.2",
-]
+requires = ["setuptools>=45", "wheel", "setuptools-scm[toml]>=6.2"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools_scm]
@@ -14,7 +10,7 @@ find = {}
 [project]
 name = "efaar_benchmarking"
 authors = [
-    {name = "Recursion Pharmaceuticals", email = "devs@recursionpharma.com"},
+	{ name = "Recursion Pharmaceuticals", email = "devs@recursionpharma.com" },
 ]
 readme = "README.md"
 classifiers = [
@@ -22,26 +18,26 @@ classifiers = [
 	"Programming Language :: Python",
 	"Programming Language :: Python :: 3",
 ]
-keywords=["efaar_benchmarking"]
+keywords = ["efaar_benchmarking"]
 requires-python = ">=3.11"
-dynamic = [
-	"version",
-]
+dynamic = ["version"]
 dependencies = [
-    "scikit-learn",
-    "pandas",
-	"numpy",
+	"geomloss",
+	"joblib",
 	"matplotlib",
 	"matplotlib_venn",
-	"upsetplotly",
-	"seaborn",
-	"scvi-tools",
-	"wget",
-	"geomloss",
-	"torch",
-	"joblib",
+	"numpy",
+	"pandas",
+	"pyarrow",
+	"s3fs",
+	"scanpy",
+	"scikit-learn",
 	"scipy",
- 	"s3fs",
+	"scvi-tools",
+	"seaborn",
+	"torch",
+	"upsetplotly",
+	"wget",
 ]
 
 [project.optional-dependencies]
@@ -71,18 +67,20 @@ universal = true
 
 [tool.pytest.ini_options]
 addopts = [
-	"--ignore", "setup.py",
-	"--ignore", "run_test.py",
-	"--tb", "native",
+	"--ignore",
+	"setup.py",
+	"--ignore",
+	"run_test.py",
+	"--tb",
+	"native",
 	"--strict-markers",
 	"--durations=20",
-	"--cov-report", "term-missing",
+	"--cov-report",
+	"term-missing",
 	"--cov=efaar_benchmarking",
 ]
 testpaths = ["tests"]
-env = [
-	"PYTHONHASHSEED=0",
-]
+env = ["PYTHONHASHSEED=0"]
 
 [tool.mypy]
 files = "efaar_benchmarking"
@@ -107,6 +105,21 @@ target-version = ["py311"]
 [tool.ruff]
 select = ["E", "F"]
 ignore = []
-exclude = [".bzr", ".direnv", ".eggs", ".git", ".mypy_cache", ".nox", ".ruff_cache", ".tox", ".venv", "__pypackages__", "_build", "build", "dist", "venv"]
+exclude = [
+	".bzr",
+	".direnv",
+	".eggs",
+	".git",
+	".mypy_cache",
+	".nox",
+	".ruff_cache",
+	".tox",
+	".venv",
+	"__pypackages__",
+	"_build",
+	"build",
+	"dist",
+	"venv",
+]
 line-length = 120
 target-version = "py311"

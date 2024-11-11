@@ -1,0 +1,2922 @@
+gene_symbol,nM_value,measurement_type,database,treatment
+BCL2,4.4,"ec50, ic50","Curated from the literature by BindingDB, ChEMBL, US Patent",ABT-199
+BCL2A1,1000.0,ic50,Curated from the literature by BindingDB,ABT-199
+BCL2L1,106.0,ic50,"Curated from the literature by BindingDB, ChEMBL, US Patent",ABT-199
+MCL1,2500.0,ic50,"Curated from the literature by BindingDB, ChEMBL",ABT-199
+BCL2,10.0,ic50,"ChEMBL, US Patent",ABT-263
+BCL2L1,8.2,ic50,"ChEMBL, US Patent",ABT-263
+MCL1,20000.0,ic50,ChEMBL,ABT-263
+BCL2,7.0,"ec50, ic50","Curated from the literature by BindingDB, ChEMBL",ABT-737
+BCL2L1,6.0,"ec50, ic50","Curated from the literature by BindingDB, ChEMBL",ABT-737
+MCL1,1000.0,ic50,"Curated from the literature by BindingDB, ChEMBL",ABT-737
+ABCC4,133000.0,ic50,ChEMBL,Acetaminophen
+PTGS1,200000.0,ic50,ChEMBL,Acetaminophen
+PTGS2,141000.0,ic50,ChEMBL,Acetaminophen
+ABCC4,133000.0,ic50,ChEMBL,Acetazolamide
+CA1,900.0,ic50,"Curated from the literature by BindingDB, ChEMBL, US Patent",Acetazolamide
+CA12,60.5,ic50,ChEMBL,Acetazolamide
+CA14,136.0,ic50,ChEMBL,Acetazolamide
+CA2,68.3,ic50,"Curated from the literature by BindingDB, ChEMBL, US Patent",Acetazolamide
+CA4,70.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Acetazolamide
+CA5A,69.0,ic50,ChEMBL,Acetazolamide
+CA7,1438.5,ic50,ChEMBL,Acetazolamide
+CA9,213.45,ic50,ChEMBL,Acetazolamide
+ABCC4,133000.0,ic50,ChEMBL,Acyclovir
+ABCC4,133000.0,ic50,ChEMBL,Acipimox
+CHRM1,0.14,ic50,ChEMBL,Aclidinium
+CHRM2,0.17,ic50,ChEMBL,Aclidinium
+CHRM3,2.285,ic50,"ChEMBL, US Patent",Aclidinium
+CHRM5,0.158,ic50,ChEMBL,Aclidinium
+ABCC4,133000.0,ic50,ChEMBL,Adapalene
+RARA,22.0,ec50,ChEMBL,Adapalene
+RARB,2.0,ec50,ChEMBL,Adapalene
+RARG,3.1,ec50,ChEMBL,Adapalene
+ABCC4,133000.0,ic50,ChEMBL,Adefovir dipivoxil
+ABCC4,133000.0,ic50,ChEMBL,Adrucil
+CYP19A1,630.0,ic50,ChEMBL,Adrucil
+EGFR,320.0,ic50,Curated from the literature by BindingDB,Adrucil
+ABCC4,133000.0,ic50,ChEMBL,Agomelatine
+HTR2C,4.52,ic50,US Patent,Agomelatine
+MTNR1A,1.56,"ec50, ic50","ChEMBL, US Patent",Agomelatine
+MTNR1B,0.21,"ec50, ic50","ChEMBL, US Patent",Agomelatine
+ABCC4,133000.0,ic50,ChEMBL,Albendazole
+ACHE,18.0,ic50,ChEMBL,Uroxatral
+ADRA1A,23.0,ic50,ChEMBL,Uroxatral
+CACNA1C,199526.0,ic50,ChEMBL,Uroxatral
+KCND3,1000000.0,ic50,ChEMBL,Uroxatral
+SCN5A,892209.5,ic50,ChEMBL,Uroxatral
+REN,0.7,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",Aliskiren
+HTR1B,12.0,ic50,Guide to Pharmacology,Almotriptan
+HTR1D,13.0,ic50,Guide to Pharmacology,Almotriptan
+DPP4,4.5,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL, US Patent",Alogliptin
+HNF4A,39841.0,ic50,PubChem,Alverine
+CACNA1C,2511886.0,ic50,ChEMBL,Ambrisentan
+EDNRA,21.7,ic50,"Guide to Pharmacology, ChEMBL",Ambrisentan
+EDNRB,1190.0,ic50,"Guide to Pharmacology, ChEMBL",Ambrisentan
+KCND3,251189.0,ic50,ChEMBL,Ambrisentan
+SCN5A,1129462.5,ic50,ChEMBL,Ambrisentan
+ABCC4,133000.0,ic50,ChEMBL,Amfebutamone
+CHRNA1,7900.0,ic50,ChEMBL,Amfebutamone
+CHRNA7,28950.0,ic50,ChEMBL,Amfebutamone
+CHRNB2,1000.0,ic50,ChEMBL,Amfebutamone
+CHRNB4,15.0,ic50,ChEMBL,Amfebutamone
+SLC6A2,1600.0,ic50,ChEMBL,Amfebutamone
+SLC6A3,660.0,ic50,"Guide to Pharmacology, ChEMBL",Amfebutamone
+SLC6A4,47000.0,ic50,ChEMBL,Amfebutamone
+UGT1A1,300000.0,ic50,Curated from the literature by BindingDB,Amfebutamone
+ABL1,1000.0,ic50,ChEMBL,AMG-458
+AKT1,10000.0,ic50,ChEMBL,AMG-458
+AKT2,25000.0,ic50,ChEMBL,AMG-458
+AURKA,1000.0,ic50,ChEMBL,AMG-458
+AURKB,1000.0,ic50,ChEMBL,AMG-458
+BTK,1000.0,ic50,ChEMBL,AMG-458
+CSF1R,238.0,ic50,ChEMBL,AMG-458
+FGFR1,25000.0,ic50,ChEMBL,AMG-458
+IGF1R,1000.0,ic50,ChEMBL,AMG-458
+INSR,1000.0,ic50,ChEMBL,AMG-458
+ITK,62.0,ic50,ChEMBL,AMG-458
+JAK2,25000.0,ic50,ChEMBL,AMG-458
+JAK3,1000.0,ic50,ChEMBL,AMG-458
+KIT,10000.0,ic50,ChEMBL,AMG-458
+LCK,865.0,ic50,ChEMBL,AMG-458
+MAPK14,100000.0,ic50,ChEMBL,AMG-458
+MAPK3,100000.0,ic50,ChEMBL,AMG-458
+MET,60.0,ic50,ChEMBL,AMG-458
+PIM1,25000.0,ic50,ChEMBL,AMG-458
+RET,25000.0,ic50,ChEMBL,AMG-458
+RPS6KB1,25000.0,ic50,ChEMBL,AMG-458
+SRC,1000.0,ic50,ChEMBL,AMG-458
+TEK,1000.0,ic50,ChEMBL,AMG-458
+AURKA,5.0,ic50,"Guide to Pharmacology, ChEMBL",AMG-900
+AURKB,4.0,ic50,"Guide to Pharmacology, ChEMBL",AMG-900
+ABCC4,132000.0,ic50,ChEMBL,Theophylline
+ADORA2A,28200.0,ec50,ChEMBL,Theophylline
+KCNK2,486000.0,ec50,Curated from the literature by BindingDB,Theophylline
+PDE1B,338000.0,ic50,ChEMBL,Theophylline
+PDE3A,300000.0,ic50,ChEMBL,Theophylline
+PDE4A,386000.0,ic50,Curated from the literature by BindingDB,Theophylline
+PDE4B,140500.0,ic50,ChEMBL,Theophylline
+PIK3CG,2904000.0,ic50,ChEMBL,Theophylline
+ABCC4,133000.0,ic50,ChEMBL,Amiodarone
+CACNA1C,1085.0,ic50,ChEMBL,Amiodarone
+SQLE,12000.0,ic50,ChEMBL,Amiodarone
+ABCC4,133000.0,ic50,ChEMBL,Amisulpride
+DRD2,3.02,ic50,"ChEMBL, US Patent",Amisulpride
+ABCC4,133000.0,ic50,ChEMBL,Amprenavir
+ABCG2,181000.0,ic50,ChEMBL,Amprenavir
+P2RY12,1050.0,ec50,ChEMBL,Anagrelide
+PDE3A,80.0,ic50,ChEMBL,Anagrelide
+ABCC4,133000.0,ic50,ChEMBL,Anastrozole
+CYP19A1,11.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",Anastrozole
+TAAR1,19936.5,"ec50, ic50",PubChem,Antazoline
+ALK,0.62,ic50,ChEMBL,AP26113
+IGF1R,3.2,ic50,ChEMBL,AP26113
+INSR,100.0,ic50,ChEMBL,AP26113
+ROS1,1.9,ic50,ChEMBL,AP26113
+KDR,1.0,ic50,"Guide to Pharmacology, ChEMBL",Apatinib
+KIT,429.0,ic50,Guide to Pharmacology,Apatinib
+RET,13.0,ic50,Guide to Pharmacology,Apatinib
+F10,210.0,ic50,ChEMBL,Apixaban
+PDE4A,14.0,ic50,Guide to Pharmacology,Apremilast
+PDE4B,28.5,ic50,"ChEMBL, US Patent",Apremilast
+PDE4D,41.5,ic50,"Guide to Pharmacology, ChEMBL",Apremilast
+ABCC4,133000.0,ic50,ChEMBL,Ipratropium
+CHRM1,2.65,ic50,ChEMBL,Ipratropium
+CHRM2,2.24,ic50,ChEMBL,Ipratropium
+CHRM3,2.07,ic50,ChEMBL,Ipratropium
+CHRM1,0.1,ic50,ChEMBL,Tiotropium
+CHRM2,0.2,ic50,ChEMBL,Tiotropium
+CHRM3,0.4,ic50,ChEMBL,Tiotropium
+HDAC6,15.0,ic50,ChEMBL,Ruxolitinib
+JAK2,3.1,"ec50, ic50","Guide to Pharmacology, ChEMBL, US Patent",Ruxolitinib
+JAK3,300.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Ruxolitinib
+CACNA1C,1584893.0,ic50,ChEMBL,Darunavir
+KCND3,100000.0,ic50,ChEMBL,Darunavir
+SCN5A,69905.5,ic50,ChEMBL,Darunavir
+ABCC4,133000.0,ic50,ChEMBL,Paroxetine
+CACNA1C,3900.0,ic50,ChEMBL,Paroxetine
+MPO,20.0,ic50,ChEMBL,Paroxetine
+PRKCA,220000.0,ic50,ChEMBL,Paroxetine
+SLC6A2,317.5,ic50,ChEMBL,Paroxetine
+SLC6A4,0.56,ic50,ChEMBL,Paroxetine
+TACR1,900.0,ic50,ChEMBL,Paroxetine
+ABCC4,133000.0,ic50,ChEMBL,Pramipexole
+CFTR,50000.0,ec50,PubChem,Pramipexole
+DRD1,10000.0,ec50,ChEMBL,Pramipexole
+DRD2,27.0,"ec50, ic50",ChEMBL,Pramipexole
+DRD3,2.8,ec50,ChEMBL,Pramipexole
+DRD4,15.0,ec50,ChEMBL,Pramipexole
+HRH2,166.0,ec50,ChEMBL,Pramipexole
+ABCC4,133000.0,ic50,ChEMBL,Sparfloxacin
+CACNA1C,88800.0,ic50,ChEMBL,Sparfloxacin
+SLC6A2,5500.0,ic50,ChEMBL,Milnacipran
+SLC6A3,10000.0,ic50,ChEMBL,Milnacipran
+SLC6A4,100.0,ic50,ChEMBL,Milnacipran
+CHRM1,832.0,ec50,ChEMBL,Pilocarpine
+CHRM2,63000.0,ec50,ChEMBL,Pilocarpine
+SLC5A1,684.0,"ec50, ic50","Guide to Pharmacology, ChEMBL, US Patent",Canagliflozin
+SLC5A2,4.4,"ec50, ic50","Guide to Pharmacology, ChEMBL, US Patent",Canagliflozin
+SLC5A1,7943.0,"ec50, ic50","Guide to Pharmacology, ChEMBL, US Patent",Empagliflozin
+SLC5A2,3.1,"ec50, ic50","Guide to Pharmacology, ChEMBL, US Patent",Empagliflozin
+ABCG2,25900.0,ic50,ChEMBL,Novobiocin
+HSP90AB1,700000.0,ec50,ChEMBL,Novobiocin
+TOP2A,454000.0,ic50,ChEMBL,Novobiocin
+ABCC4,133000.0,ic50,ChEMBL,Zalcitabine
+CXCR4,88.0,ec50,ChEMBL,Zalcitabine
+ABCC4,133000.0,ic50,ChEMBL,Didanosine
+CACNA1C,5305.0,ic50,ChEMBL,Solifenacin
+CHRM1,63.5,ic50,"Guide to Pharmacology, ChEMBL",Solifenacin
+CHRM2,573.7,ic50,"Guide to Pharmacology, ChEMBL",Solifenacin
+CHRM3,77.4,"ec50, ic50","Guide to Pharmacology, ChEMBL",Solifenacin
+KCND3,50119.0,ic50,ChEMBL,Solifenacin
+SCN5A,6310.0,ic50,ChEMBL,Solifenacin
+ABCC4,133000.0,ic50,ChEMBL,Decitabine
+DNMT1,30.0,ic50,ChEMBL,Decitabine
+ABCC4,133000.0,ic50,ChEMBL,Topiramate
+CA1,250.0,ic50,ChEMBL,Topiramate
+CA2,170.0,ic50,"ChEMBL, US Patent",Topiramate
+CA4,54.0,ic50,ChEMBL,Topiramate
+ABCC4,88500.0,ic50,ChEMBL,Atorvastatin
+ABCG2,4300.0,ic50,ChEMBL,Atorvastatin
+HDAC1,11383.5,ic50,"ChEMBL, US Patent",Atorvastatin
+HDAC2,22547.0,ic50,"ChEMBL, US Patent",Atorvastatin
+HDAC6,14308.5,ic50,"ChEMBL, US Patent",Atorvastatin
+HMGCR,9.8,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Atorvastatin
+CHRM1,10000.0,"ec50, ic50",ChEMBL,Carbachol
+CHRM2,795.0,"ec50, ic50",ChEMBL,Carbachol
+CHRM3,880.0,"ec50, ic50",ChEMBL,Carbachol
+CHRM5,9900.0,"ec50, ic50",ChEMBL,Carbachol
+DAO,106000.0,ic50,US Patent,Esomeprazole
+ATG4B,7140.0,ic50,PubChem,Cetylpyridinium
+ABCC4,133000.0,ic50,ChEMBL,Bromfenac
+PTGS1,8.479999542236328,ic50,Guide to Pharmacology,Bromfenac
+MTOR,1.99,ic50,US Patent,BGT226
+PIK3CA,4.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",BGT226
+PIK3CD,38.0,ic50,ChEMBL,BGT226
+PIK3CG,38.0,ic50,"Guide to Pharmacology, ChEMBL",BGT226
+ABCC4,133000.0,ic50,ChEMBL,Raltitrexed
+RFC1,6.3,ic50,ChEMBL,Raltitrexed
+TYMS,603.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL, US Patent",Raltitrexed
+F3,1750000.0,ic50,ChEMBL,Divalproex
+HDAC1,400000.0,ic50,"Guide to Pharmacology, ChEMBL",Divalproex
+HDAC2,102740.0,ic50,ChEMBL,Divalproex
+HDAC3,161000.0,ic50,ChEMBL,Divalproex
+HDAC6,1000000.0,ic50,ChEMBL,Divalproex
+HDAC8,143650.0,ic50,ChEMBL,Divalproex
+PDE3A,8.0,ic50,ChEMBL,Levosimendan
+ABCC4,133000.0,ic50,ChEMBL,Atomoxetine
+SLC6A2,4.05,ic50,ChEMBL,Atomoxetine
+SLC6A3,3050.0,ic50,ChEMBL,Atomoxetine
+SLC6A4,180.0,ic50,ChEMBL,Atomoxetine
+ABCC4,133000.0,ic50,ChEMBL,Tolvaptan
+AVPR1A,470.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Tolvaptan
+AVPR2,3.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Tolvaptan
+ACVR1B,1000.0,ic50,ChEMBL,GW788388
+TGFBR1,3649.0,ic50,ChEMBL,GW788388
+ABCC4,133000.0,ic50,ChEMBL,Moclobemide
+MAOA,86200.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Moclobemide
+MAOB,550000.0,ic50,ChEMBL,Moclobemide
+HTR4,15.6,ec50,ChEMBL,Prucalopride
+ABCC4,133000.0,ic50,ChEMBL,Domperidone
+DRD2,3.4,ic50,US Patent,Domperidone
+HRH1,39.89999961853027,ic50,"Guide to Pharmacology, ChEMBL",Tripelennamine
+CACNA1B,2430.0,ic50,ChEMBL,Lomerizine
+GSK3B,10000.0,ic50,ChEMBL,Chlorhexidine
+HNF4A,22448.5,ic50,PubChem,Chlorhexidine
+MMP2,7630.0,ic50,ChEMBL,Chlorhexidine
+AVPR1A,3.0,ic50,ChEMBL,Conivaptan
+AVPR2,11.0,ic50,ChEMBL,Conivaptan
+PDE5A,12.39,ic50,"ChEMBL, US Patent",Avanafil
+ABCC4,133000.0,ic50,ChEMBL,Orlistat
+DAGLA,60.0,ic50,"Guide to Pharmacology, ChEMBL",Orlistat
+DAGLB,100.0,ic50,"Guide to Pharmacology, ChEMBL",Orlistat
+FAAH,50005.0,ic50,ChEMBL,Orlistat
+PNLIP,80.7,ic50,"Guide to Pharmacology, ChEMBL",Orlistat
+PSMB1,100000.0,ic50,ChEMBL,Orlistat
+PSMB2,100000.0,ic50,ChEMBL,Orlistat
+PSMB5,100000.0,ic50,ChEMBL,Orlistat
+SCN5A,7000.0,ic50,ChEMBL,Ranolazine
+AKR1B1,100000.0,ic50,ChEMBL,Diclofenac
+AKR1C3,2600.0,ic50,ChEMBL,Diclofenac
+CA1,100000.0,ic50,Curated from the literature by BindingDB,Diclofenac
+CA2,100000.0,ic50,Curated from the literature by BindingDB,Diclofenac
+CA9,100000.0,ic50,Curated from the literature by BindingDB,Diclofenac
+CXCL8,8.0,ic50,ChEMBL,Diclofenac
+PTGS1,12.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Diclofenac
+PTGS2,39.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Diclofenac
+TRPA1,63096.0,ec50,ChEMBL,Diclofenac
+TTR,71871.0,ic50,"ChEMBL, US Patent",Diclofenac
+UGT1A1,155000.0,ic50,Curated from the literature by BindingDB,Diclofenac
+ABCC4,133000.0,ic50,ChEMBL,Moxifloxacin
+CACNA1C,173000.0,ic50,ChEMBL,Moxifloxacin
+SCN5A,145500.0,ic50,ChEMBL,Moxifloxacin
+CDK2,170.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Flavopiridol
+CDK4,132.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Flavopiridol
+CDK6,80.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Flavopiridol
+CDK7,312.0,ic50,ChEMBL,Flavopiridol
+CDK9,15.0,ic50,"ChEMBL, US Patent",Flavopiridol
+EGFR,21000.0,ic50,ChEMBL,Flavopiridol
+GSK3A,770.0,ic50,ChEMBL,Flavopiridol
+GSK3B,837.5,ic50,ChEMBL,Flavopiridol
+ITK,14850.0,ic50,ChEMBL,Flavopiridol
+LCK,11000.0,ic50,ChEMBL,Flavopiridol
+MAPK3,16000.0,ic50,ChEMBL,Flavopiridol
+PRKCA,2800.0,ic50,ChEMBL,Flavopiridol
+PRKCE,480.0,ic50,ChEMBL,Flavopiridol
+SRC,34000.0,ic50,ChEMBL,Flavopiridol
+ABCG2,50.0,ic50,ChEMBL,Fostamatinib
+SYK,17.0,ic50,ChEMBL,Fostamatinib
+ABCC4,16500.0,ic50,ChEMBL,Nisoldipine
+CACNA1C,3.0,ic50,ChEMBL,Nisoldipine
+SCN1A,26000.0,ic50,ChEMBL,Nisoldipine
+ABCC4,133000.0,ic50,ChEMBL,Nimodipine
+ABCG2,13700.0,ic50,ChEMBL,Nimodipine
+CACNA1C,110.0,ic50,ChEMBL,Nimodipine
+NR3C2,160.0,ic50,Guide to Pharmacology,Nimodipine
+PDE1C,1243.0,ic50,ChEMBL,Nimodipine
+PDE4D,7150.0,ic50,ChEMBL,Nimodipine
+ABCC4,133000.0,ic50,ChEMBL,Risperidone
+ADRA1A,10.5,ic50,ChEMBL,Risperidone
+CACNA1C,79600.0,ic50,ChEMBL,Risperidone
+CHRM3,55000.0,ic50,ChEMBL,Risperidone
+DRD2,8.75,ic50,"ChEMBL, US Patent",Risperidone
+HRH1,454.0,ic50,ChEMBL,Risperidone
+HTR1A,55000.0,ec50,"ChEMBL, US Patent",Risperidone
+HTR2A,2.695,ic50,"ChEMBL, US Patent",Risperidone
+HTR2C,4.4,ic50,ChEMBL,Risperidone
+SCN5A,102000.0,ic50,ChEMBL,Risperidone
+CYP51A1,50.0,ic50,ChEMBL,Econazole
+IDO1,4600.0,ic50,ChEMBL,Econazole
+HNF4A,12706.0,ic50,PubChem,Mosapride
+ABCC4,133000.0,ic50,ChEMBL,Metoclopramide
+ACHE,20000.0,ic50,ChEMBL,Metoclopramide
+DRD2,175.0,ic50,US Patent,Metoclopramide
+ESR2,50000.0,ic50,PubChem,Metoclopramide
+HTR4,794.0,ec50,ChEMBL,Metoclopramide
+MPO,2675.0,ic50,ChEMBL,Metoclopramide
+PGD,3270000.0,ic50,Curated from the literature by BindingDB,Metoclopramide
+ABCC4,133000.0,ic50,ChEMBL,Tolterodine
+CACNA1C,25119.0,ic50,ChEMBL,Tolterodine
+KCND3,12589.0,ic50,ChEMBL,Tolterodine
+SCN5A,18966.5,ic50,ChEMBL,Tolterodine
+MAP2K1,19.0,ic50,"Guide to Pharmacology, US Patent",Refametinib
+MAP2K2,47.0,ic50,"Guide to Pharmacology, US Patent",Refametinib
+CASR,65.5,ec50,"Guide to Pharmacology, ChEMBL",Cinacalcet
+ABCC4,133000.0,ic50,ChEMBL,Fluconazole
+CYP11B1,30000.0,ic50,ChEMBL,Fluconazole
+CYP11B2,13000.0,ic50,ChEMBL,Fluconazole
+CYP17A1,200000.0,ic50,ChEMBL,Fluconazole
+CYP19A1,22000.0,ic50,ChEMBL,Fluconazole
+CYP51A1,137.0,ic50,ChEMBL,Fluconazole
+HDAC1,40000.0,ic50,ChEMBL,Fluconazole
+ABCC4,133000.0,ic50,ChEMBL,Flutamide
+AR,1000.0,ic50,ChEMBL,Flutamide
+ABCG2,1400.0,ic50,ChEMBL,Vismodegib
+SMO,16.0,"ec50, ic50",ChEMBL,Vismodegib
+MDH2,43600.0,ic50,ChEMBL,L-Thyroxine
+NR1H4,7860.0,ic50,ChEMBL,L-Thyroxine
+PPARG,12000.0,ec50,ChEMBL,L-Thyroxine
+RXRA,15400.0,ec50,ChEMBL,L-Thyroxine
+TTR,2200.0,ic50,"ChEMBL, US Patent",L-Thyroxine
+UGT1A1,5250.0,ic50,ChEMBL,L-Thyroxine
+AURKB,110.0,ic50,US Patent,R406
+FLT3,10.0,ec50,ChEMBL,R406
+JAK2,6.0,"ec50, ic50",ChEMBL,R406
+KDR,23.0,"ec50, ic50","ChEMBL, US Patent",R406
+LYN,732.0,ic50,ChEMBL,R406
+RET,20.5,"ec50, ic50","Guide to Pharmacology, ChEMBL",R406
+SYK,60.0,"ec50, ic50","Guide to Pharmacology, ChEMBL, US Patent",R406
+ZAP70,42.0,ic50,ChEMBL,R406
+ABCC4,133000.0,ic50,ChEMBL,Ciclopirox
+PARP1,160.0,ic50,Guide to Pharmacology,Ciclopirox
+FGFR2,7.5,ic50,US Patent,Lenvatinib
+FLT1,22.0,ic50,"ChEMBL, US Patent",Lenvatinib
+FLT4,5.199999809265137,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Lenvatinib
+KDR,4.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Lenvatinib
+PDGFRB,39.0,ic50,ChEMBL,Lenvatinib
+RET,21.25,ic50,"ChEMBL, US Patent",Lenvatinib
+CSF1R,110.0,ic50,Guide to Pharmacology,Cediranib
+FGFR1,26.0,ic50,ChEMBL,Cediranib
+FLT1,5.0,ic50,"Guide to Pharmacology, ChEMBL",Cediranib
+FLT3,1000.0,ic50,Guide to Pharmacology,Cediranib
+FLT4,3.0,ic50,"Guide to Pharmacology, ChEMBL",Cediranib
+KDR,1.0,ic50,"Guide to Pharmacology, ChEMBL",Cediranib
+KIT,3.0,ic50,Guide to Pharmacology,Cediranib
+PDGFRB,5.0,ic50,"Guide to Pharmacology, ChEMBL",Cediranib
+ACE,29.3,ic50,ChEMBL,Moexipril
+ABCC4,133000.0,ic50,ChEMBL,Naproxen
+AKR1C3,330.0,ic50,"ChEMBL, US Patent",Naproxen
+CASP3,55000.0,ic50,Curated from the literature by BindingDB,Naproxen
+PTGS1,8650.0,ic50,"Guide to Pharmacology, ChEMBL",Naproxen
+PTGS2,11235.0,ic50,"Guide to Pharmacology, ChEMBL",Naproxen
+HDAC1,13.5,ic50,"ChEMBL, US Patent",Bendamustine
+HDAC2,9.5,ic50,"ChEMBL, US Patent",Bendamustine
+HDAC3,17.5,ic50,"ChEMBL, US Patent",Bendamustine
+HDAC6,8.0,ic50,"ChEMBL, US Patent",Bendamustine
+HDAC8,107.0,ic50,US Patent,Bendamustine
+ABCC4,4600.0,ic50,ChEMBL,Gefitinib
+ABCG2,800.0,"ec50, ic50",ChEMBL,Gefitinib
+BRAF,30000.0,ic50,US Patent,Gefitinib
+EGFR,17.0,"ec50, ic50","WIPO, Curated from the literature by BindingDB, ChEMBL, US Patent",Gefitinib
+ERBB2,343.0,ic50,"Curated from the literature by BindingDB, ChEMBL, US Patent",Gefitinib
+JAK3,1000.0,ic50,ChEMBL,Gefitinib
+KDR,10400.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Gefitinib
+PTK6,980.0,ic50,"ChEMBL, US Patent",Gefitinib
+ABCC4,133000.0,ic50,ChEMBL,Lapatinib
+ABCG2,3200.0,"ec50, ic50",ChEMBL,Lapatinib
+ABL1,23000.0,ic50,ChEMBL,Lapatinib
+CACNA1C,8922097.0,ic50,ChEMBL,Lapatinib
+CDK2,15500.0,ic50,ChEMBL,Lapatinib
+EGFR,16.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL, US Patent",Lapatinib
+ERBB2,13.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL, US Patent",Lapatinib
+HDAC1,10000.0,ic50,ChEMBL,Lapatinib
+HDAC3,10000.0,ic50,ChEMBL,Lapatinib
+HDAC6,10000.0,ic50,ChEMBL,Lapatinib
+HDAC8,10000.0,ic50,ChEMBL,Lapatinib
+IGF1R,20000.0,ic50,ChEMBL,Lapatinib
+INSR,17000.0,ic50,ChEMBL,Lapatinib
+KDR,105000.0,ic50,ChEMBL,Lapatinib
+KIT,200000.0,ic50,ChEMBL,Lapatinib
+PDGFRB,104250.0,ic50,ChEMBL,Lapatinib
+PLK1,100000.0,ic50,ChEMBL,Lapatinib
+SCN5A,3162278.0,ic50,ChEMBL,Lapatinib
+ABCC1,3749.0,ec50,PubChem,L-Adrenaline
+ADRA1A,400.0,ec50,ChEMBL,L-Adrenaline
+ADRA1B,75.0,ec50,ChEMBL,L-Adrenaline
+ADRA2A,30.0,"ec50, ic50",ChEMBL,L-Adrenaline
+ADRB1,290.0,ec50,ChEMBL,L-Adrenaline
+ADRB2,1380.0,ec50,PubChem,L-Adrenaline
+ADRB3,40.0,ec50,ChEMBL,L-Adrenaline
+CTSL,59642.0,ic50,PubChem,L-Adrenaline
+ABCC4,133000.0,ic50,ChEMBL,Iloperidone
+DRD2,110.0,ic50,ChEMBL,Iloperidone
+SIGMAR1,64.0,ic50,ChEMBL,Iloperidone
+PDE10A,73000.0,ic50,Curated from the literature by BindingDB,Cilomilast
+PDE1B,87000.0,ic50,Curated from the literature by BindingDB,Cilomilast
+PDE3B,87000.0,ic50,Curated from the literature by BindingDB,Cilomilast
+PDE4B,25.0,ic50,Curated from the literature by BindingDB,Cilomilast
+PDE4D,11.0,ic50,Curated from the literature by BindingDB,Cilomilast
+PDE5A,53000.0,ic50,Curated from the literature by BindingDB,Cilomilast
+OPRD1,139.5,"ec50, ic50",ChEMBL,Loperamide
+OPRM1,1.5,ic50,ChEMBL,Loperamide
+SCN1A,270.0,ic50,ChEMBL,Loperamide
+SCN5A,239.0,ic50,ChEMBL,Loperamide
+TPH1,417.0,ic50,"Guide to Pharmacology, US Patent",Telotristat
+ABCC4,1900.0,ic50,ChEMBL,Febuxostat
+ABCG2,27.0,ic50,ChEMBL,Febuxostat
+XDH,7.0,ic50,"Guide to Pharmacology, ChEMBL",Febuxostat
+ABCC4,53900.0,ic50,ChEMBL,Repaglinide
+ABCC8,106.0,ic50,"Guide to Pharmacology, ChEMBL",Repaglinide
+AR,219.0,"ec50, ic50","Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL, US Patent",Enzalutamide
+NR3C1,19500.0,ic50,ChEMBL,Enzalutamide
+OPRD1,92461.0,ec50,PubChem,Benzethonium
+ABCC4,133000.0,ic50,ChEMBL,Sulfacetamide
+ACHE,360.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",Pyridostigmine
+BCHE,1000.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",Pyridostigmine
+ABCC4,133000.0,ic50,ChEMBL,Fesoterodine
+BRD4,64.5,ic50,"Guide to Pharmacology, ChEMBL",CPI-203
+AXL,1.1,ic50,"Guide to Pharmacology, ChEMBL",BMS-777607
+BTK,2000.0,ic50,ChEMBL,BMS-777607
+EGFR,6750.0,ic50,ChEMBL,BMS-777607
+FLT3,18.0,ic50,ChEMBL,BMS-777607
+INSR,7250.0,ic50,ChEMBL,BMS-777607
+JAK2,2000.0,ic50,ChEMBL,BMS-777607
+KDR,159.5,ic50,ChEMBL,BMS-777607
+KIT,144.0,ic50,ChEMBL,BMS-777607
+LCK,120.0,ic50,ChEMBL,BMS-777607
+MET,3.900000095367432,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",BMS-777607
+RET,594.0,ic50,ChEMBL,BMS-777607
+TEK,500.0,ic50,ChEMBL,BMS-777607
+ABCC4,133000.0,ic50,ChEMBL,Cimetidine
+ATP4A,50410.0,ic50,ChEMBL,Cimetidine
+HRH2,500.0,ic50,ChEMBL,Cimetidine
+ABCC4,88000.0,ic50,ChEMBL,Nicardipine
+ABCG2,4800.0,ic50,ChEMBL,Nicardipine
+ADRA2A,10000.0,ic50,ChEMBL,Nicardipine
+CACNA1C,9600.0,ic50,ChEMBL,Nicardipine
+ABCC4,133000.0,ic50,ChEMBL,Felodipine
+SCN1A,37000.0,ic50,ChEMBL,Felodipine
+PRKACG,4580.0,ic50,ChEMBL,Fasudil
+PRKCE,3000.0,ic50,ChEMBL,Fasudil
+ROCK1,660.0,ic50,ChEMBL,Fasudil
+ROCK2,400.0,ic50,"PubChem, ChEMBL",Fasudil
+ADRA1A,555.0,ic50,ChEMBL,Naftopidil
+ADRA1B,634.0,ic50,ChEMBL,Naftopidil
+ADRA1D,55.2,ic50,ChEMBL,Naftopidil
+EGFR,25000000.0,ic50,ChEMBL,Phloretin
+ESR1,300.0,ic50,ChEMBL,Phloretin
+SLC5A1,12400.0,ic50,ChEMBL,Phloretin
+SLC5A2,18300.0,ic50,ChEMBL,Phloretin
+TOP2A,167000.0,ic50,ChEMBL,Phloretin
+ABCC4,133000.0,ic50,ChEMBL,Furosemide
+ABCG2,3200.0,ic50,ChEMBL,Furosemide
+CA1,80.0,ic50,US Patent,Furosemide
+G6PD,315000.0,ic50,Curated from the literature by BindingDB,Furosemide
+HSD11B1,3760.0,ic50,ChEMBL,Furosemide
+PGD,125000.0,ic50,Curated from the literature by BindingDB,Furosemide
+ABL1,1000.0,ic50,ChEMBL,Crizotinib
+AKT2,10000.0,ic50,ChEMBL,Crizotinib
+ALK,59.0,"ec50, ic50","Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL, US Patent",Crizotinib
+AXL,197.0,ic50,ChEMBL,Crizotinib
+BTK,10000.0,ic50,ChEMBL,Crizotinib
+CDK7,10000.0,ic50,ChEMBL,Crizotinib
+CSF1R,10000.0,ic50,ChEMBL,Crizotinib
+EGFR,6750.0,ic50,ChEMBL,Crizotinib
+EPHA2,1000.0,ic50,ChEMBL,Crizotinib
+ERBB2,1000.0,ic50,ChEMBL,Crizotinib
+FGFR1,1000.0,ic50,ChEMBL,Crizotinib
+FGFR3,10000.0,ic50,ChEMBL,Crizotinib
+FLT1,1000.0,ic50,ChEMBL,Crizotinib
+FLT3,1000.0,ic50,ChEMBL,Crizotinib
+IGF1R,1000.0,ic50,ChEMBL,Crizotinib
+INSR,650.0,ic50,ChEMBL,Crizotinib
+JAK2,27.0,ic50,ChEMBL,Crizotinib
+JAK3,1360.0,ic50,ChEMBL,Crizotinib
+KDR,5500.0,ic50,ChEMBL,Crizotinib
+LCK,2741.0,ic50,ChEMBL,Crizotinib
+MET,2.9,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",Crizotinib
+NTRK1,9.3,ic50,"ChEMBL, US Patent",Crizotinib
+NTRK2,200.5,ic50,ChEMBL,Crizotinib
+PDGFRB,5500.0,ic50,ChEMBL,Crizotinib
+RET,10000.0,ic50,ChEMBL,Crizotinib
+ROS1,23.65,ic50,ChEMBL,Crizotinib
+RPS6KB1,10000.0,ic50,ChEMBL,Crizotinib
+SRC,5500.0,ic50,ChEMBL,Crizotinib
+TEK,226.5,ic50,ChEMBL,Crizotinib
+ABCC4,133000.0,ic50,ChEMBL,Duloxetine
+CACNA1C,25119.0,ic50,ChEMBL,Duloxetine
+DAO,5469.0,ic50,US Patent,Duloxetine
+KCND3,100000.0,ic50,ChEMBL,Duloxetine
+SCN5A,11896.0,ic50,ChEMBL,Duloxetine
+SLC6A2,6.95,ic50,ChEMBL,Duloxetine
+SLC6A3,870.0,ic50,ChEMBL,Duloxetine
+SLC6A4,6.0,ic50,ChEMBL,Duloxetine
+EGFR,1600.0,ic50,ChEMBL,BMS-536924
+ERBB2,17100.0,ic50,ChEMBL,BMS-536924
+IGF1R,100.0,ic50,"Curated from the literature by BindingDB, ChEMBL",BMS-536924
+INSR,73.0,ic50,ChEMBL,BMS-536924
+KDR,1400.0,ic50,ChEMBL,BMS-536924
+LCK,341.0,ic50,ChEMBL,BMS-536924
+MAP2K1,182.0,ic50,ChEMBL,BMS-536924
+MET,4870.0,ic50,ChEMBL,BMS-536924
+ACHE,2476100.0,ic50,ChEMBL,Hesperetin
+DPP4,280.0,ic50,ChEMBL,Hesperetin
+GSK3B,26900.0,ic50,ChEMBL,Hesperetin
+MAPK14,54600.0,ic50,Curated from the literature by BindingDB,Hesperetin
+ABCC4,20800.0,ic50,ChEMBL,Quercetin
+ABCG2,3589.0,"ec50, ic50",ChEMBL,Quercetin
+ACHE,72830.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Quercetin
+AKR1B1,2875.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Quercetin
+AKT1,5390.0,ic50,ChEMBL,Quercetin
+ALK,3320.0,ic50,ChEMBL,Quercetin
+ALOX5,3670.0,"ec50, ic50",ChEMBL,Quercetin
+AURKB,2435.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Quercetin
+AVPR2,15200.0,ic50,ChEMBL,Quercetin
+AXL,960.0,ic50,ChEMBL,Quercetin
+BCHE,420760.0,ic50,ChEMBL,Quercetin
+CALM1,12970.0,ic50,ChEMBL,Quercetin
+CAMK2B,3000.0,ic50,ChEMBL,Quercetin
+CDK2,40000.0,ic50,ChEMBL,Quercetin
+CDK4,61000.0,ic50,ChEMBL,Quercetin
+CDK6,25000.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Quercetin
+CTSL,59642.0,ic50,PubChem,Quercetin
+CYP19A1,6006.0,ic50,ChEMBL,Quercetin
+DPP4,66460.0,ic50,ChEMBL,Quercetin
+EGFR,14900.0,ic50,ChEMBL,Quercetin
+F2,15750.0,ic50,ChEMBL,Quercetin
+FLT3,590.0,ic50,ChEMBL,Quercetin
+G6PD,31020.0,ic50,ChEMBL,Quercetin
+GSK3B,6030.0,"ec50, ic50","PubChem, ChEMBL",Quercetin
+HTR1A,100000.0,ec50,ChEMBL,Quercetin
+IGF1R,300.0,ic50,ChEMBL,Quercetin
+KDR,1660.0,ic50,ChEMBL,Quercetin
+LCK,72500.0,ic50,ChEMBL,Quercetin
+MAOA,2800.0,ic50,ChEMBL,Quercetin
+MAOB,64330.0,ic50,ChEMBL,Quercetin
+MAPK14,3450.0,ic50,Curated from the literature by BindingDB,Quercetin
+MET,580.0,ic50,ChEMBL,Quercetin
+MGAM,10800.0,ic50,ChEMBL,Quercetin
+MMP2,6680.0,ic50,ChEMBL,Quercetin
+MPO,1210.0,ic50,ChEMBL,Quercetin
+OXTR,29913.0,ec50,PubChem,Quercetin
+PIK3CG,8795.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Quercetin
+PIK3R1,3800.0,ic50,ChEMBL,Quercetin
+PIM1,1096.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Quercetin
+PLK1,34875.0,ic50,ChEMBL,Quercetin
+PPARG,26000.0,ic50,ChEMBL,Quercetin
+PRSS1,19000.0,ic50,ChEMBL,Quercetin
+PSMB5,2750.0,ic50,ChEMBL,Quercetin
+PTGS2,28600.0,ic50,ChEMBL,Quercetin
+PTPN1,32120.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Quercetin
+RET,78100.0,ic50,ChEMBL,Quercetin
+SRC,15000.0,ic50,ChEMBL,Quercetin
+SYK,27500.0,"ec50, ic50",ChEMBL,Quercetin
+TOP2A,22800.0,ic50,ChEMBL,Quercetin
+TYR,44380.0,ic50,ChEMBL,Quercetin
+XDH,3250.0,ic50,"ChEMBL, US Patent",Quercetin
+ABCC1,3000.0,ic50,ChEMBL,Diosmetin
+AURKB,3860.0,ic50,Curated from the literature by BindingDB,Diosmetin
+MAPK14,23200.0,ic50,Curated from the literature by BindingDB,Diosmetin
+ABCC1,1.9,ic50,ChEMBL,Mitoxantrone
+ABCG2,904.0,ic50,ChEMBL,Mitoxantrone
+APEX1,2000.0,ic50,ChEMBL,Mitoxantrone
+BTK,1000.0,ic50,ChEMBL,Mitoxantrone
+CACNA1C,22500.0,ic50,ChEMBL,Mitoxantrone
+CFTR,50000.0,ec50,PubChem,Mitoxantrone
+PIM1,51.0,ic50,ChEMBL,Mitoxantrone
+TOP2A,5300.0,ic50,"Guide to Pharmacology, ChEMBL",Mitoxantrone
+APH1A,2.75,ic50,ChEMBL,YO-01027
+FGFR1,1.15,ic50,ChEMBL,AZD4547
+FGFR2,2.85,ic50,"Guide to Pharmacology, ChEMBL",AZD4547
+FGFR3,5.0,ic50,"Guide to Pharmacology, ChEMBL",AZD4547
+FGFR4,165.0,ic50,"Guide to Pharmacology, ChEMBL",AZD4547
+IGF1R,581.0,ic50,Guide to Pharmacology,AZD4547
+KDR,28.5,ic50,"Guide to Pharmacology, ChEMBL",AZD4547
+ABCC4,34100.0,ic50,ChEMBL,Losartan
+ABCG2,35000.0,ic50,ChEMBL,Losartan
+ACE,19.0,ic50,ChEMBL,Losartan
+AGTR1,39.5,ic50,ChEMBL,Losartan
+MME,10000.0,ic50,ChEMBL,Losartan
+PDE3A,13000.0,ic50,ChEMBL,Losartan
+PDE4B,26000.0,ic50,ChEMBL,Losartan
+TBXA2R,20000.0,ic50,ChEMBL,Losartan
+ADRB1,37.0,ic50,ChEMBL,Betaxolol
+ADRB2,657.0,ic50,ChEMBL,Betaxolol
+ABL1,160.0,ic50,"Curated from the literature by BindingDB, ChEMBL",VX-680
+AURKA,21.5,ic50,"Curated from the literature by BindingDB, ChEMBL, US Patent",VX-680
+AURKB,30.0,ic50,"Curated from the literature by BindingDB, ChEMBL",VX-680
+CDK2,10000.0,ic50,Curated from the literature by BindingDB,VX-680
+FLT3,30.0,ic50,ChEMBL,VX-680
+IGF1R,2750.0,ic50,ChEMBL,VX-680
+PLK1,10000.0,ic50,Curated from the literature by BindingDB,VX-680
+RIPK1,208.0,ic50,ChEMBL,VX-680
+HTR1A,200.0,ec50,ChEMBL,Vortioxetine
+HTR1B,120.0,ec50,ChEMBL,Vortioxetine
+HTR3A,12.0,"ec50, ic50",ChEMBL,Vortioxetine
+PTGS1,5.195,ic50,ChEMBL,Vortioxetine
+PTGS2,3.105,ic50,ChEMBL,Vortioxetine
+SLC6A4,5.4,ic50,ChEMBL,Vortioxetine
+ABCC4,23400.0,ic50,ChEMBL,Sildenafil
+CACNA1C,100000.0,ic50,ChEMBL,Sildenafil
+KCND3,501187.0,ic50,ChEMBL,Sildenafil
+PDE10A,6100.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Sildenafil
+PDE1B,400.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Sildenafil
+PDE3A,20300.0,ic50,ChEMBL,Sildenafil
+PDE3B,15000.0,ic50,Curated from the literature by BindingDB,Sildenafil
+PDE4A,5000.0,ic50,ChEMBL,Sildenafil
+PDE4B,10000.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Sildenafil
+PDE4D,17000.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Sildenafil
+PDE5A,4.9,"ec50, ic50","Curated from the literature by BindingDB, ChEMBL, US Patent",Sildenafil
+SCN5A,880056.0,ic50,ChEMBL,Sildenafil
+ABCG2,70.0,ic50,ChEMBL,Tivozanib
+EGFR,123.64,ic50,Curated from the literature by BindingDB,Tivozanib
+FLT1,6.26,ic50,"Guide to Pharmacology, ChEMBL",Tivozanib
+FLT4,1.67,ic50,"Guide to Pharmacology, ChEMBL",Tivozanib
+KDR,2.25,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",Tivozanib
+PDGFRB,42.39,ic50,Curated from the literature by BindingDB,Tivozanib
+ABCC4,133000.0,ic50,ChEMBL,Imatinib
+ABCG2,3545.0,ic50,ChEMBL,Imatinib
+ABL1,309.5,"ec50, ic50","Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL, US Patent",Imatinib
+ALK,65000.0,ic50,ChEMBL,Imatinib
+AURKA,30000.0,ic50,Curated from the literature by BindingDB,Imatinib
+AURKB,30000.0,ic50,Curated from the literature by BindingDB,Imatinib
+BRAF,100000.0,ic50,ChEMBL,Imatinib
+CDK2,55000.0,ic50,ChEMBL,Imatinib
+CSF1R,960.0,ic50,ChEMBL,Imatinib
+DDR1,337.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",Imatinib
+EGFR,50000.055,ic50,ChEMBL,Imatinib
+ERBB2,0.06,ic50,ChEMBL,Imatinib
+FLT3,15065.5,ic50,ChEMBL,Imatinib
+HDAC1,100000.0,ic50,ChEMBL,Imatinib
+HDAC6,100000.0,ic50,ChEMBL,Imatinib
+KDR,25800.0,ic50,ChEMBL,Imatinib
+KIT,160.5,"ec50, ic50","ChEMBL, US Patent",Imatinib
+LCK,160.0,ic50,ChEMBL,Imatinib
+LYN,220.0,ic50,ChEMBL,Imatinib
+MAPK14,70000.0,ic50,ChEMBL,Imatinib
+PDGFRB,313.0,ic50,ChEMBL,Imatinib
+PRKCA,100000.0,ic50,ChEMBL,Imatinib
+SRC,100000.0,ic50,ChEMBL,Imatinib
+SYK,5000.0,ic50,ChEMBL,Imatinib
+ABCG2,2500.0,ic50,ChEMBL,Nilotinib
+ABL1,30.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL, US Patent",Nilotinib
+CACNA1C,199526.0,ic50,ChEMBL,Nilotinib
+CSF1R,677.0,ic50,ChEMBL,Nilotinib
+DDR1,43.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",Nilotinib
+EPHA2,33.0,ic50,Curated from the literature by BindingDB,Nilotinib
+FLT3,9548.0,ic50,ChEMBL,Nilotinib
+KCND3,3162278.0,ic50,ChEMBL,Nilotinib
+KIT,158.0,ic50,ChEMBL,Nilotinib
+LCK,108.1,ic50,ChEMBL,Nilotinib
+LYN,1281.0,ic50,ChEMBL,Nilotinib
+MAPK14,4600.0,ec50,ChEMBL,Nilotinib
+PDGFRB,60.0,ic50,ChEMBL,Nilotinib
+RAF1,1100.0,ic50,ChEMBL,Nilotinib
+SCN5A,3005936.0,ic50,ChEMBL,Nilotinib
+SRC,1300.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Nilotinib
+ALK,290.0,ic50,ChEMBL,BI 2536
+BRD4,167.0,ic50,ChEMBL,BI 2536
+PLK1,6.199999999999999,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL, US Patent",BI 2536
+ADRA2A,21.0,"ec50, ic50",ChEMBL,Clonidine
+ADRA2B,670.5,ec50,ChEMBL,Clonidine
+ADRA2C,56.5,ec50,ChEMBL,Clonidine
+NISCH,366.2,ic50,ChEMBL,Clonidine
+SLC6A2,20000.0,ic50,ChEMBL,Clonidine
+ABCC4,133000.0,ic50,ChEMBL,Haloperidol
+ADRA1A,20.0,ic50,ChEMBL,Haloperidol
+CACNA1C,1500.0,ic50,ChEMBL,Haloperidol
+CHRM1,5500.0,ic50,ChEMBL,Haloperidol
+DRD2,4.0,ic50,ChEMBL,Haloperidol
+DRD3,1.875,ic50,ChEMBL,Haloperidol
+DRD4,6.0,"ec50, ic50",ChEMBL,Haloperidol
+HTR1A,1500.0,ic50,ChEMBL,Haloperidol
+HTR1B,10000.0,ic50,ChEMBL,Haloperidol
+HTR2A,288.0,ic50,ChEMBL,Haloperidol
+HTR2C,10000.0,ic50,ChEMBL,Haloperidol
+KCNK2,5500.0,ic50,ChEMBL,Haloperidol
+OPRM1,10000.0,ec50,ChEMBL,Haloperidol
+SCN1A,1200.0,ic50,ChEMBL,Haloperidol
+SIGMAR1,8.0,ic50,ChEMBL,Haloperidol
+ABCC4,133000.0,ic50,ChEMBL,Leflunomide
+DHODH,10000.0,ic50,ChEMBL,Leflunomide
+F10,4610.0,ic50,ChEMBL,Gabexate
+F2,687.0,ic50,ChEMBL,Gabexate
+HPN,383.0,ic50,ChEMBL,Gabexate
+PLG,1550.0,ic50,ChEMBL,Gabexate
+ABCC4,133000.0,ic50,ChEMBL,Valsartan
+AGTR1,2.7,ic50,"Guide to Pharmacology, ChEMBL",Valsartan
+AGTR1,11.0,ic50,ChEMBL,Candesartan
+S1PR1,840.0,"ec50, ic50","Guide to Pharmacology, ChEMBL",Fingolimod
+ABCC4,133000.0,ic50,ChEMBL,Glipizide
+TACR1,1.2000000476837158,ic50,Guide to Pharmacology,Fosaprepitant
+ALK,3180.0,ic50,ChEMBL,Foretinib
+AXL,14.0,ic50,ChEMBL,Foretinib
+EGFR,3010.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Foretinib
+EPHA2,1.9,ic50,Curated from the literature by BindingDB,Foretinib
+FLT1,6.8,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",Foretinib
+FLT3,5.4,ic50,"Curated from the literature by BindingDB, ChEMBL",Foretinib
+FLT4,2.799999976158142,ic50,"Guide to Pharmacology, ChEMBL",Foretinib
+KDR,4.8,ic50,"Curated from the literature by BindingDB, ChEMBL, US Patent",Foretinib
+KIT,6.7,ic50,"Curated from the literature by BindingDB, ChEMBL",Foretinib
+MET,2.1,ic50,"Curated from the literature by BindingDB, ChEMBL, US Patent",Foretinib
+NTRK1,3.0,ic50,ChEMBL,Foretinib
+PDGFRB,9.6,ic50,ChEMBL,Foretinib
+ROS1,10.0,ic50,ChEMBL,Foretinib
+TEK,1.1,ic50,ChEMBL,Foretinib
+ABCC4,133000.0,ic50,ChEMBL,Posaconazole
+ABCG2,6000.0,ic50,ChEMBL,Posaconazole
+CYP11B1,310.0,ic50,ChEMBL,Posaconazole
+CYP11B2,21.0,ic50,ChEMBL,Posaconazole
+CYP17A1,921.0,ic50,ChEMBL,Posaconazole
+CYP19A1,8400.0,ic50,ChEMBL,Posaconazole
+BRD4,570.0,ic50,"ChEMBL, US Patent",TG101348
+FLT3,20.0,ic50,ChEMBL,TG101348
+JAK2,3.03,ic50,"Guide to Pharmacology, ChEMBL, US Patent",TG101348
+JAK3,1000.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",TG101348
+RET,32.5,ic50,ChEMBL,TG101348
+F2,2.6,ic50,ChEMBL,Dabigatran etexilate
+ABCC4,133000.0,ic50,ChEMBL,Sotalol
+ADRB1,8900.0,ic50,ChEMBL,Sotalol
+CACNA1C,608150.0,ic50,ChEMBL,Sotalol
+ABCC4,133000.0,ic50,ChEMBL,Fluoxetine
+ACHE,5065.0,ic50,ChEMBL,Fluoxetine
+HTR2A,710.0,ic50,ChEMBL,Fluoxetine
+HTR2C,160.0,ic50,ChEMBL,Fluoxetine
+KCNK2,16500.0,ic50,ChEMBL,Fluoxetine
+SIGMAR1,851.0,ic50,ChEMBL,Fluoxetine
+SLC6A2,2000.0,"ec50, ic50","ChEMBL, Curated from the literature by BindingDB, US Patent",Fluoxetine
+SLC6A3,14200.0,"ec50, ic50","ChEMBL, Curated from the literature by BindingDB, US Patent",Fluoxetine
+SLC6A4,9.4,"ec50, ic50","ChEMBL, Curated from the literature by BindingDB, US Patent",Fluoxetine
+ABCC4,133000.0,ic50,ChEMBL,Celecoxib
+ALOX5,8435.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Celecoxib
+CA1,50000.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Celecoxib
+CA2,21.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Celecoxib
+CA4,290.0,ic50,ChEMBL,Celecoxib
+CA9,16.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Celecoxib
+HDAC1,1411.0,ic50,ChEMBL,Celecoxib
+HDAC6,643.0,ic50,ChEMBL,Celecoxib
+MAPK14,810.0,ic50,ChEMBL,Celecoxib
+PDE5A,37000.0,ic50,"ChEMBL, US Patent",Celecoxib
+PTGS1,14200.0,ic50,"Curated from the literature by BindingDB, ChEMBL, US Patent",Celecoxib
+PTGS2,110.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL, US Patent",Celecoxib
+TRPV1,10000.0,ic50,ChEMBL,Celecoxib
+ABCG2,3100.0,ic50,ChEMBL,Sorafenib
+ABL1,80.0,ic50,ChEMBL,Sorafenib
+AKT1,10000.0,ic50,ChEMBL,Sorafenib
+AURKA,3800.0,ic50,ChEMBL,Sorafenib
+AURKB,1800.0,ic50,ChEMBL,Sorafenib
+BRAF,39.5,"ec50, ic50","Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL, US Patent",Sorafenib
+CDK2,150000.0,ic50,Curated from the literature by BindingDB,Sorafenib
+CDK4,3000.0,ic50,ChEMBL,Sorafenib
+CDK6,130.0,ic50,ChEMBL,Sorafenib
+CSF1R,58.0,ic50,ChEMBL,Sorafenib
+CYP19A1,58.0,ic50,Curated from the literature by BindingDB,Sorafenib
+EGFR,58.0,ic50,"ChEMBL, US Patent",Sorafenib
+ERBB2,130.0,ic50,"ChEMBL, US Patent",Sorafenib
+FGFR1,580.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",Sorafenib
+FGFR2,10.0,ic50,US Patent,Sorafenib
+FLT1,31.0,ic50,"ChEMBL, US Patent",Sorafenib
+FLT3,33.0,ic50,"Guide to Pharmacology, ChEMBL",Sorafenib
+FLT4,20.0,ic50,"ChEMBL, US Patent",Sorafenib
+GSK3B,8300.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Sorafenib
+KDR,34.0,"ec50, ic50","Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL, US Patent",Sorafenib
+KIT,68.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",Sorafenib
+LCK,60.0,ic50,ChEMBL,Sorafenib
+MAP2K1,3300.0,ic50,ChEMBL,Sorafenib
+MAPK1,110.0,ic50,ChEMBL,Sorafenib
+MAPK14,84.4,ic50,ChEMBL,Sorafenib
+MAPK3,18.0,ic50,ChEMBL,Sorafenib
+MET,5750.0,ic50,ChEMBL,Sorafenib
+PDGFRB,57.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Sorafenib
+PLK1,10000.0,ic50,ChEMBL,Sorafenib
+RAF1,7.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL, US Patent",Sorafenib
+RET,10.5,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Sorafenib
+RIPK1,1500.0,ic50,ChEMBL,Sorafenib
+TEK,0.83,ic50,ChEMBL,Sorafenib
+ABCC4,49500.0,ic50,ChEMBL,Pioglitazone
+MAOB,298.0,ic50,ChEMBL,Pioglitazone
+PPARA,6700.0,ec50,ChEMBL,Pioglitazone
+PPARG,787.5,"ec50, ic50","ChEMBL, US Patent",Pioglitazone
+PTPN1,220000.0,ic50,ChEMBL,Pioglitazone
+CDK2,273.0,ic50,"ChEMBL, US Patent",LY2835219
+CDK4,2.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",LY2835219
+CDK6,7.8,ic50,"Guide to Pharmacology, ChEMBL, US Patent",LY2835219
+CDK7,483.5,ic50,"ChEMBL, US Patent",LY2835219
+CDK9,45.75,ic50,"ChEMBL, US Patent",LY2835219
+GSK3B,64.0,ic50,ChEMBL,LY2835219
+PIM1,3.92,ic50,US Patent,LY2835219
+ABCC4,133000.0,ic50,ChEMBL,Rasagiline
+ACHE,50009.5,ic50,ChEMBL,Rasagiline
+BCHE,52380.0,ic50,ChEMBL,Rasagiline
+MAOA,1020.0,ic50,"Curated from the literature by BindingDB, ChEMBL, US Patent",Rasagiline
+MAOB,25.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL, US Patent",Rasagiline
+ABCC4,133000.0,ic50,ChEMBL,Dronedarone
+KCNA5,2370.0,ic50,"Guide to Pharmacology, ChEMBL",Dronedarone
+HTR1D,1.6,ec50,ChEMBL,Naratriptan
+ABCC4,133000.0,ic50,ChEMBL,Sumatriptan
+HTR1A,501.0,"ec50, ic50",ChEMBL,Sumatriptan
+HTR1B,21.5,"ec50, ic50",ChEMBL,Sumatriptan
+HTR1D,14.0,"ec50, ic50",ChEMBL,Sumatriptan
+HTR1F,1000.0,"ec50, ic50",ChEMBL,Sumatriptan
+HTR2A,8971.64,ic50,ChEMBL,Sumatriptan
+HTR2C,7921.5,ic50,ChEMBL,Sumatriptan
+HTR3A,9.3,ic50,ChEMBL,Sumatriptan
+PRKCA,7.0,ic50,Guide to Pharmacology,Go 6983
+PRKCB,7.0,ic50,Guide to Pharmacology,Go 6983
+ESR1,50000.0,ic50,PubChem,Nabumetone
+ABCC4,133000.0,ic50,ChEMBL,Ondansetron
+HTR3A,0.09,ic50,ChEMBL,Ondansetron
+CACNA1C,1584893.0,ic50,ChEMBL,Darifenacin
+CHRM3,32.0,ec50,ChEMBL,Darifenacin
+KCND3,12589.0,ic50,ChEMBL,Darifenacin
+SCN5A,1585.0,ic50,ChEMBL,Darifenacin
+TGFBR1,88.0,ic50,ChEMBL,SB525334
+ABCC1,8000.0,ic50,ChEMBL,Daunorubicin
+HDAC1,47.0,ic50,ChEMBL,Daunorubicin
+HDAC6,20.0,ic50,ChEMBL,Daunorubicin
+HDAC8,220.0,ic50,ChEMBL,Daunorubicin
+HSP90AA1,14721.85,ic50,PubChem,Daunorubicin
+MMP2,1900.0,ic50,ChEMBL,Daunorubicin
+TTR,100000.0,ic50,ChEMBL,Daunorubicin
+SLC6A4,1.1200000047683716,ic50,Guide to Pharmacology,Dapoxetine
+ACHE,3120.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL, US Patent",Rivastigmine
+BCHE,375.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL, US Patent",Rivastigmine
+MAOB,100000.0,ic50,ChEMBL,Rivastigmine
+SLC6A4,1000.0,ic50,ChEMBL,Rivastigmine
+ADRA1A,56.0,ec50,ChEMBL,Phenylephrine
+ADRA1B,3.3800000000000003,ec50,ChEMBL,Phenylephrine
+ADRB1,6000.0,ec50,ChEMBL,Phenylephrine
+ABCG2,170.0,"ec50, ic50",ChEMBL,Erlotinib
+BRAF,60.0,ic50,ChEMBL,Erlotinib
+CDK2,1140.0,ic50,ChEMBL,Erlotinib
+EGFR,37.0,ic50,"WIPO, Curated from the literature by BindingDB, Guide to Pharmacology, ChEMBL, US Patent",Erlotinib
+ERBB2,389.5,ic50,"Curated from the literature by BindingDB, ChEMBL, US Patent",Erlotinib
+FLT1,250.0,ic50,ChEMBL,Erlotinib
+IGF1R,20000.0,ic50,ChEMBL,Erlotinib
+INSR,21250.0,ic50,ChEMBL,Erlotinib
+JAK2,20000.0,ic50,ChEMBL,Erlotinib
+KDR,820.0,ic50,"ChEMBL, US Patent",Erlotinib
+MET,12500.0,ic50,ChEMBL,Erlotinib
+PDGFRB,21100.0,ic50,ChEMBL,Erlotinib
+PTGS2,10000.0,ic50,ChEMBL,Erlotinib
+CHEK1,6.945,"ec50, ic50","Guide to Pharmacology, ChEMBL",AZD7762
+CHEK2,10.0,ic50,"Guide to Pharmacology, ChEMBL",AZD7762
+ABCC4,133000.0,ic50,ChEMBL,Quinapril
+ACE,8.3,ic50,ChEMBL,Quinapril
+ABCC4,133000.0,ic50,ChEMBL,Enalapril
+ACE,1200.0,ic50,"Guide to Pharmacology, ChEMBL",Enalapril
+MAOA,45000.0,ic50,ChEMBL,Safinamide
+MAOB,23.07,"ec50, ic50","Guide to Pharmacology, ChEMBL",Safinamide
+JAK2,1.8,ic50,"Guide to Pharmacology, ChEMBL, US Patent",CEP-33779
+JAK3,150.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",CEP-33779
+ABCC4,133000.0,ic50,ChEMBL,Clopidogrel
+P2RY12,2400.0,ic50,ChEMBL,Clopidogrel
+ACHE,2110000.0,ic50,ChEMBL,Gallamine
+CHRM1,171890.03999999998,ec50,ChEMBL,Gallamine
+CHRM2,776.0,ic50,ChEMBL,Gallamine
+CHRNA1,1000.0,ic50,Guide to Pharmacology,Gallamine
+ACVR1B,138.5,ic50,"Guide to Pharmacology, ChEMBL",LY2157299
+KDR,442.0,ic50,ChEMBL,LY2157299
+MAPK14,490.0,ic50,ChEMBL,LY2157299
+TGFBR1,109.5,ic50,"Guide to Pharmacology, ChEMBL",LY2157299
+TGFBR2,754.0,ic50,"Guide to Pharmacology, ChEMBL",LY2157299
+ABCC4,21000.0,ic50,ChEMBL,Rosiglitazone
+MAOB,832.0,ic50,ChEMBL,Rosiglitazone
+PPARA,3390.0,ec50,ChEMBL,Rosiglitazone
+PPARG,107.5,"ec50, ic50","ChEMBL, US Patent",Rosiglitazone
+PTPN1,400000.0,ic50,ChEMBL,Rosiglitazone
+ABCC4,133000.0,ic50,ChEMBL,Oxybutynin
+AKT1,7.25,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL, US Patent",MK-2206
+AKT2,12.0,ic50,"Guide to Pharmacology, ChEMBL",MK-2206
+AKT3,65.0,ic50,"Guide to Pharmacology, ChEMBL",MK-2206
+KDR,10.0,ic50,"Curated from the literature by BindingDB, ChEMBL",MGCD-265
+MET,29.0,ic50,"Curated from the literature by BindingDB, ChEMBL",MGCD-265
+ABCC4,133000.0,ic50,ChEMBL,Ziprasidone
+ADRA1A,11.0,ic50,ChEMBL,Ziprasidone
+DRD2,5.0,ic50,ChEMBL,Ziprasidone
+HTR2A,0.42,ic50,ChEMBL,Ziprasidone
+ABCC4,133000.0,ic50,ChEMBL,Dexlansoprazole
+HTR1A,41.0,"ec50, ic50",ChEMBL,Buspirone
+HTR1B,26000.0,ic50,ChEMBL,Buspirone
+SIGMAR1,149.5,ic50,ChEMBL,Buspirone
+ABCC1,70000.0,ic50,ChEMBL,Vincristine
+ABCC4,133000.0,ic50,ChEMBL,Vincristine
+HDAC1,52.5,"ec50, ic50","Guide to Pharmacology, ChEMBL",Givinostat
+HDAC2,293.0,"ec50, ic50","Guide to Pharmacology, ChEMBL",Givinostat
+HDAC3,78.5,"ec50, ic50","Guide to Pharmacology, ChEMBL",Givinostat
+HDAC6,35.5,"ec50, ic50","Guide to Pharmacology, ChEMBL",Givinostat
+HDAC8,837.0,ic50,ChEMBL,Givinostat
+ABCC4,133000.0,ic50,ChEMBL,Quinine
+CFTR,50000.0,ec50,PubChem,Quinine
+KCNK2,3850.0,ic50,Curated from the literature by BindingDB,Quinine
+SCN1A,4400.0,ic50,ChEMBL,Quinine
+EDNRA,0.5,ic50,"Guide to Pharmacology, ChEMBL",Macitentan
+EDNRB,391.0,ic50,"Guide to Pharmacology, ChEMBL",Macitentan
+CDK2,47.0,ic50,"Curated from the literature by BindingDB, ChEMBL",SNS-032
+CDK4,497.0,ic50,ChEMBL,SNS-032
+CDK7,62.0,ic50,ChEMBL,SNS-032
+CDK9,40.0,ic50,ChEMBL,SNS-032
+BRAF,100.0,"ec50, ic50","Guide to Pharmacology, ChEMBL, US Patent",Vemurafenib
+CHRM1,1195.0,ec50,US Patent,Vemurafenib
+CHRM2,1600.0,ec50,US Patent,Vemurafenib
+CHRM3,4000.0,ec50,US Patent,Vemurafenib
+CSF1R,1000.0,ic50,US Patent,Vemurafenib
+DDR1,1000.0,ic50,US Patent,Vemurafenib
+EGFR,5024.0,ic50,"ChEMBL, US Patent",Vemurafenib
+KDR,360.0,ic50,ChEMBL,Vemurafenib
+RAF1,135.0,ic50,"ChEMBL, US Patent",Vemurafenib
+AURKA,145.0,ic50,Guide to Pharmacology,PF-562271
+FLT3,97.0,ic50,Guide to Pharmacology,PF-562271
+ADRA2A,3.55,"ec50, ic50",ChEMBL,Brimonidine
+ADRA2C,6.45,ec50,ChEMBL,Brimonidine
+ALOX5,10000.0,ic50,ChEMBL,Idebenone
+CHEK1,0.31,ic50,ChEMBL,CHIR-124
+MTOR,0.34,ic50,ChEMBL,GSK2126458
+PIK3CA,0.63,ic50,ChEMBL,GSK2126458
+PIK3CD,0.78,ic50,ChEMBL,GSK2126458
+PIK3CG,0.605,ic50,ChEMBL,GSK2126458
+PIK3R1,0.019,ic50,ChEMBL,GSK2126458
+PIM1,10000.0,ic50,ChEMBL,GSK2126458
+ABCC4,8100.0,ic50,ChEMBL,Pazopanib
+ABL1,620.0,ic50,Curated from the literature by BindingDB,Pazopanib
+ACHE,930.0,ic50,ChEMBL,Pazopanib
+CSF1R,146.0,ic50,"Guide to Pharmacology, ChEMBL",Pazopanib
+FGFR1,140.0,ic50,"Guide to Pharmacology, ChEMBL",Pazopanib
+FGFR2,140.0,ic50,ChEMBL,Pazopanib
+FLT1,10.0,ic50,"Guide to Pharmacology, ChEMBL",Pazopanib
+FLT4,47.0,ic50,"Guide to Pharmacology, ChEMBL",Pazopanib
+KDR,30.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",Pazopanib
+KIT,96.0,ic50,"Guide to Pharmacology, ChEMBL",Pazopanib
+PDGFRB,84.0,ic50,"Guide to Pharmacology, ChEMBL",Pazopanib
+RIPK1,873.0,ic50,ChEMBL,Pazopanib
+BRAF,2.100000023841858,"ec50, ic50","Guide to Pharmacology, ChEMBL",Dabrafenib
+RAF1,150.0,ic50,ChEMBL,Dabrafenib
+RIPK1,53200.0,ic50,ChEMBL,Dabrafenib
+TGFBR1,3700.0,ic50,ChEMBL,Dabrafenib
+ALOX5,1250.0,ic50,ChEMBL,Embelin
+ABCC4,16700.0,ic50,ChEMBL,Tolcapone
+COMT,64.0,ic50,ChEMBL,Tolcapone
+TTR,16600.0,ic50,ChEMBL,Tolcapone
+KCND3,5011872.0,ic50,ChEMBL,Desvenlafaxine
+SCN5A,257877.0,ic50,ChEMBL,Desvenlafaxine
+SLC6A2,538.0,ic50,ChEMBL,Desvenlafaxine
+SLC6A4,53.0,ic50,ChEMBL,Desvenlafaxine
+ABCC4,133000.0,ic50,ChEMBL,Timolol
+CTSL,10000.0,ic50,ChEMBL,Camostat
+F2,16190.0,ic50,ChEMBL,Camostat
+HPN,29.0,ic50,ChEMBL,Camostat
+PRSS1,4.6,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Camostat
+SCN1A,2900.0,ic50,ChEMBL,Oxybuprocaine
+ABCC4,22000.0,ic50,ChEMBL,Bosentan
+EDNRA,45.0,ic50,ChEMBL,Bosentan
+EDNRB,202.0,ic50,ChEMBL,Bosentan
+ESR1,1.8,"ec50, ic50","Curated from the literature by BindingDB, ChEMBL",Raloxifene
+ESR2,15.0,"ec50, ic50","Curated from the literature by BindingDB, ChEMBL",Raloxifene
+MAOA,200000.0,ic50,ChEMBL,Raloxifene
+MAOB,200000.0,ic50,ChEMBL,Raloxifene
+NR1H4,11560.0,ic50,ChEMBL,Raloxifene
+PGR,100.0,ic50,ChEMBL,Raloxifene
+CFTR,50000.0,ec50,PubChem,Topotecan
+TOP2A,605.0,ic50,ChEMBL,Topotecan
+ABCC4,133000.0,ic50,ChEMBL,Tizanidine
+ABCC4,133000.0,ic50,ChEMBL,Loxapine
+CHRM1,5500.0,ic50,ChEMBL,Loxapine
+DRD2,54.0,ic50,ChEMBL,Loxapine
+DRD3,22.0,ic50,ChEMBL,Loxapine
+DRD4,14.0,ic50,ChEMBL,Loxapine
+KCNK2,19850.0,"ec50, ic50","ChEMBL, Curated from the literature by BindingDB",Loxapine
+ROCK1,14.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",GSK429286A
+ROCK2,5031.5,ic50,ChEMBL,GSK429286A
+RPS6KA1,780.0,ic50,Guide to Pharmacology,GSK429286A
+ABCC4,97000.0,ic50,ChEMBL,Nelfinavir
+ABCG2,12500.0,ic50,ChEMBL,Nelfinavir
+KCND3,5011872.0,ic50,ChEMBL,Nelfinavir
+SCN5A,290310.0,ic50,ChEMBL,Nelfinavir
+SCN5A,174750.0,ic50,Guide to Pharmacology,Ropivacaine
+ABCC4,133000.0,ic50,ChEMBL,Venlafaxine
+SLC6A2,581.0,ic50,"Guide to Pharmacology, ChEMBL",Venlafaxine
+SLC6A3,8670.0,ic50,ChEMBL,Venlafaxine
+SLC6A4,35.0,ic50,"Guide to Pharmacology, ChEMBL",Venlafaxine
+ABCG2,59000.0,ic50,ChEMBL,Cobicistat
+ABCC4,133000.0,ic50,ChEMBL,Cyclophosphamide
+MAP2K1,1.0,ic50,"ChEMBL, US Patent",Trametinib
+MAP2K2,1.8,ic50,"Guide to Pharmacology, ChEMBL",Trametinib
+ESR1,23.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Bazedoxifene
+ESR2,85.0,ic50,"Guide to Pharmacology, ChEMBL",Bazedoxifene
+ADRA1A,1.1,ic50,ChEMBL,Phentolamine
+ADRA1B,10.9,ic50,ChEMBL,Phentolamine
+ADRA1D,12.75,ic50,ChEMBL,Phentolamine
+ESR2,50000.0,ic50,PubChem,Phentolamine
+HRH1,316227.77,ic50,ChEMBL,Phentolamine
+HTR1A,34775.0,ic50,PubChem,Phentolamine
+SCN1A,8400.0,ic50,ChEMBL,Phentolamine
+SIGMAR1,550.0,ic50,ChEMBL,Phentolamine
+ABCC4,133000.0,ic50,ChEMBL,Levetiracetam
+CACNA1C,133519.0,ic50,ChEMBL,Vardenafil
+CFTR,25070.0,"ec50, ic50",PubChem,Vardenafil
+HNF4A,25077.0,ic50,PubChem,Vardenafil
+KCND3,79433.0,ic50,ChEMBL,Vardenafil
+PDE10A,835.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Vardenafil
+PDE1B,300.0,ic50,Curated from the literature by BindingDB,Vardenafil
+PDE3A,500.0,ic50,ChEMBL,Vardenafil
+PDE3B,580.0,ic50,Curated from the literature by BindingDB,Vardenafil
+PDE4B,2150.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Vardenafil
+PDE4D,3900.0,ic50,Curated from the literature by BindingDB,Vardenafil
+PDE5A,0.7,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",Vardenafil
+SCN5A,1355706.0,ic50,ChEMBL,Vardenafil
+ABCC4,133000.0,ic50,ChEMBL,Meloxicam
+G6PD,67000.0,ic50,Curated from the literature by BindingDB,Meloxicam
+PGD,33500.0,ic50,Curated from the literature by BindingDB,Meloxicam
+PTGS1,16700.0,ic50,"Guide to Pharmacology, ChEMBL",Meloxicam
+PTGS2,490.0,ic50,"Guide to Pharmacology, ChEMBL",Meloxicam
+ABCC1,8500.0,ic50,ChEMBL,Etravirine
+ABCG2,6000.0,ic50,ChEMBL,Etravirine
+KCND3,3162278.0,ic50,ChEMBL,Etravirine
+SCN5A,2241129.5,ic50,ChEMBL,Etravirine
+CACNA1C,73450.0,ic50,ChEMBL,Phenytoin
+SCN1A,18500.0,ic50,ChEMBL,Phenytoin
+SCN5A,74500.0,ic50,ChEMBL,Phenytoin
+CA1,3040.0,ic50,ChEMBL,Sulfasalazine
+CA2,4490.0,ic50,ChEMBL,Sulfasalazine
+AR,50000.0,ic50,ChEMBL,Liothyronine
+F2,3.7,ec50,ChEMBL,Liothyronine
+MCL1,14687.40483,ic50,PubChem,Liothyronine
+PPARG,5800.0,ec50,ChEMBL,Liothyronine
+ABCC4,100600.0,ic50,ChEMBL,Erythromycin
+CYP51A1,200000.0,ic50,ChEMBL,Erythromycin
+TTR,3500.0,ic50,ChEMBL,Triclabendazole
+DRD1,1630.0,ic50,ChEMBL,Rotundine
+DRD2,450.0,ic50,ChEMBL,Rotundine
+F3,23.0,ic50,ChEMBL,Rotundine
+ABCC4,133000.0,ic50,ChEMBL,Voriconazole
+CACNA1C,414200.0,ic50,ChEMBL,Voriconazole
+CYP46A1,5023.5,ic50,ChEMBL,Voriconazole
+ABCC4,133000.0,ic50,ChEMBL,Linezolid
+CACNA1C,105400.0,ic50,ChEMBL,Linezolid
+MAOA,35000.0,ic50,"Guide to Pharmacology, ChEMBL",Linezolid
+MAOB,2100.0,ic50,"Guide to Pharmacology, ChEMBL",Linezolid
+PTGS1,8190.0,ic50,ChEMBL,Linezolid
+CFTR,49.0,ec50,ChEMBL,Ivacaftor
+ABCC4,36000.0,ic50,ChEMBL,Telmisartan
+ABCG2,16900.0,ic50,ChEMBL,Telmisartan
+AGTR1,1.0,ic50,ChEMBL,Telmisartan
+PPARA,10000.0,"ec50, ic50",ChEMBL,Telmisartan
+PPARG,4300.0,"ec50, ic50",ChEMBL,Telmisartan
+PTGS2,7530.0,ic50,ChEMBL,Mesalamine
+ABCC4,57500.0,ic50,ChEMBL,Nalidixic acid
+TOP2B,223000.0,ic50,ChEMBL,Nalidixic acid
+CASP3,19700.0,ic50,PubChem,Ipriflavone
+MIF,255000.0,ic50,ChEMBL,Ipriflavone
+ABCG2,104.0,ec50,ChEMBL,OSI-906
+EGFR,11250.0,ic50,ChEMBL,OSI-906
+ERBB2,10000.0,ic50,ChEMBL,OSI-906
+IGF1R,18.0,ic50,"Guide to Pharmacology, ChEMBL",OSI-906
+INSR,54.5,ic50,"Guide to Pharmacology, ChEMBL",OSI-906
+MET,12500.0,ic50,ChEMBL,OSI-906
+ABCC4,133000.0,ic50,ChEMBL,Aripiprazole
+ADRA1A,170.0,ic50,ChEMBL,Aripiprazole
+CHRM3,100000.0,ic50,ChEMBL,Aripiprazole
+DRD2,17.0,"ec50, ic50","Guide to Pharmacology, ChEMBL, US Patent",Aripiprazole
+DRD3,19.5,ec50,ChEMBL,Aripiprazole
+HRH1,420.0,ic50,ChEMBL,Aripiprazole
+HTR1A,367.5,ec50,"ChEMBL, US Patent",Aripiprazole
+HTR2A,2790.0,ic50,"ChEMBL, US Patent",Aripiprazole
+HTR2C,1380.0,ic50,ChEMBL,Aripiprazole
+ABCC1,12300.0,ic50,ChEMBL,Indomethacin
+ABCC4,5800.0,ic50,ChEMBL,Indomethacin
+AKR1B1,6000.0,ic50,ChEMBL,Indomethacin
+AKR1C3,4100.0,ic50,ChEMBL,Indomethacin
+ALOX5,7000.0,ic50,ChEMBL,Indomethacin
+AR,0.14,ec50,ChEMBL,Indomethacin
+CXCL8,50.0,ic50,ChEMBL,Indomethacin
+EGFR,10000.0,ic50,ChEMBL,Indomethacin
+PPARG,50000.0,ec50,ChEMBL,Indomethacin
+PTGDR2,389.0,ec50,ChEMBL,Indomethacin
+PTGS1,130.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL, US Patent",Indomethacin
+PTGS2,825.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL, US Patent",Indomethacin
+TBXAS1,50050.0,ic50,ChEMBL,Indomethacin
+BTK,5830.0,ic50,ChEMBL,PD168393
+EGFR,2.35,ic50,"Curated from the literature by BindingDB, ChEMBL, US Patent",PD168393
+ERBB2,24.0,ic50,"Curated from the literature by BindingDB, ChEMBL",PD168393
+ITK,30000.0,ic50,ChEMBL,PD168393
+JAK3,6570.0,ic50,ChEMBL,PD168393
+SRC,27000.0,ic50,ChEMBL,PD168393
+ABCC4,133000.0,ic50,ChEMBL,Flumazenil
+GSK3B,31.0,ic50,ChEMBL,AZD1080
+PARP1,1.75,"ec50, ic50",ChEMBL,BMN 673
+PARP2,0.8,ic50,ChEMBL,BMN 673
+CHEK1,5.0,ic50,ChEMBL,PF-477736
+CSF1R,10.0,ic50,ChEMBL,PF-477736
+PPARA,46580.0,ec50,"Curated from the literature by BindingDB, ChEMBL",Bezafibrate
+PPARG,65180.0,ec50,ChEMBL,Bezafibrate
+ABCC4,133000.0,ic50,ChEMBL,Fenofibrate
+ABCG2,5100.0,ic50,ChEMBL,Fenofibrate
+PPARA,30000.0,"ec50, ic50","Guide to Pharmacology, ChEMBL",Fenofibrate
+PPARG,5000.0,"ec50, ic50",ChEMBL,Fenofibrate
+ALOX5,50.0,ic50,ChEMBL,SB202190
+BRD4,2950.0,ic50,ChEMBL,SB202190
+JAK2,100000.0,ic50,ChEMBL,SB202190
+JAK3,100000.0,ic50,ChEMBL,SB202190
+MAPK11,66.55,ic50,ChEMBL,SB202190
+MAPK14,26.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL, US Patent",SB202190
+TYR,30.0,ic50,ChEMBL,SB202190
+AURKA,10000.0,ic50,ChEMBL,Quizartinib
+CDK2,20000.0,ic50,ChEMBL,Quizartinib
+FLT1,10000.0,ic50,ChEMBL,Quizartinib
+FLT3,12.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Quizartinib
+FLT4,4900.0,ic50,ChEMBL,Quizartinib
+KDR,5215.0,ic50,ChEMBL,Quizartinib
+LCK,57.8,ic50,US Patent,Quizartinib
+PDGFRB,37.8,ic50,US Patent,Quizartinib
+RET,13.8,ic50,US Patent,Quizartinib
+ABCC4,133000.0,ic50,ChEMBL,Dofetilide
+CACNA1C,109244.5,ic50,ChEMBL,Dofetilide
+SCN5A,316228.0,ic50,ChEMBL,Dofetilide
+PPARA,52500.0,ec50,"Curated from the literature by BindingDB, ChEMBL",Clofibric acid
+PPARG,304500.0,ec50,ChEMBL,Clofibric acid
+ABCC4,133000.0,ic50,ChEMBL,Chlorpropamide
+CYP51A1,200000.0,ic50,ChEMBL,Chlorpropamide
+ABCC4,64000.0,ic50,ChEMBL,Glimepiride
+AKR1C3,850.0,ic50,ChEMBL,Glimepiride
+ABCC4,133000.0,ic50,ChEMBL,Gliclazide
+AKR1C3,19620.0,ic50,ChEMBL,Gliclazide
+EPHA2,13.0,ic50,Curated from the literature by BindingDB,Golvatinib
+KDR,16.0,ic50,"Guide to Pharmacology, ChEMBL",Golvatinib
+MET,14.0,ic50,"Guide to Pharmacology, ChEMBL",Golvatinib
+MAP2K1,7.0,ic50,US Patent,AZD8330
+EGFR,5.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Icotinib
+ABCC4,133000.0,ic50,ChEMBL,Zolmitriptan
+HTR1B,11.1,"ec50, ic50",ChEMBL,Zolmitriptan
+HTR1D,2.8,ic50,ChEMBL,Zolmitriptan
+ABL1,41000.0,ic50,ChEMBL,BIRB 796
+ACVR1B,44000.0,ic50,ChEMBL,BIRB 796
+AKT1,30000.0,ic50,ChEMBL,BIRB 796
+AKT2,30000.0,ic50,ChEMBL,BIRB 796
+AKT3,30000.0,ic50,ChEMBL,BIRB 796
+ALK,30000.0,ic50,ChEMBL,BIRB 796
+AURKA,30000.0,ic50,ChEMBL,BIRB 796
+AXL,30000.0,ic50,ChEMBL,BIRB 796
+BRAF,83.4,ic50,ChEMBL,BIRB 796
+BTK,30000.0,ic50,ChEMBL,BIRB 796
+CAMK2B,40000.0,ic50,ChEMBL,BIRB 796
+CAMK2D,30000.0,ic50,ChEMBL,BIRB 796
+CDK2,30000.0,ic50,ChEMBL,BIRB 796
+CHEK1,30000.0,ic50,ChEMBL,BIRB 796
+CHEK2,19000.0,ic50,ChEMBL,BIRB 796
+CSF1R,30000.0,ic50,ChEMBL,BIRB 796
+DDR1,1000.0,ic50,ChEMBL,BIRB 796
+EGFR,11900.0,ic50,ChEMBL,BIRB 796
+EPHA2,160.0,ic50,ChEMBL,BIRB 796
+ERBB2,20000.0,ic50,ChEMBL,BIRB 796
+FGFR1,15000.0,ic50,ChEMBL,BIRB 796
+FGFR2,24000.0,ic50,ChEMBL,BIRB 796
+FGFR3,30000.0,ic50,ChEMBL,BIRB 796
+FGFR4,7000.0,ic50,ChEMBL,BIRB 796
+FLT1,625.0,ic50,ChEMBL,BIRB 796
+FLT3,30000.0,ic50,ChEMBL,BIRB 796
+FLT4,270.0,ic50,ChEMBL,BIRB 796
+FRK,1000.0,ic50,ChEMBL,BIRB 796
+GSK3B,37000.0,ic50,"Curated from the literature by BindingDB, ChEMBL",BIRB 796
+HCK,1894.0,ic50,"ChEMBL, US Patent",BIRB 796
+HSPB1,58.0,ic50,ChEMBL,BIRB 796
+IGF1R,30000.0,ic50,ChEMBL,BIRB 796
+IKBKB,25000.0,ic50,ChEMBL,BIRB 796
+INSR,30000.0,ic50,ChEMBL,BIRB 796
+JAK2,30000.0,ic50,ChEMBL,BIRB 796
+JAK3,30000.0,ic50,ChEMBL,BIRB 796
+KDR,340.0,ic50,ChEMBL,BIRB 796
+KIT,1000.0,ic50,ChEMBL,BIRB 796
+LCK,20000.0,ic50,ChEMBL,BIRB 796
+LYN,960.0,ic50,ChEMBL,BIRB 796
+MAPK1,9200.0,ic50,ChEMBL,BIRB 796
+MAPK11,503.5,ic50,"Guide to Pharmacology, ChEMBL",BIRB 796
+MAPK13,500.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",BIRB 796
+MAPK14,12.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",BIRB 796
+MAPK3,25000.0,ic50,ChEMBL,BIRB 796
+MAPKAPK5,30000.0,ic50,ChEMBL,BIRB 796
+MET,30000.0,ic50,ChEMBL,BIRB 796
+NTRK1,580.0,ic50,ChEMBL,BIRB 796
+NTRK2,525.0,ic50,ChEMBL,BIRB 796
+NTRK3,1000.0,ic50,ChEMBL,BIRB 796
+PDGFRB,6200.0,ic50,ChEMBL,BIRB 796
+PIM1,30000.0,ic50,ChEMBL,BIRB 796
+PLK1,30000.0,ic50,ChEMBL,BIRB 796
+PRKCA,30000.0,ic50,ChEMBL,BIRB 796
+PRKCB,23450.0,ic50,ChEMBL,BIRB 796
+PRKX,30000.0,ic50,ChEMBL,BIRB 796
+PTK6,30000.0,ic50,ChEMBL,BIRB 796
+RAF1,1400.0,ic50,ChEMBL,BIRB 796
+RET,515.0,ic50,ChEMBL,BIRB 796
+ROCK1,30000.0,ic50,ChEMBL,BIRB 796
+ROCK2,30000.0,ic50,ChEMBL,BIRB 796
+ROS1,30000.0,ic50,ChEMBL,BIRB 796
+RPS6KA1,30000.0,ic50,ChEMBL,BIRB 796
+RPS6KB1,30000.0,ic50,ChEMBL,BIRB 796
+SGK1,30000.0,ic50,ChEMBL,BIRB 796
+SRC,18447.0,ic50,"ChEMBL, US Patent",BIRB 796
+SYK,25000.0,ic50,ChEMBL,BIRB 796
+TEK,1000.0,ic50,ChEMBL,BIRB 796
+ZAP70,25000.0,ic50,ChEMBL,BIRB 796
+ABCC4,133000.0,ic50,ChEMBL,Ornidazole
+GSK3B,5.0,ic50,ChEMBL,AZD2858
+MTOR,2.8,ic50,"Guide to Pharmacology, ChEMBL, US Patent",AZD2014
+PIK3R1,3800.0,ic50,ChEMBL,AZD2014
+ABCC4,133000.0,ic50,ChEMBL,Ramelteon
+CDK2,10180.0,ic50,Curated from the literature by BindingDB,GF109203X
+CDK4,990.0,ic50,Curated from the literature by BindingDB,GF109203X
+GSK3B,190.5,ic50,ChEMBL,GF109203X
+PIM1,88.5,ic50,"Curated from the literature by BindingDB, ChEMBL",GF109203X
+PRKCA,2.3,ic50,"Curated from the literature by BindingDB, ChEMBL",GF109203X
+PRKCB,1.6,ic50,Curated from the literature by BindingDB,GF109203X
+PRKCE,6.6,ic50,"Curated from the literature by BindingDB, ChEMBL",GF109203X
+PRKCI,3463.0,ic50,ChEMBL,GF109203X
+BRAF,17.0,ic50,"ChEMBL, US Patent",PD0325901
+MAP2K1,10.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",PD0325901
+MAP2K2,110.0,ic50,ChEMBL,PD0325901
+MAPK1,10000.0,ic50,ChEMBL,PD0325901
+ABL1,1250.0,ic50,ChEMBL,LDK378
+ALK,9.65,"ec50, ic50","Guide to Pharmacology, ChEMBL, US Patent",LDK378
+BTK,3360.0,ic50,ChEMBL,LDK378
+EGFR,2500.0,"ec50, ic50",ChEMBL,LDK378
+FLT3,73.0,ic50,"Guide to Pharmacology, ChEMBL",LDK378
+IGF1R,209.0,ic50,"Guide to Pharmacology, ChEMBL",LDK378
+INSR,93.0,ic50,"Guide to Pharmacology, ChEMBL",LDK378
+JAK2,2160.0,ic50,ChEMBL,LDK378
+JAK3,7920.0,ic50,ChEMBL,LDK378
+KIT,2855.0,ic50,ChEMBL,LDK378
+LCK,672.0,ic50,ChEMBL,LDK378
+MET,1169.5,ic50,ChEMBL,LDK378
+NTRK1,2727.0,ic50,ChEMBL,LDK378
+NTRK2,1829.0,ic50,ChEMBL,LDK378
+RET,1352.0,ic50,ChEMBL,LDK378
+ROCK2,1270.0,ic50,ChEMBL,LDK378
+ROS1,3.1,ic50,ChEMBL,LDK378
+SYK,3050.0,ic50,ChEMBL,LDK378
+ZAP70,9700.0,ic50,ChEMBL,LDK378
+GSK3B,300000.0,ec50,PubChem,Irsogladine
+ABCC4,133000.0,ic50,ChEMBL,Levosulpiride
+DRD2,1e-08,ic50,ChEMBL,Levosulpiride
+MPO,7680.0,ic50,ChEMBL,Levosulpiride
+ABCC4,133000.0,ic50,ChEMBL,Lenalidomide
+BRD4,5190.0,ic50,ChEMBL,Lenalidomide
+ABL1,10000.0,ic50,ChEMBL,NVP-AEW541
+AKT1,10000.0,ic50,ChEMBL,NVP-AEW541
+ALK,5500.0,ic50,ChEMBL,NVP-AEW541
+AURKA,10000.0,ic50,ChEMBL,NVP-AEW541
+AXL,10000.0,ic50,ChEMBL,NVP-AEW541
+BTK,7600.0,ic50,ChEMBL,NVP-AEW541
+CDK2,10000.0,ic50,ChEMBL,NVP-AEW541
+CDK4,10000.0,ic50,ChEMBL,NVP-AEW541
+EGFR,7600.0,ic50,ChEMBL,NVP-AEW541
+ERBB2,10000.0,ic50,ChEMBL,NVP-AEW541
+FGFR1,4300.0,ic50,ChEMBL,NVP-AEW541
+FGFR2,2700.0,ic50,ChEMBL,NVP-AEW541
+FGFR3,10000.0,ic50,ChEMBL,NVP-AEW541
+FGFR4,5000.0,ic50,ChEMBL,NVP-AEW541
+FLT3,1400.0,ic50,ChEMBL,NVP-AEW541
+GSK3B,10000.0,ic50,ChEMBL,NVP-AEW541
+IGF1R,61.0,ic50,ChEMBL,NVP-AEW541
+INSR,946.0,ic50,ChEMBL,NVP-AEW541
+JAK2,10000.0,ic50,ChEMBL,NVP-AEW541
+JAK3,10000.0,ic50,ChEMBL,NVP-AEW541
+KDR,7100.0,ic50,ChEMBL,NVP-AEW541
+KIT,6300.0,ic50,ChEMBL,NVP-AEW541
+LCK,5600.0,ic50,ChEMBL,NVP-AEW541
+LYN,1400.0,ic50,ChEMBL,NVP-AEW541
+MAPK1,10000.0,ic50,ChEMBL,NVP-AEW541
+MAPK14,10000.0,ic50,ChEMBL,NVP-AEW541
+MAPKAPK5,10000.0,ic50,ChEMBL,NVP-AEW541
+MET,10000.0,ic50,ChEMBL,NVP-AEW541
+PIK3CA,9050.0,ic50,ChEMBL,NVP-AEW541
+PIK3CD,9100.0,ic50,ChEMBL,NVP-AEW541
+PIK3CG,3200.0,ic50,ChEMBL,NVP-AEW541
+PLK1,10000.0,ic50,ChEMBL,NVP-AEW541
+RET,3300.0,ic50,ChEMBL,NVP-AEW541
+SRC,4000.0,ic50,ChEMBL,NVP-AEW541
+SYK,10000.0,ic50,ChEMBL,NVP-AEW541
+ZAP70,10000.0,ic50,ChEMBL,NVP-AEW541
+PDE4A,7900.0,ic50,Curated from the literature by BindingDB,GSK256066
+PDE4B,0.00794,ic50,ChEMBL,GSK256066
+ABCC4,133000.0,ic50,ChEMBL,Gemfibrozil
+PPARA,59000.0,ec50,"Guide to Pharmacology, ChEMBL",Gemfibrozil
+PPARG,108100.0,ec50,ChEMBL,Gemfibrozil
+TTR,180000.0,ic50,ChEMBL,Gemfibrozil
+PSMA3,15.0,ic50,ChEMBL,MLN2238
+PSMA4,15.0,ic50,ChEMBL,MLN2238
+PSMA5,15.0,ic50,ChEMBL,MLN2238
+PSMA6,15.0,ic50,ChEMBL,MLN2238
+PSMB1,31.0,ic50,ChEMBL,MLN2238
+PSMB2,3500.0,ic50,ChEMBL,MLN2238
+PSMB5,4.2,ic50,ChEMBL,MLN2238
+PSMB7,30000.0,ic50,ChEMBL,MLN2238
+PSMB8,2.9,ic50,ChEMBL,MLN2238
+PSMA6,7.47,ic50,US Patent,MLN9708
+PSMB1,10.82,ic50,ChEMBL,MLN9708
+PSMB2,7954.0,ic50,ChEMBL,MLN9708
+PSMB5,8.4,ic50,ChEMBL,MLN9708
+ABCC4,133000.0,ic50,ChEMBL,Nimesulide
+CYP19A1,27000.0,ic50,ChEMBL,Nimesulide
+MPO,2100.0,ic50,ChEMBL,Nimesulide
+PTGS1,19700.0,ic50,"Guide to Pharmacology, ChEMBL",Nimesulide
+PTGS2,1680.0,ic50,"Guide to Pharmacology, ChEMBL",Nimesulide
+CHUK,250.0,ic50,ChEMBL,IMD 0354
+KIF11,5.0,ic50,ChEMBL,Ispinesib
+FNTA,503.95,ic50,ChEMBL,Tipifarnib
+CA2,1000.0,ic50,Curated from the literature by BindingDB,Letrozole
+CYP11B1,2620.0,ic50,ChEMBL,Letrozole
+CYP11B2,1420.0,ic50,ChEMBL,Letrozole
+CYP19A1,4.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Letrozole
+ESR1,10000.0,ic50,ChEMBL,Letrozole
+ABCC4,36500.0,ic50,ChEMBL,Deferasirox
+CACNA1C,1000000.0,ic50,ChEMBL,Deferasirox
+KCND3,50119.0,ic50,ChEMBL,Deferasirox
+SCN5A,290310.0,ic50,ChEMBL,Deferasirox
+APH1A,30.0,ic50,ChEMBL,MK-0752
+AVPR2,6000.0,ic50,ChEMBL,Itraconazole
+CYP51A1,3600.0,ic50,ChEMBL,Itraconazole
+ABCC4,133000.0,ic50,ChEMBL,Melatonin
+MPO,3000.0,ic50,ChEMBL,Melatonin
+MTNR1A,0.565,"ec50, ic50",ChEMBL,Melatonin
+MTNR1B,0.48,"ec50, ic50",ChEMBL,Melatonin
+AURKB,643.0,ic50,ChEMBL,Pexidartinib
+CSF1R,13.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Pexidartinib
+EGFR,10000.0,ic50,ChEMBL,Pexidartinib
+FLT1,880.0,ic50,Guide to Pharmacology,Pexidartinib
+FLT3,11.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Pexidartinib
+KDR,970.0,ic50,"Guide to Pharmacology, ChEMBL",Pexidartinib
+KIT,27.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Pexidartinib
+LCK,860.0,ic50,Guide to Pharmacology,Pexidartinib
+MET,3300.0,ic50,ChEMBL,Pexidartinib
+NTRK3,890.0,ic50,Guide to Pharmacology,Pexidartinib
+PDGFRB,36.0,ic50,ChEMBL,Pexidartinib
+ADRA1A,1.85,ic50,ChEMBL,Silodosin
+ADRA1B,328.5,ic50,ChEMBL,Silodosin
+ADRA1D,16.65,ic50,ChEMBL,Silodosin
+CACNA1C,794328.0,ic50,ChEMBL,Silodosin
+KCND3,316228.0,ic50,ChEMBL,Silodosin
+SCN5A,63096.0,ic50,ChEMBL,Silodosin
+ABCC4,133000.0,ic50,ChEMBL,Lidocaine
+KCNA5,2188000.0,ic50,ChEMBL,Lidocaine
+KCNK2,193500.0,ic50,ChEMBL,Lidocaine
+SCN1A,240000.0,ic50,ChEMBL,Lidocaine
+SCN4A,2000.0,ic50,ChEMBL,Lidocaine
+SCN5A,79000.0,ic50,ChEMBL,Lidocaine
+ABCC4,47000.0,ic50,ChEMBL,Lopinavir
+ABCG2,7600.0,ic50,ChEMBL,Lopinavir
+ABCC4,133000.0,ic50,ChEMBL,Lumiracoxib
+PTGS1,7.0,ic50,ChEMBL,Lumiracoxib
+PTGS2,130.0,ic50,ChEMBL,Lumiracoxib
+HDAC1,113000.0,ic50,ChEMBL,Phenylbutyrate
+HDAC2,65000.0,ic50,ChEMBL,Phenylbutyrate
+HDAC3,260000.0,ic50,ChEMBL,Phenylbutyrate
+HDAC6,240000.0,ic50,ChEMBL,Phenylbutyrate
+HDAC8,93000.0,ic50,ChEMBL,Phenylbutyrate
+ABCC4,133000.0,ic50,ChEMBL,Salmeterol
+ADRB1,372.0,"ec50, ic50",ChEMBL,Salmeterol
+ADRB2,0.251189,"ec50, ic50",ChEMBL,Salmeterol
+ADRB3,1129.5,ec50,ChEMBL,Salmeterol
+ABCC4,133000.0,ic50,ChEMBL,Racecadotril
+ABCC4,133000.0,ic50,ChEMBL,Tenoxicam
+CSF1R,15.0,ic50,Guide to Pharmacology,OSI-930
+FLT1,8.0,ic50,Guide to Pharmacology,OSI-930
+KDR,9.0,ic50,"Guide to Pharmacology, ChEMBL",OSI-930
+KIT,29.0,ic50,ChEMBL,OSI-930
+LCK,22.0,ic50,ChEMBL,OSI-930
+RAF1,41.0,ic50,"Guide to Pharmacology, ChEMBL",OSI-930
+CAMK2D,10000.0,ic50,ChEMBL,Enzastaurin
+PRKCA,419.5,ic50,"Guide to Pharmacology, ChEMBL",Enzastaurin
+PRKCB,30.0,ic50,"Guide to Pharmacology, ChEMBL",Enzastaurin
+PRKCE,110.0,ic50,ChEMBL,Enzastaurin
+SRC,100000.0,ic50,ChEMBL,Enzastaurin
+ABCC4,133000.0,ic50,ChEMBL,Ketanserin
+HTR1B,8250.0,ic50,ChEMBL,Ketanserin
+HTR1D,265.0,ic50,ChEMBL,Ketanserin
+HTR2A,11.0,ic50,ChEMBL,Ketanserin
+SIGMAR1,1.0,ic50,ChEMBL,Ketanserin
+SLC18A2,180.0,ic50,ChEMBL,Ketanserin
+CHRM1,295.0,ic50,ChEMBL,Linagliptin
+DPP4,1.0,ic50,"Curated from the literature by BindingDB, ChEMBL, US Patent",Linagliptin
+HDAC1,14.0,ic50,"Guide to Pharmacology, ChEMBL",PCI-24781
+HDAC2,63.0,ic50,ChEMBL,PCI-24781
+HDAC3,78.09999990463257,ic50,"Guide to Pharmacology, ChEMBL",PCI-24781
+HDAC6,12.0,ic50,ChEMBL,PCI-24781
+HDAC8,370.0,ic50,ChEMBL,PCI-24781
+ABCC4,133000.0,ic50,ChEMBL,Zileuton
+ALOX5,900.0,"ec50, ic50","Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",Zileuton
+PTGS1,10000.0,ic50,ChEMBL,Zileuton
+PTGS2,10000.0,ic50,ChEMBL,Zileuton
+PIK3CA,1602.0,ic50,"Guide to Pharmacology, ChEMBL",IPI-145
+PIK3CD,2.5,ic50,"Guide to Pharmacology, ChEMBL",IPI-145
+PIK3CG,12.0,ic50,"Guide to Pharmacology, ChEMBL",IPI-145
+PIK3R1,8.0,ic50,ChEMBL,IPI-145
+MTOR,1000.0,ic50,ChEMBL,CAL-101
+PIK3C3,4417.0,ic50,ChEMBL,CAL-101
+PIK3CA,737.0,ic50,"Guide to Pharmacology, ChEMBL",CAL-101
+PIK3CD,3.6,"ec50, ic50","Guide to Pharmacology, ChEMBL, US Patent",CAL-101
+PIK3CG,104.0,ic50,"Guide to Pharmacology, ChEMBL",CAL-101
+PIK3R1,293.0,ic50,ChEMBL,CAL-101
+AKR1B1,180000.0,ic50,ChEMBL,Ketoprofen
+CA1,1066500.0,ic50,Curated from the literature by BindingDB,Ketoprofen
+CA2,1400000.0,ic50,Curated from the literature by BindingDB,Ketoprofen
+CASP3,50000.0,ic50,Curated from the literature by BindingDB,Ketoprofen
+EGFR,10000.0,ic50,ChEMBL,Ketoprofen
+PTGS1,330.0,ic50,"Guide to Pharmacology, ChEMBL",Ketoprofen
+PTGS2,690.0,ic50,"Guide to Pharmacology, ChEMBL",Ketoprofen
+ABCC4,133000.0,ic50,ChEMBL,Valdecoxib
+CA1,54000.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Valdecoxib
+CA2,43.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Valdecoxib
+CA4,340.0,ic50,ChEMBL,Valdecoxib
+CA9,27.0,ic50,Curated from the literature by BindingDB,Valdecoxib
+PTGS1,100000.0,ic50,ChEMBL,Valdecoxib
+PTGS2,111.5,ic50,"Guide to Pharmacology, ChEMBL",Valdecoxib
+ABCC4,133000.0,ic50,ChEMBL,Vorinostat
+ABL1,100000.0,ic50,ChEMBL,Vorinostat
+BRD4,391.5,ic50,ChEMBL,Vorinostat
+CFTR,25775.0,"ec50, ic50",PubChem,Vorinostat
+DNMT1,10000.0,ic50,ChEMBL,Vorinostat
+EGFR,456.0,ic50,ChEMBL,Vorinostat
+FLT3,10000.0,ic50,ChEMBL,Vorinostat
+HDAC1,110.5,"ec50, ic50","Curated from the literature by BindingDB, ChEMBL, US Patent",Vorinostat
+HDAC2,120.25,ic50,"Curated from the literature by BindingDB, ChEMBL, US Patent",Vorinostat
+HDAC3,55.5,ic50,"Curated from the literature by BindingDB, ChEMBL, US Patent",Vorinostat
+HDAC6,34.0,"ec50, ic50","Curated from the literature by BindingDB, ChEMBL, US Patent",Vorinostat
+HDAC8,980.0,ic50,"Curated from the literature by BindingDB, ChEMBL, US Patent",Vorinostat
+HMGCR,10000.0,ic50,"ChEMBL, US Patent",Vorinostat
+HSP90AA1,250500.0,ic50,ChEMBL,Vorinostat
+JAK2,10000.0,ic50,ChEMBL,Vorinostat
+KDR,10000.0,ic50,ChEMBL,Vorinostat
+MAOA,100000.0,ic50,ChEMBL,Vorinostat
+MAOB,100000.0,ic50,ChEMBL,Vorinostat
+PIK3R1,10000.0,ic50,ChEMBL,Vorinostat
+PSMB5,25000.0,ic50,ChEMBL,Vorinostat
+ABCC4,133000.0,ic50,ChEMBL,Aspirin
+CA1,2710000.0,ic50,ChEMBL,Aspirin
+CA2,1160000.0,ic50,ChEMBL,Aspirin
+EGFR,10000.0,ic50,ChEMBL,Aspirin
+MPO,200000.0,ic50,ChEMBL,Aspirin
+PTGS1,560100.0,ic50,"Guide to Pharmacology, ChEMBL",Aspirin
+PTGS2,62500.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",Aspirin
+ABCC4,133000.0,ic50,ChEMBL,Nitazoxanide
+AKR1B1,8220.0,ic50,ChEMBL,Nitazoxanide
+TGFBR1,108.0,"ec50, ic50","Guide to Pharmacology, ChEMBL, US Patent",SB431542
+TGFBR2,66.0,ic50,ChEMBL,SB431542
+ABCC4,34000.0,ic50,ChEMBL,Ritonavir
+ABCG2,19500.0,ic50,ChEMBL,Ritonavir
+UGT1A1,1700.0,ic50,"Guide to Pharmacology, ChEMBL",Ritonavir
+PARP1,6.0,"ec50, ic50","Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL, US Patent",Olaparib
+PARP2,1.7,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Olaparib
+PARP3,229.5,ic50,"ChEMBL, US Patent",Olaparib
+IDO1,6100.0,ic50,ChEMBL,Sertaconazole
+ABCC4,133000.0,ic50,ChEMBL,Piroxicam
+PTGS1,127650.0,ic50,"Guide to Pharmacology, ChEMBL",Piroxicam
+PTGS2,160400.0,ic50,"Guide to Pharmacology, ChEMBL",Piroxicam
+ALK,177.0,"ec50, ic50",ChEMBL,AZD9291
+EGFR,39.0,"ec50, ic50","WIPO, Guide to Pharmacology, ChEMBL, US Patent",AZD9291
+ERBB2,29.5,"ec50, ic50","ChEMBL, US Patent",AZD9291
+HDAC1,1000.0,ic50,ChEMBL,AZD9291
+IGF1R,2900000.0,ic50,ChEMBL,AZD9291
+INSR,912.0,ic50,ChEMBL,AZD9291
+MET,1000.0,ic50,ChEMBL,AZD9291
+FLT3,22.0,ic50,ChEMBL,Pacritinib
+JAK2,23.0,ic50,ChEMBL,Pacritinib
+JAK3,520.0,ic50,ChEMBL,Pacritinib
+PARP1,130059.5,ic50,"Curated from the literature by BindingDB, ChEMBL",Nicotinamide
+ABCC4,133000.0,ic50,ChEMBL,Pyrazinamide
+ABCC4,133000.0,ic50,ChEMBL,Bortezomib
+CFTR,50000.0,ec50,PubChem,Bortezomib
+CMA1,1190.0,ic50,ChEMBL,Bortezomib
+CTSB,30000.0,ic50,ChEMBL,Bortezomib
+HDAC1,620.0,ic50,ChEMBL,Bortezomib
+HDAC2,800.0,ic50,ChEMBL,Bortezomib
+HDAC3,1180.0,ic50,ChEMBL,Bortezomib
+HDAC6,69440.0,ic50,ChEMBL,Bortezomib
+HDAC8,72.0,ic50,ChEMBL,Bortezomib
+PSMA3,8.855,ic50,ChEMBL,Bortezomib
+PSMA4,8.855,ic50,ChEMBL,Bortezomib
+PSMA5,8.855,ic50,ChEMBL,Bortezomib
+PSMA6,9.92,ic50,"ChEMBL, US Patent",Bortezomib
+PSMB1,96.5,ic50,ChEMBL,Bortezomib
+PSMB2,1500.0,ic50,ChEMBL,Bortezomib
+PSMB5,6.2,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",Bortezomib
+PSMB7,1060.0,ic50,ChEMBL,Bortezomib
+PSMB8,4.0,ic50,ChEMBL,Bortezomib
+DPP4,62.0,ic50,ChEMBL,Vidarabine
+GSK3B,300000.0,ec50,PubChem,Vidarabine
+ABL1,86.1,ic50,"ChEMBL, US Patent",Ibrutinib
+BTK,1.2,"ec50, ic50","Guide to Pharmacology, ChEMBL, US Patent",Ibrutinib
+CDK2,25000.0,ic50,ChEMBL,Ibrutinib
+CSF1R,3272.5,ic50,ChEMBL,Ibrutinib
+EGFR,11.0,"ec50, ic50","Guide to Pharmacology, ChEMBL, US Patent",Ibrutinib
+EPHA2,1000.0,ic50,ChEMBL,Ibrutinib
+ERBB2,9.4,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Ibrutinib
+FGFR2,280.0,ic50,US Patent,Ibrutinib
+FLT3,231.0,ic50,"ChEMBL, US Patent",Ibrutinib
+FRK,54.1,ic50,ChEMBL,Ibrutinib
+HCK,15.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Ibrutinib
+ITK,11.7,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Ibrutinib
+JAK2,5500.0,ic50,ChEMBL,Ibrutinib
+JAK3,32.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Ibrutinib
+LCK,2.425,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Ibrutinib
+LYN,110.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Ibrutinib
+MAP2K2,10000.0,ic50,ChEMBL,Ibrutinib
+PDGFRB,1000.0,ic50,ChEMBL,Ibrutinib
+PTK6,3.3,ic50,"ChEMBL, US Patent",Ibrutinib
+RET,21.1,ic50,ChEMBL,Ibrutinib
+RPS6KA1,10000.0,ic50,ChEMBL,Ibrutinib
+SRC,40.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Ibrutinib
+SYK,10000.0,ic50,"ChEMBL, US Patent",Ibrutinib
+ABCG2,3000.0,ic50,ChEMBL,Regorafenib
+BRAF,28.0,ic50,"Guide to Pharmacology, ChEMBL",Regorafenib
+FGFR1,101.75,ic50,ChEMBL,Regorafenib
+FGFR2,7.5,ic50,US Patent,Regorafenib
+FLT1,11.5,ic50,"ChEMBL, US Patent",Regorafenib
+FLT3,82.0,ic50,ChEMBL,Regorafenib
+FLT4,10.0,ic50,"ChEMBL, US Patent",Regorafenib
+KDR,5.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Regorafenib
+KIT,61.5,ic50,ChEMBL,Regorafenib
+PDGFRB,1.5,ic50,ChEMBL,Regorafenib
+RAF1,2.0,ic50,ChEMBL,Regorafenib
+RET,12.0,ic50,"ChEMBL, US Patent",Regorafenib
+TEK,156.25,ic50,ChEMBL,Regorafenib
+CDK2,1800.0,ic50,ChEMBL,CX-4945
+FLT3,45.0,ic50,ChEMBL,CX-4945
+GSK3B,2403.5,ic50,ChEMBL,CX-4945
+PIM1,132.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",CX-4945
+AKT1,2.2,ic50,ChEMBL,RKI-1447
+AURKA,1.0,ic50,ChEMBL,RKI-1447
+GSK3B,7.8,ic50,ChEMBL,RKI-1447
+IKBKE,1.0,ic50,ChEMBL,RKI-1447
+JAK2,1.0,ic50,ChEMBL,RKI-1447
+ROCK1,9.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",RKI-1447
+ROCK2,6.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",RKI-1447
+RPS6KA1,1.0,ic50,ChEMBL,RKI-1447
+RPS6KB1,1.0,ic50,ChEMBL,RKI-1447
+SGK1,5.0,ic50,ChEMBL,RKI-1447
+CACNA1B,10000.0,ic50,ChEMBL,Cyclobenzaprine
+RET,300.0,ic50,US Patent,Cyclobenzaprine
+SCN1A,1400.0,ic50,ChEMBL,Dibucaine
+ADRA1A,63.0,ec50,ChEMBL,Naphazoline
+ADRA1B,5012.0,ec50,ChEMBL,Naphazoline
+ADRA1D,5012.0,ec50,ChEMBL,Naphazoline
+ADRA2C,55.0,ec50,ChEMBL,Naphazoline
+TAAR1,647.09,"ec50, ic50",PubChem,Naphazoline
+HRH1,3.900000047683716,ic50,"Guide to Pharmacology, ChEMBL",Rupatadine
+PTAFR,3700.0,ic50,ChEMBL,Rupatadine
+ABCC4,133000.0,ic50,ChEMBL,Reserpine
+ABCG2,12600.0,ic50,ChEMBL,Reserpine
+CFTR,50000.0,ec50,PubChem,Reserpine
+SCN1A,1600.0,ic50,ChEMBL,Reserpine
+SLC18A2,13.2,ic50,ChEMBL,Reserpine
+AXL,7.0,ic50,ChEMBL,Cabozantinib
+EGFR,225.0,ic50,ChEMBL,Cabozantinib
+FGFR1,11.0,ic50,ChEMBL,Cabozantinib
+FLT1,12.0,ic50,"ChEMBL, US Patent",Cabozantinib
+FLT3,25.0,ic50,"ChEMBL, US Patent",Cabozantinib
+FLT4,28.0,ic50,"ChEMBL, US Patent",Cabozantinib
+IGF1R,10000.0,ic50,ChEMBL,Cabozantinib
+KDR,4.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL, US Patent",Cabozantinib
+KIT,4.6,ic50,ChEMBL,Cabozantinib
+MET,14.45,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL, US Patent",Cabozantinib
+NTRK1,72.0,ic50,ChEMBL,Cabozantinib
+RET,41.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Cabozantinib
+SRC,178.0,ic50,ChEMBL,Cabozantinib
+TEK,14.3,ic50,ChEMBL,Cabozantinib
+EGLN1,583.0,"ec50, ic50","ChEMBL, US Patent",FG-4592
+OGFOD1,1000.0,ic50,ChEMBL,FG-4592
+ABCG2,200.0,ic50,ChEMBL,Vandetanib
+ABL1,86.0,ic50,ChEMBL,Vandetanib
+CSF1R,1600.0,ic50,ChEMBL,Vandetanib
+EGFR,369.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",Vandetanib
+FGFR1,3600.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Vandetanib
+FLT1,95.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Vandetanib
+FLT4,110.0,ic50,ChEMBL,Vandetanib
+HDAC1,10000.0,ic50,ChEMBL,Vandetanib
+IGF1R,10000.0,ic50,ChEMBL,Vandetanib
+KDR,42.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",Vandetanib
+KIT,181.5,ic50,ChEMBL,Vandetanib
+PDGFRB,477.0,ic50,ChEMBL,Vandetanib
+RET,102.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Vandetanib
+SRC,44.0,ic50,ChEMBL,Vandetanib
+TEK,1533.5,ic50,ChEMBL,Vandetanib
+ROCK2,21370.0,ic50,PubChem,Kinetin
+ABCC4,133000.0,ic50,ChEMBL,Bexarotene
+PPARG,3000.0,ic50,Guide to Pharmacology,Bexarotene
+RARA,5003.0,ec50,ChEMBL,Bexarotene
+RARB,5141.0,ec50,ChEMBL,Bexarotene
+RARG,5324.0,ec50,ChEMBL,Bexarotene
+RXRA,36.5,"ec50, ic50",ChEMBL,Bexarotene
+RXRG,38.5,ec50,ChEMBL,Bexarotene
+MAP2K1,12.0,ic50,"Guide to Pharmacology, US Patent",MEK162
+MAP2K2,12.0,ic50,Guide to Pharmacology,MEK162
+CFTR,2600.0,ec50,"Guide to Pharmacology, ChEMBL",VX-809
+HDAC8,100000.0,ic50,Curated from the literature by BindingDB,Tamibarotene
+RARA,45.0,"ec50, ic50","Guide to Pharmacology, ChEMBL",Tamibarotene
+RARB,235.0,ec50,"Guide to Pharmacology, ChEMBL",Tamibarotene
+RARG,591.0,ec50,"Guide to Pharmacology, ChEMBL",Tamibarotene
+ABCC4,12100.0,ic50,ChEMBL,Zafirlukast
+ADORA1,10000.0,ic50,ChEMBL,Zafirlukast
+ADRA1A,10000.0,ic50,ChEMBL,Zafirlukast
+ADRA2A,10000.0,ic50,ChEMBL,Zafirlukast
+ADRB1,10000.0,ic50,ChEMBL,Zafirlukast
+CHRM3,10000.0,ic50,ChEMBL,Zafirlukast
+CYSLTR1,1.9,ic50,"Guide to Pharmacology, ChEMBL",Zafirlukast
+DRD2,10000.0,ic50,ChEMBL,Zafirlukast
+HRH1,10000.0,ic50,ChEMBL,Zafirlukast
+HTR2A,10000.0,ic50,ChEMBL,Zafirlukast
+NR1H4,3900.0,ec50,ChEMBL,Zafirlukast
+OPRM1,10000.0,ic50,ChEMBL,Zafirlukast
+PPARG,2440.0,ec50,"Guide to Pharmacology, ChEMBL",Zafirlukast
+ABCC4,133000.0,ic50,ChEMBL,Riluzole
+HTR1A,99000.0,ec50,PubChem,Riluzole
+KCNK2,139400.0,ec50,ChEMBL,Riluzole
+UGT1A1,170000.0,ic50,ChEMBL,Riluzole
+ALK,10.0,ic50,Guide to Pharmacology,AZD3463
+IGF1R,10.0,ic50,Guide to Pharmacology,AZD3463
+ABCC4,133000.0,ic50,ChEMBL,Chlorzoxazone
+KCNN4,100000.0,ec50,Guide to Pharmacology,Chlorzoxazone
+UGT1A1,300000.0,ic50,Curated from the literature by BindingDB,Chlorzoxazone
+CFTR,272.0,ec50,Guide to Pharmacology,VX-661
+MLST8,190.0,ic50,ChEMBL,SAR245409
+PIK3CD,43.0,ic50,ChEMBL,SAR245409
+SEC13,190.0,ic50,ChEMBL,SAR245409
+ABCC4,133000.0,ic50,ChEMBL,Zonisamide
+CA1,947.5,ic50,"ChEMBL, US Patent",Zonisamide
+ABCG2,176.0,ic50,ChEMBL,SN-38
+UGT1A1,360000.0,ic50,ChEMBL,SN-38
+ABCC4,133000.0,ic50,ChEMBL,Mifepristone
+AR,8.55,"ec50, ic50","Curated from the literature by BindingDB, ChEMBL",Mifepristone
+ESR1,5000.0,ic50,ChEMBL,Mifepristone
+ESR2,812.0,ic50,ChEMBL,Mifepristone
+NR3C1,4.8,"ec50, ic50","Curated from the literature by BindingDB, ChEMBL",Mifepristone
+NR3C2,1155.0,"ec50, ic50","Curated from the literature by BindingDB, ChEMBL",Mifepristone
+PGR,0.3,"ec50, ic50","Curated from the literature by BindingDB, ChEMBL",Mifepristone
+ABCC4,16600.0,ic50,ChEMBL,Cilostazol
+CACNA1C,91200.0,ic50,ChEMBL,Cilostazol
+PDE1B,1000000.0,ic50,ChEMBL,Cilostazol
+PDE3A,190.0,ic50,"Guide to Pharmacology, ChEMBL",Cilostazol
+PDE3B,380.0,ic50,Guide to Pharmacology,Cilostazol
+ACHE,27380.0,ic50,ChEMBL,Methoxsalen
+MAOA,85110.0,ic50,ChEMBL,Methoxsalen
+DRD2,3.65,ec50,ChEMBL,Rotigotine
+CACNA1C,7600.0,ic50,ChEMBL,Droperidol
+SCN1A,740.0,ic50,ChEMBL,Droperidol
+CSF1R,489.0,ic50,ChEMBL,Filgotinib
+FLT3,338.0,ic50,ChEMBL,Filgotinib
+FLT4,274.0,ic50,ChEMBL,Filgotinib
+JAK2,167.34,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Filgotinib
+JAK3,644.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Filgotinib
+ABCG2,40.0,ic50,ChEMBL,Ponatinib
+ABL1,1.0,"ec50, ic50","Guide to Pharmacology, ChEMBL, US Patent",Ponatinib
+CSF1R,8.6,ic50,ChEMBL,Ponatinib
+DDR1,9.4,ic50,ChEMBL,Ponatinib
+EGFR,1000.0,ic50,ChEMBL,Ponatinib
+EPHA2,1.3,ic50,Curated from the literature by BindingDB,Ponatinib
+FGFR1,1.6,ic50,ChEMBL,Ponatinib
+FGFR2,1.65,ic50,ChEMBL,Ponatinib
+FGFR3,13.7,ic50,ChEMBL,Ponatinib
+FGFR4,8.0,ic50,ChEMBL,Ponatinib
+FLT1,12.3,ic50,ChEMBL,Ponatinib
+FLT3,6.65,ic50,ChEMBL,Ponatinib
+FRK,1.3,ic50,ChEMBL,Ponatinib
+GSK3B,12300.0,ic50,Curated from the literature by BindingDB,Ponatinib
+HCK,0.11,ic50,ChEMBL,Ponatinib
+IGF1R,1000.0,ic50,ChEMBL,Ponatinib
+JAK2,169.0,ic50,ChEMBL,Ponatinib
+KDR,2.9000000000000004,ic50,ChEMBL,Ponatinib
+KIT,8.0,ic50,ChEMBL,Ponatinib
+LCK,0.28,ic50,ChEMBL,Ponatinib
+LYN,0.24,ic50,ChEMBL,Ponatinib
+MAPK14,10.0,ic50,ChEMBL,Ponatinib
+NTRK1,11.0,ic50,ChEMBL,Ponatinib
+PDGFRB,1.2,ic50,ChEMBL,Ponatinib
+RET,10.0,ic50,"Guide to Pharmacology, ChEMBL",Ponatinib
+RIPK1,12.0,ic50,"Guide to Pharmacology, ChEMBL",Ponatinib
+SRC,4.2,ic50,ChEMBL,Ponatinib
+JAK2,5.0,ic50,ChEMBL,Peficitinb
+JAK3,0.705,ic50,ChEMBL,Peficitinb
+ABCC4,133000.0,ic50,ChEMBL,Tazarotene
+RARA,63.0,ec50,"Guide to Pharmacology, ChEMBL",Tazarotene
+RARB,0.8000000059604645,ec50,"Guide to Pharmacology, ChEMBL",Tazarotene
+RARG,40.0,ec50,"Guide to Pharmacology, ChEMBL",Tazarotene
+ABCC4,133000.0,ic50,ChEMBL,Desloratadine
+FNTA,65000.0,ic50,ChEMBL,Desloratadine
+HRH1,16000.0,ic50,"ChEMBL, US Patent",Desloratadine
+FNTA,950.95,ic50,"Curated from the literature by BindingDB, ChEMBL",Lonafarnib
+HRAS,1.899999976158142,ic50,Guide to Pharmacology,Lonafarnib
+AURKA,255.0,ic50,ChEMBL,Reversine
+AURKB,287.5,ic50,ChEMBL,Reversine
+PLK1,5000.0,ic50,ChEMBL,Reversine
+ABCC4,23700.0,ic50,ChEMBL,Tacrine
+ACHE,171.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Tacrine
+BCHE,21.3,ic50,"Curated from the literature by BindingDB, ChEMBL",Tacrine
+CHRM1,13000.0,ic50,ChEMBL,Tacrine
+CHRNE,44.0,ic50,ChEMBL,Tacrine
+GRIN1,44000.0,ic50,ChEMBL,Tacrine
+GRIN2A,9100.0,ic50,ChEMBL,Tacrine
+GSK3B,50500.0,ic50,ChEMBL,Tacrine
+SLC6A2,11000.0,ic50,ChEMBL,Tacrine
+ABCG2,5000.0,ic50,ChEMBL,Candesartan cilexetil
+PPARG,4200.0,ec50,ChEMBL,Candesartan cilexetil
+ABCC4,133000.0,ic50,ChEMBL,Loratadine
+CACNA1C,11400.0,ic50,ChEMBL,Loratadine
+HRH1,1500000.0,ic50,"ChEMBL, US Patent",Loratadine
+NR1H4,3070.0,ic50,ChEMBL,Loratadine
+PTAFR,92500.0,ic50,ChEMBL,Loratadine
+CACNA1C,201.0,ic50,ChEMBL,Pimozide
+KCNK2,1077.0,"ec50, ic50","ChEMBL, Curated from the literature by BindingDB",Pimozide
+OPRD1,3760.0,ic50,ChEMBL,Pimozide
+OPRM1,372.0,ic50,ChEMBL,Pimozide
+CTSB,11000.0,ic50,ChEMBL,Carfilzomib
+PSMA3,9.3,ic50,ChEMBL,Carfilzomib
+PSMA4,9.3,ic50,ChEMBL,Carfilzomib
+PSMA5,9.3,ic50,ChEMBL,Carfilzomib
+PSMA6,9.3,ic50,ChEMBL,Carfilzomib
+PSMB1,2400.0,ic50,ChEMBL,Carfilzomib
+PSMB2,1812.0,ic50,ChEMBL,Carfilzomib
+PSMB5,7.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",Carfilzomib
+PSMB7,43.0,ic50,ChEMBL,Carfilzomib
+PSMB8,27.0,ic50,ChEMBL,Carfilzomib
+FNTA,0.8,ic50,ChEMBL,LB42708
+ABCC4,133000.0,ic50,ChEMBL,Vildagliptin
+DPP4,16.8,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",Vildagliptin
+BRD4,50000.0,ic50,US Patent,GSK461364
+PLK1,100.0,ic50,ChEMBL,GSK461364
+ABCC4,133000.0,ic50,ChEMBL,Tinidazole
+ABCC4,133000.0,ic50,ChEMBL,Primidone
+ABCC4,133000.0,ic50,ChEMBL,Pentoxifylline
+ACHE,6600.0,ic50,ChEMBL,Pentoxifylline
+BCHE,50000.0,ic50,ChEMBL,Pentoxifylline
+PDE4A,168000.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Pentoxifylline
+PDE4B,90000.0,ic50,ChEMBL,Pentoxifylline
+ABCC4,6400.0,ic50,ChEMBL,Diacerein
+CASP3,7894.0,ec50,PubChem,Diacerein
+HSP90AA1,9234.0,ic50,PubChem,Diacerein
+NAAA,700.0,ic50,ChEMBL,Diacerein
+TTR,5400.0,ic50,ChEMBL,Diacerein
+ADRA1A,720.0,ec50,ChEMBL,Methoxamine
+MAP2K1,10000.0,ic50,ChEMBL,Ulixertinib
+MAPK1,31.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Ulixertinib
+MAPK3,25.150000005960464,ic50,"Guide to Pharmacology, US Patent",Ulixertinib
+EGFR,180.0,ic50,Guide to Pharmacology,LY2228820
+MAPK11,1.0,ic50,Guide to Pharmacology,LY2228820
+MAPK14,5.5,ic50,Guide to Pharmacology,LY2228820
+ADRB2,169.55,"ec50, ic50",Curated from the literature by BindingDB,Ractopamine
+AR,26.0,ic50,ChEMBL,ODM-201
+HDAC1,245.0,ic50,ChEMBL,LMK-235
+HDAC2,881.0,ic50,ChEMBL,LMK-235
+HDAC6,55.7,ic50,ChEMBL,LMK-235
+HDAC8,1278.0,ic50,ChEMBL,LMK-235
+AKR1B1,2390.0,ic50,ChEMBL,Tolmetin
+CXCL8,90.0,ic50,ChEMBL,Tolmetin
+ABL1,4.0,ic50,Guide to Pharmacology,Pexmetinib
+FGFR1,28.0,ic50,Guide to Pharmacology,Pexmetinib
+FLT1,47.0,ic50,Guide to Pharmacology,Pexmetinib
+FLT4,42.0,ic50,Guide to Pharmacology,Pexmetinib
+HCK,26.0,ic50,Guide to Pharmacology,Pexmetinib
+LYN,25.0,ic50,Guide to Pharmacology,Pexmetinib
+MAPK11,26.0,ic50,Guide to Pharmacology,Pexmetinib
+MAPK14,19.5,ic50,"Guide to Pharmacology, ChEMBL",Pexmetinib
+TEK,1.0,ic50,Guide to Pharmacology,Pexmetinib
+ACVR1B,13.0,ic50,"Guide to Pharmacology, ChEMBL",EW-7197
+KDR,97.0,ic50,ChEMBL,EW-7197
+MAPK14,2565.0,ic50,ChEMBL,EW-7197
+TGFBR1,11.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",EW-7197
+FGFR1,9.199999809265137,ic50,"Guide to Pharmacology, ChEMBL, US Patent",CH5183284
+FGFR2,7.6,ic50,"Guide to Pharmacology, ChEMBL, US Patent",CH5183284
+FGFR3,22.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",CH5183284
+FGFR4,290.0,ic50,"Guide to Pharmacology, ChEMBL",CH5183284
+KDR,2100.0,ic50,ChEMBL,CH5183284
+PDGFRB,560.0,ic50,Guide to Pharmacology,CH5183284
+SRC,5900.0,ic50,ChEMBL,CH5183284
+PIK3C3,374.0,ic50,ChEMBL,GDC-0032
+PIK3CA,14.0,"ec50, ic50",ChEMBL,GDC-0032
+PIK3CD,0.7,ic50,ChEMBL,GDC-0032
+ABCC4,133000.0,ic50,ChEMBL,Clopamide
+ABCC4,133000.0,ic50,ChEMBL,Gatifloxacin
+ABCC4,133000.0,ic50,ChEMBL,Oseltamivir
+ABCC4,133000.0,ic50,ChEMBL,Disulfiram
+AGTR1,6637.0,ic50,PubChem,Disulfiram
+ALDH2,3400.0,ic50,ChEMBL,Disulfiram
+CFTR,50000.0,ec50,PubChem,Disulfiram
+FAAH,199639.025,ic50,"ChEMBL, US Patent",Disulfiram
+TRPA1,3000.0,ec50,ChEMBL,Disulfiram
+DDR1,105.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",DDR1-IN-1
+MDM2,18.0,ic50,ChEMBL,RG-7112
+CA1,12.0,ic50,"ChEMBL, US Patent",Ethoxzolamide
+CA2,0.3,ic50,ChEMBL,Ethoxzolamide
+CA9,0.99,ic50,ChEMBL,Ethoxzolamide
+JAK2,5.85,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Baricitinib
+JAK3,400.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Baricitinib
+CSF1R,5.0,ic50,Guide to Pharmacology,Cerdulatinib
+JAK2,6.0,ic50,"Guide to Pharmacology, ChEMBL",Cerdulatinib
+JAK3,8.0,ic50,"Guide to Pharmacology, ChEMBL",Cerdulatinib
+SYK,43.5,ic50,"Guide to Pharmacology, US Patent",Cerdulatinib
+SCN1A,21200.0,ic50,ChEMBL,Pramoxine
+ACHE,4.9,ic50,ChEMBL,Memantine
+BCHE,10000.0,ic50,ChEMBL,Memantine
+GRIN1,5500.0,ic50,ChEMBL,Memantine
+GRIN2A,3330.0,ic50,ChEMBL,Memantine
+SCN1A,2300.0,ic50,ChEMBL,Oxethazaine
+CDK2,50000.0,ic50,"ChEMBL, US Patent",LEE011
+CDK4,10.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",LEE011
+CDK6,33.5,ic50,"ChEMBL, US Patent",LEE011
+ABCC4,133000.0,ic50,ChEMBL,Imipramine
+BRD4,828500.0,ic50,ChEMBL,Imipramine
+CACNA1B,22000.0,ic50,ChEMBL,Imipramine
+CACNA1C,8300.0,ic50,ChEMBL,Imipramine
+DRD2,410.0,ic50,ChEMBL,Imipramine
+HRH1,27.0,ic50,ChEMBL,Imipramine
+SCN1A,3600.0,ic50,ChEMBL,Imipramine
+SLC6A2,38.3,ic50,ChEMBL,Imipramine
+SLC6A3,25600.0,ic50,ChEMBL,Imipramine
+SLC6A4,5.1,ic50,ChEMBL,Imipramine
+PSMA6,7800.0,ec50,Curated from the literature by BindingDB,Triflupromazine
+CHRM3,3.2,ic50,US Patent,Atropine
+ABL1,1000.0,ic50,ChEMBL,Entrectinib
+AKT1,10000.0,ic50,ChEMBL,Entrectinib
+ALK,13.5,ic50,"ChEMBL, US Patent",Entrectinib
+AURKA,215.0,ic50,ChEMBL,Entrectinib
+AURKB,669.0,ic50,"ChEMBL, US Patent",Entrectinib
+CDK2,1000.0,ic50,ChEMBL,Entrectinib
+CHEK1,10000.0,ic50,ChEMBL,Entrectinib
+EGFR,10000.0,ic50,ChEMBL,Entrectinib
+FGFR1,1000.0,ic50,ChEMBL,Entrectinib
+FLT3,164.0,ic50,ChEMBL,Entrectinib
+FLT4,1000.0,ic50,ChEMBL,Entrectinib
+GSK3B,10000.0,ic50,ChEMBL,Entrectinib
+IGF1R,263.0,ic50,"ChEMBL, US Patent",Entrectinib
+IKBKB,10000.0,ic50,ChEMBL,Entrectinib
+INSR,209.0,ic50,ChEMBL,Entrectinib
+JAK2,40.0,ic50,ChEMBL,Entrectinib
+JAK3,349.0,ic50,ChEMBL,Entrectinib
+KDR,1000.0,ic50,ChEMBL,Entrectinib
+KIT,1000.0,ic50,ChEMBL,Entrectinib
+LCK,1000.0,ic50,ChEMBL,Entrectinib
+MAPK1,10000.0,ic50,ChEMBL,Entrectinib
+MAPK14,10000.0,ic50,ChEMBL,Entrectinib
+MET,10000.0,ic50,ChEMBL,Entrectinib
+NTRK1,2.2,ic50,"ChEMBL, US Patent",Entrectinib
+NTRK2,2.0,ic50,"ChEMBL, US Patent",Entrectinib
+NTRK3,3.0,ic50,"ChEMBL, US Patent",Entrectinib
+PDGFRB,10000.0,ic50,ChEMBL,Entrectinib
+PIM1,10000.0,ic50,ChEMBL,Entrectinib
+PLK1,10000.0,ic50,ChEMBL,Entrectinib
+PRKCB,1000.0,ic50,ChEMBL,Entrectinib
+PTK6,195.0,ic50,ChEMBL,Entrectinib
+RET,393.0,ic50,ChEMBL,Entrectinib
+ROS1,6.0,ic50,ChEMBL,Entrectinib
+SYK,1000.0,ic50,ChEMBL,Entrectinib
+ZAP70,10000.0,ic50,ChEMBL,Entrectinib
+ABCC4,133000.0,ic50,ChEMBL,Busulfan
+IGF1R,10000.0,ic50,"Guide to Pharmacology, ChEMBL",PQ 401
+MTOR,21.4,ic50,ChEMBL,GDC-0349
+PIK3CA,4200.0,ic50,ChEMBL,GDC-0349
+ABCC4,133000.0,ic50,ChEMBL,Hydroxyurea
+ABCC4,133000.0,ic50,ChEMBL,Lornoxicam
+ABCC4,133000.0,ic50,ChEMBL,Ranitidine
+ATM,10000.0,ic50,ChEMBL,BYL719
+ATR,9100.0,ic50,ChEMBL,BYL719
+MTOR,3000.0,ic50,ChEMBL,BYL719
+PIK3C3,9100.0,ic50,ChEMBL,BYL719
+PIK3CA,7.25,ic50,"Guide to Pharmacology, ChEMBL",BYL719
+PIK3CD,510.0,ic50,"Guide to Pharmacology, ChEMBL",BYL719
+PIK3CG,194.5,ic50,"Guide to Pharmacology, ChEMBL",BYL719
+PIK3R1,383.0,ic50,ChEMBL,BYL719
+TP53,10000.0,ic50,ChEMBL,BYL719
+FLT3,139.0,ic50,US Patent,PRT062607
+JAK2,1750.0,ic50,ChEMBL,PRT062607
+LCK,300.0,ic50,"ChEMBL, US Patent",PRT062607
+LYN,218.5,ic50,"ChEMBL, US Patent",PRT062607
+PRKCA,90.0,ic50,ChEMBL,PRT062607
+SRC,244.0,ic50,US Patent,PRT062607
+SYK,13.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL, US Patent",PRT062607
+ZAP70,68.0,ic50,ChEMBL,PRT062607
+ABL1,10000.0,ic50,ChEMBL,Palbociclib
+CDK2,5000.0,ic50,"Curated from the literature by BindingDB, ChEMBL, US Patent",Palbociclib
+CDK4,10.5,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL, US Patent",Palbociclib
+CDK6,16.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Palbociclib
+CDK7,10000.0,ic50,ChEMBL,Palbociclib
+CDK9,892.0,ic50,ChEMBL,Palbociclib
+CSF1R,10000.0,ic50,ChEMBL,Palbociclib
+FLT3,6740.0,ic50,ChEMBL,Palbociclib
+JAK3,63.0,ic50,ChEMBL,Palbociclib
+PIK3CD,10000.0,ic50,ChEMBL,Palbociclib
+ACE,1.700000023841858,ic50,"Guide to Pharmacology, ChEMBL",Benazepril
+CACNA1C,246700.0,ic50,ChEMBL,Raltegravir
+KCND3,5011872.0,ic50,ChEMBL,Raltegravir
+SCN5A,950560.5,ic50,ChEMBL,Raltegravir
+UGT1A1,180000.0,ic50,ChEMBL,Raltegravir
+ABCC4,133000.0,ic50,ChEMBL,Valaciclovir
+ABCC4,133000.0,ic50,ChEMBL,Carbamazepine
+SCN1A,100000.0,ic50,ChEMBL,Carbamazepine
+SCN5A,46800.0,ic50,ChEMBL,Carbamazepine
+ADRB1,178.0,"ec50, ic50",ChEMBL,Indacaterol
+ADRB2,1.5,ec50,ChEMBL,Indacaterol
+DRD2,17559.5,"ec50, ic50",ChEMBL,Indacaterol
+DRD2,195.5,ec50,ChEMBL,Ropinirole
+DRD3,14.75,ec50,ChEMBL,Ropinirole
+ABCC4,133000.0,ic50,ChEMBL,Piracetam
+TOP2A,40000.0,ic50,ChEMBL,Dexrazoxane
+TOP2B,50000.0,ic50,ChEMBL,Dexrazoxane
+ABCC4,133000.0,ic50,ChEMBL,Urapidil
+HTR1B,12.0,ec50,ChEMBL,Eletriptan
+HSP90AA1,38.0,ic50,ChEMBL,PF-04929113
+HSP90AB1,37.0,ic50,ChEMBL,PF-04929113
+ABCC4,133000.0,ic50,ChEMBL,Oxcarbazepine
+ABCC4,133000.0,ic50,ChEMBL,Nevirapine
+ABCC4,133000.0,ic50,ChEMBL,Tadalafil
+CACNA1C,398107.0,ic50,ChEMBL,Tadalafil
+PDE10A,14500.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Tadalafil
+PDE1B,30000.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Tadalafil
+PDE3A,10000.0,ic50,ChEMBL,Tadalafil
+PDE3B,50000.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Tadalafil
+PDE4A,10000.0,ic50,ChEMBL,Tadalafil
+PDE4B,10000.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Tadalafil
+PDE4D,19000.0,ic50,Curated from the literature by BindingDB,Tadalafil
+PDE5A,4.0,"ec50, ic50","Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",Tadalafil
+SCN5A,142191.0,ic50,ChEMBL,Tadalafil
+ABCC4,28500.0,ic50,ChEMBL,Olmesartan medoxomil
+AKT1,5.6,ic50,"Guide to Pharmacology, ChEMBL, US Patent",AZD5363
+AKT2,7.5,ic50,"Guide to Pharmacology, ChEMBL",AZD5363
+AKT3,7.5,ic50,"Guide to Pharmacology, ChEMBL",AZD5363
+ROCK1,470.0,ic50,ChEMBL,AZD5363
+ROCK2,56.0,ic50,ChEMBL,AZD5363
+AURKB,31.0,ic50,Guide to Pharmacology,BX-795
+CDK2,430.0,ic50,Guide to Pharmacology,BX-795
+CHEK1,510.0,ic50,Guide to Pharmacology,BX-795
+GSK3B,620.0,ic50,Guide to Pharmacology,BX-795
+IKBKE,41.0,ic50,"Guide to Pharmacology, ChEMBL",BX-795
+KDR,1100.0,ic50,Guide to Pharmacology,BX-795
+ABCC4,133000.0,ic50,ChEMBL,Metronidazole
+CACNA1C,177900.0,ic50,ChEMBL,Metronidazole
+CYP51A1,200000.0,ic50,ChEMBL,Metronidazole
+ABCC4,133000.0,ic50,ChEMBL,Temozolomide
+ABL1,100000.0,ic50,ChEMBL,Temozolomide
+AXL,3.0,ic50,ChEMBL,BMS-794833
+FLT3,3.0,ic50,ChEMBL,BMS-794833
+KDR,15.0,ic50,ChEMBL,BMS-794833
+MET,1.7,ic50,ChEMBL,BMS-794833
+ABCC4,133000.0,ic50,ChEMBL,Emtricitabine
+ABCC4,133000.0,ic50,ChEMBL,Cladribine
+NISCH,3.5,ic50,ChEMBL,Moxonidine
+ABCC4,27300.0,ic50,ChEMBL,Dasatinib
+ABCG2,2000.0,ic50,ChEMBL,Dasatinib
+ABL1,3.1,"ec50, ic50","Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL, US Patent",Dasatinib
+AKT1,50000.0,ic50,ChEMBL,Dasatinib
+AURKA,2633.0,ic50,ChEMBL,Dasatinib
+AURKB,6485.0,ic50,ChEMBL,Dasatinib
+BTK,4.0,ic50,ChEMBL,Dasatinib
+CACNA1C,251189.0,ic50,ChEMBL,Dasatinib
+CDK2,5000.0,ic50,ChEMBL,Dasatinib
+CSF1R,7.4,ic50,ChEMBL,Dasatinib
+DDR1,4.8,ic50,"Curated from the literature by BindingDB, ChEMBL",Dasatinib
+EGFR,322.0,ic50,ChEMBL,Dasatinib
+EPHA2,137.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Dasatinib
+ERBB2,710.0,ic50,ChEMBL,Dasatinib
+FGFR1,880.0,ic50,ChEMBL,Dasatinib
+FRK,10.0,ic50,US Patent,Dasatinib
+HCK,10.0,ic50,US Patent,Dasatinib
+IGF1R,50000.0,ic50,ChEMBL,Dasatinib
+INSR,50000.0,ic50,ChEMBL,Dasatinib
+ITK,228.0,ic50,ChEMBL,Dasatinib
+KCND3,316228.0,ic50,ChEMBL,Dasatinib
+KDR,2180.0,ic50,ChEMBL,Dasatinib
+KIT,7.7,ic50,"ChEMBL, US Patent",Dasatinib
+LCK,1.5,ic50,"Curated from the literature by BindingDB, ChEMBL, US Patent",Dasatinib
+LYN,5.6,ic50,"ChEMBL, US Patent",Dasatinib
+MAP2K1,1700.0,ic50,ChEMBL,Dasatinib
+MAPK14,285.0,"ec50, ic50",ChEMBL,Dasatinib
+MTOR,5500.0,ic50,"ChEMBL, US Patent",Dasatinib
+PDGFRB,28.0,ic50,ChEMBL,Dasatinib
+PRKCA,50000.0,ic50,ChEMBL,Dasatinib
+PTK6,9.0,ic50,"ChEMBL, US Patent",Dasatinib
+RAF1,164.0,ic50,ChEMBL,Dasatinib
+RET,491.5,ic50,"ChEMBL, US Patent",Dasatinib
+RPS6KA1,20000.0,ic50,ChEMBL,Dasatinib
+SCN5A,249053.5,ic50,ChEMBL,Dasatinib
+SRC,0.95,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Dasatinib
+SYK,4820.0,ic50,ChEMBL,Dasatinib
+ABCC4,133000.0,ic50,ChEMBL,Famciclovir
+AKT1,13.0,ic50,ChEMBL,PF-04691502
+MTOR,11.95,ic50,ChEMBL,PF-04691502
+PIK3CA,4.074999999999999,ic50,"ChEMBL, US Patent",PF-04691502
+PIK3CD,1.6,ic50,ChEMBL,PF-04691502
+PIK3CG,1.9,ic50,ChEMBL,PF-04691502
+HDAC1,1000.0,ic50,ChEMBL,BIIB021
+HSP90AA1,38.0,"ec50, ic50","Guide to Pharmacology, ChEMBL",BIIB021
+HSP90AB1,30.0,"ec50, ic50","D3R, ChEMBL, Curated from the literature by BindingDB",BIIB021
+RFC1,0.69,ic50,ChEMBL,Pralatrexate
+ABCC4,133000.0,ic50,ChEMBL,Methotrexate
+G6PD,114000.0,ic50,Curated from the literature by BindingDB,Methotrexate
+GART,20000.0,ic50,ChEMBL,Methotrexate
+PGD,142000.0,ic50,Curated from the literature by BindingDB,Methotrexate
+RFC1,12.0,ic50,ChEMBL,Methotrexate
+TYMS,29000.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Methotrexate
+ABCC4,133000.0,ic50,ChEMBL,Clofarabine
+ADORA1,1000.0,ic50,ChEMBL,Roflumilast
+ADORA2A,1000.0,ic50,ChEMBL,Roflumilast
+PDE10A,200000.0,ic50,Curated from the literature by BindingDB,Roflumilast
+PDE1B,200000.0,ic50,Curated from the literature by BindingDB,Roflumilast
+PDE3A,100000.0,ic50,ChEMBL,Roflumilast
+PDE3B,200000.0,ic50,Curated from the literature by BindingDB,Roflumilast
+PDE4A,0.59,ic50,ChEMBL,Roflumilast
+PDE4B,0.8200000000000001,ic50,"Curated from the literature by BindingDB, ChEMBL",Roflumilast
+PDE4D,0.68,ic50,"Curated from the literature by BindingDB, ChEMBL",Roflumilast
+PDE5A,17000.0,ic50,Curated from the literature by BindingDB,Roflumilast
+ABCG2,2000.0,ic50,ChEMBL,Bosutinib
+ABL1,1.1,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",Bosutinib
+ALK,5100.0,ic50,ChEMBL,Bosutinib
+AXL,257.0,ic50,ChEMBL,Bosutinib
+BTK,2.5,ic50,ChEMBL,Bosutinib
+EGFR,53.0,ic50,ChEMBL,Bosutinib
+EPHA2,2.0,ic50,Curated from the literature by BindingDB,Bosutinib
+FRK,2.2,ic50,"Guide to Pharmacology, ChEMBL",Bosutinib
+HCK,3.2,ic50,ChEMBL,Bosutinib
+KIT,1476.5,ic50,ChEMBL,Bosutinib
+LCK,1.3,ic50,ChEMBL,Bosutinib
+LYN,8.0,ic50,"Guide to Pharmacology, ChEMBL",Bosutinib
+MAP2K1,1.0,ic50,ChEMBL,Bosutinib
+NTRK1,22.0,ic50,ChEMBL,Bosutinib
+NTRK2,27.0,ic50,ChEMBL,Bosutinib
+SRC,1.8,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",Bosutinib
+SYK,52.0,ic50,ChEMBL,Bosutinib
+TEK,1191.0,ic50,ChEMBL,Bosutinib
+PDE1B,310000.0,ic50,ChEMBL,Milrinone
+PDE3A,795.0,ic50,"Curated from the literature by BindingDB, ChEMBL, US Patent",Milrinone
+PDE3B,1000.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",Milrinone
+PDE4B,6000.0,ic50,ChEMBL,Milrinone
+PDE5A,50370.0,ic50,"Guide to Pharmacology, ChEMBL",Milrinone
+PTGS1,4700.0,ic50,ChEMBL,Milrinone
+JAK2,5.0,ic50,"ChEMBL, US Patent",INCB018424 (S)
+MLST8,1.0,ic50,ChEMBL,INK 128
+MTOR,1.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",INK 128
+PIK3CA,209.5,ic50,"Guide to Pharmacology, ChEMBL",INK 128
+PIK3CD,215.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",INK 128
+PIK3CG,210.5,ic50,"Guide to Pharmacology, ChEMBL, US Patent",INK 128
+PIK3R1,550.0,ic50,US Patent,INK 128
+SEC13,1.0,ic50,ChEMBL,INK 128
+AKT1,3.0,ic50,"Curated from the literature by BindingDB, ChEMBL",CCT128930
+AKT2,6.0,ic50,ChEMBL,CCT128930
+GSK3B,1830.0,ic50,ChEMBL,CCT128930
+ROCK2,1000.0,ic50,"ChEMBL, US Patent",CCT128930
+RPS6KB1,120.0,ic50,ChEMBL,CCT128930
+ABCC4,133000.0,ic50,ChEMBL,Azathioprine
+CACNA1C,1421909.0,ic50,ChEMBL,Lamotrigine
+SCN10A,97000.0,ic50,ChEMBL,Lamotrigine
+SCN5A,62000.0,ic50,ChEMBL,Lamotrigine
+BRD2,150.0,ic50,"Guide to Pharmacology, ChEMBL",I-BET-762
+BRD3,160.0,ic50,"Guide to Pharmacology, ChEMBL",I-BET-762
+BRD4,126.0,"ec50, ic50","Guide to Pharmacology, ChEMBL",I-BET-762
+DHODH,144000.0,ic50,ChEMBL,Cinchophen
+BRAF,16000.0,ic50,ChEMBL,RepSox
+CDK2,100000.0,ic50,ChEMBL,RepSox
+ITK,16000.0,ic50,ChEMBL,RepSox
+TGFBR1,20.0,ic50,ChEMBL,RepSox
+GSK3B,300000.0,ec50,PubChem,Fludarabine phosphate
+ABCC4,5150.0,ic50,ChEMBL,Dipyridamole
+ABCG2,6400.0,ic50,ChEMBL,Dipyridamole
+HSP90AA1,21068.2,ic50,PubChem,Dipyridamole
+PDE1B,72500.0,ic50,ChEMBL,Dipyridamole
+PDE3A,43000.0,ic50,ChEMBL,Dipyridamole
+PDE4B,500.0,ic50,ChEMBL,Dipyridamole
+PDE5A,520.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Dipyridamole
+SLC29A1,144.8,ic50,Curated from the literature by BindingDB,Dipyridamole
+ABCC4,133000.0,ic50,ChEMBL,Nelarabine
+ABCC4,133000.0,ic50,ChEMBL,Ganciclovir
+ABCC4,133000.0,ic50,ChEMBL,Telbivudine
+CACNA1C,713900.0,ic50,ChEMBL,Telbivudine
+SCN5A,3162278.0,ic50,ChEMBL,Telbivudine
+ABCC4,133000.0,ic50,ChEMBL,FT-207
+ABCC4,133000.0,ic50,ChEMBL,Methimazole
+CYP51A1,200000.0,ic50,ChEMBL,Methimazole
+ABCC4,133000.0,ic50,ChEMBL,Clozapine
+ADRA1A,160.0,ic50,ChEMBL,Clozapine
+CACNA1C,3600.0,ic50,ChEMBL,Clozapine
+CHRM1,9.4,"ec50, ic50",ChEMBL,Clozapine
+CHRM2,10000.0,ec50,ChEMBL,Clozapine
+CHRM3,10000.0,ec50,ChEMBL,Clozapine
+DRD2,206.0,ic50,"ChEMBL, US Patent",Clozapine
+DRD3,450.0,ic50,ChEMBL,Clozapine
+DRD4,55.0,ic50,ChEMBL,Clozapine
+HTR1A,150.0,ic50,ChEMBL,Clozapine
+HTR1B,2500.0,ic50,ChEMBL,Clozapine
+HTR2A,12.0,ic50,ChEMBL,Clozapine
+HTR2C,10.0,ic50,ChEMBL,Clozapine
+HTR6,20.0,ic50,ChEMBL,Clozapine
+HTR7,3.86,ic50,US Patent,Clozapine
+SLC6A4,10000.0,ic50,ChEMBL,Clozapine
+ABCC4,133000.0,ic50,ChEMBL,Famotidine
+ABCG2,69100.0,ic50,ChEMBL,Atazanavir
+UGT1A1,600.0,ic50,"ChEMBL, US Patent",Atazanavir
+AKR1B1,500000.0,ic50,ChEMBL,Coumarin
+MCL1,24380.0,ic50,ChEMBL,Coumarin
+UGT1A1,300000.0,ic50,Curated from the literature by BindingDB,Coumarin
+XPO1,25000.0,ic50,ChEMBL,Coumarin
+AR,200.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",ARN-509
+ABCC4,133000.0,ic50,ChEMBL,Brinzolamide
+CA2,3.2,ic50,"Curated from the literature by BindingDB, ChEMBL",Brinzolamide
+CA4,45.15,ic50,"Curated from the literature by BindingDB, ChEMBL",Brinzolamide
+ADRB2,10000.0,ec50,Guide to Pharmacology,Mirabegron
+ABCC4,133000.0,ic50,ChEMBL,Mesna
+CA1,130000.0,ic50,ChEMBL,4-Aminosalicylate
+CA2,750000.0,ic50,ChEMBL,4-Aminosalicylate
+ESR2,10271.624366,ic50,PubChem,4-Aminosalicylate
+ACHE,3013006.02,ic50,ChEMBL,Choline
+ACHE,346000.0,ic50,ChEMBL,Salicylate
+AKR1B1,1000000.0,ic50,ChEMBL,Salicylate
+CA1,560000.0,ic50,ChEMBL,Salicylate
+CA2,680000.0,ic50,ChEMBL,Salicylate
+PTGS1,270000.0,ic50,ChEMBL,Salicylate
+PTGS2,40000.0,ic50,ChEMBL,Salicylate
+ABCC4,133000.0,ic50,ChEMBL,Allopurinol
+XDH,3500.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL, US Patent",Allopurinol
+ABCC4,133000.0,ic50,ChEMBL,Clomipramine
+CACNA1B,9000.0,ic50,ChEMBL,Clomipramine
+PSMA6,12400.0,ec50,Curated from the literature by BindingDB,Clomipramine
+SCN1A,10000.0,ic50,ChEMBL,Clomipramine
+SLC6A2,65.0,ic50,ChEMBL,Clomipramine
+SLC6A3,2777.0,ic50,ChEMBL,Clomipramine
+SLC6A4,70.0,ic50,ChEMBL,Clomipramine
+SCN1A,10000.0,ic50,ChEMBL,Biperiden
+SCN1A,28000.0,ic50,ChEMBL,Dicyclomine
+ABCC4,133000.0,ic50,ChEMBL,Amoxapine
+CACNA1B,27000.0,ic50,ChEMBL,Amoxapine
+ADRA1A,1980.0,ic50,ChEMBL,Vilazodone
+ADRA2A,6000.0,ic50,ChEMBL,Vilazodone
+DRD2,666.0,ic50,Guide to Pharmacology,Vilazodone
+DRD3,71.0,ic50,Guide to Pharmacology,Vilazodone
+HRH1,317.0,ic50,Guide to Pharmacology,Vilazodone
+HTR1A,0.2,"ec50, ic50","Guide to Pharmacology, ChEMBL",Vilazodone
+HTR1B,17500.0,"ec50, ic50",ChEMBL,Vilazodone
+HTR1D,4000.0,ic50,ChEMBL,Vilazodone
+HTR4,252.0,ic50,Guide to Pharmacology,Vilazodone
+SLC6A2,158.0,ic50,ChEMBL,Vilazodone
+SLC6A3,295.0,ic50,ChEMBL,Vilazodone
+SLC6A4,0.4,ic50,ChEMBL,Vilazodone
+BRD2,500.0,ic50,"Guide to Pharmacology, ChEMBL",I-BET151
+BRD3,250.0,ic50,"Guide to Pharmacology, ChEMBL",I-BET151
+BRD4,165.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",I-BET151
+PDE4B,3981.07,ic50,ChEMBL,I-BET151
+ABCC4,133000.0,ic50,ChEMBL,Epirubicin
+ABCC4,133000.0,ic50,ChEMBL,Rizatriptan
+HTR1A,320.0,ic50,ChEMBL,Rizatriptan
+HTR1B,41.0,ic50,ChEMBL,Rizatriptan
+HTR1D,9.7,"ec50, ic50",ChEMBL,Rizatriptan
+HTR2A,7943.28,ic50,ChEMBL,Rizatriptan
+HTR2C,8650.0,ic50,ChEMBL,Rizatriptan
+HTR3A,10000.0,ic50,ChEMBL,Rizatriptan
+TAAR1,3631.5,"ec50, ic50",PubChem,Betahistine
+ABCC4,7430.0,ic50,ChEMBL,Amsacrine
+TOP2A,5470.0,"ec50, ic50",ChEMBL,Amsacrine
+TOP2B,6880.0,"ec50, ic50",ChEMBL,Amsacrine
+PTAFR,50000.0,ic50,ChEMBL,Azatadine
+HRH1,1.9,"ec50, ic50",ChEMBL,Pyrilamine
+ABCC4,45800.0,ic50,ChEMBL,Quinidine
+CACNA1C,13110.0,ic50,ChEMBL,Quinidine
+SCN1A,3200.0,ic50,ChEMBL,Quinidine
+UGT1A1,300000.0,ic50,Curated from the literature by BindingDB,Quinidine
+ADRA1A,183.5,ec50,ChEMBL,Oxymetazoline
+ADRA1B,15065.5,ec50,ChEMBL,Oxymetazoline
+ADRA1D,15065.5,ec50,ChEMBL,Oxymetazoline
+ADRA2A,3.3,ec50,ChEMBL,Oxymetazoline
+HTR1A,248.0,ec50,PubChem,Oxymetazoline
+HTR1D,137.0,ec50,ChEMBL,Oxymetazoline
+ABCC4,133000.0,ic50,ChEMBL,Prochlorperazine
+MCL1,3773.276395,ic50,PubChem,Prochlorperazine
+NR1H4,45000.0,ec50,ChEMBL,Alpha-hydroxydeoxycholic acid
+ABCC4,133000.0,ic50,ChEMBL,Bromopride
+ABCG2,118000.0,ic50,ChEMBL,Chloroguanide
+TAAR1,10000.0,ec50,ChEMBL,Chloroguanide
+ABCC4,133000.0,ic50,ChEMBL,Ciprofloxacin
+TOP2A,126800.0,"ec50, ic50",ChEMBL,Ciprofloxacin
+TOP2B,754.0,ic50,ChEMBL,Ciprofloxacin
+ACHE,890.0,ic50,ChEMBL,Clebopride
+ABCC4,133000.0,ic50,ChEMBL,Clofibrate
+PPARA,55000.0,ec50,ChEMBL,Clofibrate
+PPARG,500000.0,ec50,ChEMBL,Clofibrate
+ABCC4,133000.0,ic50,ChEMBL,Dapsone
+MPO,420.0,ic50,ChEMBL,Dapsone
+PRKCA,11000.0,ic50,ChEMBL,Dequalinium
+ABCC4,133000.0,ic50,ChEMBL,Desipramine
+CACNA1B,11000.0,ic50,ChEMBL,Desipramine
+SCN1A,2400.0,ic50,ChEMBL,Desipramine
+SCN5A,1520.0,ic50,ChEMBL,Desipramine
+SLC6A2,3.3499999999999996,ic50,ChEMBL,Desipramine
+SLC6A3,64950.0,ic50,ChEMBL,Desipramine
+SLC6A4,108.0,ic50,ChEMBL,Desipramine
+SCN1A,10000.0,ic50,ChEMBL,Dexpropranolol
+ABCC4,133000.0,ic50,ChEMBL,Omeprazole
+ABCG2,17600.0,ic50,ChEMBL,Omeprazole
+ATP4A,501.0,ic50,ChEMBL,Omeprazole
+MCL1,3144.812063,ic50,PubChem,Omeprazole
+UGT1A1,56000.0,ic50,Curated from the literature by BindingDB,Omeprazole
+CA1,3380.0,ic50,ChEMBL,Diflunisal (no structure)
+CA2,2700.0,ic50,ChEMBL,Diflunisal (no structure)
+TTR,6600.0,"ec50, ic50",ChEMBL,Diflunisal (no structure)
+SCN1A,10000.0,ic50,ChEMBL,Doxepin
+ACHE,780.0,ic50,ChEMBL,Edrophonium
+BCHE,1370000.0,ic50,ChEMBL,Edrophonium
+ALOX5,26000.0,ic50,ChEMBL,Eugenol (no structure)
+AR,19000.0,ic50,ChEMBL,Eugenol (no structure)
+PTGS1,11000.0,ic50,ChEMBL,Eugenol (no structure)
+PTGS2,129000.0,ic50,ChEMBL,Eugenol (no structure)
+TRPA1,168912.0,ec50,ChEMBL,Eugenol (no structure)
+HTR1A,40000.0,ic50,PubChem,Fenbendazole
+CASP3,1200.0,ic50,Curated from the literature by BindingDB,Fenbufen (no structure)
+ABCC4,133000.0,ic50,ChEMBL,Fluorescein
+ABCC4,133000.0,ic50,ChEMBL,Fluphenazine
+KCNK2,4700.0,"ec50, ic50","ChEMBL, Curated from the literature by BindingDB",Fluphenazine
+SCN1A,3700.0,ic50,ChEMBL,Fluphenazine
+TYMS,290000.0,ic50,ChEMBL,Folic acid
+ESR1,2161.56,ic50,PubChem,Hexachlorophene
+ESR2,98.273886,ic50,PubChem,Hexachlorophene
+MCL1,14833.19604,ic50,PubChem,Hexachlorophene
+MIF,6000.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Hexachlorophene
+ALOX5,3700.0,ic50,ChEMBL,Hexylresorcinol
+TYR,47280.0,ic50,ChEMBL,Hexylresorcinol
+ABCC4,83200.0,ic50,ChEMBL,Irbesartan
+AGTR1,6.0,ic50,ChEMBL,Irbesartan
+ABCC4,133000.0,ic50,ChEMBL,Mafenide
+CA2,4000.0,ic50,ChEMBL,Mafenide
+CA5A,27600.0,ic50,ChEMBL,Mafenide
+ABCC4,15500.0,ic50,ChEMBL,Mebendazole
+ABL1,5000.0,ic50,ChEMBL,Mebendazole
+KDR,4300.0,ic50,ChEMBL,Mebendazole
+SRC,10000.0,ic50,ChEMBL,Mebendazole
+CHRNA1,1500.0,ic50,Guide to Pharmacology,Mecamylamine
+CHRNA7,15600.0,ic50,Guide to Pharmacology,Mecamylamine
+ABCC4,133000.0,ic50,ChEMBL,Melphalan
+HTR1A,1765.75,ec50,"PubChem, ChEMBL",Metergoline
+ABCC4,133000.0,ic50,ChEMBL,Metformin
+DPP4,29000.0,ic50,ChEMBL,Metformin
+ACHE,85000.0,ic50,ChEMBL,Minaprine
+PRKACG,100000.0,ic50,ChEMBL,Minaprine
+PRKCA,100000.0,ic50,ChEMBL,Minaprine
+ESR1,24673.94,ic50,PubChem,Molsidomine
+ABL1,100000.0,ic50,ChEMBL,Niclosamide
+AKT1,59400.0,ic50,ChEMBL,Niclosamide
+AURKA,54100.0,ic50,ChEMBL,Niclosamide
+BRAF,100000.0,ic50,ChEMBL,Niclosamide
+EGFR,10500.0,ic50,ChEMBL,Niclosamide
+FGFR1,13100.0,ic50,ChEMBL,Niclosamide
+FLT3,100000.0,ic50,ChEMBL,Niclosamide
+GSK3B,77500.0,ic50,ChEMBL,Niclosamide
+JAK2,55000.0,ic50,ChEMBL,Niclosamide
+KDR,23100.0,ic50,ChEMBL,Niclosamide
+KIT,27800.0,ic50,ChEMBL,Niclosamide
+LYN,23800.0,ic50,ChEMBL,Niclosamide
+MAPK1,100000.0,ic50,ChEMBL,Niclosamide
+PDGFRB,100000.0,ic50,ChEMBL,Niclosamide
+PRKCA,100000.0,ic50,ChEMBL,Niclosamide
+SRC,10250.0,ic50,ChEMBL,Niclosamide
+TEK,67800.0,ic50,ChEMBL,Niclosamide
+AR,600.0,ic50,ChEMBL,Nilutamide
+ABCC4,133000.0,ic50,ChEMBL,Norfloxacin
+BRD4,980.0,ic50,ChEMBL,Norfloxacin
+ABCC4,133000.0,ic50,ChEMBL,Norgestrel
+PGR,1.0,ec50,ChEMBL,Norgestrel
+ABCC4,23130.0,ic50,ChEMBL,Papaverine
+ACHE,24330.0,ic50,ChEMBL,Papaverine
+PDE10A,39.0,ic50,"Guide to Pharmacology, ChEMBL",Papaverine
+PDE1B,15300.0,ic50,ChEMBL,Papaverine
+PDE3A,917.0,ic50,"Guide to Pharmacology, ChEMBL",Papaverine
+PDE3B,1030.0,ic50,"Guide to Pharmacology, ChEMBL",Papaverine
+PDE4A,1600.0,ic50,ChEMBL,Papaverine
+PDE4D,1400.0,ic50,ChEMBL,Papaverine
+PDE5A,8800.0,ic50,ChEMBL,Papaverine
+ABCG2,1000.0,ec50,ChEMBL,Pargyline
+MAOA,4034.0,ic50,ChEMBL,Pargyline
+MAOB,169.0,ic50,"ChEMBL, US Patent",Pargyline
+ABCC4,133000.0,ic50,ChEMBL,Perphenazine
+DRD2,0.3,ic50,ChEMBL,Perphenazine
+ABCC4,12500.0,ic50,ChEMBL,Prazosin
+ADRA1A,1.2,ic50,ChEMBL,Prazosin
+ADRA1D,0.88,ic50,ChEMBL,Prazosin
+SCN1A,10100.0,ic50,ChEMBL,Prazosin
+ACHE,1445.0,ic50,ChEMBL,Propoxur
+CACNA1B,14000.0,ic50,ChEMBL,Protryptyline
+SCN1A,10000.0,ic50,ChEMBL,Protryptyline
+SLC6A2,2.8,ic50,"Guide to Pharmacology, ChEMBL",Protryptyline
+BCHE,3600.0,ic50,ChEMBL,Saccharin
+CYP51A1,200000.0,ic50,ChEMBL,Sulfaphenazole
+UGT1A1,300000.0,ic50,Curated from the literature by BindingDB,Sulfaphenazole
+ALDH2,320.0,ic50,ChEMBL,Thiram
+BBOX1,14000.0,ic50,ChEMBL,Thiram
+FAAH,44668.36,ic50,ChEMBL,Thiram
+JAK2,223.0,ic50,PubChem,Thiram
+MDM2,180.0,ec50,PubChem,Thiram
+ABCC4,133000.0,ic50,ChEMBL,Tiapride
+ABCC4,133000.0,ic50,ChEMBL,Ticlopidine
+ABCC4,133000.0,ic50,ChEMBL,Trazodone
+DRD2,4485.0,ic50,ChEMBL,Trazodone
+HTR1A,785.0,ec50,ChEMBL,Trazodone
+HTR2A,243.0,ic50,ChEMBL,Trazodone
+IDO1,498700.0,ic50,ChEMBL,Tryptophan
+MPO,2250.0,ic50,ChEMBL,Tryptophan
+XDH,60000.0,ic50,US Patent,Tryptophan
+HNF4A,10866.0,ic50,PubChem,Carbetapentane
+CA1,395000.0,ic50,Curated from the literature by BindingDB,Metamizole
+CA2,356000.0,ic50,Curated from the literature by BindingDB,Metamizole
+CACNA1C,398107.0,ic50,ChEMBL,Paliperidone
+DRD2,8.29,ic50,ChEMBL,Paliperidone
+HTR1A,10000.0,ec50,ChEMBL,Paliperidone
+HTR2A,5.2,ic50,ChEMBL,Paliperidone
+KCND3,63096.0,ic50,ChEMBL,Paliperidone
+SCN5A,91804.0,ic50,ChEMBL,Paliperidone
+ABCC4,133000.0,ic50,ChEMBL,Indinavir
+ALOX5,160.0,ic50,ChEMBL,Nordihydroguaiaretic acid
+ESR1,22193.67,ic50,PubChem,Nordihydroguaiaretic acid
+G6PD,80000.0,ic50,PubChem,Nordihydroguaiaretic acid
+HSP90AA1,16311.6,ic50,PubChem,Nordihydroguaiaretic acid
+PTGS2,50000.0,ic50,ChEMBL,Nordihydroguaiaretic acid
+TRPA1,35000.0,ec50,ChEMBL,Nordihydroguaiaretic acid
+TTR,8500.0,ec50,ChEMBL,Nordihydroguaiaretic acid
+ABCC4,133000.0,ic50,ChEMBL,Colchicine
+F10,38.125,ic50,ChEMBL,Colchicine
+HDAC1,50000.0,ic50,ChEMBL,Colchicine
+HDAC2,50000.0,ic50,ChEMBL,Colchicine
+HDAC3,50000.0,ic50,ChEMBL,Colchicine
+PIM1,4300.0,ic50,ChEMBL,Colchicine
+TUBB,3470.5,ic50,"Guide to Pharmacology, ChEMBL",Colchicine
+ABCC4,133000.0,ic50,ChEMBL,Diatrizoic acid
+MTOR,1.600000011920929,ic50,"Guide to Pharmacology, ChEMBL",Gedatolisib
+PIK3CA,0.4000000029802322,ic50,"Guide to Pharmacology, ChEMBL",Gedatolisib
+PIK3CD,8.0,ic50,ChEMBL,Gedatolisib
+PIK3CG,8.5,ic50,ChEMBL,Gedatolisib
+CACNA1C,30000.0,ic50,ChEMBL,Omarigliptin
+DPP4,2.1,ic50,"ChEMBL, US Patent",Omarigliptin
+SCN5A,30000.0,ic50,ChEMBL,Omarigliptin
+PTGER2,4.0,"ec50, ic50",ChEMBL,Prostaglandin E2
+PTGER3,2.5,"ec50, ic50",ChEMBL,Prostaglandin E2
+PTGER4,3.0,"ec50, ic50","Guide to Pharmacology, ChEMBL",Prostaglandin E2
+PTGFR,250.0,ec50,ChEMBL,Prostaglandin E2
+ADRA2A,226.5,ec50,ChEMBL,Rilmenidine
+ADRA2B,724.0,ec50,ChEMBL,Rilmenidine
+ADRA2C,191.0,ec50,ChEMBL,Rilmenidine
+MAPK11,98.0,ic50,"Guide to Pharmacology, ChEMBL",SCIO 469
+MAPK14,10.0,ic50,"Guide to Pharmacology, ChEMBL",SCIO 469
+MAPK13,7736.0,ic50,"ChEMBL, US Patent",AMG 548
+MAPK14,35.0,"ec50, ic50",ChEMBL,AMG 548
+ABL1,1048.0,ic50,ChEMBL,NVP-TAE 684
+ALK,3.7,"ec50, ic50","ChEMBL, US Patent",NVP-TAE 684
+CSF1R,50.0,ic50,ChEMBL,NVP-TAE 684
+FGFR1,1108.0,"ec50, ic50",ChEMBL,NVP-TAE 684
+FGFR3,1000.0,ec50,ChEMBL,NVP-TAE 684
+FLT1,872.0,"ec50, ic50",ChEMBL,NVP-TAE 684
+FLT3,500.0,"ec50, ic50",ChEMBL,NVP-TAE 684
+IGF1R,0.35,ic50,ChEMBL,NVP-TAE 684
+INSR,31.85,"ec50, ic50",ChEMBL,NVP-TAE 684
+JAK2,1505.0,ic50,ChEMBL,NVP-TAE 684
+KDR,1561.5,"ec50, ic50",ChEMBL,NVP-TAE 684
+KIT,1000.0,ec50,ChEMBL,NVP-TAE 684
+LCK,1000.0,ec50,ChEMBL,NVP-TAE 684
+LYN,1308.0,ic50,ChEMBL,NVP-TAE 684
+MET,1667.0,ic50,ChEMBL,NVP-TAE 684
+NTRK2,212009.0,ic50,ChEMBL,NVP-TAE 684
+NTRK3,1000.0,ec50,ChEMBL,NVP-TAE 684
+PDGFRB,2110.0,"ec50, ic50",ChEMBL,NVP-TAE 684
+RET,1192.5,"ec50, ic50",ChEMBL,NVP-TAE 684
+ROS1,2.0,ic50,ChEMBL,NVP-TAE 684
+SRC,1073.0,"ec50, ic50",ChEMBL,NVP-TAE 684
+TEK,1167.0,"ec50, ic50",ChEMBL,NVP-TAE 684
+ZAP70,1598.0,ic50,ChEMBL,NVP-TAE 684
+PTGER4,2.9,ic50,ChEMBL,MK-2894
+ABCG2,18700.0,ic50,ChEMBL,Delavirdine
+BRAF,540.0,ic50,ChEMBL,CHEMBL410295
+BTK,410.0,ic50,ChEMBL,CHEMBL410295
+ITK,20000.0,ic50,ChEMBL,CHEMBL410295
+JAK3,150.0,ic50,ChEMBL,CHEMBL410295
+KDR,5100.0,ic50,ChEMBL,CHEMBL410295
+KIT,560.0,ic50,ChEMBL,CHEMBL410295
+LCK,803.5,ic50,ChEMBL,CHEMBL410295
+LYN,21.0,ic50,ChEMBL,CHEMBL410295
+MAPK14,10000.0,ic50,ChEMBL,CHEMBL410295
+MAPK3,100000.0,ic50,ChEMBL,CHEMBL410295
+MET,10000.0,ic50,ChEMBL,CHEMBL410295
+SRC,120.0,ic50,ChEMBL,CHEMBL410295
+SYK,200.0,ic50,ChEMBL,CHEMBL410295
+TEK,750.0,ic50,ChEMBL,CHEMBL410295
+ZAP70,1500.0,ic50,ChEMBL,CHEMBL410295
+MAPK14,1160.0,ic50,"Guide to Pharmacology, ChEMBL",SKF-86002
+ABL1,1000.0,ic50,ChEMBL,LOXO-101
+NTRK1,5.75,ic50,"Guide to Pharmacology, ChEMBL, US Patent",LOXO-101
+NTRK2,2.75,ic50,"ChEMBL, US Patent",LOXO-101
+NTRK3,1.9,ic50,"ChEMBL, US Patent",LOXO-101
+MLST8,2.0,ic50,ChEMBL,Torin 1
+MTOR,0.29,ic50,"Guide to Pharmacology, ChEMBL",Torin 1
+PIK3C3,533.0,ic50,ChEMBL,Torin 1
+PIK3CA,1800.0,ec50,ChEMBL,Torin 1
+PIK3CG,171.0,ic50,ChEMBL,Torin 1
+PIK3R1,407.0,ic50,ChEMBL,Torin 1
+SEC13,2.0,ic50,ChEMBL,Torin 1
+KDR,670.0,ic50,Curated from the literature by BindingDB,AZM475271
+SRC,7.5,ic50,"Curated from the literature by BindingDB, ChEMBL",AZM475271
+PTPN1,62400.0,ic50,ChEMBL,Estramustine
+TLR7,750.0,ec50,"Guide to Pharmacology, ChEMBL, US Patent",Resiquimod
+TLR8,4500.0,ec50,"Guide to Pharmacology, ChEMBL, US Patent",Resiquimod
+ABCC4,133000.0,ic50,ChEMBL,Sertindole
+CACNA1C,7600.0,ic50,ChEMBL,Sertindole
+KCNA5,2000.0,ic50,ChEMBL,Sertindole
+BRAF,1895.0,ic50,Guide to Pharmacology,MLN 2480
+ROCK1,13110.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",SLx-2119
+ROCK2,100.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",SLx-2119
+NR3C1,14.0,ic50,ChEMBL,Podophyllotoxin
+ABCC4,133000.0,ic50,ChEMBL,Guanfacine
+CHRM1,0.126,ic50,ChEMBL,Glycopyrrolate
+CHRM2,0.3295,ic50,ChEMBL,Glycopyrrolate
+CHRM3,0.251,ic50,ChEMBL,Glycopyrrolate
+CHRM5,0.2,ic50,ChEMBL,Glycopyrrolate
+PTGS2,5.0,ic50,ChEMBL,Parecoxib
+IDH1,23.0,"ec50, ic50","ChEMBL, US Patent",Ivosidenib
+BTK,1.0,ic50,ChEMBL,Olmutinib
+EGFR,18.0,ic50,ChEMBL,Olmutinib
+ERBB2,10.0,ic50,ChEMBL,Olmutinib
+TBXA2R,770.0,ic50,ChEMBL,Laropiprant
+AURKA,729.5,ic50,ChEMBL,GSK-1070916
+AURKB,5.0,ic50,ChEMBL,GSK-1070916
+FGFR1,76.0,ic50,ChEMBL,GSK-1070916
+FLT1,42.0,ic50,ChEMBL,GSK-1070916
+FLT4,74.0,ic50,ChEMBL,GSK-1070916
+TEK,59.0,ic50,ChEMBL,GSK-1070916
+TYMP,30.0,ic50,ChEMBL,Tipiracil
+HTR1A,631.0,ec50,ChEMBL,Flibanserin
+DPP4,324150.0,ic50,ChEMBL,Bestatin
+HDAC1,100000.0,ic50,ChEMBL,Bestatin
+MMP2,156000.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Bestatin
+ABCC4,133000.0,ic50,ChEMBL,Imiquimod
+TLR7,8750.0,ec50,"Guide to Pharmacology, ChEMBL",Imiquimod
+TLR8,270000.0,ec50,ChEMBL,Imiquimod
+CA1,619.0,ic50,"ChEMBL, US Patent",Dichlorphenamide
+CA2,38.0,ic50,ChEMBL,Dichlorphenamide
+CA4,380.0,ic50,ChEMBL,Dichlorphenamide
+ABCC4,133000.0,ic50,ChEMBL,Neostigmine
+ACHE,45.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",Neostigmine
+BCHE,8550.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Neostigmine
+PTGS1,23750.0,ic50,ChEMBL,Loxoprofen
+PTGS2,11800.0,ic50,ChEMBL,Loxoprofen
+ABCC4,133000.0,ic50,ChEMBL,Ciclesonide
+ABCC4,133000.0,ic50,ChEMBL,Aceclofenac
+TTR,170000.0,ic50,ChEMBL,Aceclofenac
+CYP19A1,53200.0,ic50,ChEMBL,Eicosapentaenoic Acid
+F3,78000.0,ic50,ChEMBL,Eicosapentaenoic Acid
+PPARA,1100.0,ic50,ChEMBL,Eicosapentaenoic Acid
+PPARG,1600.0,ic50,ChEMBL,Eicosapentaenoic Acid
+ADRA1A,0.32,"ec50, ic50",ChEMBL,Tamsulosin
+ADRA1B,4.2,"ec50, ic50",ChEMBL,Tamsulosin
+ADRA1D,0.7749999999999999,ic50,ChEMBL,Tamsulosin
+ABCC4,2200.0,ic50,ChEMBL,Amlexanox
+IKBKE,5114.5,ic50,ChEMBL,Amlexanox
+PDE3A,299000.0,ic50,"Guide to Pharmacology, ChEMBL",Ibudilast
+PDE4A,477.0,"ec50, ic50","Guide to Pharmacology, ChEMBL",Ibudilast
+PDE4B,65.0,ic50,"Guide to Pharmacology, ChEMBL",Ibudilast
+PDE4D,166.0,ic50,ChEMBL,Ibudilast
+PDE5A,103000.0,ic50,"Guide to Pharmacology, ChEMBL",Ibudilast
+CBR1,400.0,ic50,ChEMBL,Triclosan
+TTR,53500.0,ic50,ChEMBL,Triclosan
+ABCC4,133000.0,ic50,ChEMBL,Diazoxide
+KCNJ11,113500.0,"ec50, ic50",ChEMBL,Diazoxide
+ABCC4,133000.0,ic50,ChEMBL,Nortriptyline
+CACNA1B,10000.0,ic50,ChEMBL,Nortriptyline
+RET,3250.0,ic50,US Patent,Nortriptyline
+SCN1A,10000.0,ic50,ChEMBL,Nortriptyline
+CELA1,10000.0,ic50,ChEMBL,Boceprevir
+CMA1,32.0,ic50,ChEMBL,Boceprevir
+CTSB,4750.0,ic50,ChEMBL,Boceprevir
+CTSL,760.0,ic50,ChEMBL,Boceprevir
+PLG,100000.0,ic50,ChEMBL,Boceprevir
+NR1H4,180.0,ec50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL, US Patent",INT-747
+MTOR,165.0,ic50,"Guide to Pharmacology, ChEMBL",LY3023414
+PIK3CA,6.099999952316284,ic50,"Guide to Pharmacology, ChEMBL",LY3023414
+PIK3CD,24.0,ic50,"Guide to Pharmacology, ChEMBL",LY3023414
+PIK3CG,30.899999618530273,ic50,"Guide to Pharmacology, ChEMBL",LY3023414
+ABCG2,1500.0,ic50,ChEMBL,CH5424802
+ALK,2.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",CH5424802
+KDR,1400.0,ic50,ChEMBL,CH5424802
+KIT,5000.0,ic50,ChEMBL,CH5424802
+MET,5000.0,ic50,"Guide to Pharmacology, ChEMBL",CH5424802
+RET,20.75,ic50,"ChEMBL, US Patent",CH5424802
+MAPK14,25870.0,ic50,"ChEMBL, US Patent",LY-364947
+TGFBR1,51.0,"ec50, ic50","Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",LY-364947
+TGFBR2,400.0,ic50,ChEMBL,LY-364947
+TLR7,30000.0,ec50,ChEMBL,Motolimod
+TLR8,100.0,ec50,"Guide to Pharmacology, ChEMBL",Motolimod
+DPP4,0.3700000047683716,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Teneligliptin
+KIF11,12.0,ic50,ChEMBL,ARRY-520
+XDH,150150.0,ic50,US Patent,Lesinurad
+DRD2,10.0,ec50,ChEMBL,Brexpiprazole
+BTK,11.0,"ec50, ic50","Guide to Pharmacology, ChEMBL, US Patent",Acalabrutinib
+EGFR,2756.5,"ec50, ic50","Guide to Pharmacology, ChEMBL, US Patent",Acalabrutinib
+ERBB2,1000.0,ic50,"Guide to Pharmacology, ChEMBL",Acalabrutinib
+ITK,1000.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Acalabrutinib
+JAK3,1000.0,ic50,"Guide to Pharmacology, ChEMBL",Acalabrutinib
+LCK,1000.0,ec50,"Guide to Pharmacology, US Patent",Acalabrutinib
+LYN,1000.0,"ec50, ic50","Guide to Pharmacology, US Patent",Acalabrutinib
+SRC,1000.0,ec50,"Guide to Pharmacology, US Patent",Acalabrutinib
+IDH1,4950.0,ic50,"ChEMBL, US Patent",Enasidenib
+IDH2,319.0,ic50,"ChEMBL, US Patent",Enasidenib
+ABCC4,133000.0,ic50,ChEMBL,Plerixafor
+CXCR4,156.5,ic50,"Guide to Pharmacology, ChEMBL",Plerixafor
+ABCC4,133000.0,ic50,ChEMBL,Amoxicillin Sodium
+ALOX5,2250.0,ic50,ChEMBL,Curcumin
+EGFR,8600.0,ic50,ChEMBL,Curcumin
+F3,200.0,ic50,ChEMBL,Curcumin
+HDAC1,115000.0,ic50,ChEMBL,Curcumin
+HSD11B1,10242.0,ic50,ChEMBL,Curcumin
+HTR4,10000.0,ec50,Curated from the literature by BindingDB,Curcumin
+PRKCE,8810.0,ec50,ChEMBL,Curcumin
+PTGS1,21945.0,ic50,ChEMBL,Curcumin
+PTGS2,87780.0,ic50,"Curated from the literature by BindingDB, ChEMBL",Curcumin
+TLR9,11814.0,ic50,PubChem,Curcumin
+TOP2A,15000.0,ic50,ChEMBL,Curcumin
+ABCC4,133000.0,ic50,ChEMBL,lovastatin
+CFTR,50000.0,ec50,PubChem,lovastatin
+CYP51A1,200000.0,ic50,ChEMBL,lovastatin
+HDAC1,11911.0,ic50,"ChEMBL, US Patent",lovastatin
+HDAC2,25933.0,ic50,"ChEMBL, US Patent",lovastatin
+HDAC6,16285.0,ic50,"ChEMBL, US Patent",lovastatin
+HMGCR,33.5,ic50,"Guide to Pharmacology, ChEMBL, US Patent",lovastatin
+ICAM1,19700.0,ic50,ChEMBL,lovastatin
+ABCC4,133000.0,ic50,ChEMBL,pravastatin (sodium salt)
+HMGCR,30.0,ic50,"Guide to Pharmacology, ChEMBL",pravastatin (sodium salt)
+SQLE,10000.0,ic50,ChEMBL,pravastatin (sodium salt)
+ESR1,250000.0,ic50,US Patent,Resorcinol
+ESR2,250000.0,ic50,US Patent,Resorcinol
+TYR,3000000.0,ic50,ChEMBL,Resorcinol
+ABCC4,133000.0,ic50,ChEMBL,Sitagliptin phosphate monohydrate
+ACE,11000.0,ic50,ChEMBL,Sitagliptin phosphate monohydrate
+CACNA1C,50073550.0,ic50,ChEMBL,Sitagliptin phosphate monohydrate
+DPP4,19.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL, US Patent",Sitagliptin phosphate monohydrate
+KCND3,100000000.0,ic50,ChEMBL,Sitagliptin phosphate monohydrate
+MME,100000.0,ic50,ChEMBL,Sitagliptin phosphate monohydrate
+SCN5A,712642.5,ic50,ChEMBL,Sitagliptin phosphate monohydrate
+CASP3,1400.0,ic50,Curated from the literature by BindingDB,indoprofen
+GRIA2,35117.0,ec50,ChEMBL,L-Glutamic Acid
+GRIA4,4898.0,ec50,ChEMBL,L-Glutamic Acid
+GRIN2A,70.0,ic50,ChEMBL,L-Glutamic Acid
+ABCC4,133000.0,ic50,ChEMBL,Ebastine
+CHRM1,1100.0,ic50,ChEMBL,Ebastine
+CHRM2,1000.0,ic50,ChEMBL,Ebastine
+DRD2,61.0,ic50,ChEMBL,Ebastine
+HTR1A,47.0,ic50,ChEMBL,Ebastine
+ABCC4,133000.0,ic50,ChEMBL,Efavirenz
+ABCG2,20600.0,ic50,ChEMBL,Efavirenz
+ABCC4,133000.0,ic50,ChEMBL,Eplerenone
+AR,18500.0,"ec50, ic50",ChEMBL,Eplerenone
+ESR1,10000.0,ic50,ChEMBL,Eplerenone
+ESR2,100000.0,ic50,ChEMBL,Eplerenone
+NR3C1,18000.0,"ec50, ic50",ChEMBL,Eplerenone
+NR3C2,240.0,"ec50, ic50",ChEMBL,Eplerenone
+PGR,20000.0,"ec50, ic50",ChEMBL,Eplerenone
+ABCC4,53000.0,ic50,ChEMBL,Etoricoxib
+MAPK14,530.0,ic50,ChEMBL,Etoricoxib
+PTGS1,100000.0,ic50,ChEMBL,Etoricoxib
+PTGS2,554.0,ic50,"Guide to Pharmacology, ChEMBL",Etoricoxib
+PPARA,24000.0,"ec50, ic50","ChEMBL, Curated from the literature by BindingDB",Fenofibric acid
+PPARG,50000.0,"ec50, ic50",ChEMBL,Fenofibric acid
+PTGS1,950000.0,ic50,ChEMBL,Fenofibric acid
+ABCC4,133000.0,ic50,ChEMBL,Mizoribine
+GSK3B,300000.0,ec50,PubChem,Mizoribine
+GSK3B,10000.0,ic50,ChEMBL,Niraparib (MK-4827) tosylate
+PARP1,16.5,"ec50, ic50","Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",Niraparib (MK-4827) tosylate
+PARP2,8.55,ic50,"Guide to Pharmacology, ChEMBL",Niraparib (MK-4827) tosylate
+PARP3,296.0,ic50,ChEMBL,Niraparib (MK-4827) tosylate
+GART,29.6,ic50,ChEMBL,Pemetrexed
+RFC1,138.0,ic50,ChEMBL,Pemetrexed
+TYMS,11000.0,ic50,"Curated from the literature by BindingDB, ChEMBL, US Patent",Pemetrexed
+HTR2A,27.0,ic50,"Curated from the literature by BindingDB, ChEMBL, US Patent",Pimavanserin
+HTR2C,91.0,ic50,Curated from the literature by BindingDB,Pimavanserin
+ROCK1,51.0,ic50,"Guide to Pharmacology, ChEMBL",Ripasudil (K-115) hydrochloride dihydrate
+ROCK2,19.0,ic50,"Guide to Pharmacology, ChEMBL",Ripasudil (K-115) hydrochloride dihydrate
+SLC6A1,112.5,ic50,"Guide to Pharmacology, ChEMBL",Tiagabine
+MAP2K1,2.5500000000000003,ic50,"Guide to Pharmacology, ChEMBL",Cobimetinib
+MAP2K2,199.0,ic50,Guide to Pharmacology,Cobimetinib
+AURKA,80.0,ic50,ChEMBL,PKC 412
+CDK2,32.5,ic50,US Patent,PKC 412
+CSF1R,142.0,ic50,ChEMBL,PKC 412
+FLT3,38.5,ic50,"Guide to Pharmacology, ChEMBL",PKC 412
+GSK3B,4636.0,ic50,ChEMBL,PKC 412
+KDR,250.0,ic50,ChEMBL,PKC 412
+KIT,109.0,ic50,ChEMBL,PKC 412
+IDO1,70000.0,ic50,ChEMBL,Dichlorophen
+EGLN1,510000.0,ic50,ChEMBL,Butanedioic acid
+XDH,92420.0,ic50,ChEMBL,6-Thioguanine
+ACHE,100.0,ic50,ChEMBL,8-Hydroxyquinoline
+BCHE,100.0,ic50,ChEMBL,8-Hydroxyquinoline
+HDAC8,11100.0,ec50,ChEMBL,8-Hydroxyquinoline
+HSP90AA1,50000.0,ic50,PubChem,8-Hydroxyquinoline
+IDO1,750000.0,ic50,ChEMBL,8-Hydroxyquinoline
+MMP2,130000.0,ic50,ChEMBL,8-Hydroxyquinoline
+TGFBR1,12.0,ic50,ChEMBL,A 83-01
+SLC6A2,71.0,ic50,Guide to Pharmacology,Zotepine
+SLC6A4,7270.0,ic50,Guide to Pharmacology,Zotepine
+AR,400.0,ic50,ChEMBL,Pamoic acid disodium salt
+PTPN1,310000.0,ic50,ChEMBL,Pamoic acid disodium salt
+P2RY12,23.5,ic50,ChEMBL,AZD 1283
+ABCC4,133000.0,ic50,ChEMBL,Enoximone
+PDE1B,1000000.0,ic50,ChEMBL,Enoximone
+PDE3A,3800.0,ic50,"Guide to Pharmacology, ChEMBL",Enoximone
+PDE4B,5000.0,ic50,ChEMBL,Enoximone
+HTR1A,99000.0,ec50,PubChem,Dihydroergocristine mesylate
+AGTR1,8.1,ic50,ChEMBL,Olmesartan
+CYP11B1,15.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Metyrapone
+CYP11B2,72.0,ic50,"ChEMBL, US Patent",Metyrapone
+CYP17A1,10000.0,ic50,ChEMBL,Metyrapone
+CYP19A1,2507.5,ic50,ChEMBL,Metyrapone
+ABCC4,133000.0,ic50,ChEMBL,Tenofovir Disoproxil Fumarate
+ABCC4,133000.0,ic50,ChEMBL,Nebivolol HCl
+AKT1,3.2,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Ipatasertib (GDC-0068)
+AKT2,18.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Ipatasertib (GDC-0068)
+AKT3,8.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Ipatasertib (GDC-0068)
+ABCC4,133000.0,ic50,ChEMBL,Pazufloxacin mesylate
+ABCC4,133000.0,ic50,ChEMBL,Piribedil
+ABCC4,8200.0,ic50,ChEMBL,4-Biphenylacetic acid
+CASP3,14000.0,ic50,Curated from the literature by BindingDB,4-Biphenylacetic acid
+ABCG2,180.0,ic50,ChEMBL,Topiroxostat
+XDH,5.3,ic50,ChEMBL,Topiroxostat
+ABCG2,11000.0,ic50,ChEMBL,Isavuconazole
+CHRM3,10000.0,ic50,ChEMBL,Umeclidinium bromide
+ABCC4,133000.0,ic50,ChEMBL,Benznidazole
+AURKB,100000.0,ic50,ChEMBL,Benznidazole
+DNMT1,7280.0,ic50,PubChem,Cephalothin
+ABCC4,133000.0,ic50,ChEMBL,Saxagliptin hydrate
+DPP4,3.2,ic50,ChEMBL,Saxagliptin hydrate
+AR,4.5,"ec50, ic50","ChEMBL, Curated from the literature by BindingDB",Dihydrotestosterone(DHT)
+MGAM,100000.0,ic50,ChEMBL,Dihydrotestosterone(DHT)
+NR3C1,540.0,ic50,ChEMBL,Dihydrotestosterone(DHT)
+NR3C2,360.0,ic50,ChEMBL,Dihydrotestosterone(DHT)
+PGR,7750.0,"ec50, ic50",ChEMBL,Dihydrotestosterone(DHT)
+SHBG,13.4,ic50,ChEMBL,Dihydrotestosterone(DHT)
+AGTR1,4.5,ic50,ChEMBL,Fimasartan
+PDE10A,97600000.0,ic50,ChEMBL,Crisaborole (AN2728)
+PDE1B,17900000.0,ic50,ChEMBL,Crisaborole (AN2728)
+PDE1C,71000000.0,ic50,ChEMBL,Crisaborole (AN2728)
+PDE3A,64000000.0,ic50,ChEMBL,Crisaborole (AN2728)
+PDE3B,58800000.0,ic50,ChEMBL,Crisaborole (AN2728)
+PDE4A,55.0,ic50,ChEMBL,Crisaborole (AN2728)
+PDE4B,110.0,ic50,ChEMBL,Crisaborole (AN2728)
+PDE4D,272.5,ic50,ChEMBL,Crisaborole (AN2728)
+PDE5A,56100000.0,ic50,ChEMBL,Crisaborole (AN2728)
+ABCC4,133000.0,ic50,ChEMBL,Tilorone dihydrochloride
+CFTR,40125.0,"ec50, ic50",PubChem,Tilorone dihydrochloride
+CHRNA7,2500.0,ec50,ChEMBL,Tilorone dihydrochloride
+CHRNB2,10000.0,ec50,ChEMBL,Tilorone dihydrochloride
+KCNK2,2750000.0,ec50,Curated from the literature by BindingDB,4-Aminopyridine
+DHODH,13000.0,ic50,ChEMBL,Clonixin
+G6PD,56000.0,ic50,Curated from the literature by BindingDB,Thiocolchicoside
+F10,134000.0,ic50,ChEMBL,Argatroban Monohydrate
+F2,38.5,ic50,ChEMBL,Argatroban Monohydrate
+PLG,800000.0,ic50,ChEMBL,Argatroban Monohydrate
+ALK,7.25,ic50,"ChEMBL, US Patent",Lorlatinib?(PF-6463922)
+FRK,53.0,ic50,ChEMBL,Lorlatinib?(PF-6463922)
+NTRK1,24.0,ic50,ChEMBL,Lorlatinib?(PF-6463922)
+NTRK3,46.0,ic50,ChEMBL,Lorlatinib?(PF-6463922)
+ROS1,0.21,ic50,ChEMBL,Lorlatinib?(PF-6463922)
+ALK,1.2,ic50,"Guide to Pharmacology, ChEMBL",Gilteritinib (ASP2215)
+AXL,5.24,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Gilteritinib (ASP2215)
+FLT3,0.3000000119209289,ic50,"Guide to Pharmacology, ChEMBL, US Patent",Gilteritinib (ASP2215)
+NTRK1,1.100000023841858,ic50,Guide to Pharmacology,Gilteritinib (ASP2215)
+RET,2.550000023841858,ic50,"Guide to Pharmacology, US Patent",Gilteritinib (ASP2215)
+ROS1,1.7,ic50,"Guide to Pharmacology, US Patent",Gilteritinib (ASP2215)
+MAPK14,14.0,ic50,ChEMBL,Pamapimod (R-1503
+MTOR,70.0,ic50,Guide to Pharmacology,GDC-0084
+PIK3CA,2.0,ic50,Guide to Pharmacology,GDC-0084
+AKT1,5.0,ic50,"Guide to Pharmacology, ChEMBL",Miransertib (ARQ 092) HCl
+AKT2,4.5,ic50,"Guide to Pharmacology, ChEMBL",Miransertib (ARQ 092) HCl
+AKT3,12.95,ic50,"Guide to Pharmacology, ChEMBL",Miransertib (ARQ 092) HCl
+FGFR1,1.5,ic50,"Guide to Pharmacology, ChEMBL",Erdafitinib (JNJ-42756493)
+FGFR2,2.3949999809265137,ic50,"Guide to Pharmacology, ChEMBL",Erdafitinib (JNJ-42756493)
+FGFR3,3.0,ic50,"Guide to Pharmacology, ChEMBL",Erdafitinib (JNJ-42756493)
+FGFR4,5.659999942779541,ic50,"Guide to Pharmacology, ChEMBL",Erdafitinib (JNJ-42756493)
+KDR,36.29999923706055,ic50,"Guide to Pharmacology, ChEMBL",Erdafitinib (JNJ-42756493)
+RIPK1,1.6,ic50,"Guide to Pharmacology, ChEMBL",GSK2982772
+SLC5A1,8444.0,ic50,"Guide to Pharmacology, ChEMBL",Tofogliflozin(CSG 452)
+SLC5A2,2.900000047683716,ic50,"Guide to Pharmacology, ChEMBL",Tofogliflozin(CSG 452)
+ITGB3,62000.0,ic50,ChEMBL,Tirofiban Hydrochloride
+SLC5A1,1876.0,"ec50, ic50","Guide to Pharmacology, ChEMBL",Ipragliflozin (ASP1941)
+SLC5A2,7.4,"ec50, ic50","Guide to Pharmacology, ChEMBL",Ipragliflozin (ASP1941)
+TACR1,0.95,ic50,ChEMBL,Netupitant
+AGTR1,12.0,ic50,ChEMBL,Losartan Carboxylic Acid
+FLT1,33.0,ic50,Guide to Pharmacology,fruquintinib
+FLT4,0.5,ic50,Guide to Pharmacology,fruquintinib
+KDR,30.0,ic50,Guide to Pharmacology,fruquintinib
+FGFR1,20.0,ic50,Guide to Pharmacology,anlotinib
+FLT1,4.0,ic50,Guide to Pharmacology,anlotinib
+FLT4,1.0,ic50,Guide to Pharmacology,anlotinib
+KDR,45.0,ic50,Guide to Pharmacology,anlotinib
+PTGS1,44000.0,ic50,ChEMBL,Flurizan
+PTGS2,123000.0,ic50,ChEMBL,Flurizan
+MC3R,1.5380414999999998,ec50,ChEMBL,Bremelanotide (Acetate)
+MC5R,197.5,ic50,ChEMBL,Bremelanotide (Acetate)
+CALCRL,0.14,ec50,ChEMBL,BMS-927711
+PNP,3.5,ic50,ChEMBL,Forodesine (hydrochloride)
+ABCC4,133000.0,ic50,ChEMBL,Dactolisib (BEZ235
+ATM,7.0,ic50,ChEMBL,Dactolisib (BEZ235
+ATR,21.0,ic50,Guide to Pharmacology,Dactolisib (BEZ235
+HDAC6,2.0,ic50,ChEMBL,Dactolisib (BEZ235
+JAK3,1000.0,ic50,ChEMBL,Dactolisib (BEZ235
+MLST8,44.0,ic50,ChEMBL,Dactolisib (BEZ235
+MTOR,9.8,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL, US Patent",Dactolisib (BEZ235
+PIK3C3,450.0,ic50,ChEMBL,Dactolisib (BEZ235
+PIK3CA,18.5,"ec50, ic50","Guide to Pharmacology, ChEMBL, US Patent",Dactolisib (BEZ235
+PIK3CD,23.5,"ec50, ic50","Guide to Pharmacology, ChEMBL",Dactolisib (BEZ235
+PIK3CG,33.0,"ec50, ic50","Guide to Pharmacology, ChEMBL",Dactolisib (BEZ235
+PIK3R1,79.0,"ec50, ic50",ChEMBL,Dactolisib (BEZ235
+SEC13,44.0,ic50,ChEMBL,Dactolisib (BEZ235
+ADRB2,6900.0,ec50,Curated from the literature by BindingDB,Zilpaterol
+OPRM1,78500.0,"ec50, ic50",Curated from the literature by BindingDB,Zilpaterol
+F10,3.0,ic50,ChEMBL,Betrixaban
+F2,10000.0,ic50,ChEMBL,Betrixaban
+PLG,10000.0,ic50,ChEMBL,Betrixaban
+BTK,40.95,ic50,ChEMBL,BTK IN-1
+HRH2,24161.0,ec50,ChEMBL,Dexpramipexole (dihydrochloride)
+BTK,3.1,ic50,ChEMBL,GDC-0853
+HTR1F,87.92,ic50,ChEMBL,Lasmiditan (hydrochloride)
+NR3C1,5.260000228881836,ic50,Guide to Pharmacology,fluocinonide
+HSD11B1,630.0,ic50,ChEMBL,stetaderm
+HSD11B2,400.0,ic50,ChEMBL,stetaderm
+ABCC4,133000.0,ic50,ChEMBL,azithromycin
+ABCC4,133000.0,ic50,ChEMBL,simvastatin
+CFTR,50000.0,ec50,PubChem,simvastatin
+HMGCR,11.650000190734865,ic50,"Guide to Pharmacology, ChEMBL",simvastatin
+ATG4B,10400.0,ic50,PubChem,doxycycline
+ABCC4,133000.0,ic50,ChEMBL,dicloxacillin
+NR1H4,72500.0,ec50,ChEMBL,cholic-acid
+NR1H4,11700.0,ec50,"Curated from the literature by BindingDB, ChEMBL, US Patent",chenodeoxycholic-acid
+NR1H4,75000.0,ec50,ChEMBL,ursodiol
+NR3C1,298700.0,ec50,ChEMBL,ursodiol
+DRD2,100.0,ic50,ChEMBL,raclopride
+GAA,100.0,ic50,ChEMBL,miglustat
+MGAM,5550.0,ic50,ChEMBL,miglustat
+SI,500.0,ic50,ChEMBL,miglustat
+ABCC4,133000.0,ic50,ChEMBL,pancuronium
+NR3C2,2.94,ec50,US Patent,hydrocortisone-butyrate
+CA1,28380.0,ic50,Curated from the literature by BindingDB,sulfapyridine
+CA2,276.0,ic50,Curated from the literature by BindingDB,sulfapyridine
+MPO,5000.0,ic50,ChEMBL,lomefloxacin
+ADORA1,105000.0,ic50,ChEMBL,theobromine
+ADORA2A,250000.0,ic50,ChEMBL,theobromine
+ADORA3,100000.0,ic50,ChEMBL,theobromine
+ABCC4,133000.0,ic50,ChEMBL,loteprednol
+ABCC4,133000.0,ic50,ChEMBL,cefaclor
+ABCC4,133000.0,ic50,ChEMBL,ofloxacin
+TOP2A,157950.0,"ec50, ic50",ChEMBL,ofloxacin
+TOP2B,2760.0,ic50,ChEMBL,ofloxacin
+ADRB1,1.8,ec50,ChEMBL,propranolol
+SCN1A,13000.0,ic50,ChEMBL,propranolol
+GRIN1,30000.0,ic50,US Patent,dimemorfan
+SIGMAR1,527.0,ic50,US Patent,dimemorfan
+EGLN1,10000000.0,ic50,ChEMBL,malic-acid
+CXCL8,50.0,ic50,ChEMBL,ibuprofen
+AKR1C3,32700.0,ic50,ChEMBL,ibuprofen-(s)
+PTGS1,789.5,ic50,ChEMBL,ibuprofen-(s)
+PTGS2,1595.0,ic50,ChEMBL,ibuprofen-(s)
+ALK,2.9,ic50,ChEMBL,brigatinib
+EGFR,21.0,ic50,"Guide to Pharmacology, ChEMBL, US Patent",brigatinib
+FLT3,2.1,ic50,ChEMBL,brigatinib
+IGF1R,24.9,ic50,"Guide to Pharmacology, ChEMBL",brigatinib
+INSR,196.0,ic50,"Guide to Pharmacology, ChEMBL",brigatinib
+MET,70.0,ic50,US Patent,brigatinib
+ROS1,1.9,ic50,ChEMBL,brigatinib
+ABCC4,133000.0,ic50,ChEMBL,iohexol
+ABCC4,7100.0,ic50,ChEMBL,telithromycin
+G6PD,2280000.0,ic50,Curated from the literature by BindingDB,paricalcitol
+CELA1,30.0,ic50,"Guide to Pharmacology, ChEMBL",telaprevir
+CMA1,26.0,ic50,ChEMBL,telaprevir
+CTSB,2300.0,ic50,ChEMBL,telaprevir
+CTSL,3500.0,ic50,ChEMBL,telaprevir
+PLG,8700.0,ic50,ChEMBL,telaprevir
+PRSS1,10000.0,ic50,ChEMBL,telaprevir
+CACNA1C,17.0,ic50,ChEMBL,gallopamil
+SCN1A,3600.0,ic50,ChEMBL,gallopamil
+HTR7,16.0,ic50,ChEMBL,lurasidone
+ABCC4,133000.0,ic50,ChEMBL,fludarabine-phosphate
+SLC5A1,890.5,"ec50, ic50","Guide to Pharmacology, ChEMBL, Curated from the literature by BindingDB, US Patent",dapagliflozin
+SLC5A2,2.4,"ec50, ic50","Guide to Pharmacology, ChEMBL, Curated from the literature by BindingDB, US Patent",dapagliflozin
+ADRB1,5.9,ic50,ChEMBL,alprenolol
+ADRB2,1.5122179999999998,ic50,ChEMBL,alprenolol
+AKR1C3,526.0,ic50,ChEMBL,meclofenamic-acid
+ALOX5,5640.0,ic50,Curated from the literature by BindingDB,meclofenamic-acid
+PTGS1,135.0,ic50,"Guide to Pharmacology, ChEMBL",meclofenamic-acid
+PTGS2,45.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",meclofenamic-acid
+TTR,25252.0,ic50,"ChEMBL, US Patent",meclofenamic-acid
+ACHE,2473.0,ic50,ChEMBL,metacresol
+TAAR1,4729.0,ec50,ChEMBL,synephrine
+MIF,98100.0,ic50,ChEMBL,metaraminol
+AOC3,19.950000381469728,ic50,"Guide to Pharmacology, ChEMBL",phenelzine
+IDO1,14000.0,ic50,ChEMBL,phenelzine
+MAOA,238.0,ic50,ChEMBL,phenelzine
+MAOB,143.0,ic50,ChEMBL,phenelzine
+ACHE,996000.0,ic50,ChEMBL,pralidoxime-chloride
+ACHE,878000.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL",pralidoxime
+AR,1000.0,ic50,ChEMBL,salicylamide
+SRC,2000000.0,ic50,ChEMBL,fosfosal
+CA1,59.0,ic50,ChEMBL,methazolamide
+CA2,14.0,"ec50, ic50","Curated from the literature by BindingDB, ChEMBL",methazolamide
+CA4,205.0,ic50,Curated from the literature by BindingDB,methazolamide
+CA9,0.25,ic50,ChEMBL,methazolamide
+ABCC4,133000.0,ic50,ChEMBL,amrinone
+PDE1B,650000.0,ic50,ChEMBL,amrinone
+PDE3A,40500.0,ic50,"Guide to Pharmacology, ChEMBL",amrinone
+PDE3B,31200.0,ic50,Guide to Pharmacology,amrinone
+PDE4B,113500.0,ic50,ChEMBL,amrinone
+XDH,60000.0,ic50,US Patent,L-methionine
+UGT1A1,300000.0,ic50,Curated from the literature by BindingDB,clomethiazole
+ACE,7244360.0,ic50,ChEMBL,bucillamine
+KIF11,63000.0,ic50,ChEMBL,SCMC-Lys
+TAAR1,3777.0,"ec50, ic50",PubChem,hydroxyamphetamine
+ADRB1,47.0,ec50,ChEMBL,isoprenaline
+ADRB2,20.0,"ec50, ic50","ChEMBL, US Patent",isoprenaline
+F2R,47.0,ic50,ChEMBL,vorapaxar
+ABCC4,2700.0,ic50,ChEMBL,pranlukast
+CYSLTR1,2.55,ic50,"Guide to Pharmacology, ChEMBL",pranlukast
+NR1H4,15000.0,ec50,ChEMBL,pranlukast
+ACHE,0.7,ic50,ChEMBL,ambenonium
+BCHE,7000.0,ic50,ChEMBL,ambenonium
+CACNA1C,2150.0,ic50,ChEMBL,barnidipine
+PTPN1,1300.0,ic50,ChEMBL,evans-blue
+TPH1,64.0,ic50,ChEMBL,telotristat
+CCKBR,1.9,"ec50, ic50",ChEMBL,pentagastrin
+KCNK2,2000.0,ec50,Curated from the literature by BindingDB,flupentixol
+ABCC4,133000.0,ic50,ChEMBL,ezetimibe
+NPC1L1,370.0,ic50,ChEMBL,ezetimibe
+ABCC4,133000.0,ic50,ChEMBL,cabergoline
+HTR2B,13.0,ec50,ChEMBL,cabergoline
+PDE5A,100.0,ic50,US Patent,mirodenafil
+ABCC4,133000.0,ic50,ChEMBL,dutasteride
+SRD5A1,4.0,ic50,ChEMBL,dutasteride
+SRD5A2,0.1,ic50,ChEMBL,dutasteride
+PTGDR2,195.0,ic50,ChEMBL,ramatroban
+TBXA2R,9.6,ic50,ChEMBL,ramatroban
+PDE3A,10700.0,ic50,ChEMBL,vesnarinone
+PDE3B,13870.0,ic50,ChEMBL,vesnarinone
+ABCC4,133000.0,ic50,ChEMBL,rivaroxaban
+F10,3.395,ic50,"Curated from the literature by BindingDB, ChEMBL, US Patent",rivaroxaban
+ABCC4,133000.0,ic50,ChEMBL,mupirocin
+KCNK2,232.0,ec50,Curated from the literature by BindingDB,fluspirilene
+ABCC4,36800.0,ic50,ChEMBL,valrubicin
+ABCC4,20000.0,ic50,ChEMBL,dilazep
+SCN1A,600.0,ic50,ChEMBL,dilazep
+SLC29A1,18.0,ic50,ChEMBL,dilazep
+AURKB,9140.0,ic50,Curated from the literature by BindingDB,diosmin
+IKBKB,3890.0,ic50,ChEMBL,diosmin
+ABCC4,133000.0,ic50,ChEMBL,alvimopan
+CACNA1C,5012.0,ic50,ChEMBL,alvimopan
+OPRM1,3.1,ic50,ChEMBL,alvimopan
+SCN5A,251189.0,ic50,ChEMBL,alvimopan
+ABCC4,133000.0,ic50,ChEMBL,escitalopram
+SLC6A4,10.0,"ec50, ic50","Guide to Pharmacology, ChEMBL",escitalopram
+HRH1,2454.71,ic50,ChEMBL,promazine
+SCN1A,5400.0,ic50,ChEMBL,promazine
+TTR,3090.0,ic50,"ChEMBL, US Patent",tafamidis-meglumine
+ACHE,40.0,ic50,"Curated from the literature by BindingDB, ChEMBL",physostigmine
+BCHE,40.0,ic50,"Curated from the literature by BindingDB, ChEMBL",physostigmine
+SCN1A,3400.0,ic50,ChEMBL,dimethisoquin
+PDE1B,275000.0,ic50,ChEMBL,Ro-20-1724
+PDE3A,300000.0,ic50,ChEMBL,Ro-20-1724
+PDE4A,3300.0,"ec50, ic50","Guide to Pharmacology, ChEMBL",Ro-20-1724
+PDE4B,4800.0,ic50,"Guide to Pharmacology, ChEMBL",Ro-20-1724
+PDE4D,631.0,ic50,Guide to Pharmacology,Ro-20-1724
+ABCC4,133000.0,ic50,ChEMBL,hydroflumethiazide
+DRD1,1000.0,ic50,ChEMBL,cariprazine
+DRD2,1.35,"ec50, ic50",ChEMBL,cariprazine
+DRD3,5.8,ec50,ChEMBL,cariprazine
+ABCC4,133000.0,ic50,ChEMBL,voglibose
+GAA,2835.0,ic50,ChEMBL,voglibose
+MGAM,1300.0,ic50,ChEMBL,voglibose
+PTGS1,2000.0,ic50,ChEMBL,flurbiprofen-(S)-(+)
+PTGS2,910.0,ic50,"Guide to Pharmacology, ChEMBL",flurbiprofen-(S)-(+)
+CASP3,810.0,ic50,Curated from the literature by BindingDB,tiaprofenic-acid
+ABCC4,133000.0,ic50,ChEMBL,silver-sulfadiazine
+AURKA,21000.0,ic50,ChEMBL,silver-sulfadiazine
+CA1,26190.0,ic50,Curated from the literature by BindingDB,silver-sulfadiazine
+CA2,341.0,ic50,Curated from the literature by BindingDB,silver-sulfadiazine
+HTR1A,40000.0,ic50,PubChem,oxibendazole
+MIF,6810.0,ic50,ChEMBL,iguratimod
+ABCC4,133000.0,ic50,ChEMBL,abiraterone
+CYP11B1,1608.0,ic50,"Curated from the literature by BindingDB, ChEMBL",abiraterone
+CYP11B2,1750.0,ic50,"Curated from the literature by BindingDB, ChEMBL",abiraterone
+CYP17A1,48.0,ic50,"Curated from the literature by BindingDB, ChEMBL, US Patent",abiraterone
+CYP19A1,20000.0,ic50,ChEMBL,abiraterone
+ABCG2,230.0,ic50,ChEMBL,atovaquone
+DHODH,2700.0,ic50,ChEMBL,atovaquone
+ABCC4,133000.0,ic50,ChEMBL,indoramin
+ABCC4,133000.0,ic50,ChEMBL,pergolide
+PSMA6,11900.0,ec50,Curated from the literature by BindingDB,metixene
+MIF,64000.0,ic50,ChEMBL,ISO-1
+MMP2,53600.0,ic50,"Guide to Pharmacology, ChEMBL",tiludronate
+ABCC4,133000.0,ic50,ChEMBL,stepronin
+CYP11B1,9.85,ic50,"Curated from the literature by BindingDB, ChEMBL, US Patent",fadrozole
+CYP11B2,1.0,ic50,"Curated from the literature by BindingDB, ChEMBL, US Patent",fadrozole
+CYP17A1,5000.0,ic50,ChEMBL,fadrozole
+CYP19A1,30.0,ic50,"Guide to Pharmacology, Curated from the literature by BindingDB, ChEMBL, US Patent",fadrozole
+ABCC4,3000.0,ic50,ChEMBL,dehydroepiandrosterone-sulfate
+ABCC4,7100.0,ic50,ChEMBL,dinoprost
+PTGER2,55000.0,ic50,ChEMBL,dinoprost
+PTGER3,322.0,"ec50, ic50",ChEMBL,dinoprost
+PTGER4,2550.0,"ec50, ic50","Guide to Pharmacology, ChEMBL",dinoprost
+PTGFR,7.0,"ec50, ic50",ChEMBL,dinoprost
+TBXA2R,1400.0,"ec50, ic50",ChEMBL,dinoprost
+APEX1,80.0,ic50,ChEMBL,hycanthone
+ACHE,1404500.0,ic50,ChEMBL,obidoxime
+DHODH,8000.0,ic50,ChEMBL,flunixin-meglumin
+AR,267.0,ic50,"ChEMBL, US Patent",bicalutamide
+ACE,0.4,ic50,ChEMBL,zofenopril-calcium
+CA2,30.0,ic50,ChEMBL,dorzolamide
+PTGS2,100000.0,ic50,ChEMBL,carprofen
+PTGS1,100000.0,ic50,ChEMBL,ketorolac
+PTGS2,100000.0,ic50,ChEMBL,ketorolac
+ABCC4,133000.0,ic50,ChEMBL,etacrynic-acid
+AKT1,9600.0,ic50,"Guide to Pharmacology, ChEMBL",miltefosine
+AURKB,100000.0,ic50,ChEMBL,miltefosine
+ABCC4,133000.0,ic50,ChEMBL,eszopiclone
+MAOA,8700.0,ic50,ChEMBL,tedizolid
+MAOB,5700.0,ic50,ChEMBL,tedizolid
+ADRA1A,1.2,ic50,ChEMBL,bunazosin
+PTGS1,36000.0,ic50,ChEMBL,deracoxib
+PTGS2,50.06,ic50,ChEMBL,deracoxib
+ALOX5,70.0,ec50,ChEMBL,tepoxalin
+PTGS2,2850.0,ic50,ChEMBL,tepoxalin
+ABCC4,133000.0,ic50,ChEMBL,gestodene
+PTGS1,62500.0,ic50,ChEMBL,firocoxib
+PTGS2,140.0,ic50,ChEMBL,firocoxib
+MAOA,1640.0,ic50,ChEMBL,toloxatone
