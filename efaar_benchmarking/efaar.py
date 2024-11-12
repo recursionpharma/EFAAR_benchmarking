@@ -194,15 +194,16 @@ def tvn_on_controls(
     embeddings = centerscale_on_controls(embeddings, metadata, pert_col, control_key)
     ctrl_ind = metadata[pert_col] == control_key
     embeddings = PCA().fit(embeddings[ctrl_ind]).transform(embeddings)
-    embeddings = centerscale_on_controls(embeddings, metadata, pert_col, control_key)
+    embeddings = centerscale_on_controls(embeddings, metadata, pert_col, control_key, batch_col)
+    target_cov = np.cov(embeddings[ctrl_ind], rowvar=False, ddof=1) + 0.5 * np.eye(embeddings.shape[1])
     if batch_col is not None:
         batches = metadata[batch_col].unique()
         for batch in batches:
             batch_ind = metadata[batch_col] == batch
             batch_control_ind = batch_ind & (metadata[pert_col] == control_key)
             source_cov = np.cov(embeddings[batch_control_ind], rowvar=False, ddof=1) + 0.5 * np.eye(embeddings.shape[1])
-            source_cov_half_inv = linalg.fractional_matrix_power(source_cov, -0.5)
-            embeddings[batch_ind] = np.matmul(embeddings[batch_ind], source_cov_half_inv)
+            embeddings[batch_ind] = np.matmul(embeddings[batch_ind], linalg.fractional_matrix_power(source_cov, -0.5))
+            embeddings[batch_ind] = np.matmul(embeddings[batch_ind], linalg.fractional_matrix_power(target_cov, 0.5))
     return embeddings
 
 
