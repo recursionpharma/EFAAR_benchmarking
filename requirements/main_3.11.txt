@@ -69,6 +69,8 @@ h5py==3.10.0
     #   mudata
     #   scanpy
     #   scvi-tools
+huggingface-hub==0.26.2
+    # via huggingface-hub
 idna==3.6
     # via
     #   requests
