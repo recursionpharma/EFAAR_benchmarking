@@ -649,7 +649,7 @@ torchmetrics==1.2.1
     #   lightning
     #   pytorch-lightning
     #   scvi-tools
-tornado==6.4
+tornado==6.4.2
     # via
     #   ipykernel
     #   jupyter-client
