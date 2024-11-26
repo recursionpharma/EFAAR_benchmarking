@@ -22,8 +22,8 @@ keywords = ["efaar_benchmarking"]
 requires-python = ">=3.11"
 dynamic = ["version"]
 dependencies = [
-	"huggingface_hub",
 	"geomloss",
+	"huggingface_hub",
 	"joblib",
 	"matplotlib",
 	"matplotlib_venn",

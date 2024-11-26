@@ -7,7 +7,7 @@ import pandas as pd
 from geomloss import SamplesLoss
 from joblib import Parallel, delayed
 from scipy.stats import hypergeom, ks_2samp
-from sklearn.metrics import roc_auc_score
+from sklearn.metrics import roc_auc_score, average_precision_score
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.utils import Bunch
 from torch import from_numpy
@@ -700,7 +700,7 @@ def aggregate_predictions(
         if config.average_type == AverageType.MICRO:
             scores = np.concatenate([p[0] for p in preds])
             labels = np.concatenate([p[1] for p in preds])
-            ap, auc = compute_metrics(scores, labels)
+            ap, auc = compute_ap_auc(scores, labels)
             result = {"average_precision": ap, "auc_roc": auc}
             if config.quantiles:
                 # For micro averaging, quantiles are not applicable; set to overall AP
@@ -712,7 +712,7 @@ def aggregate_predictions(
             for scores, labels in preds:
                 if len(scores) == 0 or not np.any(labels):
                     continue
-                ap, auc = compute_metrics(scores, labels)
+                ap, auc = compute_ap_auc(scores, labels)
                 aps.append(ap)
                 aucs.append(auc)
             if aps:
@@ -732,7 +732,7 @@ def aggregate_predictions(
     return results
 
 
-def compute_metrics(scores: np.ndarray, labels: np.ndarray) -> tuple[float, float]:
+def compute_ap_auc(scores: np.ndarray, labels: np.ndarray) -> tuple[float, float]:
     """Compute average precision and AUC-ROC.
 
     Args:
@@ -745,11 +745,7 @@ def compute_metrics(scores: np.ndarray, labels: np.ndarray) -> tuple[float, floa
     if len(scores) == 0 or not np.any(labels):
         return 0.0, 0.5
 
-    sorted_indices = np.argsort(scores)[::-1]
-    sorted_labels = labels[sorted_indices]
-    tp_cumsum = np.cumsum(sorted_labels)
-    precision = tp_cumsum / np.arange(1, len(sorted_labels) + 1)
-    ap = np.sum(precision * sorted_labels) / sorted_labels.sum()
+    ap = average_precision_score(labels, scores)
     auc = roc_auc_score(labels, scores)
     return ap, auc
 

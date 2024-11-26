@@ -11,7 +11,7 @@ from efaar_benchmarking.benchmarking import (
     AverageType,
     BenchmarkConfig,
     compound_gene_benchmark,
-    compute_metrics,
+    compute_ap_auc,
     compute_similarities,
     process_predictions,
     sample_for_item,
@@ -198,12 +198,12 @@ def test_sample_for_item():
     assert "gene2" not in items  # Should be excluded as it's in gray zone
 
 
-def test_compute_metrics():
+def test_compute_ap_auc():
     """Test metric computation with known values."""
     scores = np.array([0.9, 0.8, 0.3, 0.2])
     labels = np.array([1, 0, 0, 1])
 
-    ap, auc = compute_metrics(scores, labels)
+    ap, auc = compute_ap_auc(scores, labels)
 
     assert auc == 0.5
     assert ap == 0.75
