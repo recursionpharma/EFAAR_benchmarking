@@ -208,6 +208,13 @@ def test_compute_ap_auc():
     assert auc == 0.5
     assert ap == 0.75
 
+    scores = np.array([0.8, 0.8, 0.8, 0.8])
+
+    ap, auc = compute_ap_auc(scores, labels)
+
+    assert auc == 0.5
+    assert ap == 0.5
+
 
 def test_full_benchmark_macro_compound(sample_truth_data, sample_map_data):
     """Test full benchmark with macro averaging by compound."""
