@@ -11,7 +11,7 @@ from efaar_benchmarking.benchmarking import (
     AverageType,
     BenchmarkConfig,
     compound_gene_benchmark,
-    compute_metrics,
+    compute_ap_auc,
     compute_similarities,
     process_predictions,
     sample_for_item,
@@ -25,7 +25,7 @@ def sample_truth_data():
         {
             "treatment": ["compound1", "compound1", "compound2", "compound2"],
             "gene_symbol": ["gene1", "gene2", "gene1", "gene2"],
-            "nM_value": [100, 5000, 15000, 500],  # Mix of active, gray zone, and inactive
+            "nM_value": [100, 5000, 15000, 500],
         }
     )
 
@@ -194,19 +194,26 @@ def test_sample_for_item():
 
     assert len(items) > 0
     assert len(labels) == len(items)
-    assert sum(labels) == 1  # Only gene1 should be positive
-    assert "gene2" not in items  # Should be excluded as it's in gray zone
+    assert sum(labels) == 1
+    assert "gene2" not in items
 
 
-def test_compute_metrics():
+def test_compute_ap_auc():
     """Test metric computation with known values."""
     scores = np.array([0.9, 0.8, 0.3, 0.2])
     labels = np.array([1, 0, 0, 1])
 
-    ap, auc = compute_metrics(scores, labels)
+    ap, auc = compute_ap_auc(scores, labels)
 
     assert auc == 0.5
     assert ap == 0.75
+
+    scores = np.array([0.8, 0.8, 0.8, 0.8])
+
+    ap, auc = compute_ap_auc(scores, labels)
+
+    assert auc == 0.5
+    assert ap == 0.5
 
 
 def test_full_benchmark_macro_compound(sample_truth_data, sample_map_data):
@@ -214,9 +221,9 @@ def test_full_benchmark_macro_compound(sample_truth_data, sample_map_data):
     config = BenchmarkConfig(
         average_type=AverageType.MACRO,
         aggregate_by=AggregateBy.COMPOUND,
-        min_negatives=2,  # Using min_negatives
+        min_negatives=2,
         random_seed=42,
-        quantiles=[0.25, 0.5, 0.75],  # Include quantiles if applicable
+        quantiles=[0.25, 0.5, 0.75],
     )
 
     results = compound_gene_benchmark(
@@ -233,7 +240,7 @@ def test_full_benchmark_macro_compound(sample_truth_data, sample_map_data):
     assert "auc_roc" in results.columns
     assert "average_precision_baseline" in results.columns
     assert "auc_roc_baseline" in results.columns
-    # If quantiles are included
+
     if config.quantiles:
         for q in config.quantiles:
             assert f"ap_quantile_{q}" in results.columns
@@ -264,23 +271,22 @@ def test_full_benchmark_micro_gene(sample_truth_data, sample_map_data):
 
 def test_benchmark_edge_cases(sample_map_data):
     """Test benchmark behavior with edge cases."""
-    # Empty truth data
+
     empty_truth = pd.DataFrame(columns=["treatment", "gene_symbol", "nM_value"])
     config = BenchmarkConfig(random_seed=42)
     with pytest.raises(ValueError):
         compound_gene_benchmark(map_data=sample_map_data, truth_data=empty_truth, config=config)
 
-    # All inactive data
     all_inactive = pd.DataFrame(
         {
             "treatment": ["compound1"],
             "gene_symbol": ["gene1"],
-            "nM_value": [20000],  # Above inactivity threshold
+            "nM_value": [20000],
         }
     )
     results = compound_gene_benchmark(map_data=sample_map_data, truth_data=all_inactive, config=config)
     assert len(results) > 0
-    assert all(results["average_precision"] == 0.0)  # No positives should give 0 AP
+    assert all(results["average_precision"] == 0.0)
 
 
 def test_process_predictions(sample_truth_data, sample_map_data):
@@ -299,8 +305,7 @@ def test_process_predictions(sample_truth_data, sample_map_data):
     assert "max" in predictions
     assert all(isinstance(p, list) for p in predictions.values())
 
-    # Check prediction format
-    for conc, preds in predictions.items():
+    for _, preds in predictions.items():
         for scores, labels in preds:
             assert isinstance(scores, np.ndarray)
             assert isinstance(labels, np.ndarray)
