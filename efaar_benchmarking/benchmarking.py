@@ -7,7 +7,7 @@ import pandas as pd
 from geomloss import SamplesLoss
 from joblib import Parallel, delayed
 from scipy.stats import hypergeom, ks_2samp
-from sklearn.metrics import roc_auc_score, average_precision_score
+from sklearn.metrics import average_precision_score, roc_auc_score
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.utils import Bunch
 from torch import from_numpy

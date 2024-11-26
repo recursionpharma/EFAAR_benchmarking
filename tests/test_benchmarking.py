@@ -25,7 +25,7 @@ def sample_truth_data():
         {
             "treatment": ["compound1", "compound1", "compound2", "compound2"],
             "gene_symbol": ["gene1", "gene2", "gene1", "gene2"],
-            "nM_value": [100, 5000, 15000, 500], 
+            "nM_value": [100, 5000, 15000, 500],
         }
     )
 
@@ -194,8 +194,8 @@ def test_sample_for_item():
 
     assert len(items) > 0
     assert len(labels) == len(items)
-    assert sum(labels) == 1 
-    assert "gene2" not in items  
+    assert sum(labels) == 1
+    assert "gene2" not in items
 
 
 def test_compute_ap_auc():
@@ -214,9 +214,9 @@ def test_full_benchmark_macro_compound(sample_truth_data, sample_map_data):
     config = BenchmarkConfig(
         average_type=AverageType.MACRO,
         aggregate_by=AggregateBy.COMPOUND,
-        min_negatives=2,  
+        min_negatives=2,
         random_seed=42,
-        quantiles=[0.25, 0.5, 0.75],  
+        quantiles=[0.25, 0.5, 0.75],
     )
 
     results = compound_gene_benchmark(
@@ -270,17 +270,16 @@ def test_benchmark_edge_cases(sample_map_data):
     with pytest.raises(ValueError):
         compound_gene_benchmark(map_data=sample_map_data, truth_data=empty_truth, config=config)
 
-
     all_inactive = pd.DataFrame(
         {
             "treatment": ["compound1"],
             "gene_symbol": ["gene1"],
-            "nM_value": [20000],  
+            "nM_value": [20000],
         }
     )
     results = compound_gene_benchmark(map_data=sample_map_data, truth_data=all_inactive, config=config)
     assert len(results) > 0
-    assert all(results["average_precision"] == 0.0)  
+    assert all(results["average_precision"] == 0.0)
 
 
 def test_process_predictions(sample_truth_data, sample_map_data):
