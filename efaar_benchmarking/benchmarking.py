@@ -911,6 +911,11 @@ def compound_gene_benchmark(
     """
     config = config or BenchmarkConfig()
     truth = truth_data if truth_data is not None else load_truth_data(benchmark_data_dir)
+    print(f"shape of original annotations {truth.shape}")
+    # filter truth relationships for genes & compounds in [filtered] metadata
+    truth = truth[truth.gene_symbol.isin(map_data.metadata.perturbation) & 
+                  truth.treatment.isin(map_data.metadata.perturbation)]
+    print(f"shape of filteredgit annotations {truth.shape}")              
     similarities = compute_similarities(truth, map_data, pert_col, randomize=check_random)
 
     thresholds = (activity_threshold, inactivity_threshold)
