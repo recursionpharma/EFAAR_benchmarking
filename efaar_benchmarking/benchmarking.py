@@ -789,7 +789,7 @@ def sample_for_item(
     if len(eligibles) < n_negatives:
         return np.array([]), np.array([])
 
-    negatives = rng.choice(list(eligibles), n_negatives, replace=False)
+    negatives = rng.choice(sorted(list(eligibles)), n_negatives, replace=False)
     items = np.concatenate([actives, negatives])
     labels = np.isin(items, actives).astype(int)
 
