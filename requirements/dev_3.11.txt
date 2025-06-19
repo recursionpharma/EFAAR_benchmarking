@@ -716,7 +716,7 @@ urllib3==2.5.0
     #   requests
 validate-pyproject==0.15
     # via efaar-benchmarking (pyproject.toml)
-virtualenv==20.25.0
+virtualenv==20.26.6
     # via
     #   pre-commit
     #   tox
