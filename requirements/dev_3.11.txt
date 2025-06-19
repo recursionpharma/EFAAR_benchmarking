@@ -635,7 +635,7 @@ tomli==2.0.2
     # via coverage
 toolz==0.12.0
     # via chex
-torch==2.4.0
+torch==2.7.1
     # via
     #   efaar-benchmarking (pyproject.toml)
     #   geomloss
