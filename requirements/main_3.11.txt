@@ -312,7 +312,7 @@ seaborn==0.13.2
     #   scanpy
 session-info==1.0.0
     # via scanpy
-setuptools==70.0.0
+setuptools==78.1.1
     # via lightning-utilities
 six==1.16.0
     # via
