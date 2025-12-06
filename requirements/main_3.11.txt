@@ -376,7 +376,7 @@ umap-learn==0.5.6
     # via scanpy
 upsetplotly==0.1.7
     # via efaar-benchmarking (pyproject.toml)
-urllib3==2.5.0
+urllib3==2.6.0
     # via
     #   botocore
     #   requests
