@@ -242,7 +242,7 @@ pillow==10.3.0
     # via matplotlib
 plotly==5.22.0
     # via upsetplotly
-protobuf==4.25.8
+protobuf==5.29.6
     # via orbax-checkpoint
 pyarrow==17.0.0
     # via efaar-benchmarking (pyproject.toml)
