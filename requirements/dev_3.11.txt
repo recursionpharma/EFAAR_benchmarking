@@ -314,7 +314,7 @@ natsort==8.4.0
     #   scanpy
 nbclient==0.9.0
     # via nbconvert
-nbconvert==7.13.1
+nbconvert==7.17.0
     # via jupyter-server
 nbformat==5.9.2
     # via
